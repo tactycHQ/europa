@@ -35,7 +35,7 @@ export default function CenteredGrid() {
         <Grid item xs={2} lg={1}>
           <SideBar/>
         </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={10} lg={11}>
           <Content/>
         </Grid>
       </Grid>
