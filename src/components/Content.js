@@ -7,26 +7,21 @@ import Input from "./Inputs";
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
-  },
-  outputs:{
-    display:'table',
-    height:'100%',
-    padding:'10px'
-  },
+  }
     }
   )
 )
 
-export default function Content() {
+export default function Content(props) {
   const classes = useStyles()
 
   return (
         <Grid className={classes.root} container spacing={0}>
-          <Grid className={classes.outputs} item xs={9} lg={9}>
-            <Output/>
+          <Grid item xs={9} lg={9}>
+            <Output data={props.data}/>
           </Grid>
           <Grid item xs={3} lg={3}>
-            <Input/>
+            <Input />
           </Grid>
         </Grid>
   )

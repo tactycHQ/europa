@@ -4,17 +4,20 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex'
+    display: 'flex',
+    height:'100%',
+    padding:'25px',
+    overflow:'auto'
   }}
   )
 )
 
-export default function Output() {
+export default function Output(props) {
   const classes = useStyles()
 
   return (
-      <div>
-          These are output charts
+      <div className={classes.root}>
+        {props.data}
       </div>
 
   )
