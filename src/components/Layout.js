@@ -1,73 +1,52 @@
-import React, {useState, useEffect} from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+import {makeStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Content from "./Content";
 import TopBar from "./TopBar";
 import SideBar from "./SideBar";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-  },
-  topbar: {
-    textAlign: 'center',
-  },
-  sidebar: {
-    textAlign: 'center',
-  },
-  content: {
-    textAlign: 'center',
-  },
-  footer: {
-    textAlign: 'center',
-  },
+    root: {
+        flexGrow: 1
+    },
+    top:{
+        display: 'flex',
+        position: 'fixed',
+        width:'100%',
+        height:'6vh',
+        zIndex:'1'
+    },
+    middle:{
+        display:'flex',
+        marginTop:'6vh',
+        marginBottom:'3vh'
+    },
+    bottom:{
+        fontSize:'0.8em',
+        fontFamily: 'Roboto',
+    }
 }));
 
 export default function Layout() {
-  const classes = useStyles();
-  const [outputs, setOutputs] = useState(null)
+    const classes = useStyles();
 
-  useEffect(() => {
-    setOutputs(outputs)
-  },[outputs])
 
-  const getRefreshOutputsEager =  async () => {
-    console.log("Getting API...");
-    const api_url = "http://localhost:5000/refreshOutputsEager"
-    let dash_id = 5
-    const headers = {
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-        },
-        method: "POST",
-        body: JSON.stringify({dash_id: dash_id})
-    }
-
-    let result = ""
-    try {
-        const response = await fetch(api_url, headers);
-        const response_JSON = await response.json();
-        result = JSON.stringify(response_JSON.message)
-    } catch (error) {
-        result = "Server not responsive"
-    }
-    setOutputs(result)
-}
-
-  return (
-    <div className={classes.root}>
-      <Grid container spacing={0}>
-        <Grid item xs={12}>
-          <TopBar/>
-        </Grid>
-        <Grid item xs={2} lg={1}>
-          <SideBar refresh={getRefreshOutputsEager}/>
-        </Grid>
-        <Grid item xs={10} lg={11}>
-          <Content data={outputs}/>
-        </Grid>
-      </Grid>
-    </div>
-  );
+    return (
+        <div className={classes.root}>
+            <Grid container spacing={0}>
+                <Grid className={classes.top} item xs={12} lg={12}>
+                    <TopBar/>
+                </Grid>
+                <Grid item xs={12} lg={12}>
+                    <div className={classes.middle}>
+                        <SideBar />
+                        <Content />
+                    </div>
+                </Grid>
+                <Grid className={classes.bottom} item xs={12} lg={12}>
+                    Copyright Information, Epoch One, LLC 2019
+                </Grid>
+            </Grid>
+        </div>
+    );
 }

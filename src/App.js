@@ -9,7 +9,7 @@ function App() {
       <ContextProvider>
         <CssBaseline />
         <BrowserRouter>
-          <div className="App">
+          <div className="App" >
             <Layout/>
           </div>
         </BrowserRouter>

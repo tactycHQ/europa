@@ -10,10 +10,11 @@ const useStyles = makeStyles(theme => ({
             flexDirection:'column',
             width:'100%',
             alignItems:'center',
-            padding:'20px'
+            padding:'20px',
         },
         label:{
-            fontSize:'0.8em',
+            display:'flex',
+            fontSize:'1.0em',
             fontFamily:'Roboto',
         },
         slider:{
@@ -29,13 +30,13 @@ function valuetext(value) {
 }
 
 
-export default function InputSlider() {
+export default function InputSlider(props) {
     const classes = useStyles()
 
     return (
         <div className={classes.root}>
             <div className={classes.label}>
-                Input 1
+                {props.name}
             </div>
             <Slider className={classes.slider}
                 defaultValue={30}
@@ -45,6 +46,7 @@ export default function InputSlider() {
                 step={10}
                 min={10}
                 max={110}
+                onChange={props.onChange}
             />
         </div>
 

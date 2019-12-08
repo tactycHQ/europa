@@ -1,26 +1,65 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
+import {makeStyles} from '@material-ui/core/styles'
+import Barchart from "./barchart";
+// import StackedBar from "./stackedbar";
+// import MixBar from "./mixbar";
+// import Radial from "./radial";
 
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    display: 'flex',
-    height:'100%',
-    padding:'25px',
-    overflow:'auto'
-  }}
-  )
+            root: {
+                display:'flex',
+                flexDirection:'column',
+                flexGrow:1,
+                // justifyContent:'flex-start',
+                width:'80%'
+            },
+            OutputText: {
+                fontSize: '1em',
+                fontFamily: 'Roboto',
+                fontWeight: 'bold',
+                color:'#607d8b',
+                paddingTop: '2%',
+                paddingBottom: '25px',
+                width: '100%',
+                textAlign: 'center'
+            },
+            charts:{
+                display:'flex',
+                flexWrap:'wrap',
+                justifyContent: 'space-betwen'
+
+            }
+        }
+    )
 )
 
 export default function Output(props) {
-  const classes = useStyles()
+    const classes = useStyles()
+    const outputs = props.data
 
-  return (
-      <div className={classes.root}>
-        {props.data}
-      </div>
+    return (
+        <div className={classes.root}>
+            <div className={classes.OutputText}>Outputs</div>
+            <div className={classes.charts}>
+                <Barchart data={outputs}/>
+                {/*<StackedBar data={outputs}/>*/}
+                {/*<MixBar data={outputs}/>*/}
+                {/*<Radial data={outputs}/>*/}
+                {/*<Barchart data={outputs}/>*/}
+                {/*<Barchart data={outputs}/>*/}
+                {/*<StackedBar data={outputs}/>*/}
+                {/*<MixBar data={outputs}/>*/}
+                {/*<Radial data={outputs}/>*/}
+                {/*<Barchart data={outputs}/>*/}
+            </div>
+        </div>
 
-  )
+    )
 }
+
+
+
+
 
 

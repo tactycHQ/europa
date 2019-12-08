@@ -2,82 +2,70 @@ import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import Button from '@material-ui/core/Button'
+import ImportExportIcon from '@material-ui/icons/ImportExport'
+import InsertChartIcon from '@material-ui/icons/InsertChart'
+import ShowChartIcon from '@material-ui/icons/ShowChart'
+import FilterCenterFocusIcon from '@material-ui/icons/FilterCenterFocus'
+import AccountTreeIcon from '@material-ui/icons/AccountTree'
 
 const useStyles = makeStyles(theme => ({
             root: {
-                display: 'flex'
-            },
-            sidebar: {
-                display:'flex',
+                display: 'flex',
+                height: '91vh',
+                width:'15%',
+                position:'fixed',
                 backgroundColor: '#eceff1',
                 flexDirection: 'column',
-                height: '92vh',
                 padding: '10px',
                 alignContent:'flex-start'
             },
             buttons: {
-                fontSize: '1.0em',
-                color: '#546e7a'
-            },
-            refreshButton: {
-                fontSize: '1.0em',
-                color: 'white',
-                backgroundColor: '#546e7a',
-
-            },
-            refreshContainer: {
-                display: 'flex',
-                justifyContent: "center",
-            },
-            copyright: {
-                textAlign: 'center',
-                fontSize: '0.6em',
+                display:'flex',
+                margin:'5px',
                 color: '#546e7a',
-                position: 'absolute',
-                bottom: 0,
-                padding: '10px'
+                justifyContent: 'flex-start',
+                alignItems:'center',
+                paddingLeft:'1px',
+                paddingRight:'1px',
+                paddingTop:'7px',
+                paddingBottom:'7px'
+            },
+            buttonLabel: {
+                fontSize: '1.1em',
+                paddingLeft:'10px',
             }
         }
     )
 )
 
-
 export default function SideBar(props) {
     const classes = useStyles()
 
-    const handleClick = () => {
-        props.refresh()
-    }
-
     return (
-        <div className={classes.sidebar}>
+        <div className={classes.root}>
             <div className={classes.content}>
-                <List component="nav" aria-label="main mailbox folders">
+                              <List component="nav" aria-label="main mailbox folders">
                     <ListItem className={classes.buttons} button={true}>
-                        Dashboard
+                        <InsertChartIcon/>
+                        <div className={classes.buttonLabel}>Dashboard</div>
                     </ListItem>
                     <ListItem className={classes.buttons} button={true}>
-                        Sensitivity Analysis
+                        <ShowChartIcon/>
+                        <div className={classes.buttonLabel}>Sensitivity Analysis</div>
                     </ListItem>
                     <ListItem className={classes.buttons} button={true}>
-                        Scenario Analysis
+                        <FilterCenterFocusIcon/>
+                        <div className={classes.buttonLabel}>Scenario Analysis</div>
                     </ListItem>
                     <ListItem className={classes.buttons} button={true}>
-                        Dependency Graph
+                        <AccountTreeIcon/>
+                        <div className={classes.buttonLabel}>Dependency Graph</div>
                     </ListItem>
                     <ListItem className={classes.buttons} button={true}>
-                        Input Importance
+                        <ImportExportIcon/>
+                        <div className={classes.buttonLabel}>Explore Inputs</div>
                     </ListItem>
                 </List>
-            </div>
-            <div className={classes.refreshContainer}>
-                <Button className={classes.refreshButton} variant="contained" size={"small"} onClick={handleClick}>
-                    Refresh
-                </Button>
-            </div>
-            <div className={classes.copyright}>
-                Copyright 2019 Epoch One LLC
             </div>
         </div>
     )
