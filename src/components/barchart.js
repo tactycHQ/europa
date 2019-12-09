@@ -6,18 +6,8 @@ import {
 
 export default function Barchart(props) {
 
-    const js_data = props.data
-    // console.log(js_data.outputs)
-    let outVals
-    let data
-    if (js_data) {
-        outVals = js_data.outputs
-        data = Object.entries(outVals).map(i => ({
-              name: i[0],
-              Value: i[1]
-            }
-        ))
-    }
+    const data = props.data
+
 
     return (
         <BarChart
