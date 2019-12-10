@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/api/api.js" afterDir="false" />
+    <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="First commit">
+      <change afterPath="$PROJECT_DIR$/src/dependency_graph/DependencyGraph.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/scenario_analysis/ScenarioAnalysis.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/sensitivity/Sensitivity.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Content.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Content.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Inputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Inputs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Outputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Outputs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Sliders.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Sliders.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/barchart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/charts/barchart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/mixbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/charts/mixbar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/radial.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/charts/radial.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/stackedbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/charts/stackedbar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Footer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Inputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/Inputs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Outputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/Outputs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/SideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SideBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Sliders.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/dashboard/Sliders.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -31,10 +32,12 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1UD8zr1D4VX9RhWEKNmSua5KPIT" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../triton" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/dependency_graph" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
@@ -57,9 +60,13 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src" />
+      <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\content" />
       <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\charts" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\dependency_graph" />
+      <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\scenario_analysis" />
       <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\components" />
     </key>
   </component>
@@ -105,7 +112,7 @@
       <workItem from="1574899858095" duration="13491000" />
       <workItem from="1575306042141" duration="52216000" />
       <workItem from="1575567437769" duration="9086000" />
-      <workItem from="1575740423777" duration="22735000" />
+      <workItem from="1575740423777" duration="35710000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <created>1575314297992</created>
@@ -163,7 +170,14 @@
       <option name="project" value="LOCAL" />
       <updated>1575864061493</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="First commit">
+      <created>1575947054507</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1575947054507</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

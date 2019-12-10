@@ -1,8 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import Output from "./Outputs"
-import Input from "./Inputs";
+import Output from "../dashboard/Outputs"
+import Input from "../dashboard/Inputs";
 import {getRefreshOutputsEager} from "../api/api";
+import Sensitivity from "../sensitivity/Sensitivity";
+import {Switch, Route} from 'react-router-dom'
+import ScenarioAnalysis from "../scenario_analysis/ScenarioAnalysis";
+import DependencyGraph from "../dependency_graph/DependencyGraph";
 
 
 const useStyles = makeStyles(theme => ({
@@ -16,6 +20,7 @@ const useStyles = makeStyles(theme => ({
 )
 
 export default function Content(props) {
+
     const classes = useStyles()
     const [solutions, setSolutions] = useState(null)
     const [currSolution, setcurrSolution] = useState(null)
@@ -26,7 +31,24 @@ export default function Content(props) {
         setSolutions(result)
     }
 
+    const handleSliderChange = (event, newValue) => {
+        setInputVal(newValue)
+    }
+
+    const handleClick = () => {
+        refreshOutputs()
+    }
+
     useEffect(() => {
+
+        const getInputIndex = (inputVal) => {
+            const rangeVal = [0.3, 0.6, 0.9, 1.0]
+            if (inputVal) {
+                return rangeVal.indexOf(inputVal) * 100
+            } else {
+                return 0
+            }
+        }
 
         const selectSolutions = (solutions, inputVal) => {
             let clean = {}
@@ -41,30 +63,28 @@ export default function Content(props) {
             }
         }
 
-        const getInputIndex = (inputVal) => {
-            const rangeVal = [0.3, 0.6, 0.9, 1.0]
-            if (inputVal) {
-                return rangeVal.indexOf(inputVal) * 100
-            } else {
-                return 0
-            }
-        }
-
         setcurrSolution((selectSolutions(solutions, inputVal)))
+
     }, [solutions, inputVal])
-
-    const handleSliderChange = (event, newValue) => {
-        setInputVal(newValue)
-    }
-
-    const handleClick = () => {
-        refreshOutputs()
-    }
 
     return (
         <div className={classes.root}>
-            <Output data={currSolution}/>
-            <Input refreshClick={handleClick} handleSliderChange={handleSliderChange}/>
+            <Switch>
+                <Route exact path={["/","/dashboard"]}>
+                    <Output data={currSolution}/>
+                    <Input refreshClick={handleClick} handleSliderChange={handleSliderChange}/>
+                </Route>
+                <Route exact path="/sensitivity">
+                    <Sensitivity/>
+                </Route>
+                <Route exact path="/scenario">
+                    <ScenarioAnalysis/>
+                </Route>
+                <Route exact path="/dependency">
+                    <DependencyGraph/>
+                </Route>
+            </Switch>
+
         </div>
     )
 }
