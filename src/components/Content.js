@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Output from "./Outputs"
 import Input from "./Inputs";
+import {getRefreshOutputsEager} from "../api/api";
+
 
 const useStyles = makeStyles(theme => ({
             root: {
@@ -19,26 +21,8 @@ export default function Content(props) {
     const [currSolution, setcurrSolution] = useState(null)
     const [inputVal, setInputVal] = useState(null)
 
-    const getRefreshOutputsEager = async () => {
-        console.log("Getting API...");
-        const api_url = "http://localhost:5000/refreshOutputsEager"
-        let dash_id = 5
-        const headers = {
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-            },
-            method: "POST",
-            body: JSON.stringify({dash_id: dash_id})
-        }
-        let result
-        try {
-            const response = await fetch(api_url, headers)
-            const response_JSON = await response.json()
-            result = response_JSON.message
-        } catch (error) {
-            result = "Server not responsive"
-        }
+    const refreshOutputs = async () => {
+        const result = await getRefreshOutputsEager()
         setSolutions(result)
     }
 
@@ -67,16 +51,14 @@ export default function Content(props) {
         }
 
         setcurrSolution((selectSolutions(solutions, inputVal)))
-        console.log(solutions)
     }, [solutions, inputVal])
-
 
     const handleSliderChange = (event, newValue) => {
         setInputVal(newValue)
     }
 
     const handleClick = () => {
-        getRefreshOutputsEager()
+        refreshOutputs()
     }
 
     return (

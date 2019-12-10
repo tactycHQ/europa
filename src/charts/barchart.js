@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend
 } from 'recharts'
 
 
@@ -11,7 +11,7 @@ export default function Barchart(props) {
 
     return (
         <BarChart
-            width={520}
+            width={1000}
             height={300}
             data={data}
             margin={{

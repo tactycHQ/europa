@@ -8,18 +8,26 @@ const useStyles = makeStyles(theme => ({
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            alignItems: 'center',
+            alignItems: 'start',
             padding: '20px',
         },
         label: {
             display: 'flex',
+            alignItems:'left',
             fontSize: '1.0em',
             fontFamily: 'Roboto',
+            marginTop: '0%',
+            marginBottom: '5%'
         },
-        slider: {
+        slider:{
             color: '#0091ea'
+        },
+        mark: {
+            backgroundColor: '#0091ea',
+            height: 8,
+            width: 1,
+            marginTop: -3,
         }
-
     }
 ))
 
@@ -35,20 +43,22 @@ export default function InputSlider(props) {
 
     return (
         <div className={classes.root}>
-            <div className={classes.label}>
-                {props.name}
-            </div>
-            <Slider className={classes.slider}
+            <Slider classes={{root: classes.slider,mark: classes.mark}}
                     defaultValue={30}
                     getAriaValueText={valuetext}
                     aria-labelledby="discrete-slider"
                     valueLabelDisplay="on"
-                    // marks="true"
+                    valueLabelFormat={x => `${x}%`}
+                    color="red"
+                    marks
                     step={0.3}
                     min={0.3}
                     max={1.0}
                     onChange={props.onChange}
             />
+            <div className={classes.label}>
+                {props.name}
+            </div>
         </div>
 
     )

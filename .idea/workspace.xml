@@ -2,10 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/api/api.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Content.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Content.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Inputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Inputs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Outputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Outputs.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Sliders.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Sliders.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/barchart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/barchart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/barchart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/charts/barchart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/mixbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/charts/mixbar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/radial.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/charts/radial.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/stackedbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/charts/stackedbar.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,7 +34,7 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/components" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../triton" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
@@ -50,6 +56,9 @@
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PyCharm 2019.1.1\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\charts" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\components" />
     </key>
@@ -96,7 +105,7 @@
       <workItem from="1574899858095" duration="13491000" />
       <workItem from="1575306042141" duration="52216000" />
       <workItem from="1575567437769" duration="9086000" />
-      <workItem from="1575740423777" duration="15305000" />
+      <workItem from="1575740423777" duration="22735000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <created>1575314297992</created>
@@ -147,7 +156,14 @@
       <option name="project" value="LOCAL" />
       <updated>1575773574549</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="First commit">
+      <created>1575864061493</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1575864061493</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

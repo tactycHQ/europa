@@ -9,7 +9,6 @@ const useStyles = makeStyles(theme => ({
                 display: 'flex',
                 // position:'fixed',
                 flexDirection: 'column',
-                height: '92vh',
                 width: '20%',
                 right: '0',
                 padding: '10px',
@@ -24,7 +23,7 @@ const useStyles = makeStyles(theme => ({
                 fontWeight: 'bold',
                 color: '#607d8b',
                 paddingTop: '2%',
-                paddingBottom: '15px'
+                marginBottom:'15%'
             },
             refreshContainer: {
                 display: 'flex',

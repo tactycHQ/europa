@@ -1,6 +1,6 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import Barchart from "./barchart";
+import Barchart from "../charts/barchart";
 // import StackedBar from "./stackedbar";
 // import MixBar from "./mixbar";
 // import Radial from "./radial";
