@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function DenseAppBar() {
+export default function DenseAppBar(props) {
   const classes = useStyles();
 
   return (
@@ -34,7 +34,7 @@ export default function DenseAppBar() {
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
-          <div className={classes.modelname}>LPI Dashboard</div>
+          <div className={classes.modelname}>{props.dashName}</div>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <HomeTwoToneIcon />
           </IconButton>

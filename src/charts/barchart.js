@@ -6,7 +6,7 @@ import {
 
 export default function Barchart(props) {
 
-    const data = props.data
+    const data = props.currSolution
 
 
     return (

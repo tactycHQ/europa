@@ -26,34 +26,45 @@ const useStyles = makeStyles(theme => ({
             backgroundColor: '#0091ea',
             height: 8,
             width: 1,
-            marginTop: -3,
+            marginTop: -3
         }
     }
 ))
 
 
 function valuetext(value) {
-    return `${value}`;
+  return `${value}%`;
 }
-
 
 export default function InputSlider(props) {
     const classes = useStyles()
-    // const marks = {0.3:'0.3',0.6:0.6,0.9:0.9,2.0:2.0}
+
+    const marks = [
+          {
+            value: 0.7,
+            label: '70%',
+          },
+          {
+            value: 0.9,
+            label: '90%',
+          },
+          {
+            value: 1.0,
+            label: '100%',
+          }
+        ]
 
     return (
         <div className={classes.root}>
             <Slider classes={{root: classes.slider,mark: classes.mark}}
-                    defaultValue={30}
+                    defaultValue={0.9}
                     getAriaValueText={valuetext}
-                    aria-labelledby="discrete-slider"
+                    aria-labelledby="discrete-slider-restrict"
                     valueLabelDisplay="on"
-                    valueLabelFormat={x => `${x}%`}
-                    color="red"
-                    marks
-                    step={0.3}
-                    min={0.3}
+                    min={0.7}
                     max={1.0}
+                    step={null}
+                    marks={marks}
                     onChange={props.onChange}
             />
             <div className={classes.label}>

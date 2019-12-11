@@ -1,6 +1,6 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import Barchart from "../charts/barchart";
+import Barchart from "../../charts/barchart";
 // import StackedBar from "./stackedbar";
 // import MixBar from "./mixbar";
 // import Radial from "./radial";
@@ -36,13 +36,13 @@ const useStyles = makeStyles(theme => ({
 
 export default function Output(props) {
     const classes = useStyles()
-    const outputs = props.data
+
 
     return (
         <div className={classes.root}>
             <div className={classes.OutputText}>Outputs</div>
             <div className={classes.charts}>
-                <Barchart data={outputs}/>
+                <Barchart {...props}/>
                 {/*<StackedBar data={outputs}/>*/}
                 {/*<MixBar data={outputs}/>*/}
                 {/*<Radial data={outputs}/>*/}

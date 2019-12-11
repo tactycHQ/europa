@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
                 fontWeight: 'bold',
                 color: '#607d8b',
                 paddingTop: '2%',
-                marginBottom:'15%'
+                marginBottom: '15%'
             },
             refreshContainer: {
                 display: 'flex',
@@ -42,16 +42,28 @@ const useStyles = makeStyles(theme => ({
 export default function Input(props) {
     const classes = useStyles()
 
+    let inputName
+    let inputAddress
+    let inputValues
+    let sliders = <div>Loading</div>
+
+    if (props.inputs) {
+        sliders = props.inputs.map(input => {
+                inputName = input.label
+                inputAddress = input.address
+                inputValues = input.values
+                return (
+                    <InputSlider name={inputName} onChange={props.handleSliderChange}/>
+                )
+            }
+        )
+    }
 
 
     return (
         <div className={classes.root}>
             <div className={classes.inputText}>Inputs</div>
-            <InputSlider name={"Input A"} onChange={props.handleSliderChange}/>
-            <InputSlider name={"Input B"}/>
-            <InputSlider name={"Input C"}/>
-            <InputSlider name={"Input D"}/>
-            <InputSlider name={"Input E"}/>
+            {sliders}
             <div className={classes.refreshContainer}>
                 < Button
                     className={classes.refreshButton}
@@ -59,11 +71,11 @@ export default function Input(props) {
                     size={"small"}
                     onClick={props.refreshClick}>
                     Refresh
-                    </Button>
+                </Button>
             </div>
         </div>
 
-)
+    )
 
 }
 
