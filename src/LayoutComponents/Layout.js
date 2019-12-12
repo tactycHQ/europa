@@ -19,8 +19,7 @@ const useStyles = makeStyles(theme => ({
     },
     middle: {
         display: 'flex',
-        marginTop: '6vh',
-        marginBottom: '3vh'
+        marginTop: '6vh'
     },
     bottom: {
         fontSize: '0.8em',
@@ -117,9 +116,9 @@ export default function Layout() {
                         />
                     </div>
                 </Grid>
-                <Grid className={classes.bottom} item xs={12} lg={12}>
-                    Copyright Information, Epoch One, LLC 2019
-                </Grid>
+                {/*<Grid className={classes.bottom} item xs={12} lg={12}>*/}
+                {/*    Copyright Information, Epoch One, LLC 2019*/}
+                {/*</Grid>*/}
             </Grid>
         </div>
     );

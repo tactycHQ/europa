@@ -10,6 +10,7 @@ const useStyles = makeStyles(theme => ({
                 // position:'fixed',
                 flexDirection: 'column',
                 width: '20%',
+                height:'94vh',
                 right: '0',
                 padding: '10px',
                 borderLeftStyle: 'solid',
