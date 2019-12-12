@@ -9,6 +9,8 @@ export default function Barchart(props) {
     const data = props.currSolution
 
 
+
+
     return (
         <BarChart
             width={1000}

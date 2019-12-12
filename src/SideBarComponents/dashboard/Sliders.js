@@ -43,8 +43,6 @@ function valueLabelFormat(value) {
 export default function InputSlider(props) {
     const classes = useStyles()
 
-
-
     const marks = [
         {
             value: 0.7,

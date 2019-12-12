@@ -70,35 +70,35 @@ export default function Layout() {
         runEffect()
     }, [])
 
-    // useEffect(() => {
-    //
-    //     const getInputIndex = (inputVal) => {
-    //         const rangeVal = [0.7, 0.9, 1.0]
-    //         if (inputVal) {
-    //             return rangeVal.indexOf(inputVal)
-    //         } else {
-    //             return 0
-    //         }
-    //     }
-    //
-    //     const selectSolutions = (solutions, inputVal) => {
-    //         if (solutions) {
-    //             let idx = getInputIndex(inputVal)
-    //             let outputs = solutions[idx].outputs
-    //             return Object.entries(outputs).map(i => ({
-    //                         name: i[0],
-    //                         Value: i[1]
-    //                     }
-    //                 )
-    //             )
-    //         }
-    //     }
-    //
-    //     const currSol = (selectSolutions(solutions, inputVal))
-    //
-    //     setcurrSolution(currSol)
-    //
-    // }, [inputVal])
+    useEffect(() => {
+
+        const getInputIndex = (inputVal) => {
+            const rangeVal = [0.7, 0.9, 1.0]
+            if (inputVal) {
+                return rangeVal.indexOf(inputVal)
+            } else {
+                return 0
+            }
+        }
+
+        const selectSolutions = (solutions, inputVal) => {
+            if (solutions) {
+                let idx = getInputIndex(inputVal)
+                let outputs = solutions[idx].outputs
+                return Object.entries(outputs).map(i => ({
+                            name: i[0],
+                            Value: i[1]
+                        }
+                    )
+                )
+            }
+        }
+
+        const currSol = (selectSolutions(solutions, inputVal))
+
+        setcurrSolution(currSol)
+
+    }, [solutions,inputVal])
 
 
     return (
