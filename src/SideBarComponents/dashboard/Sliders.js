@@ -8,12 +8,11 @@ const useStyles = makeStyles(theme => ({
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            alignItems: 'start',
+            alignItems: 'center',
             padding: '20px',
         },
         label: {
             display: 'flex',
-            alignItems:'left',
             fontSize: '1.0em',
             fontFamily: 'Roboto',
             marginTop: '0%',
@@ -57,7 +56,7 @@ export default function InputSlider(props) {
     return (
         <div className={classes.root}>
             <Slider classes={{root: classes.slider,mark: classes.mark}}
-                    defaultValue={0.9}
+                    defaultValue={0.7}
                     getAriaValueText={valuetext}
                     aria-labelledby="discrete-slider-restrict"
                     valueLabelDisplay="on"

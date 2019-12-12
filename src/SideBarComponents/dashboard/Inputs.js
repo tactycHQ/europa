@@ -53,7 +53,7 @@ export default function Input(props) {
                 inputAddress = input.address
                 inputValues = input.values
                 return (
-                    <InputSlider name={inputName} onChange={props.handleSliderChange}/>
+                    <InputSlider name={inputName} onChange={props.handleSliderChange} key={inputAddress}/>
                 )
             }
         )
@@ -64,15 +64,6 @@ export default function Input(props) {
         <div className={classes.root}>
             <div className={classes.inputText}>Inputs</div>
             {sliders}
-            <div className={classes.refreshContainer}>
-                < Button
-                    className={classes.refreshButton}
-                    variant="contained"
-                    size={"small"}
-                    onClick={props.refreshClick}>
-                    Refresh
-                </Button>
-            </div>
         </div>
 
     )

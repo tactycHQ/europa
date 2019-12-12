@@ -3,19 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/api.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/charts/barchart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/charts/barchart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Content.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/Content.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Layout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/Layout.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/SideBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/TopBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/TopBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dashboard/Inputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/SideBarComponents/dashboard/Inputs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dashboard/Outputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/SideBarComponents/dashboard/Outputs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dashboard/Sliders.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/SideBarComponents/dashboard/Sliders.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/dependency_graph/DependencyGraph.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/SideBarComponents/DependencyGraph.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scenario_analysis/ScenarioAnalysis.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/SideBarComponents/ScenarioAnalysis.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/sensitivity/Sensitivity.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/SideBarComponents/Sensitivity.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SideBarComponents/dashboard/Inputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/SideBarComponents/dashboard/Inputs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SideBarComponents/dashboard/Sliders.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/SideBarComponents/dashboard/Sliders.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -116,7 +105,7 @@
       <workItem from="1574899858095" duration="13491000" />
       <workItem from="1575306042141" duration="52216000" />
       <workItem from="1575567437769" duration="9086000" />
-      <workItem from="1575740423777" duration="48792000" />
+      <workItem from="1575740423777" duration="49298000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <created>1575314297992</created>
@@ -188,7 +177,14 @@
       <option name="project" value="LOCAL" />
       <updated>1576004189059</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="First commit">
+      <created>1576108469415</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1576108469415</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
