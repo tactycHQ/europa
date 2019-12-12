@@ -1,7 +1,6 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import InputSlider from "./Sliders";
-import Button from '@material-ui/core/Button'
+import InputSlider from "./Sliders"
 
 
 const useStyles = makeStyles(theme => ({
@@ -10,7 +9,7 @@ const useStyles = makeStyles(theme => ({
                 // position:'fixed',
                 flexDirection: 'column',
                 width: '20%',
-                height:'94vh',
+                height: '94vh',
                 right: '0',
                 padding: '10px',
                 borderLeftStyle: 'solid',
@@ -26,16 +25,12 @@ const useStyles = makeStyles(theme => ({
                 paddingTop: '2%',
                 marginBottom: '15%'
             },
-            refreshContainer: {
-                display: 'flex',
-                justifyContent: "center",
-                marginBottom: '3%'
-            },
-            refreshButton: {
-                fontSize: '1.0em',
-                color: 'white',
-                backgroundColor: '#546e7a',
-            },
+            inputContainer:{
+                display:'flex',
+                flexDirection: 'column',
+                height:'80vh',
+                justifyContent: 'space-evenly'
+            }
         }
     )
 )
@@ -46,7 +41,7 @@ export default function Input(props) {
     let inputName
     let inputAddress
     let inputValues
-    let sliders = <div>Loading</div>
+    let sliders
 
     if (props.inputs) {
         sliders = props.inputs.map(input => {
@@ -64,11 +59,13 @@ export default function Input(props) {
     return (
         <div className={classes.root}>
             <div className={classes.inputText}>Inputs</div>
-            {sliders}
-        </div>
+                <div className={classes.inputContainer}>
+                    {sliders}
+                </div>
+            < /div>
 
-    )
+                )
 
-}
+                }
 
 
