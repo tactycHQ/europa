@@ -42,28 +42,7 @@ function valueLabelFormat(value) {
 
 export default function InputSlider(props) {
     const classes = useStyles()
-    const [defaultVal, setdefaultVal] = useState(null)
 
-
-    useEffect(() => {
-
-            props.cases.map(_case => {
-                    if (_case['case_name'] === "Default") {
-                        const inputs = _case["inputs"]
-                        inputs.map(input => {
-                                if (input['address'] === props.address) {
-                                    setdefaultVal(input['values'])
-                                }
-                            }
-                        )
-                    }
-                }
-            )
-
-        console.log(defaultVal)
-
-        }, [props.address, props.cases]
-    )
 
 
     const marks = [
@@ -84,7 +63,7 @@ export default function InputSlider(props) {
     return (
         <div className={classes.root}>
             <Slider classes={{root: classes.slider, mark: classes.mark}}
-                    defaultValue={defaultVal}
+                    defaultValue={props.defaultValue}
                     getAriaValueText={valuetext}
                     aria-labelledby="discrete-slider-restrict"
                     valueLabelDisplay="on"

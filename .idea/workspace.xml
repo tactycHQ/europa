@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/SideBarComponents/dashboard/Inputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/SideBarComponents/dashboard/Inputs.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/SideBarComponents/dashboard/Sliders.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/SideBarComponents/dashboard/Sliders.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />

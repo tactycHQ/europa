@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import InputSlider from "./Sliders"
 
@@ -35,6 +35,28 @@ const useStyles = makeStyles(theme => ({
     )
 )
 
+
+function getDefault(cases, address) {
+
+    let result
+
+    cases.map(_case => {
+            if (_case['case_name'] === "Default") {
+                let inputs = _case["inputs"]
+                inputs.map(input => {
+                        if (input['address'] === address) {
+                            result = input['values']
+                            return result
+                        }
+                    }
+                )
+            }
+        }
+    )
+    return result
+}
+
+
 export default function Input(props) {
     const classes = useStyles()
 
@@ -42,19 +64,21 @@ export default function Input(props) {
     let inputAddress
     let inputValues
     let sliders
+    let defaultVal
 
     if (props.inputs) {
         sliders = props.inputs.map(input => {
                 inputName = input.label
                 inputAddress = input.address
                 inputValues = input.values
+                defaultVal = getDefault(props.cases, input.address)
                 return (
                     <InputSlider name={inputName}
                                  onChange={props.handleSliderChange}
                                  key={inputAddress}
                                  address={inputAddress}
                                  values={inputValues}
-                                 cases={props.cases}/>
+                                 defaultValue={defaultVal}/>
                 )
             }
         )
@@ -68,7 +92,7 @@ export default function Input(props) {
                 {sliders}
             </div>
             < /div>
-            )
-        }
+                )
+                }
 
 
