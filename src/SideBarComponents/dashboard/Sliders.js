@@ -46,29 +46,30 @@ export default function InputSlider(props) {
 
 
     useEffect(() => {
-        setdefaultVal(getDefaults())
-        }, []
-    )
 
-    const getDefaults = () => {
-        let default_val
+            const getDefaults = () => {
+                let default_val
 
-        props.cases.map(_case => {
-            if (_case['case_name'] === "Default") {
-                let inputs = _case["inputs"]
-                inputs.map(input => {
-                    if (input['address']===props.address){
-                        default_val=input['values']
+                props.cases.map(_case => {
+                        if (_case['case_name'] === "Default") {
+                            let inputs = _case["inputs"]
+                            inputs.map(input => {
+                                if (input['address'] === props.address) {
+                                    default_val = input['values']
+                                }
+                            })
+                        }
                     }
-                })
+                )
+                return (
+                    default_val
+                )
             }
-        }
-    )
-        return (
-            default_val
-        )
-    }
 
+            setdefaultVal(getDefaults())
+
+        }, [props.address, props.cases]
+    )
 
     const marks = [
         {
