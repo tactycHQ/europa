@@ -55,33 +55,6 @@ export default function Layout() {
         refreshOutputs()
     }
 
-    useEffect(() => {
-
-        const getInputIndex = (inputVal) => {
-            const rangeVal = [0.7, 0.9, 1.0]
-            if (inputVal) {
-                return rangeVal.indexOf(inputVal)
-            } else {
-                return 0
-            }
-        }
-
-        const selectSolutions = (solutions, inputVal) => {
-            if (solutions) {
-                let idx = getInputIndex(inputVal)
-                let outputs = solutions[idx].outputs
-                return Object.entries(outputs).map(i => ({
-                            name: i[0],
-                            Value: i[1]
-                        }
-                    )
-                )
-            }
-        }
-
-        setcurrSolution((selectSolutions(solutions, inputVal)))
-
-    }, [solutions, inputVal])
 
     useEffect(() => {
         const runEffect = async () => {
@@ -92,10 +65,41 @@ export default function Layout() {
             setDashName(_metadata['name'])
             setCases(_metadata['cases'])
             setInputs(_metadata['inputs'])
-            setOutputs(_metadata['oututs'])
+            setOutputs(_metadata['outputs'])
         }
         runEffect()
     }, [])
+
+    // useEffect(() => {
+    //
+    //     const getInputIndex = (inputVal) => {
+    //         const rangeVal = [0.7, 0.9, 1.0]
+    //         if (inputVal) {
+    //             return rangeVal.indexOf(inputVal)
+    //         } else {
+    //             return 0
+    //         }
+    //     }
+    //
+    //     const selectSolutions = (solutions, inputVal) => {
+    //         if (solutions) {
+    //             let idx = getInputIndex(inputVal)
+    //             let outputs = solutions[idx].outputs
+    //             return Object.entries(outputs).map(i => ({
+    //                         name: i[0],
+    //                         Value: i[1]
+    //                     }
+    //                 )
+    //             )
+    //         }
+    //     }
+    //
+    //     const currSol = (selectSolutions(solutions, inputVal))
+    //
+    //     setcurrSolution(currSol)
+    //
+    // }, [inputVal])
+
 
     return (
         <div className={classes.root}>

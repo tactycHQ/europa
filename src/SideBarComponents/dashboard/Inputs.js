@@ -25,10 +25,10 @@ const useStyles = makeStyles(theme => ({
                 paddingTop: '2%',
                 marginBottom: '15%'
             },
-            inputContainer:{
-                display:'flex',
+            inputContainer: {
+                display: 'flex',
                 flexDirection: 'column',
-                height:'80vh',
+                height: '80vh',
                 justifyContent: 'space-evenly'
             }
         }
@@ -49,7 +49,12 @@ export default function Input(props) {
                 inputAddress = input.address
                 inputValues = input.values
                 return (
-                    <InputSlider name={inputName} onChange={props.handleSliderChange} key={inputAddress}/>
+                    <InputSlider name={inputName}
+                                 onChange={props.handleSliderChange}
+                                 key={inputAddress}
+                                 address={inputAddress}
+                                 values={inputValues}
+                                 cases={props.cases}/>
                 )
             }
         )
@@ -59,13 +64,11 @@ export default function Input(props) {
     return (
         <div className={classes.root}>
             <div className={classes.inputText}>Inputs</div>
-                <div className={classes.inputContainer}>
-                    {sliders}
-                </div>
+            <div className={classes.inputContainer}>
+                {sliders}
+            </div>
             < /div>
-
-                )
-
-                }
+            )
+        }
 
 
