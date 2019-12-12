@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Content from "./Content";
 import TopBar from "./TopBar";
 import SideBar from "./SideBar";
+import Spinner from "./Spinner";
 import {getSolutions, getMetaData} from "../api/api";
 
 const useStyles = makeStyles(theme => ({
@@ -24,6 +25,9 @@ const useStyles = makeStyles(theme => ({
     bottom: {
         fontSize: '0.8em',
         fontFamily: 'Roboto',
+    },
+    spinner: {
+        display:'flex'
     }
 }));
 
@@ -33,19 +37,18 @@ export default function Layout() {
     const [solutions, setSolutions] = useState(null)
     const [currSolution, setcurrSolution] = useState(null)
     const [inputVal, setInputVal] = useState(null)
-    const [metadata, setMetaData] = useState(null)
     const [inputs, setInputs] = useState(null)
     const [outputs, setOutputs] = useState(null)
     const [cases, setCases] = useState(null)
     const [charts, setCharts] = useState(null)
     const [dashName, setDashName] = useState("Loading...")
-
+    const [isLoaded, setisLoaded] = useState(false)
+    let content
 
     const refreshOutputs = async () => {
         const solutions = await getSolutions()
         setSolutions(solutions)
     }
-
 
     const handleSliderChange = (event, newValue) => {
         setInputVal(newValue)
@@ -55,23 +58,22 @@ export default function Layout() {
         refreshOutputs()
     }
 
-
     useEffect(() => {
         const runEffect = async () => {
-            const _metadata = await getMetaData()
+            const metadata = await getMetaData()
             const _solutions = await getSolutions()
             setSolutions(_solutions)
-            setMetaData(_metadata)
-            setDashName(_metadata['name'])
-            setCases(_metadata['cases'])
-            setInputs(_metadata['inputs'])
-            setOutputs(_metadata['outputs'])
+            setDashName(metadata['name'])
+            setCases(metadata['cases'])
+            setInputs(metadata['inputs'])
+            setOutputs(metadata['outputs'])
+            setCharts(metadata['charts'])
+            setisLoaded(!isLoaded)
         }
         runEffect()
     }, [])
 
     useEffect(() => {
-
         const getInputIndex = (inputVal) => {
             const rangeVal = [0.7, 0.9, 1.0]
             if (inputVal) {
@@ -94,11 +96,27 @@ export default function Layout() {
             }
         }
 
-        const currSol = (selectSolutions(solutions, inputVal))
+        const currSol = selectSolutions(solutions, inputVal)
 
         setcurrSolution(currSol)
 
-    }, [solutions,inputVal])
+    }, [solutions, inputVal])
+
+    if (isLoaded) {
+        content =
+                <Content refreshClick={handleClick}
+                         handleSliderChange={handleSliderChange}
+                         currSolution={currSolution}
+                         inputs={inputs}
+                         outputs={outputs}
+                         cases={cases}
+                         charts={charts}
+                />
+
+
+    } else {
+        content = <Spinner className={classes.spinner}/>
+    }
 
 
     return (
@@ -110,16 +128,10 @@ export default function Layout() {
                 <Grid item xs={12} lg={12}>
                     <div className={classes.middle}>
                         <SideBar/>
-                        <Content refreshClick={handleClick}
-                                 handleSliderChange={handleSliderChange}
-                                 currSolution={currSolution}
-                                 inputs = {inputs}
-                                 outputs = {outputs}
-                                 cases = {cases}
-                                 charts = {charts}
-                        />
+                        {content}
                     </div>
                 </Grid>
+
                 {/*<Grid className={classes.bottom} item xs={12} lg={12}>*/}
                 {/*    Copyright Information, Epoch One, LLC 2019*/}
                 {/*</Grid>*/}

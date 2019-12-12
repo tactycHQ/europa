@@ -11,11 +11,10 @@ const useStyles = makeStyles(theme => ({
                 width: '20%',
                 height: '94vh',
                 right: '0',
-                padding: '10px',
                 borderLeftStyle: 'solid',
                 borderLeftColor: '#cfd8dc',
                 backgroundColor: '#eceff1',
-                alignItems: 'center',
+                alignItems: 'stretch',
             },
             inputText: {
                 fontSize: '1em',
@@ -23,13 +22,16 @@ const useStyles = makeStyles(theme => ({
                 fontWeight: 'bold',
                 color: '#607d8b',
                 paddingTop: '2%',
-                marginBottom: '15%'
+                marginBottom: '15%',
+                textAlign: 'center'
             },
             inputContainer: {
                 display: 'flex',
                 flexDirection: 'column',
                 height: '80vh',
-                justifyContent: 'space-evenly'
+                justifyContent: 'space-evenly',
+                paddingLeft:'3.5%',
+                paddingRight:'3.5%'
             }
         }
     )
