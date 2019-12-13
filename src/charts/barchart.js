@@ -19,10 +19,9 @@ export default function Barchart(props) {
 
     const container = {
         display: 'flex',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         height: '100%',
-        width: '100%'
-
+        width: '33%'
     }
 
 

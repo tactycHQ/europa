@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
             charts: {
                 display: 'flex',
                 flexWrap: 'wrap',
-                justifyContent: 'space-betwen'
+                justifyContent: 'space-between'
 
             }
         }
@@ -39,20 +39,37 @@ export default function Output(props) {
     const chartNames = Object.keys(props.charts)
     const generateCharts = () => {
         const data = chartNames.map(name => {
-                return props.charts[name]
+                const chartAddresses = props.charts[name]
+                const chartLabels = chartAddresses.map(address => {
+                    return props.outputLabels[address]
+                })
+                return chartLabels
             }
         )
-        console.log(props.currSolution)
+        return data.map(labels => {
+                const _sol = labels.map(label => {
+                    const sol = props.currSolution.find(solution => solution.name === label)
+                    return sol
+                })
+                return <Barchart key={labels.toString()} currSolution={_sol}/>
+            }
+        )
     }
 
-    generateCharts()
+
+
+
+    const finalCharts = generateCharts()
+
+    // console.log(props.currSolution)
 
 
     return (
         <div className={classes.root}>
             <div className={classes.OutputText}>Outputs</div>
             <div className={classes.charts}>
-                <Barchart {...props}/>
+                {finalCharts}
+                {/*<Barchart {...props}/>*/}
                 {/*<StackedBar data={outputs}/>*/}
                 {/*<MixBar data={outputs}/>*/}
                 {/*<Radial data={outputs}/>*/}
