@@ -40,37 +40,35 @@ function valueLabelFormat(value) {
     return `${value * 100}%`
 }
 
+function generateMarks(values) {
+    return values.map(v => (
+            {value: v,
+            label: (v*100).toString()+'%'}
+        )
+    )
+}
+
+
 export default function InputSlider(props) {
     const classes = useStyles()
 
-    const marks = [
-        {
-            value: 0.7,
-            label: '70%',
-        },
-        {
-            value: 0.9,
-            label: '90%',
-        },
-        {
-            value: 1.0,
-            label: '100%',
-        }
-    ]
+    const marks = generateMarks(props.values)
+    const min = Math.min(...props.values)
+    const max = Math.max(...props.values)
 
     return (
         <div className={classes.root}>
             <Slider classes={{root: classes.slider, mark: classes.mark}}
-                    defaultValue={props.defaultValue}
+                    defaultValue={props.defaultInputVal}
                     getAriaValueText={valuetext}
                     aria-labelledby="discrete-slider-restrict"
                     valueLabelDisplay="on"
                     valueLabelFormat={valueLabelFormat}
-                    min={0.7}
-                    max={1.0}
+                    min={min}
+                    max={max}
                     step={null}
                     marks={marks}
-                    onChange={props.onChange}
+                    onChange={(event, value) => props.onChange(event, value, props.address)}
             />
             <div className={classes.label}>
                 {props.name}

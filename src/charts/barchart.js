@@ -6,16 +6,11 @@ import {
 
 export default function Barchart(props) {
 
-    const data = props.currSolution
-
-
-
-
     return (
         <BarChart
-            width={1000}
+            width={500}
             height={300}
-            data={data}
+            data={props.currSolution}
             margin={{
                 top: 10, right: 40, left: 30, bottom: 15,
             }}

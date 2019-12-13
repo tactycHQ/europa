@@ -5,7 +5,9 @@ import Content from "./Content";
 import TopBar from "./TopBar";
 import SideBar from "./SideBar";
 import Spinner from "./Spinner";
-import {getSolutions, getMetaData} from "../api/api";
+import {getSolutions, getMetaData} from "../api/api"
+import isEqual from 'lodash.isequal'
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -27,18 +29,26 @@ const useStyles = makeStyles(theme => ({
         fontFamily: 'Roboto',
     },
     spinner: {
-        display:'flex'
+        display: 'flex'
     }
 }));
+
+function extractDefaults(values) {
+    if (Object.keys(values)[0] === 'Default') {
+        return values.Default
+    }
+}
+
 
 export default function Layout() {
     const classes = useStyles()
 
     const [solutions, setSolutions] = useState(null)
     const [currSolution, setcurrSolution] = useState(null)
-    const [inputVal, setInputVal] = useState(null)
+    const [currInputVal, setcurrInputVal] = useState(null)
+    const [defaultInputVal, setdefaultInputVal] = useState(null)
     const [inputs, setInputs] = useState(null)
-    const [outputs, setOutputs] = useState(null)
+    const [outputLabels, setOutputLabels] = useState(null)
     const [cases, setCases] = useState(null)
     const [charts, setCharts] = useState(null)
     const [dashName, setDashName] = useState("Loading...")
@@ -50,9 +60,14 @@ export default function Layout() {
         setSolutions(solutions)
     }
 
-    const handleSliderChange = (event, newValue) => {
-        setInputVal(newValue)
+    const handleSliderChange = (event, newValue, setAddress) => {
+        setcurrInputVal(prevState => {
+            prevState[setAddress] = newValue
+            return prevState
+        })
+        // console.log(currInputVal)
     }
+
 
     const handleClick = () => {
         refreshOutputs()
@@ -63,79 +78,87 @@ export default function Layout() {
             const metadata = await getMetaData()
             const _solutions = await getSolutions()
             setSolutions(_solutions)
-            setDashName(metadata['name'])
-            setCases(metadata['cases'])
-            setInputs(metadata['inputs'])
-            setOutputs(metadata['outputs'])
-            setCharts(metadata['charts'])
-            setisLoaded(!isLoaded)
+            setDashName(metadata.name)
+            setCases(metadata.cases)
+            setInputs(metadata.inputs)
+
+            let defaults = metadata.cases.map(i => {
+                return extractDefaults(i)
+            })
+            setdefaultInputVal(defaults[0])
+            setcurrInputVal(defaults[0])
+            setOutputLabels(metadata.outputs)
+            setCharts(metadata.charts)
+            setisLoaded(isLoaded => !isLoaded)
         }
         runEffect()
     }, [])
 
     useEffect(() => {
-        const getInputIndex = (inputVal) => {
-            const rangeVal = [0.7, 0.9, 1.0]
-            if (inputVal) {
-                return rangeVal.indexOf(inputVal)
-            } else {
-                return 0
-            }
+
+        const getSolution = () => {
+            return solutions.map(i => {
+                if (isEqual(i.inputs, currInputVal)) {
+                    return i.outputs
+                } else {
+                    console.log("No solutions found. Check API state")
+                }
+            })
         }
 
-        const selectSolutions = (solutions, inputVal) => {
-            if (solutions) {
-                let idx = getInputIndex(inputVal)
-                let outputs = solutions[idx].outputs
-                return Object.entries(outputs).map(i => ({
-                            name: i[0],
-                            Value: i[1]
-                        }
-                    )
-                )
-            }
+
+        const addLabels = () => {
+
+            let result = getSolution()
+            return Object.entries(result).map(i => ({
+                name: outputLabels[i[0]],
+                Value: i[1]
+            }))
         }
 
-        const currSol = selectSolutions(solutions, inputVal)
+    const currSol = addLabels()
 
-        setcurrSolution(currSol)
+    setcurrSolution(currSol)
 
-    }, [solutions, inputVal])
+}
+,
+[solutions, currInputVal, outputLabels]
+)
 
-    if (isLoaded) {
-        content =
-                <Content refreshClick={handleClick}
-                         handleSliderChange={handleSliderChange}
-                         currSolution={currSolution}
-                         inputs={inputs}
-                         outputs={outputs}
-                         cases={cases}
-                         charts={charts}
-                />
-
-
-    } else {
-        content = <Spinner className={classes.spinner}/>
-    }
+if (isLoaded) {
+    content =
+        <Content refreshClick={handleClick}
+                 handleSliderChange={handleSliderChange}
+                 currSolution={currSolution}
+                 inputs={inputs}
+                 outputLabels={outputLabels}
+                 defaultInputVal={defaultInputVal}
+                 charts={charts}
+        />
 
 
-    return (
-        <div className={classes.root}>
-            <Grid container spacing={0}>
-                <Grid className={classes.top} item xs={12} lg={12}>
-                    <TopBar dashName={dashName}/>
-                </Grid>
-                <Grid item xs={12} lg={12}>
-                    <div className={classes.middle}>
-                        <SideBar/>
-                        {content}
-                    </div>
-                </Grid>
+} else {
+    content = <Spinner className={classes.spinner}/>
+}
 
-                {/*<Grid className={classes.bottom} item xs={12} lg={12}>*/}
-                {/*    Copyright Information, Epoch One, LLC 2019*/}
-                {/*</Grid>*/}
+
+return (
+    <div className={classes.root}>
+        <Grid container spacing={0}>
+            <Grid className={classes.top} item xs={12} lg={12}>
+                <TopBar dashName={dashName}/>
             </Grid>
-        </div>
-    );
+            <Grid item xs={12} lg={12}>
+                <div className={classes.middle}>
+                    <SideBar/>
+                    {content}
+                </div>
+            </Grid>
+
+            {/*<Grid className={classes.bottom} item xs={12} lg={12}>*/}
+            {/*    Copyright Information, Epoch One, LLC 2019*/}
+            {/*</Grid>*/}
+        </Grid>
+    </div>
+);
 }

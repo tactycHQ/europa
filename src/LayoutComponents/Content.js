@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Content(props) {
 
-    const {currSolution, outputs, charts,...other} = props
+    const {currSolution, outputLabels, charts,...other} = props
 
     const classes = useStyles()
 
@@ -28,7 +28,7 @@ export default function Content(props) {
         <div className={classes.root}>
             <Switch>
                 <Route exact path={["/", "/dashboard"]}>
-                    <Output currSolution={currSolution} outputs={outputs} charts={charts}/>
+                    <Output currSolution={currSolution} outputLabels={outputLabels} charts={charts}/>
                     <Input {...other}/>
                 </Route>
                 <Route exact path="/sensitivity">
