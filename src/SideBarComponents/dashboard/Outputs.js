@@ -8,25 +8,25 @@ import Barchart from "../../charts/barchart"
 
 const useStyles = makeStyles(theme => ({
             root: {
-                display:'flex',
-                flexDirection:'column',
-                flexGrow:1,
+                display: 'flex',
+                flexDirection: 'column',
+                flexGrow: 1,
                 // justifyContent:'flex-start',
-                width:'80%'
+                width: '80%'
             },
             OutputText: {
                 fontSize: '1em',
                 fontFamily: 'Roboto',
                 fontWeight: 'bold',
-                color:'#607d8b',
+                color: '#607d8b',
                 paddingTop: '2%',
                 paddingBottom: '25px',
                 width: '100%',
                 textAlign: 'center'
             },
-            charts:{
-                display:'flex',
-                flexWrap:'wrap',
+            charts: {
+                display: 'flex',
+                flexWrap: 'wrap',
                 justifyContent: 'space-betwen'
 
             }
@@ -36,6 +36,16 @@ const useStyles = makeStyles(theme => ({
 
 export default function Output(props) {
     const classes = useStyles()
+    const chartNames = Object.keys(props.charts)
+    const generateCharts = () => {
+        const data = chartNames.map(name => {
+                return props.charts[name]
+            }
+        )
+        console.log(props.currSolution)
+    }
+
+    generateCharts()
 
 
     return (
