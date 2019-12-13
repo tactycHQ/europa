@@ -96,69 +96,72 @@ export default function Layout() {
 
     useEffect(() => {
 
-        const getSolution = () => {
-            return solutions.map(i => {
-                if (isEqual(i.inputs, currInputVal)) {
-                    return i.outputs
-                } else {
-                    console.log("No solutions found. Check API state")
+            const getSolution = () => {
+                if (solutions) {
+                    solutions.map(i => {
+                        if (isEqual(i.inputs, currInputVal)) {
+                            return i.outputs
+                        } else {
+                            console.log("No solutions found. Check API state")
+                        }
+                    })
                 }
-            })
+            }
+
+
+            const addLabels = () => {
+
+                let result = getSolution()
+                console.log(result)
+                // return Object.entries(result).map(i => ({
+                //     name: outputLabels[i[0]],
+                //     Value: i[1]
+                // }))
+            }
+
+            const currSol = addLabels()
+
+            setcurrSolution(currSol)
+
         }
+        ,
+        [solutions, currInputVal, outputLabels]
+    )
+
+    if (isLoaded) {
+        content =
+            <Content refreshClick={handleClick}
+                     handleSliderChange={handleSliderChange}
+                     currSolution={currSolution}
+                     inputs={inputs}
+                     outputLabels={outputLabels}
+                     defaultInputVal={defaultInputVal}
+                     charts={charts}
+            />
 
 
-        const addLabels = () => {
-
-            let result = getSolution()
-            return Object.entries(result).map(i => ({
-                name: outputLabels[i[0]],
-                Value: i[1]
-            }))
-        }
-
-    const currSol = addLabels()
-
-    setcurrSolution(currSol)
-
-}
-,
-[solutions, currInputVal, outputLabels]
-)
-
-if (isLoaded) {
-    content =
-        <Content refreshClick={handleClick}
-                 handleSliderChange={handleSliderChange}
-                 currSolution={currSolution}
-                 inputs={inputs}
-                 outputLabels={outputLabels}
-                 defaultInputVal={defaultInputVal}
-                 charts={charts}
-        />
+    } else {
+        content = <Spinner className={classes.spinner}/>
+    }
 
 
-} else {
-    content = <Spinner className={classes.spinner}/>
-}
+    return (
+        <div className={classes.root}>
+            <Grid container spacing={0}>
+                <Grid className={classes.top} item xs={12} lg={12}>
+                    <TopBar dashName={dashName}/>
+                </Grid>
+                <Grid item xs={12} lg={12}>
+                    <div className={classes.middle}>
+                        <SideBar/>
+                        {content}
+                    </div>
+                </Grid>
 
-
-return (
-    <div className={classes.root}>
-        <Grid container spacing={0}>
-            <Grid className={classes.top} item xs={12} lg={12}>
-                <TopBar dashName={dashName}/>
+                {/*<Grid className={classes.bottom} item xs={12} lg={12}>*/}
+                {/*    Copyright Information, Epoch One, LLC 2019*/}
+                {/*</Grid>*/}
             </Grid>
-            <Grid item xs={12} lg={12}>
-                <div className={classes.middle}>
-                    <SideBar/>
-                    {content}
-                </div>
-            </Grid>
-
-            {/*<Grid className={classes.bottom} item xs={12} lg={12}>*/}
-            {/*    Copyright Information, Epoch One, LLC 2019*/}
-            {/*</Grid>*/}
-        </Grid>
-    </div>
-);
+        </div>
+    );
 }
