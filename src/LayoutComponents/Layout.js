@@ -97,7 +97,7 @@ export default function Layout() {
     useEffect(() => {
 
             const getSolution = () => {
-                if (solutions) {
+                if (solutions && currInputVal) {
                     solutions.map(i => {
                         if (isEqual(i.inputs, currInputVal)) {
                             return i.outputs
@@ -107,7 +107,6 @@ export default function Layout() {
                     })
                 }
             }
-
 
             const addLabels = () => {
 
