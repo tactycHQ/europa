@@ -47,7 +47,7 @@ export default function Layout() {
     const [currInputVal, setcurrInputVal] = useState(null)
     const [defaultInputVal, setdefaultInputVal] = useState(null)
     const [inputs, setInputs] = useState(null)
-    const [outputLabels, setOutputLabels] = useState(null)
+    const [outputs, setOutputs] = useState(null)
     const [cases, setCases] = useState(null)
     const [charts, setCharts] = useState(null)
     const [dashName, setDashName] = useState("Loading...")
@@ -62,7 +62,7 @@ export default function Layout() {
     const handleSliderChange = (event, newValue, setAddress) => {
         setcurrInputVal(prevState => ({
             ...prevState,
-            [setAddress]:newValue
+            [setAddress]: newValue
         }))
     }
 
@@ -85,7 +85,7 @@ export default function Layout() {
             })
             setdefaultInputVal(defaults[0])
             setcurrInputVal(defaults[0])
-            setOutputLabels(metadata.outputs)
+            setOutputs(metadata.outputs)
             setCharts(metadata.charts)
             setisLoaded(isLoaded => !isLoaded)
         }
@@ -93,25 +93,20 @@ export default function Layout() {
     }, [])
 
     useEffect(() => {
+
             const getSolution = () => {
-                if (solutions && currInputVal && outputLabels) {
-                    let foundSolution = solutions.find(i => isEqual(i.inputs, currInputVal))
-                    let foundOutput = foundSolution.outputs
-                    let entries = Object.entries(foundOutput)
-                    let withLabels = entries.map((solution) => {
-                        return {
-                            "name": outputLabels[solution[0]],
-                            "value": solution[1]
-                        }
-                    })
-                    return withLabels
+                if (solutions && currInputVal) {
+                    const foundSolution = solutions.find(i => isEqual(i.inputs, currInputVal))
+                    return foundSolution.outputs
+                } else {
+                    return "No solution found"
                 }
             }
 
-            let currSol = getSolution()
-            setcurrSolution(currSol)
+            setcurrSolution(getSolution())
+
         }
-        ,[solutions, currInputVal, outputLabels]
+        , [solutions, currInputVal]
     )
 
     if (isLoaded) {
@@ -120,7 +115,7 @@ export default function Layout() {
                      handleSliderChange={handleSliderChange}
                      currSolution={currSolution}
                      inputs={inputs}
-                     outputLabels={outputLabels}
+                     outputs={outputs}
                      defaultInputVal={defaultInputVal}
                      charts={charts}
             />

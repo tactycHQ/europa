@@ -34,32 +34,72 @@ const useStyles = makeStyles(theme => ({
     )
 )
 
+
+const chartColors = [
+    '#0288d1',
+    '#ff5252',
+    '#4caf50',
+    '#c0ca33',
+    '#607d8b'
+]
+
 export default function Output(props) {
     const classes = useStyles()
-    const chartNames = Object.keys(props.charts)
-    const generateCharts = () => {
-        const data = chartNames.map(name => {
-                const chartAddresses = props.charts[name]
-                const chartLabels = chartAddresses.map(address => {
-                    return props.outputLabels[address]
+
+    // console.log(props.outputs)
+    console.log(props.currSolution)
+
+
+    const extractChartData = () => {
+
+        const labelsInChart = props.outputs.map(data => {
+                const reformatted = Object.entries(data.labels).map(labelSet => {
+                    return {
+                        name: labelSet[1],
+                        [data.category]: props.currSolution[labelSet[0]]
+                    }
                 })
-                return chartLabels
+                return {
+                    title: data.category,
+                    values: reformatted
+                }
             }
         )
-        return data.map(labels => {
-                const _sol = labels.map(label => {
-                    const sol = props.currSolution.find(solution => solution.name === label)
-                    return sol
-                })
-                return <Barchart key={labels.toString()} currSolution={_sol}/>
-            }
-        )
+        return labelsInChart
     }
 
 
+    const createCharts = () => {
+        const chartData = extractChartData()
+        return chartData.map((data, idx) => {
+            return <Barchart key={data.title} currSolution={data.values} fill={chartColors[idx]}/>
+        })
+    }
+
+    const charts = createCharts()
 
 
-    const finalCharts = generateCharts()
+    // const generateCharts = () => {
+    //     const data = chartNames.map(name => {
+    //             const chartAddresses = props.charts[name]
+    //             const chartLabels = chartAddresses.map(address => {
+    //                 return props.outputLabels[address]
+    //             })
+    //             return chartLabels
+    //         }
+    //     )
+    //     return data.map((labels, idx) => {
+    //             const _sol = labels.map(label => {
+    //                 const sol = props.currSolution.find(solution => solution.name === label)
+    //                 return sol
+    //             })
+    //             return <Barchart key={labels.toString()} currSolution={_sol} fill={chartColors[idx]}/>
+    //         }
+    //     )
+    // }
+
+
+    // const finalCharts = generateCharts()
 
     // console.log(props.currSolution)
 
@@ -68,7 +108,7 @@ export default function Output(props) {
         <div className={classes.root}>
             <div className={classes.OutputText}>Outputs</div>
             <div className={classes.charts}>
-                {finalCharts}
+                {charts}
                 {/*<Barchart {...props}/>*/}
                 {/*<StackedBar data={outputs}/>*/}
                 {/*<MixBar data={outputs}/>*/}

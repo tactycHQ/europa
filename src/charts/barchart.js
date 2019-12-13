@@ -14,31 +14,40 @@ function CustomizedAxisTick(props) {
     )
 }
 
+const container = {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    height: '100%',
+    width: '33%',
+}
+
+const titleBox = {
+    textAlign:'center'
+
+}
 
 export default function Barchart(props) {
 
-    const container = {
-        display: 'flex',
-        justifyContent: 'flex-start',
-        height: '100%',
-        width: '33%'
-    }
+
+    const title = Object.keys(props.currSolution[0])[1]
 
 
     return (
         <div style={container}>
+            <div style={titleBox}>{title}</div>
             <ResponsiveContainer width="100%" height={400}>
                 <BarChart
                     data={props.currSolution}
                     margin={{
                         top: 10, right: 40, left: 30, bottom: 15,
                     }}
+                    maxBarSize={30}
                 >
                     <XAxis dataKey="name" minTickGap={2} interval={0} tick={<CustomizedAxisTick/>} height={100}/>
-
                     <YAxis/>
                     <Tooltip/>
-                    <Bar dataKey="value" fill="#26a69a"/>
+                    <Bar dataKey={title} fill={props.fill}/>
                 </BarChart>
             </ResponsiveContainer>
         </div>
