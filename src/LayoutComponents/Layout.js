@@ -95,7 +95,8 @@ export default function Layout() {
     }, [])
 
     useEffect(() => {
-
+            console.log(currInputVal)
+            console.log(solutions)
             const getSolution = () => {
                 if (solutions && currInputVal) {
                     solutions.map(i => {
