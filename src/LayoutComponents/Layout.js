@@ -39,7 +39,6 @@ function extractDefaults(values) {
     }
 }
 
-
 export default function Layout() {
     const classes = useStyles()
 
@@ -61,11 +60,10 @@ export default function Layout() {
     }
 
     const handleSliderChange = (event, newValue, setAddress) => {
-        setcurrInputVal(prevState => {
-            prevState[setAddress] = newValue
-            return prevState
-        })
-        // console.log(currInputVal)
+        setcurrInputVal(prevState => ({
+            ...prevState,
+            [setAddress]:newValue
+        }))
     }
 
 
@@ -95,37 +93,25 @@ export default function Layout() {
     }, [])
 
     useEffect(() => {
-            console.log(currInputVal)
-            console.log(solutions)
             const getSolution = () => {
-                if (solutions && currInputVal) {
-                    solutions.map(i => {
-                        if (isEqual(i.inputs, currInputVal)) {
-                            return i.outputs
-                        } else {
-                            console.log("No solutions found. Check API state")
+                if (solutions && currInputVal && outputLabels) {
+                    let foundSolution = solutions.find(i => isEqual(i.inputs, currInputVal))
+                    let foundOutput = foundSolution.outputs
+                    let entries = Object.entries(foundOutput)
+                    let withLabels = entries.map((solution) => {
+                        return {
+                            "name": outputLabels[solution[0]],
+                            "value": solution[1]
                         }
                     })
+                    return withLabels
                 }
             }
 
-            const addLabels = () => {
-
-                let result = getSolution()
-                console.log(result)
-                // return Object.entries(result).map(i => ({
-                //     name: outputLabels[i[0]],
-                //     Value: i[1]
-                // }))
-            }
-
-            const currSol = addLabels()
-
+            let currSol = getSolution()
             setcurrSolution(currSol)
-
         }
-        ,
-        [solutions, currInputVal, outputLabels]
+        ,[solutions, currInputVal, outputLabels]
     )
 
     if (isLoaded) {
