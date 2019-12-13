@@ -21,9 +21,10 @@ const useStyles = makeStyles(theme => ({
                 fontFamily: 'Roboto',
                 fontWeight: 'bold',
                 color: '#607d8b',
-                paddingTop: '2%',
-                marginBottom: '15%',
-                textAlign: 'center'
+                paddingTop: '1vh',
+                paddingBottom: '1vh',
+                marginBottom:'2vh',
+                textAlign: 'center',
             },
             inputContainer: {
                 display: 'flex',

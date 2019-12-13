@@ -19,10 +19,11 @@ const useStyles = makeStyles(theme => ({
                 fontFamily: 'Roboto',
                 fontWeight: 'bold',
                 color: '#607d8b',
-                paddingTop: '2%',
-                paddingBottom: '25px',
+                paddingTop: '1vh',
+                paddingBottom: '1vh',
+                marginBottom:'2vh',
                 width: '100%',
-                textAlign: 'center'
+                textAlign: 'center',
             },
             charts: {
                 display: 'flex',
@@ -37,9 +38,9 @@ const useStyles = makeStyles(theme => ({
 
 const chartColors = [
     '#0288d1',
-    '#ff5252',
-    '#4caf50',
-    '#c0ca33',
+    '#880e4f',
+    '#004d40',
+    '#827717',
     '#607d8b'
 ]
 

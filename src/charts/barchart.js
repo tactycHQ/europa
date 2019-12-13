@@ -22,13 +22,13 @@ const container = {
     width: '33%',
 }
 
-const titleBox = {
-    textAlign:'center'
-
-}
 
 export default function Barchart(props) {
 
+    const titleBox = {
+        textAlign: 'center',
+        color:props.fill
+    }
 
     const title = Object.keys(props.currSolution[0])[1]
 

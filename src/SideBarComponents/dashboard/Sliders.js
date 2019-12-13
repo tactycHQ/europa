@@ -17,16 +17,21 @@ const useStyles = makeStyles(theme => ({
             fontSize: '1.0em',
             fontFamily: 'Roboto',
             marginTop: '0%',
-            marginBottom: '5%'
+            marginBottom: '5%',
+            color: '#607d8b'
         },
         slider: {
-            color: '#0091ea'
+            color: '#607d8b'
         },
         mark: {
-            backgroundColor: '#0091ea',
+            backgroundColor: '#607d8b',
             height: 8,
-            width: 1,
+            width: 3,
             marginTop: -3
+        },
+        active: {
+            backgroundColor: '#00bfa5',
+            color:"#00bfa5"
         }
     }
 ))
@@ -42,8 +47,10 @@ function valueLabelFormat(value) {
 
 function generateMarks(values) {
     return values.map(v => (
-            {value: v,
-            label: (v*100).toString()+'%'}
+            {
+                value: v,
+                label: (v * 100).toString() + '%'
+            }
         )
     )
 }
@@ -58,7 +65,7 @@ export default function InputSlider(props) {
 
     return (
         <div className={classes.root}>
-            <Slider classes={{root: classes.slider, mark: classes.mark}}
+            <Slider classes={{root: classes.slider, mark: classes.mark, active: classes.active}}
                     defaultValue={props.defaultInputVal}
                     getAriaValueText={valuetext}
                     aria-labelledby="discrete-slider-restrict"
