@@ -19,7 +19,7 @@ const container = {
     flexDirection: 'column',
     justifyContent: 'center',
     height: '100%',
-    width: '33%',
+    width: '45%'
 }
 
 
@@ -27,7 +27,9 @@ export default function Barchart(props) {
 
     const titleBox = {
         textAlign: 'center',
-        color:props.fill
+        color:props.fill,
+        fontSize:'1.2em',
+        fontWeight:'bold'
     }
 
     const title = Object.keys(props.currSolution[0])[1]
@@ -47,7 +49,7 @@ export default function Barchart(props) {
                     <XAxis dataKey="name" minTickGap={2} interval={0} tick={<CustomizedAxisTick/>} height={100}/>
                     <YAxis/>
                     <Tooltip/>
-                    <Bar dataKey={title} fill={props.fill}/>
+                    <Bar dataKey={title} fill={props.fill} />
                 </BarChart>
             </ResponsiveContainer>
         </div>

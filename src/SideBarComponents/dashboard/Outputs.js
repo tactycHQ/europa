@@ -29,7 +29,6 @@ const useStyles = makeStyles(theme => ({
                 display: 'flex',
                 flexWrap: 'wrap',
                 justifyContent: 'space-between'
-
             }
         }
     )
@@ -48,7 +47,7 @@ export default function Output(props) {
     const classes = useStyles()
 
     // console.log(props.outputs)
-    console.log(props.currSolution)
+
 
 
     const extractChartData = () => {

@@ -1,6 +1,7 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Slider from '@material-ui/core/Slider'
+import * as ssf from 'ssf'
 
 
 const useStyles = makeStyles(theme => ({
@@ -31,25 +32,26 @@ const useStyles = makeStyles(theme => ({
         },
         active: {
             backgroundColor: '#00bfa5',
-            color:"#00bfa5"
+            color: "#00bfa5"
+        },
+        markLabel: {
+            fontSize: 13
         }
+
     }
 ))
 
 
-function valuetext(value) {
-    return `${value}%`
-}
 
 function valueLabelFormat(value) {
-    return `${value * 100}%`
+    return ssf.format('0%',value)
 }
 
 function generateMarks(values) {
     return values.map(v => (
             {
                 value: v,
-                label: (v * 100).toString() + '%'
+                label:ssf.format('0%',v)
             }
         )
     )
@@ -63,11 +65,11 @@ export default function InputSlider(props) {
     const min = Math.min(...props.values)
     const max = Math.max(...props.values)
 
+
     return (
         <div className={classes.root}>
-            <Slider classes={{root: classes.slider, mark: classes.mark, active: classes.active}}
+            <Slider classes={{root: classes.slider, mark: classes.mark, active: classes.active, markLabel: classes.markLabel}}
                     defaultValue={props.defaultInputVal}
-                    getAriaValueText={valuetext}
                     aria-labelledby="discrete-slider-restrict"
                     valueLabelDisplay="on"
                     valueLabelFormat={valueLabelFormat}

@@ -11,8 +11,6 @@ const useStyles = makeStyles(theme => ({
                 width: '20%',
                 height: '94vh',
                 right: '0',
-                borderLeftStyle: 'solid',
-                borderLeftColor: '#cfd8dc',
                 backgroundColor: '#eceff1',
                 alignItems: 'stretch',
             },

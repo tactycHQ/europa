@@ -32,7 +32,8 @@ export default function Content(props) {
                     <Input {...other}/>
                 </Route>
                 <Route exact path="/sensitivity">
-                    <Sensitivity/>
+                    <Output currSolution={currSolution} outputs={outputs} charts={charts}/>
+                    {/*<Sensitivity/>*/}
                 </Route>
                 <Route exact path="/scenario">
                     <ScenarioAnalysis/>

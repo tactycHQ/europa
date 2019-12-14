@@ -71,6 +71,7 @@ export default function Layout() {
         refreshOutputs()
     }
 
+    // At initial load
     useEffect(() => {
         const runEffect = async () => {
             const metadata = await getMetaData()
@@ -92,8 +93,8 @@ export default function Layout() {
         runEffect()
     }, [])
 
+    // At input slider change or new solution retrieval
     useEffect(() => {
-
             const getSolution = () => {
                 if (solutions && currInputVal) {
                     const foundSolution = solutions.find(i => isEqual(i.inputs, currInputVal))
