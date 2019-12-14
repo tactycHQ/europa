@@ -1,6 +1,7 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Barchart from "../../charts/barchart"
+
 // import StackedBar from "./stackedbar";
 // import MixBar from "./mixbar";
 // import Radial from "./radial";
@@ -46,10 +47,6 @@ const chartColors = [
 export default function Output(props) {
     const classes = useStyles()
 
-    // console.log(props.outputs)
-
-
-
     const extractChartData = () => {
 
         const labelsInChart = props.outputs.map(data => {
@@ -73,35 +70,11 @@ export default function Output(props) {
         const chartData = extractChartData()
         return chartData.map((data, idx) => {
             return <Barchart key={data.title} currSolution={data.values} fill={chartColors[idx]}/>
+
         })
     }
 
     const charts = createCharts()
-
-
-    // const generateCharts = () => {
-    //     const data = chartNames.map(name => {
-    //             const chartAddresses = props.charts[name]
-    //             const chartLabels = chartAddresses.map(address => {
-    //                 return props.outputLabels[address]
-    //             })
-    //             return chartLabels
-    //         }
-    //     )
-    //     return data.map((labels, idx) => {
-    //             const _sol = labels.map(label => {
-    //                 const sol = props.currSolution.find(solution => solution.name === label)
-    //                 return sol
-    //             })
-    //             return <Barchart key={labels.toString()} currSolution={_sol} fill={chartColors[idx]}/>
-    //         }
-    //     )
-    // }
-
-
-    // const finalCharts = generateCharts()
-
-    // console.log(props.currSolution)
 
 
     return (
