@@ -8,34 +8,43 @@ const useStyles = makeStyles(theme => ({
         root: {
             display: 'flex',
             flexDirection: 'column',
-            width: '100%',
             alignItems: 'center',
-            padding: '20px',
+            padding: '20px'
+
         },
         label: {
             display: 'flex',
-            fontWeight: 'bold',
+            // fontWeight: 'bold',
             fontSize: '1.0em',
             fontFamily: 'Roboto',
             marginTop: '0%',
             marginBottom: '5%',
-            color: '#607d8b'
+            color: '#795548',
+            textAlign:'center'
         },
         slider: {
-            color: '#607d8b'
+            color: '#795548'
         },
         mark: {
-            backgroundColor: '#607d8b',
+            backgroundColor: '#795548',
             height: 8,
             width: 3,
             marginTop: -3
         },
         active: {
-            backgroundColor: '#00bfa5',
-            color: "#00bfa5"
+            backgroundColor: '#795548',
+            color: "#795548"
         },
         markLabel: {
-            fontSize: 13
+            fontSize: 13,
+            color:'#795548'
+        },
+        markLabelActive:{
+            // color:'black'
+        },
+        thumb:{
+            color:'#795548'
+
         }
 
     }
@@ -68,7 +77,7 @@ export default function InputSlider(props) {
 
     return (
         <div className={classes.root}>
-            <Slider classes={{root: classes.slider, mark: classes.mark, active: classes.active, markLabel: classes.markLabel}}
+            <Slider classes={{root: classes.slider, mark: classes.mark, active: classes.active, markLabel: classes.markLabel,thumb: classes.thumb}}
                     defaultValue={props.defaultInputVal}
                     aria-labelledby="discrete-slider-restrict"
                     valueLabelDisplay="on"

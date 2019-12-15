@@ -12,19 +12,7 @@ const useStyles = makeStyles(theme => ({
                 display: 'flex',
                 flexDirection: 'column',
                 flexGrow: 1,
-                // justifyContent:'flex-start',
-                width: '80%'
-            },
-            OutputText: {
-                fontSize: '1em',
-                fontFamily: 'Roboto',
-                fontWeight: 'bold',
-                color: '#607d8b',
-                paddingTop: '1vh',
-                paddingBottom: '1vh',
-                marginBottom:'2vh',
-                width: '100%',
-                textAlign: 'center',
+                paddingTop:'3.5%'
             },
             charts: {
                 display: 'flex',
@@ -37,10 +25,10 @@ const useStyles = makeStyles(theme => ({
 
 
 const chartColors = [
-    '#0288d1',
-    '#880e4f',
-    '#004d40',
-    '#827717',
+    '#00838f',
+    '#0097a7',
+    '#00acc1',
+    '#00695c',
     '#607d8b'
 ]
 
@@ -79,7 +67,6 @@ export default function Output(props) {
 
     return (
         <div className={classes.root}>
-            <div className={classes.OutputText}>Outputs</div>
             <div className={classes.charts}>
                 {charts}
                 {/*<Barchart {...props}/>*/}

@@ -8,6 +8,7 @@ import ScenarioAnalysis from "../SideBarComponents/ScenarioAnalysis";
 import DependencyGraph from "../SideBarComponents/DependencyGraph";
 
 
+
 const useStyles = makeStyles(theme => ({
             root: {
                 display: 'flex',

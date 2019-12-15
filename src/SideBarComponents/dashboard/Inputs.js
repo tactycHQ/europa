@@ -1,36 +1,53 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import InputSlider from "./Sliders"
-
+import Slide from "@material-ui/core/Slide"
+import Paper from "@material-ui/core/Paper"
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Switch from '@material-ui/core/Switch'
 
 const useStyles = makeStyles(theme => ({
             root: {
                 display: 'flex',
-                // position:'fixed',
+                flexShrink:2,
                 flexDirection: 'column',
-                width: '20%',
-                height: '94vh',
-                right: '0',
-                backgroundColor: '#eceff1',
-                alignItems: 'stretch',
-            },
-            inputText: {
-                fontSize: '1em',
-                fontFamily: 'Roboto',
-                fontWeight: 'bold',
-                color: '#607d8b',
-                paddingTop: '1vh',
-                paddingBottom: '1vh',
-                marginBottom:'2vh',
-                textAlign: 'center',
+                alignItems: 'flex-end',
+                padding: '4px'
             },
             inputContainer: {
                 display: 'flex',
                 flexDirection: 'column',
-                height: '80vh',
+                minHeight: '80vh',
+                width: '15vw',
+                backgroundColor: '#d7ccc8',
+            },
+            inputText: {
+                fontSize: '1.1em',
+                fontFamily: 'Roboto',
+                fontWeight: 'bold',
+                color: '#795548',
+                paddingTop: '1vh',
+                paddingBottom: '1vh',
+                marginBottom: '2vh',
+                textAlign: 'center',
+            },
+            sliderContainer: {
+                display: 'flex',
+                flexDirection: 'column',
+                minHeight: '80vh',
                 justifyContent: 'space-evenly',
-                paddingLeft:'3.5%',
-                paddingRight:'3.5%'
+                marginLeft: '3.5%',
+                marginRight: '3.5%'
+            },
+            showInputsSwitch: {
+            },
+            switchBase: {
+                color:'#5d4037'
+            },
+            label: {
+                fontFamily: 'Roboto',
+                fontSize: '0.8em'
+
             }
         }
     )
@@ -39,6 +56,11 @@ const useStyles = makeStyles(theme => ({
 
 export default function Input(props) {
     const classes = useStyles()
+    const [checked, setChecked] = React.useState(true);
+
+    const handleChange = () => {
+        setChecked(prev => !prev);
+    }
 
     let inputName
     let inputAddress
@@ -69,12 +91,29 @@ export default function Input(props) {
 
     return (
         <div className={classes.root}>
-            <div className={classes.inputText}>Inputs</div>
-            <div className={classes.inputContainer}>
-                {sliders}
+            <div className={classes.showInputsSwitch}>
+            <FormControlLabel
+                classes={{root: classes.showInputsSwitch, label: classes.label}}
+                control={<Switch checked={checked} classes={{root:classes.switch, switchBase: classes.switchBase}} size="small" onChange={handleChange}/>}
+                label="Toggle Inputs"
+            />
             </div>
-            < /div>
-                )
-                }
+            <Slide
+                direction="left"
+                in={checked}
+                timeout={500}
+                mountOnEnter
+                unmountOnExit>
+                <Paper className={classes.inputContainer} rounded={"true"}>
+                    <div className={classes.inputText}>INPUTS</div>
+                    <div className={classes.sliderContainer}>
+                        {sliders}
+                        {/*{sliders}*/}
+                    </div>
+                </Paper>
+            </Slide>
+        </div>
+    )
+}
 
 
