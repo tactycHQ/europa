@@ -1,6 +1,6 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import Barchart from "../../charts/barchart"
+import Barchart from "../../Charts/Barchart"
 
 // import StackedBar from "./stackedbar";
 // import MixBar from "./mixbar";
@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
             charts: {
                 display: 'flex',
                 flexWrap: 'wrap',
-                justifyContent: 'space-between'
+                justifyContent: 'space-evenly'
             }
         }
     )
@@ -26,7 +26,7 @@ const useStyles = makeStyles(theme => ({
 
 const chartColors = [
     '#00838f',
-    '#0097a7',
+    '#607d8b',
     '#00acc1',
     '#00695c',
     '#607d8b'
@@ -40,8 +40,9 @@ export default function Output(props) {
         const labelsInChart = props.outputs.map(data => {
                 const reformatted = Object.entries(data.labels).map(labelSet => {
                     return {
-                        name: labelSet[1],
+                        x: labelSet[1],
                         [data.category]: props.currSolution[labelSet[0]]
+
                     }
                 })
                 return {
