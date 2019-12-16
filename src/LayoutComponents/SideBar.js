@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
                 display: 'flex',
                 height: '100vh',
                 width: '13%',
-                position: 'fixed',
+                position: 'absolute',
                 background: 'linear-gradient(#37474f, #b2ebf2)',
                 flexDirection: 'column',
                 padding: '10px',

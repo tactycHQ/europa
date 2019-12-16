@@ -8,7 +8,19 @@ import Barchart from "../../Charts/Barchart"
 // import Radial from "./radial";
 
 
-const useStyles = makeStyles(theme => ({
+
+
+const chartColors = [
+    '#8f2600',
+    '#006064',
+    '#8f2600',
+    '#546e7a',
+    '#0288d1',
+    '#0288d1'
+]
+
+export default function Output(props) {
+    const useStyles = makeStyles(theme => ({
             root: {
                 display: 'flex',
                 flexDirection: 'column',
@@ -22,16 +34,7 @@ const useStyles = makeStyles(theme => ({
 )
 
 
-const chartColors = [
-    '#8f2600',
-    '#006064',
-    '#8f2600',
-    '#546e7a',
-    '#0288d1',
-    '#0288d1'
-]
 
-export default function Output(props) {
     const classes = useStyles()
 
     const extractChartData = () => {

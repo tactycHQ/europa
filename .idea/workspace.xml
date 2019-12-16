@@ -3,11 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Charts/Barchart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Charts/Barchart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Content.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/Content.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/TopBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/TopBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SideBarComponents/dashboard/Inputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/SideBarComponents/dashboard/Inputs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SideBarComponents/dashboard/Sliders.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/SideBarComponents/dashboard/Sliders.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/SideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/SideBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SideBarComponents/dashboard/Outputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/SideBarComponents/dashboard/Outputs.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -112,7 +109,7 @@
       <workItem from="1576171396619" duration="34234000" />
       <workItem from="1576258093490" duration="14887000" />
       <workItem from="1576345386968" duration="6105000" />
-      <workItem from="1576435520695" duration="28590000" />
+      <workItem from="1576435520695" duration="29635000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <created>1575314297992</created>
@@ -338,7 +335,14 @@
       <option name="project" value="LOCAL" />
       <updated>1576481731500</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="First commit">
+      <created>1576483575866</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1576483575866</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
