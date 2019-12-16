@@ -50,7 +50,6 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
         justifyContent: 'space-between',
         height: '100%',
-        minWidth: '35%',
         margin: '2%'
         // backgroundColor: 'yellow'
     },
@@ -91,7 +90,7 @@ export default function Barchart(props) {
             <ResponsiveContainer width="100%" height={250}>
                 <BarChart
                     data={props.currSolution}
-                    margin={{top: 0, right: 10, left: 10, bottom: 10}}
+                    margin={{top: 0, right: 600, left: 10, bottom: 10}}
                     maxBarSize={30}
                 >
                     <XAxis dataKey="x" minTickGap={2} interval={0} tick={<CustomizedXAxisTick/>}/>

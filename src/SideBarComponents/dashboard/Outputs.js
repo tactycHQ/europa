@@ -12,14 +12,9 @@ const useStyles = makeStyles(theme => ({
             root: {
                 display: 'flex',
                 flexDirection: 'column',
-                // flexGrow: 1
-            },
-            charts: {
-                display: 'flex',
-                flexWrap: 'wrap',
+                width:'100%',
                 justifyContent: 'flex-start'
-                // alignContent:'flex-start',
-
+                // flexGrow: 1
             }
         }
     )
@@ -72,19 +67,7 @@ export default function Output(props) {
 
     return (
         <div className={classes.root}>
-            <div className={classes.charts}>
-                {charts}
-                {/*<Barchart {...props}/>*/}
-                {/*<StackedBar data={outputs}/>*/}
-                {/*<MixBar data={outputs}/>*/}
-                {/*<Radial data={outputs}/>*/}
-                {/*<Barchart data={outputs}/>*/}
-                {/*<Barchart data={outputs}/>*/}
-                {/*<StackedBar data={outputs}/>*/}
-                {/*<MixBar data={outputs}/>*/}
-                {/*<Radial data={outputs}/>*/}
-                {/*<Barchart data={outputs}/>*/}
-            </div>
+            {charts}
         </div>
 
     )

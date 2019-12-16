@@ -14,12 +14,12 @@ const useStyles = makeStyles(theme => ({
                 flexDirection: 'column',
                 // width: '90%',
                 marginLeft: '13.0%',
-                borderStyle: 'bold'
+                width:'100%'
 
             },
             menuBar: {
-                display:'flex',
-                backgroundColor:'#e0e0e0'
+                display:'flex'
+                // backgroundColor:'#e0e0e0'
             },
             content: {
                 display: 'flex'
