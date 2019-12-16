@@ -3,13 +3,13 @@ import {makeStyles} from '@material-ui/core/styles'
 import InputSlider from "./Sliders"
 import Slide from "@material-ui/core/Slide"
 import Paper from "@material-ui/core/Paper"
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Switch from '@material-ui/core/Switch'
+
 
 const useStyles = makeStyles(theme => ({
             root: {
                 display: 'flex',
-                flexShrink:2,
+                // position:'fixed',
+                // right:0,
                 flexDirection: 'column',
                 alignItems: 'flex-end',
                 padding: '4px'
@@ -19,13 +19,13 @@ const useStyles = makeStyles(theme => ({
                 flexDirection: 'column',
                 minHeight: '80vh',
                 width: '15vw',
-                backgroundColor: '#d7ccc8',
+                background: 'linear-gradient(#e8eaf6, #e3f2fd)'
             },
             inputText: {
-                fontSize: '1.1em',
-                fontFamily: 'Roboto',
-                fontWeight: 'bold',
-                color: '#795548',
+                fontSize: '1.0em',
+                fontFamily: 'Quicksand',
+                fontWeight: '700',
+                color: '#00838f',
                 paddingTop: '1vh',
                 paddingBottom: '1vh',
                 marginBottom: '2vh',
@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
                 color:'#5d4037'
             },
             label: {
-                fontFamily: 'Roboto',
+                fontFamily: 'Quicksand',
                 fontSize: '0.8em'
 
             }
@@ -56,11 +56,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function Input(props) {
     const classes = useStyles()
-    const [checked, setChecked] = React.useState(true);
-
-    const handleChange = () => {
-        setChecked(prev => !prev);
-    }
 
     let inputName
     let inputAddress
@@ -88,19 +83,13 @@ export default function Input(props) {
         )
     }
 
-
     return (
         <div className={classes.root}>
             <div className={classes.showInputsSwitch}>
-            <FormControlLabel
-                classes={{root: classes.showInputsSwitch, label: classes.label}}
-                control={<Switch checked={checked} classes={{root:classes.switch, switchBase: classes.switchBase}} size="small" onChange={handleChange}/>}
-                label="Toggle Inputs"
-            />
             </div>
             <Slide
                 direction="left"
-                in={checked}
+                in={props.checked}
                 timeout={500}
                 mountOnEnter
                 unmountOnExit>

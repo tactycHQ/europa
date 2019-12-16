@@ -11,22 +11,24 @@ import isEqual from 'lodash.isequal'
 
 const useStyles = makeStyles(theme => ({
     root: {
-        flexGrow: 1
+        // display: 'flex'
     },
     top: {
         display: 'flex',
         position: 'fixed',
         width: '100%',
-        height: '6vh',
-        zIndex: '1'
+        zIndex: '2'
+        // backgroundColor:'green'
     },
     middle: {
         display: 'flex',
         marginTop: '6vh'
+
+
     },
     bottom: {
         fontSize: '0.8em',
-        fontFamily: 'Roboto',
+        fontFamily: 'Work Sans'
     },
     spinner: {
         display: 'flex'

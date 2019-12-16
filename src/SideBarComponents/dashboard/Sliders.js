@@ -14,36 +14,35 @@ const useStyles = makeStyles(theme => ({
         },
         label: {
             display: 'flex',
-            // fontWeight: 'bold',
-            fontSize: '1.0em',
-            fontFamily: 'Roboto',
+            fontWeight: 'bold',
+            fontSize: '0.9em',
+            fontFamily: 'Quicksand',
             marginTop: '0%',
             marginBottom: '5%',
-            color: '#795548',
+            color: '#607d8b',
             textAlign:'center'
         },
         slider: {
-            color: '#795548'
+            color: '#00838f'
         },
         mark: {
-            backgroundColor: '#795548',
-            height: 8,
-            width: 3,
-            marginTop: -3
+            backgroundColor: '#00838f',
+            height: 6,
+            width: 2
+            // marginTop: -3
         },
         active: {
-            backgroundColor: '#795548',
-            color: "#795548"
+            backgroundColor: '#ff5252'
         },
         markLabel: {
             fontSize: 13,
-            color:'#795548'
+            color:'#00838f'
         },
         markLabelActive:{
-            // color:'black'
+            color:'#607d8b'
         },
         thumb:{
-            color:'#795548'
+            color:'#00838f'
 
         }
 

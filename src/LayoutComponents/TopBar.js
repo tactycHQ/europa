@@ -11,16 +11,22 @@ const useStyles = makeStyles(theme => ({
         flexGrow: 1
     },
     menuButton: {
-        marginRight: theme.spacing(2),
-        textAlign: 'center'
+        // marginRight: theme.spacing(2),
+        textAlign: 'center',
+        color: '#eeeeee'
     },
-    toolbar: {
+    dense: {
         display: 'flex',
-        backgroundColor: '#607d8b',
-        justifyContent: 'space-between'
+        background: 'linear-gradient(#263238, #37474f)',
+        // backgroundColor: '#263238',#37474f
+        justifyContent: 'space-between',
+        maxHeight: '15px'
     },
     modelname: {
-        fontSize: '1.3em'
+        fontSize: '1.3em',
+        color: '#eeeeee',
+        fontFamily: 'Quicksand',
+        textTransform: 'uppercase'
     }
 }));
 
@@ -30,12 +36,12 @@ export default function DenseAppBar(props) {
     return (
         <div className={classes.root}>
             <AppBar position="static">
-                <Toolbar className={classes.toolbar} variant="dense">
-                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                <Toolbar classes={{dense: classes.dense}} variant="dense">
+                    <IconButton edge="start" className={classes.menuButton} aria-label="menu">
                         <MenuIcon/>
                     </IconButton>
-                    <div className={classes.modelname}>{props.dashName}</div>
-                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                    <div className={classes.modelname}><h5>{props.dashName}</h5></div>
+                    <IconButton edge="start" className={classes.menuButton} aria-label="menu">
                         <HomeTwoToneIcon/>
                     </IconButton>
                 </Toolbar>
