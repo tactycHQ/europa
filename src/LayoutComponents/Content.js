@@ -13,12 +13,13 @@ const useStyles = makeStyles(theme => ({
                 display: 'flex',
                 flexDirection: 'column',
                 marginLeft: '13.0%',
-                width:'100%'
-
+                width:'100%',
+                background: 'linear-gradient(#eeeeee, ##fafafa)',
             },
             menuBar: {
-                display:'flex'
-
+                display:'flex',
+                justifyContent:'center',
+                marginTop:'6px'
             },
             content: {
                 display: 'flex'

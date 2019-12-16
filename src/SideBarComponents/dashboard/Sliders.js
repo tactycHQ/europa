@@ -15,27 +15,26 @@ const useStyles = makeStyles(theme => ({
         label: {
             display: 'flex',
             fontWeight: 'bold',
-            fontSize: '0.9em',
+            fontSize: '0.8em',
             fontFamily: 'Quicksand',
             marginTop: '0%',
-            marginBottom: '5%',
-            color: '#607d8b',
+            marginBottom: '7%',
+            color: '#00838f',
             textAlign:'center'
         },
         slider: {
             color: '#00838f'
         },
         mark: {
-            backgroundColor: '#00838f',
+            backgroundColor: '#9e9e9e',
             height: 6,
-            width: 2
-            // marginTop: -3
+            width: 1
         },
         active: {
             backgroundColor: '#ff5252'
         },
         markLabel: {
-            fontSize: 13,
+            fontSize: '0.8em',
             color:'#00838f'
         },
         markLabelActive:{
@@ -78,7 +77,7 @@ export default function InputSlider(props) {
         <div className={classes.root}>
             <Slider classes={{root: classes.slider, mark: classes.mark, active: classes.active, markLabel: classes.markLabel,thumb: classes.thumb}}
                     defaultValue={props.defaultInputVal}
-                    aria-labelledby="discrete-slider-restrict"
+                    aria-labelledby="discrete-slider-restricted"
                     valueLabelDisplay="on"
                     valueLabelFormat={valueLabelFormat}
                     min={min}

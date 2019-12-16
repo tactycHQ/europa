@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
             inputContainer: {
                 display: 'flex',
                 flexDirection: 'column',
-                minHeight: '80vh'
+                minHeight: '89vh'
                 // background: '#e1f5fe'
             },
             inputHeader: {
@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
             },
             inputTitle: {
                 color: '#eeeeee',
-                fontSize: '1.1em',
+                fontSize: '0.9em',
                 fontWeight: '400',
                 fontFamily: 'Quicksand',
 
@@ -92,7 +92,7 @@ export default function Input(props) {
                 mountOnEnter
                 unmountOnExit>
                 <Card className={classes.inputContainer} rounded={"true"}>
-                    <CardHeader classes={{root: classes.inputHeader, title: classes.inputTitle}} title="INPUTS"/>
+                    <CardHeader classes={{root: classes.inputHeader, title: classes.inputTitle}} title="Inputs"/>
                     <div className={classes.sliderContainer}>
                         {sliders}
                         {/*{sliders}*/}

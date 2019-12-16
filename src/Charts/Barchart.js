@@ -59,14 +59,13 @@ const useStyles = makeStyles(theme => ({
         // backgroundColor: 'orange'
     },
     titleHeader: {
-        background: '#e0f2f1',
+        background: '#0091ea',
         height:'3vh',
-
         marginBottom: '5%'
     },
     titleBox: {
-        color: '#004d40',
-        fontSize: '1.1em',
+        color: 'white',
+        fontSize: '0.9em',
         fontWeight: '400',
         fontFamily: 'Quicksand',
 
@@ -84,7 +83,7 @@ export default function Barchart(props) {
     return (
         <Card className={classes.container}>
             <CardHeader classes={{root: classes.titleHeader, title: classes.titleBox}} title={title}/>
-            <ResponsiveContainer width="100%" height={250}>
+            <ResponsiveContainer width="100%" height={350}>
                 <BarChart
                     data={props.currSolution}
                     margin={{top: 0, right: 600, left: 10, bottom: 10}}

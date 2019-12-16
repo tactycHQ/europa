@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
         background: 'linear-gradient(#263238, #37474f)',
         // backgroundColor: '#263238',#37474f
         justifyContent: 'space-between',
-        maxHeight: '15px'
+        maxHeight: '4vh'
     },
     modelname: {
         fontSize: '1.3em',
