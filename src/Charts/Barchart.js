@@ -50,29 +50,26 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
         justifyContent: 'space-between',
         height: '100%',
-        margin: '2%'
+        marginLeft:'2%',
+        marginRight:'2%',
+        marginBottom: '1vh'
         // backgroundColor: 'yellow'
     },
     chartContainer: {
         // backgroundColor: 'orange'
     },
     titleHeader: {
-        background: 'linear-gradient(#00695c, #004d40)',
+        background: '#e0f2f1',
         height:'3vh',
-        // fontSize: '1.4em',
-        // fontWeight: '400',
-        // fontFamily: 'Quicksand',
-        // marginTop: '5%',
+
         marginBottom: '5%'
     },
     titleBox: {
-        // textAlign: 'center',
-        color: '#eeeeee',
+        color: '#004d40',
         fontSize: '1.1em',
         fontWeight: '400',
         fontFamily: 'Quicksand',
-        // marginTop: '5%',
-        // marginBottom: '5%'
+
     }
 }))
 

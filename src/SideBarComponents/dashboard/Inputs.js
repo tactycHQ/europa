@@ -2,34 +2,35 @@ import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import InputSlider from "./Sliders"
 import Slide from "@material-ui/core/Slide"
-import Paper from "@material-ui/core/Paper"
+import {Card, CardHeader} from "@material-ui/core";
 
 
 const useStyles = makeStyles(theme => ({
             root: {
                 display: 'flex',
-                // position:'fixed',
-                // right:0,
+                position: 'fixed',
+                right: 0,
                 flexDirection: 'column',
-                alignItems: 'flex-end',
-                padding: '4px'
+                width: '15%'
+
             },
             inputContainer: {
                 display: 'flex',
                 flexDirection: 'column',
-                minHeight: '80vh',
-                width: '15vw',
-                background: 'linear-gradient(#e8eaf6, #e3f2fd)'
+                minHeight: '80vh'
+                // background: '#e1f5fe'
             },
-            inputText: {
-                fontSize: '1.0em',
+            inputHeader: {
+                background: '#009688',
+                height: '3vh',
+                marginBottom: '5%'
+            },
+            inputTitle: {
+                color: '#eeeeee',
+                fontSize: '1.1em',
+                fontWeight: '400',
                 fontFamily: 'Quicksand',
-                fontWeight: '700',
-                color: '#00838f',
-                paddingTop: '1vh',
-                paddingBottom: '1vh',
-                marginBottom: '2vh',
-                textAlign: 'center',
+
             },
             sliderContainer: {
                 display: 'flex',
@@ -39,10 +40,9 @@ const useStyles = makeStyles(theme => ({
                 marginLeft: '3.5%',
                 marginRight: '3.5%'
             },
-            showInputsSwitch: {
-            },
+            showInputsSwitch: {},
             switchBase: {
-                color:'#5d4037'
+                color: '#5d4037'
             },
             label: {
                 fontFamily: 'Quicksand',
@@ -85,21 +85,19 @@ export default function Input(props) {
 
     return (
         <div className={classes.root}>
-            <div className={classes.showInputsSwitch}>
-            </div>
             <Slide
                 direction="left"
                 in={props.checked}
                 timeout={500}
                 mountOnEnter
                 unmountOnExit>
-                <Paper className={classes.inputContainer} rounded={"true"}>
-                    <div className={classes.inputText}>INPUTS</div>
+                <Card className={classes.inputContainer} rounded={"true"}>
+                    <CardHeader classes={{root: classes.inputHeader, title: classes.inputTitle}} title="INPUTS"/>
                     <div className={classes.sliderContainer}>
                         {sliders}
                         {/*{sliders}*/}
                     </div>
-                </Paper>
+                </Card>
             </Slide>
         </div>
     )
