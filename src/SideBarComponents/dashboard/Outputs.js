@@ -1,7 +1,7 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Barchart from "../../Charts/Barchart"
-import {Card, CardHeader, Paper} from "@material-ui/core";
+import {Card, Divider} from "@material-ui/core";
 
 
 // import StackedBar from "./stackedbar";
@@ -20,37 +20,49 @@ const chartColors = [
 
 export default function Output(props) {
     const useStyles = makeStyles(theme => ({
-                root: {
-                    display: 'flex',
-                    // flexDirection:'column',
-                    width: '81.5%',
-                    // background: '#90a4ae'
-                },
-                container: {
-                    display: 'flex',
-                    flexDirection: 'column',
-                    height: '100%',
-                    width:'100%',
-                    marginLeft: '5px',
-                    marginRight: '5px',
-                    marginBottom: '1vh',
-                    background: '#172535',
-                    padding: '3px'
-                },
-                titleHeader: {
-                    color:'white',
-                    fontFamily: 'Quicksand',
-                    fontWeight: '450',
-                    marginTop: '3px',
-                    marginLeft: '7px'
-                },
-                titleBox: {
-                    color: '#212121',
-                    fontSize: '0.8em',
-                    fontWeight: '450',
-                    fontFamily: 'Quicksand'
-                }
-            }))
+        root: {
+            display: 'flex',
+            // flexDirection:'column',
+            width: '81.5%',
+            flexWrap: 'wrap'
+            // background: '#90a4ae'
+        },
+        outputCards: {
+            display: 'flex',
+            flexDirection: 'column',
+            width: '49%',
+            marginLeft: '5px',
+            marginRight: '5px',
+            marginBottom: '1vh',
+            background: '#172535',
+            padding: '3px'
+        },
+        titleHeader: {
+            color: 'white',
+            fontFamily: 'Quicksand',
+            fontWeight: '450',
+            marginTop: '3px',
+            marginLeft: '7px'
+        },
+        cardSection: {
+            color: '#B4B8AB',
+            fontFamily: 'Quicksand',
+            fontWeight: '450',
+            marginTop: '10px',
+            marginLeft: '3px'
+        },
+        titleBox: {
+            color: '#212121',
+            fontSize: '0.8em',
+            fontWeight: '450',
+            fontFamily: 'Quicksand'
+        },
+        divider: {
+            marginTop: '5%',
+            marginBottom: '2%',
+            backgroundColor: '#5C6671'
+        }
+    }))
     const classes = useStyles()
 
 
@@ -90,16 +102,16 @@ export default function Output(props) {
         const chartData = extractChartData()
         return chartData.map((data, idx) => {
                 return (
-                    <Card className={classes.container} key={data.title}>
+                    <Card className={classes.outputCards} key={data.title}>
                         <h1 className={classes.titleHeader}>{data.title}</h1>
                         <Barchart
                             currSolution={data.values}
                             fill={chartColors[idx]}
                             domain={data.domains}
                         />
-                        {/*<Paper>*/}
-                            {/*Maximum values achieved at:*/}
-                        {/*</Paper>*/}
+                        {/*<Divider className={classes.divider} light={true}/>*/}
+                        <h3 className={classes.cardSection}>Variance Analysis</h3>
+                        <h4 className={classes.titleHeader}>Some text goes here and here and here</h4>
                     </Card>
                 )
             }

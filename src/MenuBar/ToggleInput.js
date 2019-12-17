@@ -9,7 +9,13 @@ const useStyles = makeStyles(theme => ({
                 marginLeft: '90%'
             },
             switchBase: {
-                color: '#5d4037'
+                color: '#8B929A',
+                '&$checked': {
+                    color: 'green',
+                },
+                '&$checked + $track': {
+                    backgroundColor: 'blue',
+                },
             },
             label: {
                 fontFamily: 'Quicksand',

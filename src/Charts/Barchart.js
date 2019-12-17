@@ -22,7 +22,12 @@ export default function Barchart(props) {
     const dataFormatter = new DataFormatter()
 
     const convert_format = (fmt, value) => {
-        return dataFormatter.format(value, 'Number', fmt).value.replace(' ', ',')
+        let temp_format =  dataFormatter.format(value, 'Number', fmt).value.replace(' ', ',')
+        if (temp_format.substr(-1) === ','){
+            return temp_format.slice(0,-1)
+        } else {
+            return temp_format
+        }
     }
 
     const yAxisFormatter = value => convert_format(fmt, value)
@@ -73,7 +78,7 @@ export default function Barchart(props) {
     }
 
     return (
-        <ResponsiveContainer width="100%" height={350}>
+        <ResponsiveContainer width="100%" height={250}>
             <BarChart
                 data={props.currSolution}
                 margin={{top: 15, right: 10, left: 10, bottom: 5}}
@@ -102,62 +107,16 @@ export default function Barchart(props) {
                     tickFormatter={tick => yAxisFormatter(tick)}
                 />
 
-                <Tooltip/>
+                <Tooltip cursor={{ fill: '#5C6671' }} />
                 <Bar className={classes.bar} dataKey={title} name={title}>
                     <LabelList
                         datakey={title}
                         position={"top"}
                         formatter={(value) => labelFormatter(value)}
-                        style={{fill: props.fill, fontFamily: 'Quicksand', fontSize: '1.2em', fontWeight: '500'}}
+                        style={{fill: props.fill, fontFamily: 'Quicksand', fontSize: '1.0em', fontWeight: '500'}}
                     />
                 </Bar>
             </BarChart>
         </ResponsiveContainer>
     )
-}
-
-
-{/*<VictoryChart*/
-}
-{/*    animate={{*/
-}
-{/*        duration: 500,*/
-}
-{/*        onLoad: {duration: 500}*/
-}
-{/*    }}*/
-}
-{/*    domainPadding={{x: 100}}*/
-}
-{/*>*/
-}
-{/*    <VictoryBar*/
-}
-{/*        data={props.currSolution}*/
-}
-{/*        // barRatio={0.8}*/
-}
-{/*        x={"x"}*/
-}
-{/*        y={title}*/
-}
-{/*        labelComponent ={<VictoryTooltip/>}*/
-}
-{/*        labels={data => Math.round(data.y)}*/
-}
-{/*        style={{*/
-}
-{/*            data: {fill: props.fill, stroke: "gray", strokeWidth: 2},*/
-}
-{/*            labels: {fill: props.fill}*/
-}
-{/*        }}*/
-}
-{/*        labelComponent={<VictoryLabel dy={-15}/>}*/
-}
-{/*    />*/
-}
-{/*    /!*<VictoryAxis/>*!/*/
-}
-{/*</VictoryChart>*/
 }
