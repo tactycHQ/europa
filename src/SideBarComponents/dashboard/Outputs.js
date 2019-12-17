@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Barchart from "../../Charts/barChart"
 import {Card} from "@material-ui/core";
@@ -69,8 +69,8 @@ export default function Output(props) {
     const classes = useStyles()
 
 
-    // Defining custom functions
-    const getSolution = () => {
+    // Defining custom functions for Live charts
+    const getLiveSolution = () => {
         if (props.solutions && props.currInputVal) {
             const foundSolution = props.solutions.find(i => isEqual(i.inputs, props.currInputVal))
             return foundSolution.outputs
@@ -79,12 +79,12 @@ export default function Output(props) {
         }
     }
 
-    const extractChartData = () => {
+    const extractLiveChartMetaData = () => {
         const labelsInChart = props.outputs.map(data => {
                 const reformatted = Object.entries(data.labels).map(labelSet => {
                     return {
                         x: labelSet[1],
-                        [data.category]: currSolution[labelSet[0]],
+                        [data.category]: liveSolution[labelSet[0]],
                         format: props.formats[labelSet[0]]
                     }
                 })
@@ -110,8 +110,8 @@ export default function Output(props) {
         return labelsInChart
     }
 
-    const createCharts = () => {
-        const chartData = extractChartData()
+    const createLiveCharts = () => {
+        const chartData = extractLiveChartMetaData()
         return chartData.map((data, idx) => {
                 return (
                     <Card className={classes.outputCards} key={data.title}>
@@ -134,12 +134,13 @@ export default function Output(props) {
         )
     }
 
+    // Defining custom functions for SA1 charts
+    // const getsingle
 
-
-    const currSolution = getSolution()
 
     //Executing custom functions
-    const charts = createCharts()
+    const liveSolution = getLiveSolution()
+    const charts = createLiveCharts()
 
 
     return (

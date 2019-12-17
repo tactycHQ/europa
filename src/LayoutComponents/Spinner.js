@@ -22,7 +22,7 @@ export default function Spinner() {
 
   return (
     <div className={classes.root}>
-      <CircularProgress color="#F4F9E9"/>
+      <CircularProgress color="primary"/>
       <h5>Loading Dashboard...</h5>
     </div>
   );
