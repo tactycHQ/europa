@@ -28,11 +28,10 @@ const useStyles = makeStyles(theme => ({
 )
 
 export default function Content(props) {
-    console.log(props)
-    const {currSolution, outputs, charts, domains, formats, ...other} = props
-    const [checked, setChecked] = React.useState(true);
 
     const classes = useStyles()
+    const {solutions, outputs, charts, domains, formats, currInputVal, ...other} = props
+    const [checked, setChecked] = React.useState(true);
 
     const handleChange = () => {
         setChecked(prev => !prev);
@@ -48,7 +47,8 @@ export default function Content(props) {
                 <Switch>
                     <Route exact path={["/", "/dashboard"]}>
                         <Output
-                            currSolution={currSolution}
+                            solutions={solutions}
+                            currInputVal={currInputVal}
                             outputs={outputs}
                             charts={charts}
                             domains={domains}
@@ -57,7 +57,8 @@ export default function Content(props) {
                     </Route>
                     <Route exact path="/sensitivity">
                         <Output
-                            currSolution={currSolution}
+                            solutions={solutions}
+                            currInputVal={currInputVal}
                             outputs={outputs}
                             charts={charts}
                             domains={domains}

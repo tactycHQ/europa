@@ -6,12 +6,10 @@ import TopBar from "./TopBar";
 import SideBar from "./SideBar";
 import Spinner from "./Spinner";
 import {getSolutions, getMetaData, getFormats} from "../api/api"
-import isEqual from 'lodash.isequal'
 
 
 const useStyles = makeStyles(theme => ({
-    root: {
-    },
+    root: {},
     top: {
         display: 'flex',
         position: 'fixed',
@@ -39,12 +37,12 @@ function extractDefaults(values) {
 
 
 export default function Layout() {
-    const classes = useStyles()
 
+    // Defining hooks
+    const classes = useStyles()
     const [solutions, setSolutions] = useState(null)
     const [domains, setDomains] = useState(null)
     const [formats, setFormats] = useState("0.0")
-    const [currSolution, setcurrSolution] = useState(null)
     const [currInputVal, setcurrInputVal] = useState(null)
     const [defaultInputVal, setdefaultInputVal] = useState(null)
     const [inputs, setInputs] = useState(null)
@@ -55,23 +53,6 @@ export default function Layout() {
     const [isLoaded, setisLoaded] = useState(false)
     let content
 
-    const refreshOutputs = async () => {
-        const solutions = await getSolutions()
-        setSolutions(solutions)
-    }
-
-    const handleSliderChange = (event, newValue, setAddress) => {
-        setcurrInputVal(prevState => ({
-            ...prevState,
-            [setAddress]: newValue
-        }))
-    }
-
-
-    const handleClick = () => {
-        refreshOutputs()
-    }
-
     // At initial load
     useEffect(() => {
         const runEffect = async () => {
@@ -81,8 +62,8 @@ export default function Layout() {
             setSolutions(_solutions.solutions)
             setDomains(_solutions.domains)
 
-            for (const _add in _formats){
-                _formats[_add] = _formats[_add].replace(/\\/g,"")
+            for (const _add in _formats) {
+                _formats[_add] = _formats[_add].replace(/\\/g, "")
             }
 
             setFormats(_formats)
@@ -103,26 +84,19 @@ export default function Layout() {
         runEffect()
     }, [])
 
-    // At input slider change or new solution retrieval
-    useEffect(() => {
-        const getSolution = () => {
-                if (solutions && currInputVal) {
-                    const foundSolution = solutions.find(i => isEqual(i.inputs, currInputVal))
-                    return foundSolution.outputs
-                } else {
-                    return "No solution found"
-                }
-            }
-            setcurrSolution(getSolution())
-        }
-        , [solutions, currInputVal]
-    )
+    // Defining functions
+    const handleSliderChange = (event, newValue, setAddress) => {
+        setcurrInputVal(prevState => ({
+            ...prevState,
+            [setAddress]: newValue
+        }))
+    }
 
     if (isLoaded) {
         content =
-            <Content refreshClick={handleClick}
-                     handleSliderChange={handleSliderChange}
-                     currSolution={currSolution}
+            <Content handleSliderChange={handleSliderChange}
+                     solutions={solutions}
+                     currInputVal={currInputVal}
                      domains={domains}
                      formats={formats}
                      inputs={inputs}

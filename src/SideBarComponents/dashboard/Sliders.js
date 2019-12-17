@@ -94,7 +94,7 @@ export default function InputSlider(props) {
                     max={max}
                     step={null}
                     marks={marks}
-                    onChangeCommitted={(event, value) => props.onChange(event, value, props.address)}
+                    onChange={(event, value) => props.onChange(event, value, props.address)}
             />
             <div className={classes.label}>
                 {props.name}

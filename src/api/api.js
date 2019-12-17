@@ -47,7 +47,7 @@ export const getMetaData = async () => {
 
 
 export const getFormats = async () => {
-    console.log("Getting Metadata...");
+    console.log("Getting formats...");
     const api_url = "http://localhost:5000/getFormats"
     let dash_id = 7
     let result

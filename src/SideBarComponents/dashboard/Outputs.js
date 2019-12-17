@@ -1,8 +1,10 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import Barchart from "../../Charts/Barchart"
-import {Card, Divider} from "@material-ui/core";
-
+import Barchart from "../../Charts/barChart"
+import {Card} from "@material-ui/core";
+import CardSettings from "../../Outputs/CardSettings";
+import Areachart from "../../Charts/areaChart";
+import isEqual from "lodash.isequal";
 
 // import StackedBar from "./stackedbar";
 // import MixBar from "./mixbar";
@@ -19,6 +21,8 @@ const chartColors = [
 ]
 
 export default function Output(props) {
+
+    //Defining hooks
     const useStyles = makeStyles(theme => ({
         root: {
             display: 'flex',
@@ -57,22 +61,30 @@ export default function Output(props) {
             fontWeight: '450',
             fontFamily: 'Quicksand'
         },
-        divider: {
-            marginTop: '5%',
-            marginBottom: '2%',
-            backgroundColor: '#5C6671'
+        cardTop: {
+            display: 'flex',
+            justifyContent: 'space-between'
         }
     }))
     const classes = useStyles()
 
 
-    const extractChartData = () => {
+    // Defining custom functions
+    const getSolution = () => {
+        if (props.solutions && props.currInputVal) {
+            const foundSolution = props.solutions.find(i => isEqual(i.inputs, props.currInputVal))
+            return foundSolution.outputs
+        } else {
+            return "No solution found"
+        }
+    }
 
+    const extractChartData = () => {
         const labelsInChart = props.outputs.map(data => {
                 const reformatted = Object.entries(data.labels).map(labelSet => {
                     return {
                         x: labelSet[1],
-                        [data.category]: props.currSolution[labelSet[0]],
+                        [data.category]: currSolution[labelSet[0]],
                         format: props.formats[labelSet[0]]
                     }
                 })
@@ -103,7 +115,10 @@ export default function Output(props) {
         return chartData.map((data, idx) => {
                 return (
                     <Card className={classes.outputCards} key={data.title}>
-                        <h1 className={classes.titleHeader}>{data.title}</h1>
+                        <div className={classes.cardTop}>
+                            <h1 className={classes.titleHeader}>{data.title}</h1>
+                            <CardSettings/>
+                        </div>
                         <Barchart
                             currSolution={data.values}
                             fill={chartColors[idx]}
@@ -111,6 +126,7 @@ export default function Output(props) {
                         />
                         {/*<Divider className={classes.divider} light={true}/>*/}
                         <h3 className={classes.cardSection}>Variance Analysis</h3>
+                        <Areachart data={data.values}/>
                         <h4 className={classes.titleHeader}>Some text goes here and here and here</h4>
                     </Card>
                 )
@@ -118,13 +134,18 @@ export default function Output(props) {
         )
     }
 
+
+
+    const currSolution = getSolution()
+
+    //Executing custom functions
     const charts = createCharts()
+
 
     return (
         <div className={classes.root}>
             {charts}
         </div>
-
     )
 }
 
