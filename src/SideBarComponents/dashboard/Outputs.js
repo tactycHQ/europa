@@ -135,10 +135,13 @@ export default function Output(props) {
     }
 
     // Defining custom functions for SA1 charts
-    // const getsingle
+    const getsingleSASolutions = () =>{
+        console.log(props.currInputVal)
+    }
 
 
     //Executing custom functions
+    getsingleSASolutions()
     const liveSolution = getLiveSolution()
     const charts = createLiveCharts()
 
