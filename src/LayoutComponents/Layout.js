@@ -5,7 +5,7 @@ import Content from "./Content";
 import TopBar from "./TopBar";
 import SideBar from "./SideBar";
 import Spinner from "./Spinner";
-import {getSolutions, getMetaData} from "../api/api"
+import {getSolutions, getMetaData, getFormats} from "../api/api"
 import isEqual from 'lodash.isequal'
 
 
@@ -41,10 +41,13 @@ function extractDefaults(values) {
     }
 }
 
+
 export default function Layout() {
     const classes = useStyles()
 
     const [solutions, setSolutions] = useState(null)
+    const [domains, setDomains] = useState(null)
+    const [formats, setFormats] = useState("0.0")
     const [currSolution, setcurrSolution] = useState(null)
     const [currInputVal, setcurrInputVal] = useState(null)
     const [defaultInputVal, setdefaultInputVal] = useState(null)
@@ -78,7 +81,15 @@ export default function Layout() {
         const runEffect = async () => {
             const metadata = await getMetaData()
             const _solutions = await getSolutions()
-            setSolutions(_solutions)
+            const _formats = await getFormats()
+            setSolutions(_solutions.solutions)
+            setDomains(_solutions.domains)
+
+            for (const _add in _formats){
+                _formats[_add] = _formats[_add].replace(/\\/g,"")
+            }
+
+            setFormats(_formats)
             setDashName(metadata.name)
             setCases(metadata.cases)
             setInputs(metadata.inputs)
@@ -90,6 +101,7 @@ export default function Layout() {
             setcurrInputVal(defaults[0])
             setOutputs(metadata.outputs)
             setCharts(metadata.charts)
+
             setisLoaded(isLoaded => !isLoaded)
         }
         runEffect()
@@ -97,7 +109,7 @@ export default function Layout() {
 
     // At input slider change or new solution retrieval
     useEffect(() => {
-            const getSolution = () => {
+        const getSolution = () => {
                 if (solutions && currInputVal) {
                     const foundSolution = solutions.find(i => isEqual(i.inputs, currInputVal))
                     return foundSolution.outputs
@@ -105,9 +117,7 @@ export default function Layout() {
                     return "No solution found"
                 }
             }
-
             setcurrSolution(getSolution())
-
         }
         , [solutions, currInputVal]
     )
@@ -117,6 +127,8 @@ export default function Layout() {
             <Content refreshClick={handleClick}
                      handleSliderChange={handleSliderChange}
                      currSolution={currSolution}
+                     domains={domains}
+                     formats={formats}
                      inputs={inputs}
                      outputs={outputs}
                      defaultInputVal={defaultInputVal}

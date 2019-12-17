@@ -1,6 +1,8 @@
 import React from 'react'
 import {BarChart, Bar, XAxis, YAxis, LabelList, Tooltip, Legend, ResponsiveContainer} from 'recharts'
-import {Card, CardHeader, makeStyles} from "@material-ui/core";
+import {Card, CardHeader, makeStyles} from "@material-ui/core"
+import * as ssf from 'ssf'
+import DataFormatter from 'excel-style-dataformatter'
 
 // import {VictoryChart, VictoryBar, VictoryTheme, VictoryLabel, VictoryAxis, VictoryTooltip} from 'victory'
 
@@ -14,117 +16,177 @@ function CustomizedXAxisTick(props) {
                 x={0}
                 y={0}
                 dy={16}
-                textAnchor="end"
-                fill="#263238"
+                textAnchor="middle"
+                fill="#006064"
                 transform="rotate(-0)"
                 fontSize='0.8em'
                 fontFamily="Quicksand"
+                fontWeight="800"
             >{payload.value}</text>
         </g>
     )
 }
 
-
-function CustomizedYAxisTick(props) {
-    const {x, y, stroke, payload} = props
-
-    return (
-        <g transform={`translate(${x},${y})`}>
-            <text
-                x={0}
-                y={0}
-                dy={16}
-                textAnchor="end"
-                fill="#263238"
-                transform="rotate(-0)"
-                fontSize='0.8em'
-                fontFamily="Quicksand"
-            >{payload.value}</text>
-        </g>
-    )
-}
 
 const useStyles = makeStyles(theme => ({
-    container: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        height: '100%',
-        marginLeft:'2%',
-        marginRight:'2%',
-        marginBottom: '1vh'
-        // backgroundColor: 'yellow'
-    },
     chartContainer: {
         // backgroundColor: 'orange'
     },
-    titleHeader: {
-        background: '#0091ea',
-        height:'3vh',
-        marginBottom: '5%'
-    },
-    titleBox: {
-        color: 'white',
-        fontSize: '0.9em',
-        fontWeight: '400',
-        fontFamily: 'Quicksand',
-
+    bar: {
+        fill: 'white'
     }
 }))
 
 
 export default function Barchart(props) {
+
     const classes = useStyles()
 
-
     const title = Object.keys(props.currSolution[0])[1]
+    const fmt = Object.values(props.currSolution[0])[2]
+    const dataFormatter = new DataFormatter()
 
+    const convert_format = (fmt, value) => {
+        return dataFormatter.format(value, 'Number', fmt).value.replace(' ', ',')
+    }
+
+    const yAxisFormatter = value => convert_format(fmt, value)
+
+    const labelFormatter = (value) => convert_format(fmt, value)
+
+    function CustomizedYAxisTick(props) {
+        const {x, y, stroke, payload} = props
+
+        return (
+            <g transform={`translate(${x},${y})`}>
+                <text
+                    x={0}
+                    y={0}
+                    dy={16}
+                    textAnchor="end"
+                    fill="white"
+                    transform="rotate(-0)"
+                    fontSize='1.0em'
+                    fontFamily="Quicksand"
+                >
+                    {yAxisFormatter(payload.value)}
+                </text>
+            </g>
+        )
+    }
+
+    function CustomizedXAxisTick(props) {
+        const {x, y, stroke, payload} = props
+
+        return (
+            <g transform={`translate(${x},${y})`}>
+                <text
+                    x={0}
+                    y={0}
+                    dy={16}
+                    textAnchor="end"
+                    fill="white"
+                    transform="rotate(-0)"
+                    fontSize='1.0em'
+                    fontFamily="Quicksand"
+                    fontWeight='500'
+                >
+                    {payload.value}
+                </text>
+            </g>
+        )
+    }
 
     return (
-        <Card className={classes.container}>
-            <CardHeader classes={{root: classes.titleHeader, title: classes.titleBox}} title={title}/>
-            <ResponsiveContainer width="100%" height={350}>
-                <BarChart
-                    data={props.currSolution}
-                    margin={{top: 0, right: 600, left: 10, bottom: 10}}
-                    maxBarSize={30}
-                >
-                    <XAxis dataKey="x" minTickGap={2} interval={0} tick={<CustomizedXAxisTick/>}/>
-                    <YAxis tick={<CustomizedYAxisTick/>}/>
-                    <Tooltip/>
-                    <Bar dataKey={title} fill={props.fill}>
-                        <LabelList
-                            datakey={title}
-                            position={"top"}
-                            formatter={(value) => Math.round(value)}
-                            style={{color: 'red', fontFamily: 'Quicksand', fontSize: '0.8em'}}
-                        />
-                    </Bar>
-                </BarChart>
-            </ResponsiveContainer>
+        <ResponsiveContainer width="35%" height={350}>
+            <BarChart
+                data={props.currSolution}
+                margin={{top: 15, right: 10, left: 10, bottom: 5}}
+                maxBarSize={30}
+            >
+                <XAxis
+                    hide={false}
+                    stroke="white"
+                    dataKey="x"
+                    tickLine={false}
+                    minTickGap={2}
+                    interval={0}
+                    tick={<CustomizedXAxisTick/>}
+                    padding={{top: 30, bottom: 30}}/>
 
-            {/*<VictoryChart*/}
-            {/*    animate={{*/}
-            {/*        duration: 500,*/}
-            {/*        onLoad: {duration: 500}*/}
-            {/*    }}*/}
-            {/*    domainPadding={{x: 100}}*/}
-            {/*>*/}
-            {/*    <VictoryBar*/}
-            {/*        data={props.currSolution}*/}
-            {/*        // barRatio={0.8}*/}
-            {/*        x={"x"}*/}
-            {/*        y={title}*/}
-            {/*        labelComponent ={<VictoryTooltip/>}*/}
-            {/*        labels={data => Math.round(data.y)}*/}
-            {/*        style={{*/}
-            {/*            data: {fill: props.fill, stroke: "gray", strokeWidth: 2},*/}
-            {/*            labels: {fill: props.fill}*/}
-            {/*        }}*/}
-            {/*        labelComponent={<VictoryLabel dy={-15}/>}*/}
-            {/*    />*/}
-            {/*    /!*<VictoryAxis/>*!/*/}
-            {/*</VictoryChart>*/}
-            < /Card>
-                )
-                }
+                <YAxis
+                    hide={true}
+                    // tick={{stroke: 'red', strokeWidth: 2}}
+                    tick={<CustomizedYAxisTick/>}
+                    // ticks={[0,1000,2000,3000,4000,5000,6000,7000]}
+                    type="number"
+                    allowDecimals={false}
+                    padding={{top: 30, bottom: 30}}
+                    interval={0}
+                    domain={props.domain}
+                    tickFormatter={tick => yAxisFormatter(tick)}
+                />
+
+                <Tooltip/>
+                <Bar
+                    className={classes.bar}
+                    dataKey={title}
+                    name={title}
+                     >
+                    <LabelList
+                        datakey={title}
+                        position={"top"}
+                        formatter={(value) => labelFormatter(value, title)}
+                        style={{fill: 'white', fontFamily: 'Quicksand', fontSize: '0.8em', fontWeight: '700'}}
+                    />
+                </Bar>
+            </BarChart>
+        </ResponsiveContainer>
+    )
+}
+
+
+{/*<VictoryChart*/
+}
+{/*    animate={{*/
+}
+{/*        duration: 500,*/
+}
+{/*        onLoad: {duration: 500}*/
+}
+{/*    }}*/
+}
+{/*    domainPadding={{x: 100}}*/
+}
+{/*>*/
+}
+{/*    <VictoryBar*/
+}
+{/*        data={props.currSolution}*/
+}
+{/*        // barRatio={0.8}*/
+}
+{/*        x={"x"}*/
+}
+{/*        y={title}*/
+}
+{/*        labelComponent ={<VictoryTooltip/>}*/
+}
+{/*        labels={data => Math.round(data.y)}*/
+}
+{/*        style={{*/
+}
+{/*            data: {fill: props.fill, stroke: "gray", strokeWidth: 2},*/
+}
+{/*            labels: {fill: props.fill}*/
+}
+{/*        }}*/
+}
+{/*        labelComponent={<VictoryLabel dy={-15}/>}*/
+}
+{/*    />*/
+}
+{/*    /!*<VictoryAxis/>*!/*/
+}
+{/*</VictoryChart>*/
+}

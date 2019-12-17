@@ -17,14 +17,14 @@ const useStyles = makeStyles(theme => ({
     },
     dense: {
         display: 'flex',
-        background: 'linear-gradient(#263238, #37474f)',
+        background: 'radial-gradient(circle, #001021, #2E3B49)',
         // backgroundColor: '#263238',#37474f
         justifyContent: 'space-between',
-        maxHeight: '4vh'
+        maxHeight: '3vh'
     },
     modelname: {
         fontSize: '1.3em',
-        color: '#eeeeee',
+        color: '#F4F9E9',
         fontFamily: 'Quicksand',
         textTransform: 'uppercase'
     }

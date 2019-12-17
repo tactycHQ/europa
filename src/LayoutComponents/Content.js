@@ -14,12 +14,12 @@ const useStyles = makeStyles(theme => ({
                 flexDirection: 'column',
                 marginLeft: '13.0%',
                 width:'100%',
-                background: 'linear-gradient(#eeeeee, ##fafafa)',
+                background: '#000E1C',
             },
             menuBar: {
                 display:'flex',
                 justifyContent:'center',
-                marginTop:'6px'
+                marginTop:'6px',
             },
             content: {
                 display: 'flex'
@@ -29,8 +29,8 @@ const useStyles = makeStyles(theme => ({
 )
 
 export default function Content(props) {
-
-    const {currSolution, outputs, charts, ...other} = props
+    console.log(props)
+    const {currSolution, outputs, charts, domains, formats, ...other} = props
     const [checked, setChecked] = React.useState(true);
 
     const classes = useStyles()
@@ -48,7 +48,12 @@ export default function Content(props) {
             <div className={classes.content}>
                 <Switch>
                     <Route exact path={["/", "/dashboard"]}>
-                        <Output currSolution={currSolution} outputs={outputs} charts={charts}/>
+                        <Output
+                            currSolution={currSolution}
+                            outputs={outputs}
+                            charts={charts}
+                            domains={domains}
+                            formats={formats}/>
                         <Input {...other} checked={checked}/>
                     </Route>
                     <Route exact path="/sensitivity">
