@@ -11,22 +11,24 @@ const useStyles = makeStyles(theme => ({
                 position: 'fixed',
                 right: 0,
                 flexDirection: 'column',
-                width: '15%'
+                width: '15%',
+                marginRight: '5px'
 
             },
             inputContainer: {
                 display: 'flex',
                 flexDirection: 'column',
-                minHeight: '89vh'
+                minHeight: '89vh',
+                background: '#3A6291'
                 // background: '#e1f5fe'
             },
             inputHeader: {
-                background: '#009688',
+                background: '#2C4A6C',
                 height: '3vh',
                 marginBottom: '5%'
             },
             inputTitle: {
-                color: '#eeeeee',
+                color: '#F4F9E9',
                 fontSize: '0.9em',
                 fontWeight: '400',
                 fontFamily: 'Quicksand',
@@ -39,6 +41,7 @@ const useStyles = makeStyles(theme => ({
                 justifyContent: 'space-evenly',
                 marginLeft: '3.5%',
                 marginRight: '3.5%'
+
             },
             showInputsSwitch: {},
             switchBase: {

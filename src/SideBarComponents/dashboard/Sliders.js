@@ -19,29 +19,29 @@ const useStyles = makeStyles(theme => ({
             fontFamily: 'Quicksand',
             marginTop: '0%',
             marginBottom: '7%',
-            color: '#00838f',
+            color: '#F4F9E9',
             textAlign:'center'
         },
         slider: {
-            color: '#00838f'
+            color: '#F4F9E9'
         },
         mark: {
-            backgroundColor: '#9e9e9e',
+            backgroundColor: '#F4F9E9',
             height: 6,
             width: 1
         },
         active: {
-            backgroundColor: '#ff5252'
+            backgroundColor: '#F4F9E9'
         },
         markLabel: {
             fontSize: '0.8em',
-            color:'#00838f'
+            color:'#F4F9E9'
         },
         markLabelActive:{
-            color:'#607d8b'
+            color:'#F4F9E9'
         },
         thumb:{
-            color:'#00838f'
+            color:'#F4F9E9'
 
         }
 

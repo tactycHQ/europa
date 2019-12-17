@@ -15,7 +15,6 @@ const useStyles = makeStyles(theme => ({
                 height: '100vh',
                 width: '13%',
                 position: 'absolute',
-                background: '#000E1C',
                 flexDirection: 'column',
                 padding: '10px',
                 alignContent: 'flex-start'
@@ -23,7 +22,7 @@ const useStyles = makeStyles(theme => ({
             buttons: {
                 display: 'flex',
                 margin: '5px',
-                color: '#eeeeee',
+                color: '#F4F9E9',
                 justifyContent: 'flex-start',
                 alignItems: 'center',
                 paddingLeft: '1px',
@@ -38,14 +37,14 @@ const useStyles = makeStyles(theme => ({
                 fontSize: '0.9em',
                 paddingLeft: '10px',
                 fontFamily: 'Quicksand',
-                color: '#eeeeee',
+                color: '#F4F9E9',
                 "&:hover": {
                     // color: "#0091ea"
                 }
             }
             ,
             icon: {
-                color: '#eeeeee',
+                color: '#F4F9E9',
                 "&:hover": {
                     // color: "#0091ea"
                 }

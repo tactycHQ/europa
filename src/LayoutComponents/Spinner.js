@@ -5,14 +5,15 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 const useStyles = makeStyles(theme => ({
   root: {
     display: 'flex',
-    '& > * + *': {
-      marginLeft: theme.spacing(2),
-    },
-    paddingLeft: '50vw',
-    paddingTop:'25vh'
-  },
-  spinner:{
-    colorPrimary:'#2196f3'
+    flexDirection:'column',
+    color:'#F4F9E9',
+    justifyContent:'center',
+    alignItems:'center',
+    // '& > * + *': {
+    //   marginLeft: theme.spacing(2),
+    // },
+    marginLeft: '46vw',
+    marginTop:'25vh'
   }
 }));
 
@@ -21,7 +22,8 @@ export default function Spinner() {
 
   return (
     <div className={classes.root}>
-      <CircularProgress className={classes.spinner}/>
+      <CircularProgress color="#F4F9E9"/>
+      <h5>Loading Dashboard...</h5>
     </div>
   );
 }

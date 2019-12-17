@@ -14,7 +14,6 @@ const useStyles = makeStyles(theme => ({
                 flexDirection: 'column',
                 marginLeft: '13.0%',
                 width:'100%',
-                background: '#000E1C',
             },
             menuBar: {
                 display:'flex',
@@ -57,7 +56,12 @@ export default function Content(props) {
                         <Input {...other} checked={checked}/>
                     </Route>
                     <Route exact path="/sensitivity">
-                        <Output currSolution={currSolution} outputs={outputs} charts={charts}/>
+                        <Output
+                            currSolution={currSolution}
+                            outputs={outputs}
+                            charts={charts}
+                            domains={domains}
+                            formats={formats}/>
                         {/*<Sensitivity/>*/}
                     </Route>
                     <Route exact path="/scenario">

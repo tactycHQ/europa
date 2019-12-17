@@ -13,7 +13,8 @@ const useStyles = makeStyles(theme => ({
             },
             label: {
                 fontFamily: 'Quicksand',
-                fontSize: '0.7em'
+                fontSize: '0.7em',
+                color: '#B4B8AB'
             }
         }
     )

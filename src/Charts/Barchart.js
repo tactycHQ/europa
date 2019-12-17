@@ -1,44 +1,19 @@
 import React from 'react'
 import {BarChart, Bar, XAxis, YAxis, LabelList, Tooltip, Legend, ResponsiveContainer} from 'recharts'
 import {Card, CardHeader, makeStyles} from "@material-ui/core"
-import * as ssf from 'ssf'
 import DataFormatter from 'excel-style-dataformatter'
-
-// import {VictoryChart, VictoryBar, VictoryTheme, VictoryLabel, VictoryAxis, VictoryTooltip} from 'victory'
-
-
-function CustomizedXAxisTick(props) {
-    const {x, y, stroke, payload} = props
-
-    return (
-        <g transform={`translate(${x},${y})`}>
-            <text
-                x={0}
-                y={0}
-                dy={16}
-                textAnchor="middle"
-                fill="#006064"
-                transform="rotate(-0)"
-                fontSize='0.8em'
-                fontFamily="Quicksand"
-                fontWeight="800"
-            >{payload.value}</text>
-        </g>
-    )
-}
-
-
-const useStyles = makeStyles(theme => ({
-    chartContainer: {
-        // backgroundColor: 'orange'
-    },
-    bar: {
-        fill: 'white'
-    }
-}))
 
 
 export default function Barchart(props) {
+
+    const useStyles = makeStyles(theme => ({
+        chartContainer: {
+        },
+        bar: {
+            fill: props.fill
+        }
+    }))
+
 
     const classes = useStyles()
 
@@ -63,8 +38,8 @@ export default function Barchart(props) {
                     x={0}
                     y={0}
                     dy={16}
-                    textAnchor="end"
-                    fill="white"
+                    textAnchor="middle"
+                    fill={props.fill}
                     transform="rotate(-0)"
                     fontSize='1.0em'
                     fontFamily="Quicksand"
@@ -84,8 +59,8 @@ export default function Barchart(props) {
                     x={0}
                     y={0}
                     dy={16}
-                    textAnchor="end"
-                    fill="white"
+                    textAnchor="middle"
+                    fill={props.fill}
                     transform="rotate(-0)"
                     fontSize='1.0em'
                     fontFamily="Quicksand"
@@ -98,7 +73,7 @@ export default function Barchart(props) {
     }
 
     return (
-        <ResponsiveContainer width="35%" height={350}>
+        <ResponsiveContainer width="100%" height={350}>
             <BarChart
                 data={props.currSolution}
                 margin={{top: 15, right: 10, left: 10, bottom: 5}}
@@ -106,7 +81,7 @@ export default function Barchart(props) {
             >
                 <XAxis
                     hide={false}
-                    stroke="white"
+                    stroke={props.fill}
                     dataKey="x"
                     tickLine={false}
                     minTickGap={2}
@@ -128,16 +103,12 @@ export default function Barchart(props) {
                 />
 
                 <Tooltip/>
-                <Bar
-                    className={classes.bar}
-                    dataKey={title}
-                    name={title}
-                     >
+                <Bar className={classes.bar} dataKey={title} name={title}>
                     <LabelList
                         datakey={title}
                         position={"top"}
-                        formatter={(value) => labelFormatter(value, title)}
-                        style={{fill: 'white', fontFamily: 'Quicksand', fontSize: '0.8em', fontWeight: '700'}}
+                        formatter={(value) => labelFormatter(value)}
+                        style={{fill: props.fill, fontFamily: 'Quicksand', fontSize: '1.2em', fontWeight: '500'}}
                     />
                 </Bar>
             </BarChart>

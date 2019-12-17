@@ -10,9 +10,9 @@ import {Card, CardHeader, Paper} from "@material-ui/core";
 
 
 const chartColors = [
-    '#8f2600',
-    '#006064',
-    '#8f2600',
+    '#09BC8A',
+    '#BC5D2E',
+    '#6C969D',
     '#546e7a',
     '#0288d1',
     '#0288d1'
@@ -22,7 +22,7 @@ export default function Output(props) {
     const useStyles = makeStyles(theme => ({
                 root: {
                     display: 'flex',
-                    flexDirection:'column',
+                    // flexDirection:'column',
                     width: '81.5%',
                     // background: '#90a4ae'
                 },
@@ -91,7 +91,7 @@ export default function Output(props) {
         return chartData.map((data, idx) => {
                 return (
                     <Card className={classes.container} key={data.title}>
-                        <h2 className={classes.titleHeader}>{data.title}</h2>
+                        <h1 className={classes.titleHeader}>{data.title}</h1>
                         <Barchart
                             currSolution={data.values}
                             fill={chartColors[idx]}

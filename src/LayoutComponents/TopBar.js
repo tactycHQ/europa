@@ -5,25 +5,33 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import HomeTwoToneIcon from '@material-ui/icons/HomeTwoTone';
+import {maxHeight} from '@material-ui/system'
 
 const useStyles = makeStyles(theme => ({
     root: {
-        flexGrow: 1
+        display:'flex',
+        background: 'radial-gradient(circle, #2E3B49, #000E1C)',
+        justifyContent: 'space-between',
+        alignItems:'center',
+        maxHeight: '5vh',
+        width:'100%',
+        borderBottomColor:'#EEF0EB',
+        borderStyle:'solid',
+        borderWidth:'1px',
+        strokeLinecap: 'round'
     },
     menuButton: {
         // marginRight: theme.spacing(2),
+        marginLeft:'5px',
         textAlign: 'center',
-        color: '#eeeeee'
+        color: '#F4F9E9'
     },
     dense: {
-        display: 'flex',
-        background: 'radial-gradient(circle, #001021, #2E3B49)',
         // backgroundColor: '#263238',#37474f
-        justifyContent: 'space-between',
-        maxHeight: '3vh'
+        // maxHeight: '3vh',
     },
     modelname: {
-        fontSize: '1.3em',
+        fontSize: '1.1em',
         color: '#F4F9E9',
         fontFamily: 'Quicksand',
         textTransform: 'uppercase'
@@ -35,17 +43,13 @@ export default function DenseAppBar(props) {
 
     return (
         <div className={classes.root}>
-            <AppBar position="static">
-                <Toolbar classes={{dense: classes.dense}} variant="dense">
-                    <IconButton edge="start" className={classes.menuButton} aria-label="menu">
-                        <MenuIcon/>
-                    </IconButton>
-                    <div className={classes.modelname}><h5>{props.dashName}</h5></div>
-                    <IconButton edge="start" className={classes.menuButton} aria-label="menu">
-                        <HomeTwoToneIcon/>
-                    </IconButton>
-                </Toolbar>
-            </AppBar>
+            <IconButton edge="start" className={classes.menuButton} aria-label="menu">
+                <MenuIcon/>
+            </IconButton>
+            <div className={classes.modelname}><h5>{props.dashName}</h5></div>
+            <IconButton edge="start" className={classes.menuButton} aria-label="menu">
+                <HomeTwoToneIcon/>
+            </IconButton>
         </div>
     );
 }

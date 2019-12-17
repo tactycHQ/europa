@@ -11,20 +11,16 @@ import isEqual from 'lodash.isequal'
 
 const useStyles = makeStyles(theme => ({
     root: {
-        // display: 'flex'
     },
     top: {
         display: 'flex',
         position: 'fixed',
         width: '100%',
         zIndex: '2'
-        // backgroundColor:'green'
     },
     middle: {
         display: 'flex',
-        marginTop: '6vh'
-
-
+        marginTop: '5vh'
     },
     bottom: {
         fontSize: '0.8em',
@@ -153,7 +149,6 @@ export default function Layout() {
                         {content}
                     </div>
                 </Grid>
-
                 {/*<Grid className={classes.bottom} item xs={12} lg={12}>*/}
                 {/*    Copyright Information, Epoch One, LLC 2019*/}
                 {/*</Grid>*/}
