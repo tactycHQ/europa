@@ -41,7 +41,10 @@ const useStyles = makeStyles(theme => ({
             color:'#F4F9E9'
         },
         thumb:{
-            color:'#F4F9E9'
+            color:'#379392',
+        },
+        valueLabel:{
+            color:'#379392'
 
         }
 
@@ -75,7 +78,14 @@ export default function InputSlider(props) {
 
     return (
         <div className={classes.root}>
-            <Slider classes={{root: classes.slider, mark: classes.mark, active: classes.active, markLabel: classes.markLabel,thumb: classes.thumb}}
+            <Slider classes={{
+                root: classes.slider,
+                mark: classes.mark,
+                active: classes.active,
+                markLabel: classes.markLabel,
+                thumb: classes.thumb,
+                valueLabel: classes.valueLabel
+            }}
                     defaultValue={props.defaultInputVal}
                     aria-labelledby="discrete-slider-restricted"
                     valueLabelDisplay="on"

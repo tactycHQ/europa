@@ -12,18 +12,18 @@ const useStyles = makeStyles(theme => ({
                 right: 0,
                 flexDirection: 'column',
                 width: '15%',
-                marginRight: '5px'
+                marginRight: '7px'
 
             },
             inputContainer: {
                 display: 'flex',
                 flexDirection: 'column',
                 minHeight: '89vh',
-                background: '#3A6291'
+                background: '#233D4D'
                 // background: '#e1f5fe'
             },
             inputHeader: {
-                background: '#2C4A6C',
+                background: '#A2511D',
                 height: '3vh',
                 marginBottom: '5%'
             },
