@@ -18,12 +18,11 @@ export default function Content(props) {
     const useStyles = makeStyles(theme => ({
         root: {
             display: 'flex',
-            height:'100vh',
+            height: '100vh',
             width: '100%',
-            backgroundColor:'#EBECEC'
+            backgroundColor: '#EBECEC'
         },
-        sidebar:{
-        },
+        sidebar: {},
         menuBar: {
             display: 'flex',
             justifyContent: 'center',
@@ -35,7 +34,7 @@ export default function Content(props) {
     }))
     const classes = useStyles()
     const [checked, setChecked] = React.useState(true);
-    console.log(props.outputs)
+
 
     // Custom Functions
     const generateInputLabelMap = () => {
@@ -140,15 +139,15 @@ export default function Content(props) {
             const _payload = sa_solutions.map(solution => {
                     const solutionPayload = solution.map(singleSolution => {
 
-                        const __data = Object.entries(output.labels).reduce((acc, addresslabel) => {
-                             acc[addresslabel[1]] = singleSolution.outputs[addresslabel[0]]
-                            return acc
-                        }, {})
+                            const __data = Object.entries(output.labels).reduce((acc, addresslabel) => {
+                                acc[addresslabel[1]] = singleSolution.outputs[addresslabel[0]]
+                                return acc
+                            }, {})
 
-                        return {
-                                [inputLabelMap[singleSolution.input]]:singleSolution.inputValue,
+                            return {
+                                [inputLabelMap[singleSolution.input]]: singleSolution.inputValue,
                                 ...__data
-                                }
+                            }
                         }
                     )
                     return {
@@ -176,6 +175,17 @@ export default function Content(props) {
     const sa_combos = createSAcombos()
     const sa_solutions = findSASolution()
     const sa_charts = arrangeByCategory()
+    const customRoutes = props.outputs.map(output => {
+            return (
+                <Route exact path={[`/outputs/${output.category}`]} key={output.category}>
+                    <Output
+                        chartData={chartData}
+                        saChartData={sa_charts}
+                    />
+                </Route>
+            )
+        }
+    )
 
 
     return (
@@ -210,6 +220,7 @@ export default function Content(props) {
                     <Route exact path="/dependency">
                         <DependencyGraph/>
                     </Route>
+                    {customRoutes}
                 </Switch>
             </div>
 

@@ -72,10 +72,14 @@ export default function SideBar(props) {
 
     const outputs = props.outputs.map(output => {
         return (
-            <ListItem className={classes.buttons} button={true}>
-                <PlayArrowIcon className={classes.outputIcon}/>
-                <div className={classes.outputLabel}>{output.category}</div>
-            </ListItem>)
+            <NavLink to={`/outputs/${output.category}`} style={{textDecoration: 'none'}} key={output.category}>
+                <ListItem className={classes.buttons} button={true}>
+                    <PlayArrowIcon className={classes.outputIcon}/>
+                    <div className={classes.outputLabel}>{output.category}</div>
+                </ListItem>
+            </NavLink>
+        )
+
     })
 
     return (
@@ -87,8 +91,8 @@ export default function SideBar(props) {
                             <InsertChartIcon className={classes.icon}/>
                             <div className={classes.buttonLabel}>Live Dashboard</div>
                         </ListItem>
-                        {outputs}
                     </NavLink>
+                    {outputs}
                     <Divider/>
                     <NavLink to="/sensitivity" style={{textDecoration: 'none'}}>
                         <ListItem className={classes.buttons} button={true}>
