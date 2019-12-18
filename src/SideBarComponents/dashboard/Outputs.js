@@ -4,7 +4,7 @@ import Barchart from "../../Charts/barChart"
 import {Card} from "@material-ui/core";
 import CardSettings from "../../Outputs/CardSettings";
 import Areachart from "../../Charts/areaChart";
-import isEqual from "lodash.isequal";
+
 
 // import StackedBar from "./stackedbar";
 // import MixBar from "./mixbar";
@@ -49,7 +49,7 @@ export default function Output(props) {
             marginLeft: '7px'
         },
         cardSection: {
-            color: '#B4B8AB',
+            color: 'white',
             fontFamily: 'Quicksand',
             fontWeight: '450',
             marginTop: '10px',
@@ -64,55 +64,37 @@ export default function Output(props) {
         cardTop: {
             display: 'flex',
             justifyContent: 'space-between'
+        },
+        satitle: {
+            color: '#B4B8AB',
+            fontFamily: 'Quicksand',
+            fontWeight: '450',
+            marginTop: '2.5%',
+            marginLeft: '3px'
         }
     }))
     const classes = useStyles()
 
 
     // Defining custom functions for Live charts
-    const getLiveSolution = () => {
-        if (props.solutions && props.currInputVal) {
-            const foundSolution = props.solutions.find(i => isEqual(i.inputs, props.currInputVal))
-            return foundSolution.outputs
-        } else {
-            return "No solution found"
-        }
-    }
-
-    const extractLiveChartMetaData = () => {
-        const labelsInChart = props.outputs.map(data => {
-                const reformatted = Object.entries(data.labels).map(labelSet => {
-                    return {
-                        x: labelSet[1],
-                        [data.category]: liveSolution[labelSet[0]],
-                        format: props.formats[labelSet[0]]
-                    }
-                })
-
-                const max_domains = Object.entries(data.labels).map(labelSet => {
-                    return props.domains.max[labelSet[0]]
-                })
-
-                const min_domains = Object.entries(data.labels).map(labelSet => {
-                    return props.domains.min[labelSet[0]]
-                })
-
-                const max_domain = Math.max(...max_domains)
-                const min_domain = Math.min(...min_domains)
-
-                return {
-                    title: data.category,
-                    values: reformatted,
-                    domains: [min_domain, max_domain]
+    const createSAcharts = (outputCategory) => {
+        return props.saChartData.map(categoryCharts => {
+            return categoryCharts.map(chart => {
+                if (chart.category === outputCategory) {
+                    return (
+                        <div>
+                            <h4 className={classes.satitle}>{`How does ${chart.category} change with ${chart.title}?`}</h4>
+                            <Areachart data={chart.data} category={chart.category} title={chart.title}
+                                       key={chart.category + chart.title}/>
+                        </div>
+                    )
                 }
-            }
-        )
-        return labelsInChart
+            })
+        })
     }
 
     const createLiveCharts = () => {
-        const chartData = extractLiveChartMetaData()
-        return chartData.map((data, idx) => {
+        return props.chartData.map((data, idx) => {
                 return (
                     <Card className={classes.outputCards} key={data.title}>
                         <div className={classes.cardTop}>
@@ -123,28 +105,20 @@ export default function Output(props) {
                             currSolution={data.values}
                             fill={chartColors[idx]}
                             domain={data.domains}
-                        />
-                        {/*<Divider className={classes.divider} light={true}/>*/}
-                        <h3 className={classes.cardSection}>Variance Analysis</h3>
-                        <Areachart data={data.values}/>
-                        <h4 className={classes.titleHeader}>Some text goes here and here and here</h4>
+                          />
+                        <h3 className={classes.cardSection}>
+                            Single Input Sensitivity Analysis
+                        </h3>
+                            {createSAcharts(data.title)}
                     </Card>
                 )
             }
         )
     }
 
-    // Defining custom functions for SA1 charts
-    const getsingleSASolutions = () =>{
-        console.log(props.currInputVal)
-    }
-
 
     //Executing custom functions
-    getsingleSASolutions()
-    const liveSolution = getLiveSolution()
     const charts = createLiveCharts()
-
 
     return (
         <div className={classes.root}>

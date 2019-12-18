@@ -1,7 +1,7 @@
 import React from 'react'
-import {AreaChart, XAxis, YAxis, CartesianGrid, Tooltip, Area, ResponsiveContainer} from 'recharts'
+import {LineChart, XAxis, YAxis, Tooltip, Line, ResponsiveContainer} from 'recharts'
 import {makeStyles} from "@material-ui/core"
-import DataFormatter from 'excel-style-dataformatter'
+// import DataFormatter from 'excel-style-dataformatter'
 
 
 export default function Areachart(props) {
@@ -11,35 +11,46 @@ export default function Areachart(props) {
             fill: props.fill
         }
     }))
-    const dataFormatter = new DataFormatter()
+    // const dataFormatter = new DataFormatter()
     const classes = useStyles()
 
-    // console.log(props.data)
+
+    const createArea = () => {
+        const idxs = Object.keys(props.data[0]).slice(1)
+        return idxs.map(idx => {
+            return (
+                <Line key={idx + props.title}
+                      type="monotone"
+                      dataKey={idx}
+                      stroke="#9472B1"
+                      dot={false}
+                      fillOpacity={1}
+                      fill="#73766D"
+                      animationDuration={500}
+                />
+            )
+        })
+    }
+
+    const createCharts = () => {
+        return (
+            <ResponsiveContainer width="100%" height={250}>
+                <LineChart width={730} height={250} data={props.data}
+                           margin={{top: 10, right: 30, left: 15, bottom: 0}}>
+                    <XAxis dataKey={props.title}/>
+                    <YAxis/>
+                    <Tooltip/>
+                    {createArea()}
+                </LineChart>
+            </ResponsiveContainer>
+        )
+    }
+
+    const sa_charts = createCharts()
 
     return (
-        <ResponsiveContainer width="100%" height={250}>
-            <AreaChart width={730} height={250} data={props.data}
-                       margin={{top: 10, right: 30, left: 15, bottom: 0}}>
-                <defs>
-                    <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
-                        <stop offset="95%" stopColor="#8884d8" stopOpacity={0}/>
-                    </linearGradient>
-                    <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8}/>
-                        <stop offset="95%" stopColor="#82ca9d" stopOpacity={0}/>
-                    </linearGradient>
-                </defs>
-                <XAxis dataKey="x"/>
-                <YAxis/>
-                {/*<CartesianGrid strokeDasharray="3 3"/>*/}
-                <Tooltip/>
-                <Area type="monotone" dataKey="Investor Cash Flow" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)"/>
-                {/*<Area type="monotone" dataKey="pv" stroke="#82ca9d" fillOpacity={1} fill="url(#colorPv)"/>*/}
-            </AreaChart>
-        </ResponsiveContainer>
-
+        <div>
+            {sa_charts}
+        </div>
     )
-
-
 }

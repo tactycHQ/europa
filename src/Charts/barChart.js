@@ -1,5 +1,5 @@
 import React from 'react'
-import {BarChart, Bar, XAxis, YAxis, LabelList, Tooltip, ResponsiveContainer, AreaChart} from 'recharts'
+import {BarChart, Bar, XAxis, YAxis, LabelList, Tooltip, ResponsiveContainer, ReferenceLine} from 'recharts'
 import {makeStyles} from "@material-ui/core"
 import DataFormatter from 'excel-style-dataformatter'
 
@@ -130,6 +130,7 @@ export default function Barchart(props) {
                 />
 
                 <Tooltip cursor={{fill: '#5C6671'}}/>
+                <ReferenceLine y={0} stroke="gray" strokeDasharray="3 3" strokeWidth={0.1}/>
 
                 <Bar
                     className={classes.bar}

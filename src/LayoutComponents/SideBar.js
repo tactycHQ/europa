@@ -63,7 +63,7 @@ export default function SideBar(props) {
                     <NavLink to="/dashboard" style={{textDecoration: 'none'}}>
                         <ListItem className={classes.buttons} button={true}>
                             <InsertChartIcon className={classes.icon}/>
-                            <div className={classes.buttonLabel}>Dashboard</div>
+                            <div className={classes.buttonLabel}>Live Dashboard</div>
                         </ListItem>
                     </NavLink>
                     <NavLink to="/sensitivity" style={{textDecoration: 'none'}}>
