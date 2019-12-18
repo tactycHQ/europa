@@ -9,12 +9,12 @@ const useStyles = makeStyles(theme => ({
                 marginLeft: '90%'
             },
             switchBase: {
-                color: '#8B929A'
+                color: '#292F36'
             },
             label: {
-                fontFamily: 'Quicksand',
+                fontFamily: 'Questrial',
                 fontSize: '0.7em',
-                color: '#B4B8AB'
+                color: '#292F36'
             }
         }
     )

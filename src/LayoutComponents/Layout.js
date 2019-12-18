@@ -3,18 +3,23 @@ import {makeStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Content from "./Content";
 import TopBar from "./TopBar";
-import SideBar from "./SideBar";
-import Spinner from "./Spinner";
+import Spinner from "../Other/Spinner";
 import {getSolutions, getMetaData, getFormats} from "../api/api"
+import Divider from "@material-ui/core/Divider"
 
 
 const useStyles = makeStyles(theme => ({
-    root: {},
+    root: {
+    },
     top: {
         display: 'flex',
-        position: 'fixed',
+        flexDirection:'column',
         width: '100%',
+        position: 'fixed',
         zIndex: '2'
+    },
+    divider:{
+        backgroundColor:'#EBECEC'
     },
     middle: {
         display: 'flex',
@@ -34,7 +39,6 @@ function extractDefaults(values) {
         return values.Default
     }
 }
-
 
 export default function Layout() {
 
@@ -116,10 +120,10 @@ export default function Layout() {
             <Grid container spacing={0}>
                 <Grid className={classes.top} item xs={12} lg={12}>
                     <TopBar dashName={dashName}/>
+                        <Divider className={classes.divider} variant="middle"/>
                 </Grid>
                 <Grid item xs={12} lg={12}>
                     <div className={classes.middle}>
-                        <SideBar/>
                         {content}
                     </div>
                 </Grid>

@@ -14,14 +14,14 @@ export default function CardSettings() {
         },
         settingsMenu: {
             display: "flex",
-            backgroundColor: '#45515D',
-            color: 'white',
+            backgroundColor: '#FEFEFD',
+            color: '#5C6671',
 
         },
         settingsList: {
         },
         menuItem: {
-            fontFamily:'Quicksand',
+            fontFamily:'Questrial',
             fontSize: '0.9em'
         },
     }))

@@ -7,9 +7,6 @@ import {makeStyles} from "@material-ui/core"
 
 const useStyles = makeStyles(theme => ({
     app:{
-        backgroundColor:'#000E1C',
-        height:'100vh',
-        width:'100%'
     }
 }))
 

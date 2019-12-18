@@ -7,22 +7,25 @@ import InsertChartIcon from '@material-ui/icons/InsertChart'
 import ShowChartIcon from '@material-ui/icons/ShowChart'
 import FilterCenterFocusIcon from '@material-ui/icons/FilterCenterFocus'
 import AccountTreeIcon from '@material-ui/icons/AccountTree'
+import PlayArrowIcon from '@material-ui/icons/PlayArrow'
 import {NavLink} from 'react-router-dom'
+import Divider from "@material-ui/core/Divider";
 
 const useStyles = makeStyles(theme => ({
             root: {
                 display: 'flex',
                 height: '100vh',
                 width: '13%',
-                position: 'absolute',
+                position: 'fixed',
                 flexDirection: 'column',
                 padding: '10px',
-                alignContent: 'flex-start'
+                alignContent: 'flex-start',
+                backgroundColor: '#FEFEFD',
             },
             buttons: {
                 display: 'flex',
                 margin: '5px',
-                color: '#F4F9E9',
+                color: '#292F36',
                 justifyContent: 'flex-start',
                 alignItems: 'center',
                 paddingLeft: '1px',
@@ -30,21 +33,32 @@ const useStyles = makeStyles(theme => ({
                 paddingTop: '7px',
                 paddingBottom: '7px',
                 "&:hover": {
-                    background: "#0097a7"
+                    background: "#D2DBE6"
                 }
             },
             buttonLabel: {
-                fontSize: '0.9em',
-                paddingLeft: '10px',
-                fontFamily: 'Quicksand',
-                color: '#F4F9E9',
+                fontSize: '0.95em',
+                paddingLeft: '5px',
+                fontFamily: 'Questrial',
+                color: '#292F36',
                 "&:hover": {
-                    // color: "#0091ea"
+                    // color: "#F4F9E9"
                 }
-            }
-            ,
+            },
+            outputLabel: {
+                fontSize: '0.95em',
+                paddingLeft: '5px',
+                fontFamily: 'Questrial',
+                color: '#4B719C',
+                "&:hover": {
+                    // color: "#F4F9E9"
+                }
+            },
+            outputIcon: {
+                color: '#4B719C'
+            },
             icon: {
-                color: '#F4F9E9',
+                color: '#292F36',
                 "&:hover": {
                     // color: "#0091ea"
                 }
@@ -56,6 +70,14 @@ const useStyles = makeStyles(theme => ({
 export default function SideBar(props) {
     const classes = useStyles()
 
+    const outputs = props.outputs.map(output => {
+        return (
+            <ListItem className={classes.buttons} button={true}>
+                <PlayArrowIcon className={classes.outputIcon}/>
+                <div className={classes.outputLabel}>{output.category}</div>
+            </ListItem>)
+    })
+
     return (
         <div className={classes.root}>
             <div className={classes.content}>
@@ -65,7 +87,9 @@ export default function SideBar(props) {
                             <InsertChartIcon className={classes.icon}/>
                             <div className={classes.buttonLabel}>Live Dashboard</div>
                         </ListItem>
+                        {outputs}
                     </NavLink>
+                    <Divider/>
                     <NavLink to="/sensitivity" style={{textDecoration: 'none'}}>
                         <ListItem className={classes.buttons} button={true}>
                             <ShowChartIcon className={classes.icon}/>

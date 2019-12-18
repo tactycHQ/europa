@@ -14,38 +14,43 @@ const useStyles = makeStyles(theme => ({
         },
         label: {
             display: 'flex',
-            fontWeight: 'bold',
-            fontSize: '0.8em',
-            fontFamily: 'Quicksand',
+            fontWeight: '650',
+            fontSize: '0.9em',
+            fontFamily: 'Questrial',
             marginTop: '0%',
             marginBottom: '7%',
-            color: '#F4F9E9',
+            color: '#4B719C',
             textAlign:'center'
         },
         slider: {
-            color: '#F4F9E9'
+            color: '#4B719C'
+
         },
         mark: {
-            backgroundColor: '#F4F9E9',
+            backgroundColor: '#4B719C',
             height: 6,
-            width: 1
+            width: 0.8
         },
         active: {
-            backgroundColor: '#F4F9E9'
+            backgroundColor: '#292F36'
         },
         markLabel: {
-            fontSize: '0.8em',
-            color:'#F4F9E9'
+            fontSize: '0.85em',
+            color:'#4B719C',
+            // fontWeight:'700',
+            fontFamily: 'Questrial'
         },
         markLabelActive:{
-            color:'#F4F9E9'
+            color:'#4B719C',
+            fontFamily: 'Questrial'
         },
         thumb:{
-            color:'#379392',
+            color:'#4B719C',
+            fontFamily: 'Questrial'
         },
         valueLabel:{
-            color:'#379392'
-
+            color:'#4B719C',
+            fontFamily: 'Questrial'
         }
 
     }
@@ -83,6 +88,7 @@ export default function InputSlider(props) {
                 mark: classes.mark,
                 active: classes.active,
                 markLabel: classes.markLabel,
+                markLabelActive: classes.markLabelActive,
                 thumb: classes.thumb,
                 valueLabel: classes.valueLabel
             }}
@@ -94,7 +100,7 @@ export default function InputSlider(props) {
                     max={max}
                     step={null}
                     marks={marks}
-                    onChange={(event, value) => props.onChange(event, value, props.address)}
+                    onChangeCommitted={(event, value) => props.onChange(event, value, props.address)}
             />
             <div className={classes.label}>
                 {props.name}

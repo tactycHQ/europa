@@ -3,11 +3,22 @@
   <component name="ChangeListManager">
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Charts/areaChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Charts/areaChart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Charts/barChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Charts/barChart.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Content.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/Content.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/SideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/SideBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/SideBarComponents/dashboard/Outputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/SideBarComponents/dashboard/Outputs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Layout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/Layout.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/SideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/SideBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Spinner.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Other/Spinner.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/TopBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/TopBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MenuBar/ToggleInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Other/ToggleInput.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Outputs/CardSettings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/CardSettings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SideBarComponents/DependencyGraph.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Sidebar/DependencyGraph.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SideBarComponents/ScenarioAnalysis.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Sidebar/ScenarioAnalysis.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SideBarComponents/Sensitivity.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Sidebar/Sensitivity.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SideBarComponents/dashboard/Inputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/Inputs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SideBarComponents/dashboard/Outputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/Outputs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/SideBarComponents/dashboard/Sliders.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Inputs/Sliders.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -60,16 +71,17 @@
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PyCharm 2019.1.1\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\SideBarComponents" />
-      <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src" />
-      <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\content" />
-      <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\charts" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\dependency_graph" />
       <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\scenario_analysis" />
       <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\components" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\Other" />
+      <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\Inputs" />
+      <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\Content" />
+      <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\SideBarComponents" />
+      <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -119,7 +131,7 @@
       <workItem from="1576258093490" duration="14887000" />
       <workItem from="1576345386968" duration="6105000" />
       <workItem from="1576435520695" duration="53958000" />
-      <workItem from="1576549058087" duration="50230000" />
+      <workItem from="1576549058087" duration="63471000" />
     </task>
     <task id="LOCAL-00001" summary="First commit">
       <created>1575314297992</created>
@@ -408,7 +420,14 @@
       <option name="project" value="LOCAL" />
       <updated>1576619443432</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="First commit">
+      <created>1576653360045</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1576653360045</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

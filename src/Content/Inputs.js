@@ -1,6 +1,6 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import InputSlider from "./Sliders"
+import InputSlider from "../Inputs/Sliders"
 import Slide from "@material-ui/core/Slide"
 import {Card, CardHeader} from "@material-ui/core";
 
@@ -12,26 +12,28 @@ const useStyles = makeStyles(theme => ({
                 right: 0,
                 flexDirection: 'column',
                 width: '15%',
-                marginRight: '7px'
+                marginTop: '10px',
+                marginRight: '0.5%'
 
             },
             inputContainer: {
                 display: 'flex',
                 flexDirection: 'column',
-                minHeight: '89vh',
-                background: '#233D4D'
+                minHeight: '92vh',
+                background: '#FEFEFD',
+                // opacity:'0.9'
                 // background: '#e1f5fe'
             },
             inputHeader: {
-                background: '#A2511D',
+                background: '#4B719C',
                 height: '3vh',
                 marginBottom: '5%'
             },
             inputTitle: {
                 color: '#F4F9E9',
-                fontSize: '0.9em',
+                fontSize: '1.0em',
                 fontWeight: '400',
-                fontFamily: 'Quicksand',
+                fontFamily: 'Questrial',
 
             },
             sliderContainer: {
@@ -48,7 +50,7 @@ const useStyles = makeStyles(theme => ({
                 color: '#5d4037'
             },
             label: {
-                fontFamily: 'Quicksand',
+                fontFamily: 'Questrial',
                 fontSize: '0.8em'
 
             }

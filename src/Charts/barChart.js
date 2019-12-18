@@ -56,7 +56,7 @@ export default function Barchart(props) {
                     transform="rotate(-0)"
                     fontSize='1.0em'
                     fill={props.fill}
-                    fontFamily="Quicksand"
+                    fontFamily="Questrial"
                 >
                     {yAxisFormatter(payload.value)}
                 </text>
@@ -77,7 +77,7 @@ export default function Barchart(props) {
                     fill={props.fill}
                     transform="rotate(-0)"
                     fontSize='1.0em'
-                    fontFamily="Quicksand"
+                    fontFamily="Questrial"
                     fontWeight='500'
                 >
                     {payload.value}
@@ -101,8 +101,8 @@ export default function Barchart(props) {
             >
                 <defs>
                     <linearGradient id={props.fill} x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor={props.fill} stopOpacity={0.8}/>
-                        <stop offset="95%" stopColor={props.fill} stopOpacity={0.2}/>
+                        <stop offset="0%" stopColor={props.fill} stopOpacity={1.0}/>
+                        <stop offset="75%" stopColor={props.fill} stopOpacity={0.4}/>
                     </linearGradient>
                 </defs>
                 <XAxis
@@ -129,7 +129,7 @@ export default function Barchart(props) {
                     tickFormatter={tick => yAxisFormatter(tick)}
                 />
 
-                <Tooltip cursor={{fill: '#5C6671'}}/>
+                <Tooltip cursor={{fill: '#FEFEFD'}}/>
                 <ReferenceLine y={0} stroke="gray" strokeDasharray="3 3" strokeWidth={0.1}/>
 
                 <Bar
@@ -138,12 +138,13 @@ export default function Barchart(props) {
                     name={title}
                     isAnimationActive={true}
                     fill={color_url}
+                    animationDuration={500}
                 >
                     <LabelList
                         dataKey="label"
                         position="top"
                         // formatter={(value) => value}
-                        style={{fill: props.fill, fontFamily: 'Quicksand', fontSize: '1.0em', fontWeight: '500'}}
+                        style={{fill: props.fill, fontFamily: 'Questrial', fontSize: '1.0em', fontWeight: '500'}}
                     />
                 </Bar>
             </BarChart>

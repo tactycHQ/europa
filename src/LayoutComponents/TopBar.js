@@ -7,21 +7,22 @@ import HomeTwoToneIcon from '@material-ui/icons/HomeTwoTone';
 const useStyles = makeStyles(theme => ({
     root: {
         display:'flex',
-        background: 'radial-gradient(circle, #2E3B49, #000E1C)',
+        // background: 'radial-gradient(circle, #FEFEFD, #D2DBE6)',
         justifyContent: 'space-between',
         alignItems:'center',
         maxHeight: '5vh',
         width:'100%',
-        borderBottomColor:'#EEF0EB',
-        borderStyle:'solid',
-        borderWidth:'1px',
-        strokeLinecap: 'round'
+        backgroundColor:'#FEFEFD'
+        // borderBottomColor:'#EEF0EB',
+        // borderStyle:'solid',
+        // borderWidth:'1px',
+        // strokeLinecap: 'round'
     },
     menuButton: {
         // marginRight: theme.spacing(2),
         marginLeft:'5px',
         textAlign: 'center',
-        color: '#F4F9E9'
+        color: '#292F36'
     },
     dense: {
         // backgroundColor: '#263238',#37474f
@@ -29,8 +30,8 @@ const useStyles = makeStyles(theme => ({
     },
     modelname: {
         fontSize: '1.1em',
-        color: '#F4F9E9',
-        fontFamily: 'Quicksand',
+        color: '#292F36',
+        fontFamily: 'Questrial',
         textTransform: 'uppercase'
     }
 }));

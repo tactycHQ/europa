@@ -1,13 +1,14 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import Output from "../SideBarComponents/dashboard/Outputs"
-import Input from "../SideBarComponents/dashboard/Inputs";
-import Sensitivity from "../SideBarComponents/Sensitivity";
+import Output from "../Content/Outputs"
+import Input from "../Content/Inputs";
+import Sensitivity from "../Sidebar/Sensitivity";
 import {Switch, Route} from 'react-router-dom'
-import ScenarioAnalysis from "../SideBarComponents/ScenarioAnalysis"
-import DependencyGraph from "../SideBarComponents/DependencyGraph"
-import ToggleInput from "../MenuBar/ToggleInput"
+import ScenarioAnalysis from "../Sidebar/ScenarioAnalysis"
+import DependencyGraph from "../Sidebar/DependencyGraph"
+import ToggleInput from "../Other/ToggleInput"
 import isEqual from "lodash.isequal";
+import SideBar from "../Content/SideBar";
 
 
 export default function Content(props) {
@@ -17,9 +18,11 @@ export default function Content(props) {
     const useStyles = makeStyles(theme => ({
         root: {
             display: 'flex',
-            flexDirection: 'column',
-            marginLeft: '13.0%',
+            height:'100vh',
             width: '100%',
+            backgroundColor:'#EBECEC'
+        },
+        sidebar:{
         },
         menuBar: {
             display: 'flex',
@@ -27,15 +30,14 @@ export default function Content(props) {
             marginTop: '6px',
         },
         content: {
-            display: 'flex'
+            display: 'flex',
         }
     }))
     const classes = useStyles()
     const [checked, setChecked] = React.useState(true);
-
+    console.log(props.outputs)
 
     // Custom Functions
-
     const generateInputLabelMap = () => {
         return props.inputs.reduce((acc, inputData) => {
                 acc[inputData.address] = inputData.label
@@ -169,30 +171,21 @@ export default function Content(props) {
 
 // Function Executions
     const inputLabelMap = generateInputLabelMap()
-    // const outputLabelMap = generateOutputLabelMap()
-
-
     const liveSolutions = findSolution(props.currInputVal)
     const chartData = extractLiveChartMetaData(liveSolutions)
-
     const sa_combos = createSAcombos()
     const sa_solutions = findSASolution()
     const sa_charts = arrangeByCategory()
 
 
-// console.log(props.outputs)
-// const final_sa = replaceWithLabels(sa_solutions)
-
-
-// console.log(props.inputs)
-
     return (
         <div className={classes.root}>
             <div className={classes.menuBar}>
-                <ToggleInput checked={checked} handleChange={handleChange}/>
+                {/*<ToggleInput checked={checked} handleChange={handleChange}/>*/}
             </div>
 
             <div className={classes.content}>
+                <SideBar className={classes.sidebar} outputs={props.outputs}/>
                 <Switch>
                     <Route exact path={["/", "/dashboard"]}>
                         <Output
@@ -206,9 +199,10 @@ export default function Content(props) {
                             checked={checked}/>
                     </Route>
                     <Route exact path="/sensitivity">
-                        {/*<Output*/}
-                        {/*    {...other}/>*/}
-                        {/*<Sensitivity/>*/}
+                        <Output
+                            chartData={chartData}
+                            saChartData={sa_charts}
+                        />
                     </Route>
                     <Route exact path="/scenario">
                         <ScenarioAnalysis/>
