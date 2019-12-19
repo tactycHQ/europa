@@ -98,6 +98,7 @@ export default function LiveChart(props) {
                 data={processedData}
                 margin={{top: 15, right: 10, left: 10, bottom: 5}}
                 maxBarSize={30}
+                style={{background:'linear-gradient(#FEFEFD,#EEF2F6)'}}
             >
                 <defs>
                     <linearGradient id={props.fill} x1="0" y1="0" x2="0" y2="1">

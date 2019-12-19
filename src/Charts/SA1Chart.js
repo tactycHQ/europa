@@ -43,8 +43,12 @@ export default function SA1Chart(props) {
     const createCharts = () => {
         return (
             <ResponsiveContainer width="100%" height={250}>
-                <LineChart width={730} height={250} data={props.data}
-                           margin={{top: 10, right: 30, left: 15, bottom: 0}}>
+                <LineChart width={730}
+                           height={250}
+                           data={props.data}
+                           margin={{top: 10, right: 30, left: 15, bottom: 0}}
+                           style={{background:'linear-gradient(#FEFEFD,#EEF2F6)'}}
+                >
                     <XAxis dataKey={props.title}/>
                     <YAxis
                         hide={true}
