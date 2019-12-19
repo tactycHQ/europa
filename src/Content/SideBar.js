@@ -19,11 +19,8 @@ const useStyles = makeStyles(theme => ({
                 minWidth: '12%',
                 position: 'fixed',
                 flexDirection: 'column',
-                // padding: '7px',
                 alignContent: 'flex-start',
-                backgroundColor: '#FEFEFD',
-                // borderStyle: 'solid',
-                // background: 'green'
+                backgroundColor: '#FEFEFD'
             },
             buttons: {
                 display: 'flex',

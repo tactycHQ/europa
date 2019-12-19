@@ -43,19 +43,19 @@ export default function Content(props) {
         )
     }
 
-    const generateOutputLabelMap = () => {
-        return props.outputs.reduce((acc, outputData) => {
-
-                Object.entries(outputData.labels).map(addressLabel => {
-                    acc[addressLabel[0]] = {
-                        category: outputData.category,
-                        label: addressLabel[1]
-                    }
-                })
-                return acc
-            }, {}
-        )
-    }
+    // const generateOutputLabelMap = () => {
+    //     return props.outputs.reduce((acc, outputData) => {
+    //
+    //             Object.entries(outputData.labels).map(addressLabel => {
+    //                 acc[addressLabel[0]] = {
+    //                     category: outputData.category,
+    //                     label: addressLabel[1]
+    //                 }
+    //             })
+    //             return acc
+    //         }, {}
+    //     )
+    // }
 
     const findSolution = (inputCombo) => {
         // console.log(inputCombo)
@@ -67,34 +67,40 @@ export default function Content(props) {
         }
     }
 
-    const extractLiveChartMetaData = (solutions) => {
-        const labelsInChart = props.outputs.map(data => {
-                const reformatted = Object.entries(data.labels).map(labelSet => {
+    const extractLiveChartMetaData = (solutionSet) => {
+        const labelsInChart = props.outputs.map(output => {
+
+                const reformatted = Object.entries(output.labels).map(labelSet => {
+
                     return {
                         x: labelSet[1],
-                        [data.category]: solutions[labelSet[0]],
+                        [output.category]: solutionSet[labelSet[0]],
                         format: props.formats[labelSet[0]]
                     }
                 })
 
-                const max_domains = Object.entries(data.labels).map(labelSet => {
+
+                // Adding max domains
+                const max_domains = Object.entries(output.labels).map(labelSet => {
                     return props.domains.max[labelSet[0]]
                 })
+                const max_domain = Math.max(...max_domains)
 
-                const min_domains = Object.entries(data.labels).map(labelSet => {
+
+                // Adding min domains
+                const min_domains = Object.entries(output.labels).map(labelSet => {
                     return props.domains.min[labelSet[0]]
                 })
-
-                const max_domain = Math.max(...max_domains)
                 const min_domain = Math.min(...min_domains)
 
                 return {
-                    title: data.category,
+                    category: output.category,
                     values: reformatted,
                     domains: [min_domain, max_domain]
                 }
             }
         )
+
         return labelsInChart
     }
 
@@ -168,19 +174,18 @@ export default function Content(props) {
 
 // Function Executions
     const inputLabelMap = generateInputLabelMap()
-    const liveSolutions = findSolution(props.currInputVal)
-    const chartData = extractLiveChartMetaData(liveSolutions)
+    const liveSolutionSet = findSolution(props.currInputVal)
+    const liveChartData = extractLiveChartMetaData(liveSolutionSet)
     const sa_combos = createSAcombos()
     const sa_solutions = findSASolution()
     const sa_charts = arrangeByCategory()
-    // console.log(sa_charts)
-    const customRoutes = chartData.map(chartCategory => {
+    const customRoutes = liveChartData.map(chartCategory => {
 
         return (
-            <Route exact path={[`/outputs/${chartCategory.title}`]} key={chartCategory.title}>
+            <Route exact path={[`/outputs/${chartCategory.category}`]} key={chartCategory.category}>
                 <Output
                     type="detail"
-                    chartData={[chartCategory]}
+                    liveChartData={[chartCategory]}
                     saChartData={sa_charts}
                     chartSize={"100%"}
                 />
@@ -206,7 +211,7 @@ export default function Content(props) {
                     <Route exact path={["/", "/dashboard"]}>
                         <Output
                             type="summary"
-                            chartData={chartData}
+                            liveChartData={liveChartData}
                         />
                         <Input
                             handleSliderChange={props.handleSliderChange}
@@ -217,7 +222,7 @@ export default function Content(props) {
                     <Route exact path="/sensitivity">
                         <Output
                             type="detail"
-                            chartData={chartData}
+                            liveChartData={liveChartData}
                             saChartData={sa_charts}
                         />
                     </Route>

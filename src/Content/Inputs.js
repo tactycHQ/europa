@@ -2,7 +2,8 @@ import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import InputSlider from "../Inputs/Sliders"
 import Slide from "@material-ui/core/Slide"
-import {Card, CardHeader} from "@material-ui/core";
+import {Card, CardHeader} from "@material-ui/core"
+import CaseSelector from "../Inputs/CaseSelector";
 
 
 const useStyles = makeStyles(theme => ({
@@ -14,15 +15,13 @@ const useStyles = makeStyles(theme => ({
                 width: '15%',
                 marginTop: '10px',
                 marginRight: '0.5%'
-
             },
             inputContainer: {
                 display: 'flex',
                 flexDirection: 'column',
                 minHeight: '92vh',
-                background: '#FEFEFD',
-                // opacity:'0.9'
-                // background: '#e1f5fe'
+                background: '#FEFEFD'
+
             },
             inputHeader: {
                 background: '#4B719C',
@@ -33,8 +32,21 @@ const useStyles = makeStyles(theme => ({
                 color: '#F4F9E9',
                 fontSize: '1.0em',
                 fontWeight: '400',
+                fontFamily: 'Questrial'
+            },
+            caseSelectorContainer: {
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding:'5px'
+                // background: 'gray'
+            },
+            caseText: {
                 fontFamily: 'Questrial',
-
+                fontSize: '0.9em',
+                fontWeight:'800',
+                color:'#4B719C',
+                marginRight:'10px'
             },
             sliderContainer: {
                 display: 'flex',
@@ -43,7 +55,6 @@ const useStyles = makeStyles(theme => ({
                 justifyContent: 'space-evenly',
                 marginLeft: '3.5%',
                 marginRight: '3.5%'
-
             },
             showInputsSwitch: {},
             switchBase: {
@@ -98,7 +109,13 @@ export default function Input(props) {
                 unmountOnExit>
                 <Card className={classes.inputContainer} rounded={"true"}>
                     <CardHeader classes={{root: classes.inputHeader, title: classes.inputTitle}} title="Inputs"/>
+                    <div className={classes.caseSelectorContainer}>
+                        <div className={classes.caseText}>Case</div>
+                        <CaseSelector/>
+                    </div>
                     <div className={classes.sliderContainer}>
+
+
                         {sliders}
                         {/*{sliders}*/}
                     </div>

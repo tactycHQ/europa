@@ -7,7 +7,6 @@ import SA1Chart from "../Charts/SA1Chart";
 import {NavLink} from "react-router-dom";
 
 
-
 // import StackedBar from "./stackedbar";
 // import MixBar from "./mixbar";
 // import Radial from "./radial";
@@ -55,7 +54,11 @@ export default function Output(props) {
             margin: '5px',
             background: '#FEFEFD'
         },
-        titleHeader: {
+        cardHeaderContainer: {
+            display: 'flex',
+            justifyContent: 'space-between'
+        },
+        cardTitleHeader: {
             color: '#4F545A',
             fontFamily: 'Questrial',
             fontWeight: '100',
@@ -68,16 +71,6 @@ export default function Output(props) {
             fontWeight: '50',
             marginTop: '4%',
             marginLeft: '7px'
-        },
-        titleBox: {
-            color: '#4F545A',
-            fontSize: '0.8em',
-            fontWeight: '50',
-            fontFamily: 'Questrial'
-        },
-        cardTop: {
-            display: 'flex',
-            justifyContent: 'space-between'
         },
         sa1_title: {
             color: '#0C0D0F',
@@ -116,8 +109,7 @@ export default function Output(props) {
             fontFamily: 'Questrial',
             fontWeight: '100',
             color: '#9DA0A3',
-            marginLeft: '3px',
-
+            marginLeft: '3px'
         }
     }))
     const classes = useStyles()
@@ -125,14 +117,13 @@ export default function Output(props) {
 
     // Defining custom functions for Live charts
     const createSAcharts = (outputCategory) => {
-
         if (props.type === "summary") {
         } else {
             return props.saChartData.map(categoryCharts => {
                 return categoryCharts.map(chart => {
                     if (chart.category === outputCategory) {
                         return (
-                            <div className={classes.sa1_chart_container}>
+                            <div className={classes.sa1_chart_container} key={chart.category + chart.title}>
                                 <h4 className={classes.categoryName}>{chart.category}</h4>
                                 <h4 className={classes.sa1_title}> sensitized to </h4>
                                 <h4 className={classes.titleName}>{chart.title}</h4>
@@ -158,24 +149,26 @@ export default function Output(props) {
 
     const afterLiveInfo = afterLive()
 
+
     const createLiveCharts = () => {
-        return props.chartData.map((data, idx) => {
+        return props.liveChartData.map((solutionSet, idx) => {
+
                 return (
-                    <Card className={classes.outputCards} key={data.title}>
-                        <div className={classes.cardTop}>
-                            <NavLink to={`/outputs/${data.title}`} style={{textDecoration: 'none'}}>
-                                <h2 className={classes.titleHeader}>{data.title}</h2>
+                    <Card className={classes.outputCards} key={solutionSet.category}>
+                        <div className={classes.cardHeaderContainer}>
+                            <NavLink to={`/outputs/${solutionSet.category}`} style={{textDecoration: 'none'}}>
+                                <h2 className={classes.cardTitleHeader}>{solutionSet.category}</h2>
                             </NavLink>
                             <CardSettings/>
                         </div>
                         <LiveChart
-                            currSolution={data.values}
+                            currSolution={solutionSet.values}
                             fill={chartColors[idx]}
-                            domain={data.domains}
+                            domain={solutionSet.domains}
                         />
                         {afterLiveInfo}
                         <div className={classes.sa1_container}>
-                            {createSAcharts(data.title)}
+                            {createSAcharts(solutionSet.category)}
                         </div>
                     </Card>
                 )
@@ -185,8 +178,6 @@ export default function Output(props) {
 
 
 //Executing custom functions
-
-
     const charts = createLiveCharts()
 
     return (

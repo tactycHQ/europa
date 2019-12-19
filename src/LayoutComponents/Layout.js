@@ -95,6 +95,7 @@ export default function Layout() {
     }
 
     if (isLoaded) {
+
         content =
             <Content handleSliderChange={handleSliderChange}
                      solutions={solutions}
