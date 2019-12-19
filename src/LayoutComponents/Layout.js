@@ -119,6 +119,7 @@ export default function Layout() {
                      inputs={inputs}
                      outputs={outputs}
                      charts={charts}
+                     cases={cases}
             />
 
 

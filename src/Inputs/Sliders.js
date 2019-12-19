@@ -85,7 +85,6 @@ export default function InputSlider(props) {
         setDisplayVal(props.currSliderVal)
     },[props.currSliderVal])
 
-    console.log(displayVal)
 
     return (
         <div className={classes.root}>

@@ -194,7 +194,9 @@ export default function Content(props) {
                     handleCaseChange={props.handleCaseChange}
                     currInputVal={props.currInputVal}
                     inputs={props.inputs}
-                    checked={checked}/>
+                    checked={checked}
+                    cases={props.cases}
+                />
             </Route>
         )
     })
@@ -219,7 +221,9 @@ export default function Content(props) {
                             handleCaseChange={props.handleCaseChange}
                             currInputVal={props.currInputVal}
                             inputs={props.inputs}
-                            checked={checked}/>
+                            checked={checked}
+                            cases={props.cases}
+                        />
                     </Route>
                     <Route exact path="/sensitivity">
                         <Output

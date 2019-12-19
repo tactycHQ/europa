@@ -113,6 +113,8 @@ export default function Input(props) {
                         <div className={classes.caseText}>Case</div>
                         <CaseSelector
                             handleCaseChange={props.handleCaseChange}
+                            cases={props.cases}
+                            currInputVal={props.currInputVal}
                         />
                     </div>
                     <div className={classes.sliderContainer}>

@@ -4,6 +4,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import isEqual from "lodash.isequal";
 
 const useStyles = makeStyles(theme => ({
     formControl: {
@@ -28,7 +29,21 @@ const useStyles = makeStyles(theme => ({
 
 export default function CaseSelector(props) {
     const classes = useStyles();
-    const [inputCase, setInputCase] = React.useState('');
+    const [currCase, setcurrCase] = React.useState('');
+
+    const getCurrCase = () => {
+        return Object.entries(props.cases[0]).reduce((acc, caseInfo) => {
+                if (isEqual(caseInfo[1], props.currInputVal)) {
+                    acc.currCase = caseInfo[0]
+                    console.log(caseInfo[0])
+                }
+                return acc
+            }, {currCase: ''}
+        )
+    }
+
+
+    const curr_case = getCurrCase()
 
 
     return (
@@ -43,7 +58,7 @@ export default function CaseSelector(props) {
             >
                 <Select
                     classes={{selectMenu: classes.caseSelect}}
-                    value={inputCase}
+                    value={curr_case.currCase}
                     onChange={props.handleCaseChange}
                     displayEmpty
                     disableUnderline
@@ -52,7 +67,7 @@ export default function CaseSelector(props) {
                     }}
 
                 >
-                    <MenuItem classes={{root: classes.caseItem}} value="">Default</MenuItem>
+                    <MenuItem classes={{root: classes.caseItem}} value="">..being changed</MenuItem>
                     <MenuItem classes={{root: classes.caseItem}} value={"Low"}>Low</MenuItem>
                     <MenuItem classes={{root: classes.caseItem}} value={"Base"}>Base</MenuItem>
                     <MenuItem classes={{root: classes.caseItem}} value={"High"}>High</MenuItem>
