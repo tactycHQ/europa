@@ -38,14 +38,14 @@ export default function CaseSelector(props) {
                     console.log(caseInfo[0])
                 }
                 return acc
-            }, {currCase: ''}
+            }, {currCase: '...'}
         )
     }
 
 
     const curr_case = getCurrCase()
 
-
+    console.log(curr_case)
     return (
         <div>
             <FormControl
@@ -67,7 +67,8 @@ export default function CaseSelector(props) {
                     }}
 
                 >
-                    <MenuItem classes={{root: classes.caseItem}} value="">..being changed</MenuItem>
+                    <MenuItem classes={{root: classes.caseItem}} value={"..."}>Being Changed</MenuItem>
+                    <MenuItem classes={{root: classes.caseItem}} value={"Default"}>Default</MenuItem>
                     <MenuItem classes={{root: classes.caseItem}} value={"Low"}>Low</MenuItem>
                     <MenuItem classes={{root: classes.caseItem}} value={"Base"}>Base</MenuItem>
                     <MenuItem classes={{root: classes.caseItem}} value={"High"}>High</MenuItem>
