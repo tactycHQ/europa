@@ -38,12 +38,12 @@ export default function Output(props) {
     const useStyles = makeStyles(theme => ({
         root: {
             display: 'flex',
-            width: '100%',
+            minHeight:'100vh',
+            width: '72%',
             marginLeft: '12%',
-            marginRight: '15.5%',
             flexWrap: 'wrap',
             justifyContent: 'center',
-            padding: '7px',
+            padding: '7px'
             // background: "red"
 
         },
@@ -110,6 +110,13 @@ export default function Output(props) {
             fontWeight: '150',
             color: '#4B719C',
             display: 'inline'
+        },
+        detailsText: {
+            fontFamily: 'Questrial',
+            fontWeight: '100',
+            color: '#9DA0A3',
+            marginLeft: '3px',
+
         }
     }))
     const classes = useStyles()
@@ -138,12 +145,25 @@ export default function Output(props) {
         }
     }
 
+    const afterLive = () => {
+        if (props.type === "detail") {
+            return (
+                <h2 className={classes.cardSectionTitle}>
+                    Single Input Sensitivity Analysis
+                </h2>
+            )
+        }
+    }
+
+
+    const afterLiveInfo = afterLive()
+
     const createLiveCharts = () => {
         return props.chartData.map((data, idx) => {
                 return (
                     <Card className={classes.outputCards} key={data.title}>
                         <div className={classes.cardTop}>
-                            <NavLink to={` / outputs /${data.title}`} style={{textDecoration: 'none'}}>
+                            <NavLink to={`/outputs/${data.title}`} style={{textDecoration: 'none'}}>
                                 <h2 className={classes.titleHeader}>{data.title}</h2>
                             </NavLink>
                             <CardSettings/>
@@ -153,9 +173,7 @@ export default function Output(props) {
                             fill={chartColors[idx]}
                             domain={data.domains}
                         />
-                        <h2 className={classes.cardSectionTitle}>
-                            Single Input Sensitivity Analysis
-                        </h2>
+                        {afterLiveInfo}
                         <div className={classes.sa1_container}>
                             {createSAcharts(data.title)}
                         </div>
@@ -166,7 +184,7 @@ export default function Output(props) {
     }
 
 
-    //Executing custom functions
+//Executing custom functions
 
 
     const charts = createLiveCharts()

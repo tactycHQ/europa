@@ -18,23 +18,16 @@ export default function Content(props) {
     const useStyles = makeStyles(theme => ({
         root: {
             display: 'flex',
-            height: '100vh',
-            width: '100%',
-            backgroundColor: '#EBECEC'
-            // backgroundColor: 'yellow'
+            width:'100%'
+        },
+        content: {
+            display: 'flex',
+            width:'100%'
         },
         menuBar: {
             display: 'flex',
             justifyContent: 'center',
             marginTop: '6px',
-        },
-        content: {
-            display: 'flex',
-            height: '100vh',
-            width: '100%',
-            // backgroundColor: 'gray',
-            // borderStyle:'solid'
-
         }
     }))
     const classes = useStyles()

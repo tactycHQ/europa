@@ -10,6 +10,8 @@ import Divider from "@material-ui/core/Divider"
 
 const useStyles = makeStyles(theme => ({
     root: {
+        display:'flex',
+        flexDirection:'column'
     },
     top: {
         display: 'flex',
@@ -22,12 +24,8 @@ const useStyles = makeStyles(theme => ({
         backgroundColor:'#EBECEC'
     },
     middle: {
-        display: 'flex',
+        display:'flex',
         marginTop: '5vh'
-    },
-    bottom: {
-        fontSize: '0.8em',
-        fontFamily: 'Work Sans'
     },
     spinner: {
         display: 'flex'
@@ -117,20 +115,17 @@ export default function Layout() {
 
     return (
         <div className={classes.root}>
-            <Grid container spacing={0}>
-                <Grid className={classes.top} item xs={12} lg={12}>
+                <div className={classes.top}>
                     <TopBar dashName={dashName}/>
                         <Divider className={classes.divider} variant="middle"/>
-                </Grid>
-                <Grid item xs={12} lg={12}>
-                    <div className={classes.middle}>
+                </div>
+                <div className={classes.middle}>
                         {content}
-                    </div>
-                </Grid>
+                </div>
                 {/*<Grid className={classes.bottom} item xs={12} lg={12}>*/}
                 {/*    Copyright Information, Epoch One, LLC 2019*/}
                 {/*</Grid>*/}
-            </Grid>
+
         </div>
     );
 }
