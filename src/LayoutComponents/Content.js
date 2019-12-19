@@ -179,6 +179,7 @@ export default function Content(props) {
         return (
             <Route exact path={[`/outputs/${chartCategory.title}`]} key={chartCategory.title}>
                 <Output
+                    type="detail"
                     chartData={[chartCategory]}
                     saChartData={sa_charts}
                     chartSize={"100%"}
@@ -206,7 +207,6 @@ export default function Content(props) {
                         <Output
                             type="summary"
                             chartData={chartData}
-
                         />
                         <Input
                             handleSliderChange={props.handleSliderChange}

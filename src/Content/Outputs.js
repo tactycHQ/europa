@@ -1,9 +1,9 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import Barchart from "../Charts/barChart"
+import LiveChart from "../Charts/LiveChart"
 import {Card} from "@material-ui/core";
 import CardSettings from "../Outputs/CardSettings";
-import SA1_Chart from "../Charts/SA1_Chart";
+import SA1Chart from "../Charts/SA1Chart";
 import {NavLink} from "react-router-dom";
 
 
@@ -93,21 +93,23 @@ export default function Output(props) {
             height: '100%',
             width: '100%',
             flexWrap: 'wrap',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            alignContent:'flex-end'
         },
         sa1_chart_container: {
-            margin: '10px',
+            margin: '2%',
             // backgroundColor:'red'
         },
         categoryName: {
             fontFamily: 'Questrial',
             fontWeight: '150',
-            color: '#4B719C',
-            display: 'inline'
+            color: '#0C0D0F',
+            display: 'inline',
+            marginRight:'0px'
         },
         titleName: {
             fontFamily: 'Questrial',
-            fontWeight: '150',
+            fontWeight: '750',
             color: '#4B719C',
             display: 'inline'
         },
@@ -135,8 +137,8 @@ export default function Output(props) {
                                 <h4 className={classes.categoryName}>{chart.category}</h4>
                                 <h4 className={classes.sa1_title}> sensitized to </h4>
                                 <h4 className={classes.titleName}>{chart.title}</h4>
-                                <SA1_Chart data={chart.data} category={chart.category} title={chart.title}
-                                           key={chart.category + chart.title}/>
+                                <SA1Chart data={chart.data} category={chart.category} title={chart.title}
+                                          key={chart.category + chart.title}/>
                             </div>
                         )
                     }
@@ -155,7 +157,6 @@ export default function Output(props) {
         }
     }
 
-
     const afterLiveInfo = afterLive()
 
     const createLiveCharts = () => {
@@ -168,7 +169,7 @@ export default function Output(props) {
                             </NavLink>
                             <CardSettings/>
                         </div>
-                        <Barchart
+                        <LiveChart
                             currSolution={data.values}
                             fill={chartColors[idx]}
                             domain={data.domains}

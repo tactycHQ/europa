@@ -4,7 +4,7 @@ import {makeStyles} from "@material-ui/core"
 import DataFormatter from 'excel-style-dataformatter'
 
 
-export default function Barchart(props) {
+export default function LiveChart(props) {
 
     // Defining hooks
     const useStyles = makeStyles(theme => ({
@@ -117,7 +117,6 @@ export default function Barchart(props) {
 
                 <YAxis
                     hide={true}
-                    // tick={{stroke: 'red', strokeWidth: 2}}
                     tick={<CustomizedYAxisTick/>}
                     // ticks={[0,1000,2000,3000,4000,5000,6000,7000]}
                     stroke={props.fill}
