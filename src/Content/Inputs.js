@@ -77,7 +77,7 @@ export default function Input(props) {
     let inputAddress
     let inputValues
     let sliders
-    let defaultInputVal
+    let currSliderVal
 
     if (props.inputs) {
         sliders = props.inputs.map(input => {
@@ -85,7 +85,7 @@ export default function Input(props) {
                 inputAddress = input.address
                 inputValues = input.values
 
-                defaultInputVal = props.defaultInputVal[inputAddress]
+                currSliderVal = props.currInputVal[inputAddress]
 
                 return (
                     <InputSlider name={inputName}
@@ -93,7 +93,7 @@ export default function Input(props) {
                                  key={inputAddress}
                                  address={inputAddress}
                                  values={inputValues}
-                                 defaultInputVal={defaultInputVal}/>
+                                 currSliderVal={currSliderVal}/>
                 )
             }
         )
@@ -111,11 +111,11 @@ export default function Input(props) {
                     <CardHeader classes={{root: classes.inputHeader, title: classes.inputTitle}} title="Inputs"/>
                     <div className={classes.caseSelectorContainer}>
                         <div className={classes.caseText}>Case</div>
-                        <CaseSelector/>
+                        <CaseSelector
+                            handleCaseChange={props.handleCaseChange}
+                        />
                     </div>
                     <div className={classes.sliderContainer}>
-
-
                         {sliders}
                         {/*{sliders}*/}
                     </div>

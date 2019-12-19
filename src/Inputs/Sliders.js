@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Slider from '@material-ui/core/Slider'
 import * as ssf from 'ssf'
@@ -75,11 +75,17 @@ function generateMarks(values) {
 
 export default function InputSlider(props) {
     const classes = useStyles()
+    const [displayVal, setDisplayVal] = useState(0)
 
     const marks = generateMarks(props.values)
     const min = Math.min(...props.values)
     const max = Math.max(...props.values)
 
+    useEffect(() => {
+        setDisplayVal(props.currSliderVal)
+    },[props.currSliderVal])
+
+    console.log(displayVal)
 
     return (
         <div className={classes.root}>
@@ -92,7 +98,8 @@ export default function InputSlider(props) {
                 thumb: classes.thumb,
                 valueLabel: classes.valueLabel
             }}
-                    defaultValue={props.defaultInputVal}
+                    // defaultValue={props.currSliderVal}
+                    value={displayVal}
                     aria-labelledby="discrete-slider-restricted"
                     valueLabelDisplay="on"
                     valueLabelFormat={valueLabelFormat}

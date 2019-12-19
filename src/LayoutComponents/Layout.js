@@ -10,21 +10,21 @@ import Divider from "@material-ui/core/Divider"
 
 const useStyles = makeStyles(theme => ({
     root: {
-        display:'flex',
-        flexDirection:'column'
+        display: 'flex',
+        flexDirection: 'column'
     },
     top: {
         display: 'flex',
-        flexDirection:'column',
+        flexDirection: 'column',
         width: '100%',
         position: 'fixed',
         zIndex: '2'
     },
-    divider:{
-        backgroundColor:'#EBECEC'
+    divider: {
+        backgroundColor: '#EBECEC'
     },
     middle: {
-        display:'flex',
+        display: 'flex',
         marginTop: '5vh'
     },
     spinner: {
@@ -50,6 +50,7 @@ export default function Layout() {
     const [inputs, setInputs] = useState(null)
     const [outputs, setOutputs] = useState(null)
     const [cases, setCases] = useState(null)
+    const [inputCase, setInputCase] = useState(null)
     const [charts, setCharts] = useState(null)
     const [dashName, setDashName] = useState("Loading...")
     const [isLoaded, setisLoaded] = useState(false)
@@ -76,6 +77,7 @@ export default function Layout() {
             let defaults = metadata.cases.map(i => {
                 return extractDefaults(i)
             })
+
             setdefaultInputVal(defaults[0])
             setcurrInputVal(defaults[0])
             setOutputs(metadata.outputs)
@@ -86,6 +88,14 @@ export default function Layout() {
         runEffect()
     }, [])
 
+
+    useEffect (() => {
+        if (inputCase) {
+            setcurrInputVal(cases[0][inputCase])
+        }
+
+    },[cases, inputCase])
+
     // Defining functions
     const handleSliderChange = (event, newValue, setAddress) => {
         setcurrInputVal(prevState => ({
@@ -94,17 +104,20 @@ export default function Layout() {
         }))
     }
 
-    if (isLoaded) {
+    const handleCaseChange = event => {
+        setInputCase(event.target.value)
+    }
 
+    if (isLoaded) {
         content =
             <Content handleSliderChange={handleSliderChange}
+                     handleCaseChange={handleCaseChange}
                      solutions={solutions}
                      currInputVal={currInputVal}
                      domains={domains}
                      formats={formats}
                      inputs={inputs}
                      outputs={outputs}
-                     defaultInputVal={defaultInputVal}
                      charts={charts}
             />
 
@@ -116,16 +129,16 @@ export default function Layout() {
 
     return (
         <div className={classes.root}>
-                <div className={classes.top}>
-                    <TopBar dashName={dashName}/>
-                        <Divider className={classes.divider} variant="middle"/>
-                </div>
-                <div className={classes.middle}>
-                        {content}
-                </div>
-                {/*<Grid className={classes.bottom} item xs={12} lg={12}>*/}
-                {/*    Copyright Information, Epoch One, LLC 2019*/}
-                {/*</Grid>*/}
+            <div className={classes.top}>
+                <TopBar dashName={dashName}/>
+                <Divider className={classes.divider} variant="middle"/>
+            </div>
+            <div className={classes.middle}>
+                {content}
+            </div>
+            {/*<Grid className={classes.bottom} item xs={12} lg={12}>*/}
+            {/*    Copyright Information, Epoch One, LLC 2019*/}
+            {/*</Grid>*/}
 
         </div>
     );

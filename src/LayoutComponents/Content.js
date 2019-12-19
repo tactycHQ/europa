@@ -191,7 +191,8 @@ export default function Content(props) {
                 />
                 <Input
                     handleSliderChange={props.handleSliderChange}
-                    defaultInputVal={props.defaultInputVal}
+                    handleCaseChange={props.handleCaseChange}
+                    currInputVal={props.currInputVal}
                     inputs={props.inputs}
                     checked={checked}/>
             </Route>
@@ -215,7 +216,8 @@ export default function Content(props) {
                         />
                         <Input
                             handleSliderChange={props.handleSliderChange}
-                            defaultInputVal={props.defaultInputVal}
+                            handleCaseChange={props.handleCaseChange}
+                            currInputVal={props.currInputVal}
                             inputs={props.inputs}
                             checked={checked}/>
                     </Route>

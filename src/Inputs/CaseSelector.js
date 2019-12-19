@@ -16,15 +16,7 @@ const useStyles = makeStyles(theme => ({
         fontFamily: 'Questrial',
         fontSize: '0.8em',
         background: '#F1F2EF',
-        padding:'2px',
-    },
-    selected: {
-        backgroundColor: "pink",
-        color: "green",
-        "&:hover": {
-            backgroundColor: "black",
-            color: "darkblue"
-        }
+        padding: '2px',
     },
     caseItem: {
         fontFamily: 'Questrial',
@@ -34,35 +26,35 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-export default function CaseSelector() {
+export default function CaseSelector(props) {
     const classes = useStyles();
     const [inputCase, setInputCase] = React.useState('');
-
-    const handleChange = event => {
-        console.log(event.target.value)
-        setInputCase(event.target.value);
-    }
 
 
     return (
         <div>
             <FormControl
                 className={classes.formControl}
+                disableScrollLock={true}
                 // size="small"
                 // margin="dense"
                 // variant="standard"
                 // fullWidth={true}
             >
                 <Select
-                    classes={{selectMenu:classes.caseSelect}}
+                    classes={{selectMenu: classes.caseSelect}}
                     value={inputCase}
-                    onChange={handleChange}
+                    onChange={props.handleCaseChange}
                     displayEmpty
                     disableUnderline
+                    MenuProps={{
+                        disableScrollLock: true
+                    }}
+
                 >
                     <MenuItem classes={{root: classes.caseItem}} value="">Default</MenuItem>
+                    <MenuItem classes={{root: classes.caseItem}} value={"Low"}>Low</MenuItem>
                     <MenuItem classes={{root: classes.caseItem}} value={"Base"}>Base</MenuItem>
-                    <MenuItem classes={{root: classes.caseItem}} value={"Mid"}>Mid</MenuItem>
                     <MenuItem classes={{root: classes.caseItem}} value={"High"}>High</MenuItem>
                 </Select>
             </FormControl>
