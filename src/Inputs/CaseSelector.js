@@ -1,7 +1,7 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
+import Menu from "@material-ui/core/Menu";
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import isEqual from "lodash.isequal";
@@ -29,7 +29,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function CaseSelector(props) {
     const classes = useStyles();
-    const [currCase, setcurrCase] = React.useState('');
 
     const getCurrCase = () => {
         return Object.entries(props.cases[0]).reduce((acc, caseInfo) => {
@@ -43,9 +42,15 @@ export default function CaseSelector(props) {
     }
 
 
-    const curr_case = getCurrCase()
+    const getAllCases = () => {
+        return Object.keys(props.cases[0]).map(_case => {
+            return <MenuItem key={_case} classes={{root: classes.caseItem}} value={_case}>{_case}</MenuItem>
+        })
+    }
 
-    console.log(curr_case)
+    const curr_case = getCurrCase()
+    const case_elements = getAllCases()
+
     return (
         <div>
             <FormControl
@@ -64,14 +69,10 @@ export default function CaseSelector(props) {
                     disableUnderline
                     MenuProps={{
                         disableScrollLock: true
-                    }}
+                    }}>
 
-                >
-                    <MenuItem classes={{root: classes.caseItem}} value={"..."}>Being Changed</MenuItem>
-                    <MenuItem classes={{root: classes.caseItem}} value={"Default"}>Default</MenuItem>
-                    <MenuItem classes={{root: classes.caseItem}} value={"Low"}>Low</MenuItem>
-                    <MenuItem classes={{root: classes.caseItem}} value={"Base"}>Base</MenuItem>
-                    <MenuItem classes={{root: classes.caseItem}} value={"High"}>High</MenuItem>
+                    {case_elements}
+
                 </Select>
             </FormControl>
         </div>
