@@ -54,7 +54,7 @@ export default function Output(props) {
             margin: '5px',
             // marginBottom: '1vh',
             background: '#FEFEFD',
-            padding: '3px'
+            padding: '2px'
         },
         titleHeader: {
             color: '#4F545A',

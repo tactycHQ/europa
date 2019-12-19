@@ -96,9 +96,10 @@ export default function LiveChart(props) {
         <ResponsiveContainer width="100%" height={250}>
             <BarChart
                 data={processedData}
-                margin={{top: 15, right: 10, left: 10, bottom: 5}}
+                margin={{top: 15, right: 10, left: 10, bottom: 0}}
                 maxBarSize={30}
                 style={{background:'linear-gradient(#FEFEFD,#EEF2F6)'}}
+
             >
                 <defs>
                     <linearGradient id={props.fill} x1="0" y1="0" x2="0" y2="1">
@@ -114,7 +115,8 @@ export default function LiveChart(props) {
                     minTickGap={2}
                     interval={0}
                     tick={<CustomizedXAxisTick/>}
-                    padding={{top: 30, bottom: 30}}/>
+                    padding={{top: 30, bottom: 30}}
+                />
 
                 <YAxis
                     hide={true}
