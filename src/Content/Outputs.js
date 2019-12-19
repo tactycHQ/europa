@@ -7,6 +7,7 @@ import SA1Chart from "../Charts/SA1Chart";
 import {NavLink} from "react-router-dom";
 
 
+
 // import StackedBar from "./stackedbar";
 // import MixBar from "./mixbar";
 // import Radial from "./radial";
@@ -38,7 +39,7 @@ export default function Output(props) {
     const useStyles = makeStyles(theme => ({
         root: {
             display: 'flex',
-            minHeight:'100vh',
+            minHeight: '100vh',
             width: '72%',
             marginLeft: '12%',
             flexWrap: 'wrap',
@@ -52,9 +53,7 @@ export default function Output(props) {
             flexDirection: 'column',
             width: custom_width,
             margin: '5px',
-            // marginBottom: '1vh',
-            background: '#FEFEFD',
-            padding: '2px'
+            background: '#FEFEFD'
         },
         titleHeader: {
             color: '#4F545A',
@@ -67,8 +66,8 @@ export default function Output(props) {
             color: '#292F36',
             fontFamily: 'Questrial',
             fontWeight: '50',
-            marginTop: '15px',
-            marginLeft: '3px'
+            marginTop: '4%',
+            marginLeft: '7px'
         },
         titleBox: {
             color: '#4F545A',
@@ -94,7 +93,7 @@ export default function Output(props) {
             width: '100%',
             flexWrap: 'wrap',
             justifyContent: 'space-between',
-            alignContent:'flex-end'
+            alignContent: 'flex-end'
         },
         sa1_chart_container: {
             margin: '2%',
@@ -105,7 +104,7 @@ export default function Output(props) {
             fontWeight: '150',
             color: '#0C0D0F',
             display: 'inline',
-            marginRight:'0px'
+            marginRight: '0px'
         },
         titleName: {
             fontFamily: 'Questrial',

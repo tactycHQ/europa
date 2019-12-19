@@ -93,7 +93,7 @@ export default function Input(props) {
             <Slide
                 direction="left"
                 in={props.checked}
-                timeout={500}
+                timeout={1000}
                 mountOnEnter
                 unmountOnExit>
                 <Card className={classes.inputContainer} rounded={"true"}>

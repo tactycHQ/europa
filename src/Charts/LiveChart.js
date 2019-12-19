@@ -93,7 +93,7 @@ export default function LiveChart(props) {
 
 
     return (
-        <ResponsiveContainer width="100%" height={250}>
+        <ResponsiveContainer width="100%" height={310}>
             <BarChart
                 data={processedData}
                 margin={{top: 15, right: 10, left: 10, bottom: 0}}

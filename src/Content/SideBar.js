@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
                 fontFamily: 'Questrial',
                 color: '#292F36',
                 "&:hover": {
-                    // color: "#F4F9E9"
+                    color: "#293E56"
                 }
             },
             outputLabel: {
