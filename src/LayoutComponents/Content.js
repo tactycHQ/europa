@@ -21,8 +21,8 @@ export default function Content(props) {
             height: '100vh',
             width: '100%',
             backgroundColor: '#EBECEC'
+            // backgroundColor: 'yellow'
         },
-        sidebar: {},
         menuBar: {
             display: 'flex',
             justifyContent: 'center',
@@ -30,6 +30,11 @@ export default function Content(props) {
         },
         content: {
             display: 'flex',
+            height: '100vh',
+            width: '100%',
+            // backgroundColor: 'gray',
+            // borderStyle:'solid'
+
         }
     }))
     const classes = useStyles()
@@ -175,17 +180,24 @@ export default function Content(props) {
     const sa_combos = createSAcombos()
     const sa_solutions = findSASolution()
     const sa_charts = arrangeByCategory()
-    const customRoutes = props.outputs.map(output => {
-            return (
-                <Route exact path={[`/outputs/${output.category}`]} key={output.category}>
-                    <Output
-                        chartData={chartData}
-                        saChartData={sa_charts}
-                    />
-                </Route>
-            )
-        }
-    )
+    // console.log(sa_charts)
+    const customRoutes = chartData.map(chartCategory => {
+
+        return (
+            <Route exact path={[`/outputs/${chartCategory.title}`]} key={chartCategory.title}>
+                <Output
+                    chartData={[chartCategory]}
+                    saChartData={sa_charts}
+                    chartSize={"100%"}
+                />
+                <Input
+                    handleSliderChange={props.handleSliderChange}
+                    defaultInputVal={props.defaultInputVal}
+                    inputs={props.inputs}
+                    checked={checked}/>
+            </Route>
+        )
+    })
 
 
     return (
@@ -199,8 +211,9 @@ export default function Content(props) {
                 <Switch>
                     <Route exact path={["/", "/dashboard"]}>
                         <Output
+                            type="summary"
                             chartData={chartData}
-                            saChartData={sa_charts}
+
                         />
                         <Input
                             handleSliderChange={props.handleSliderChange}
@@ -210,6 +223,7 @@ export default function Content(props) {
                     </Route>
                     <Route exact path="/sensitivity">
                         <Output
+                            type="detail"
                             chartData={chartData}
                             saChartData={sa_charts}
                         />

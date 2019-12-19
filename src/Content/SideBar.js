@@ -15,16 +15,19 @@ const useStyles = makeStyles(theme => ({
             root: {
                 display: 'flex',
                 height: '100vh',
-                width: '13%',
+                maxWidth: '12%',
+                minWidth: '12%',
                 position: 'fixed',
                 flexDirection: 'column',
-                padding: '10px',
+                // padding: '7px',
                 alignContent: 'flex-start',
                 backgroundColor: '#FEFEFD',
+                // borderStyle: 'solid',
+                // background: 'green'
             },
             buttons: {
                 display: 'flex',
-                margin: '5px',
+                margin: '3px',
                 color: '#292F36',
                 justifyContent: 'flex-start',
                 alignItems: 'center',

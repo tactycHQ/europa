@@ -4,7 +4,7 @@ import {makeStyles} from "@material-ui/core"
 // import DataFormatter from 'excel-style-dataformatter'
 
 
-export default function Areachart(props) {
+export default function SA1_Chart(props) {
     const useStyles = makeStyles(theme => ({
         chartContainer: {},
         bar: {
@@ -22,7 +22,7 @@ export default function Areachart(props) {
                 <Line key={idx + props.title}
                       type="monotone"
                       dataKey={idx}
-                      stroke="#9472B1"
+                      stroke="#4B719C"
                       dot={false}
                       fillOpacity={1}
                       fill="#73766D"

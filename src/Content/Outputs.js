@@ -3,7 +3,8 @@ import {makeStyles} from '@material-ui/core/styles'
 import Barchart from "../Charts/barChart"
 import {Card} from "@material-ui/core";
 import CardSettings from "../Outputs/CardSettings";
-import Areachart from "../Charts/areaChart";
+import SA1_Chart from "../Charts/SA1_Chart";
+import {NavLink} from "react-router-dom";
 
 
 // import StackedBar from "./stackedbar";
@@ -22,23 +23,34 @@ const chartColors = [
 
 export default function Output(props) {
 
+    //Initialization functions for formatting depending on type
+    const get_width = () => {
+        if (props.type === "summary") {
+            return "48%"
+        } else {
+            return "100%"
+        }
+    }
+    const custom_width = get_width()
+
+
     //Defining hooks
     const useStyles = makeStyles(theme => ({
         root: {
             display: 'flex',
             width: '100%',
-            marginLeft:'13%',
-            marginRight:'15.5%',
+            marginLeft: '12%',
+            marginRight: '15.5%',
             flexWrap: 'wrap',
             justifyContent: 'center',
-            padding:'7px'
-
+            padding: '7px',
+            // background: "red"
 
         },
         outputCards: {
             display: 'flex',
             flexDirection: 'column',
-            width: '48%',
+            width: custom_width,
             margin: '5px',
             // marginBottom: '1vh',
             background: '#FEFEFD',
@@ -51,11 +63,11 @@ export default function Output(props) {
             marginTop: '3px',
             marginLeft: '7px'
         },
-        cardSection: {
-            color: '#0C0D0F',
+        cardSectionTitle: {
+            color: '#292F36',
             fontFamily: 'Questrial',
             fontWeight: '50',
-            marginTop: '10px',
+            marginTop: '15px',
             marginLeft: '3px'
         },
         titleBox: {
@@ -68,12 +80,36 @@ export default function Output(props) {
             display: 'flex',
             justifyContent: 'space-between'
         },
-        satitle: {
+        sa1_title: {
             color: '#0C0D0F',
             fontFamily: 'Questrial',
             fontWeight: '50',
             marginTop: '2.5%',
-            marginLeft: '3px'
+            marginLeft: '3px',
+            display: 'inline'
+        },
+        sa1_container: {
+            display: 'flex',
+            height: '100%',
+            width: '100%',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between'
+        },
+        sa1_chart_container: {
+            margin: '10px',
+            // backgroundColor:'red'
+        },
+        categoryName: {
+            fontFamily: 'Questrial',
+            fontWeight: '150',
+            color: '#4B719C',
+            display: 'inline'
+        },
+        titleName: {
+            fontFamily: 'Questrial',
+            fontWeight: '150',
+            color: '#4B719C',
+            display: 'inline'
         }
     }))
     const classes = useStyles()
@@ -81,19 +117,25 @@ export default function Output(props) {
 
     // Defining custom functions for Live charts
     const createSAcharts = (outputCategory) => {
-        return props.saChartData.map(categoryCharts => {
-            return categoryCharts.map(chart => {
-                if (chart.category === outputCategory) {
-                    return (
-                        <div>
-                            <h4 className={classes.satitle}>{`How does ${chart.category} change with ${chart.title}?`}</h4>
-                            <Areachart data={chart.data} category={chart.category} title={chart.title}
-                                       key={chart.category + chart.title}/>
-                        </div>
-                    )
-                }
+
+        if (props.type === "summary") {
+        } else {
+            return props.saChartData.map(categoryCharts => {
+                return categoryCharts.map(chart => {
+                    if (chart.category === outputCategory) {
+                        return (
+                            <div className={classes.sa1_chart_container}>
+                                <h4 className={classes.categoryName}>{chart.category}</h4>
+                                <h4 className={classes.sa1_title}> sensitized to </h4>
+                                <h4 className={classes.titleName}>{chart.title}</h4>
+                                <SA1_Chart data={chart.data} category={chart.category} title={chart.title}
+                                           key={chart.category + chart.title}/>
+                            </div>
+                        )
+                    }
+                })
             })
-        })
+        }
     }
 
     const createLiveCharts = () => {
@@ -101,18 +143,22 @@ export default function Output(props) {
                 return (
                     <Card className={classes.outputCards} key={data.title}>
                         <div className={classes.cardTop}>
-                            <h1 className={classes.titleHeader}>{data.title}</h1>
+                            <NavLink to={` / outputs /${data.title}`} style={{textDecoration: 'none'}}>
+                                <h2 className={classes.titleHeader}>{data.title}</h2>
+                            </NavLink>
                             <CardSettings/>
                         </div>
                         <Barchart
                             currSolution={data.values}
                             fill={chartColors[idx]}
                             domain={data.domains}
-                          />
-                        <h3 className={classes.cardSection}>
+                        />
+                        <h2 className={classes.cardSectionTitle}>
                             Single Input Sensitivity Analysis
-                        </h3>
-                            {/*{createSAcharts(data.title)}*/}
+                        </h2>
+                        <div className={classes.sa1_container}>
+                            {createSAcharts(data.title)}
+                        </div>
                     </Card>
                 )
             }
@@ -121,6 +167,8 @@ export default function Output(props) {
 
 
     //Executing custom functions
+
+
     const charts = createLiveCharts()
 
     return (
