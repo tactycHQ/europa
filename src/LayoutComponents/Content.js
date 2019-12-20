@@ -18,11 +18,11 @@ export default function Content(props) {
     const useStyles = makeStyles(theme => ({
         root: {
             display: 'flex',
-            width:'100%'
+            width: '100%'
         },
         content: {
             display: 'flex',
-            width:'100%'
+            width: '100%'
         },
         menuBar: {
             display: 'flex',
@@ -70,6 +70,7 @@ export default function Content(props) {
     const extractLiveChartMetaData = (solutionSet) => {
         const labelsInChart = props.outputs.map(output => {
 
+                // Applying labels and formats
                 const reformatted = Object.entries(output.labels).map(labelSet => {
 
                     return {
@@ -129,6 +130,7 @@ export default function Content(props) {
                         return {
                             input: input_address,
                             inputValue: combo[input_address],
+                            format: props.formats[input_address],
                             outputs: {...answers}
                         }
                     }
@@ -148,15 +150,19 @@ export default function Content(props) {
                                 return acc
                             }, {})
 
+
                             return {
                                 [inputLabelMap[singleSolution.input]]: singleSolution.inputValue,
                                 ...__data
                             }
                         }
                     )
+
                     return {
                         category: output.category,
                         title: inputLabelMap[solution[0].input],
+                        inputFormat: props.formats[solution[0].input],
+                        outputFormat: props.formats[Object.keys(output.labels)[0]],
                         data: solutionPayload
                     }
                 }
@@ -167,9 +173,9 @@ export default function Content(props) {
 
 
 //Toggle Input Handler
-    const handleChange = () => {
-        setChecked(prev => !prev);
-    }
+//     const handleChange = () => {
+//         setChecked(prev => !prev);
+//     }
 
 
 // Function Executions
@@ -179,10 +185,11 @@ export default function Content(props) {
     const sa_combos = createSAcombos()
     const sa_solutions = findSASolution()
     const sa_charts = arrangeByCategory()
-    const customRoutes = liveChartData.map(chartCategory => {
 
+    const customRoutes = liveChartData.map(chartCategory => {
         return (
             <Route exact path={[`/outputs/${chartCategory.category}`]} key={chartCategory.category}>
+                <SideBar className={classes.sidebar} outputs={props.outputs}/>
                 <Output
                     type="detail"
                     liveChartData={[chartCategory]}
@@ -204,14 +211,10 @@ export default function Content(props) {
 
     return (
         <div className={classes.root}>
-            <div className={classes.menuBar}>
-                {/*<ToggleInput checked={checked} handleChange={handleChange}/>*/}
-            </div>
-
             <div className={classes.content}>
-                <SideBar className={classes.sidebar} outputs={props.outputs}/>
                 <Switch>
                     <Route exact path={["/", "/dashboard"]}>
+                        <SideBar className={classes.sidebar} outputs={props.outputs}/>
                         <Output
                             type="summary"
                             liveChartData={liveChartData}
@@ -226,6 +229,7 @@ export default function Content(props) {
                         />
                     </Route>
                     <Route exact path="/sensitivity">
+                        <SideBar className={classes.sidebar} outputs={props.outputs}/>
                         <Output
                             type="detail"
                             liveChartData={liveChartData}
@@ -233,17 +237,20 @@ export default function Content(props) {
                         />
                     </Route>
                     <Route exact path="/scenario">
+                        <SideBar className={classes.sidebar} outputs={props.outputs}/>
                         <ScenarioAnalysis/>
                     </Route>
                     <Route exact path="/dependency">
                         <DependencyGraph/>
                     </Route>
+                    <Route exact path="/home">
+                        <div>This is home</div>
+                    </Route>
                     {customRoutes}
                 </Switch>
             </div>
-
-            < /div>
-                )
-                }
+        </div>
+    )
+}
 
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import {BarChart, Bar, XAxis, YAxis, LabelList, Tooltip, ResponsiveContainer, ReferenceLine} from 'recharts'
 import {makeStyles} from "@material-ui/core"
-import DataFormatter from 'excel-style-dataformatter'
+import {convert_format} from "../utils/utils"
 
 
 export default function LiveChart(props) {
@@ -12,7 +12,7 @@ export default function LiveChart(props) {
         bar: {
         }
     }))
-    const dataFormatter = new DataFormatter()
+
     const classes = useStyles()
 
     // Defined variables
@@ -30,15 +30,6 @@ export default function LiveChart(props) {
                     })
             }
         )
-    }
-
-    const convert_format = (fmt, value) => {
-        let temp_format = dataFormatter.format(value, 'Number', fmt).value.replace(' ', ',')
-        if (temp_format.substr(-1) === ',') {
-            return temp_format.slice(0, -1)
-        } else {
-            return temp_format
-        }
     }
 
     const yAxisFormatter = value => convert_format(master_fmt, value)
@@ -91,7 +82,6 @@ export default function LiveChart(props) {
     const processedData = process_formats()
 
 
-
     return (
         <ResponsiveContainer width="100%" height={310}>
             <BarChart
@@ -131,7 +121,12 @@ export default function LiveChart(props) {
                     tickFormatter={tick => yAxisFormatter(tick)}
                 />
 
-                <Tooltip cursor={{fill: '#FEFEFD'}}/>
+                <Tooltip
+                    wrapperStyle={{fontSize:'0.9em', fontFamily:'Questrial', color: props.fill}}
+                    cursor={{fill: '#FEFEFD', fontFamily:'Questrial', fontSize:'0.8em'}}
+                    formatter={(value) => yAxisFormatter(value)
+                    }
+                />
                 <ReferenceLine y={0} stroke="gray" strokeDasharray="3 3" strokeWidth={0.1}/>
 
                 <Bar

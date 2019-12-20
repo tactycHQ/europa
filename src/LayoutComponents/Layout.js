@@ -137,10 +137,6 @@ export default function Layout() {
             <div className={classes.middle}>
                 {content}
             </div>
-            {/*<Grid className={classes.bottom} item xs={12} lg={12}>*/}
-            {/*    Copyright Information, Epoch One, LLC 2019*/}
-            {/*</Grid>*/}
-
         </div>
     );
 }

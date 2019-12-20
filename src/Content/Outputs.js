@@ -116,6 +116,24 @@ export default function Output(props) {
 
 
     // Defining custom functions for Live charts
+    const createLiveCharts = (solutionSet, idx) => {
+        return (
+            <LiveChart
+                currSolution={solutionSet.values}
+                fill={chartColors[idx]}
+                domain={solutionSet.domains}
+            />
+        )
+    }
+
+    const createSAContainer = (solutionSet) => {
+        return (
+            <div className={classes.sa1_container}>
+                {createSAcharts(solutionSet.category)}
+            </div>
+        )
+    }
+
     const createSAcharts = (outputCategory) => {
         if (props.type === "summary") {
         } else {
@@ -127,7 +145,11 @@ export default function Output(props) {
                                 <h4 className={classes.categoryName}>{chart.category}</h4>
                                 <h4 className={classes.sa1_title}> sensitized to </h4>
                                 <h4 className={classes.titleName}>{chart.title}</h4>
-                                <SA1Chart data={chart.data} category={chart.category} title={chart.title}
+                                <SA1Chart data={chart.data}
+                                          category={chart.category}
+                                          title={chart.title}
+                                          inputFormat={chart.inputFormat}
+                                          outputFormat={chart.outputFormat}
                                           key={chart.category + chart.title}/>
                             </div>
                         )
@@ -137,8 +159,8 @@ export default function Output(props) {
         }
     }
 
-    const afterLive = () => {
-        if (props.type === "detail") {
+    const createSAHeader = (type) => {
+        if (type === "detail") {
             return (
                 <h2 className={classes.cardSectionTitle}>
                     Single Input Sensitivity Analysis
@@ -147,12 +169,8 @@ export default function Output(props) {
         }
     }
 
-    const afterLiveInfo = afterLive()
-
-
-    const createLiveCharts = () => {
+    const createCharts = () => {
         return props.liveChartData.map((solutionSet, idx) => {
-
                 return (
                     <Card className={classes.outputCards} key={solutionSet.category}>
                         <div className={classes.cardHeaderContainer}>
@@ -161,28 +179,18 @@ export default function Output(props) {
                             </NavLink>
                             <CardSettings/>
                         </div>
-                        <LiveChart
-                            currSolution={solutionSet.values}
-                            fill={chartColors[idx]}
-                            domain={solutionSet.domains}
-                        />
-                        {afterLiveInfo}
-                        <div className={classes.sa1_container}>
-                            {createSAcharts(solutionSet.category)}
-                        </div>
+                        {createLiveCharts(solutionSet, idx)}
+                        {createSAHeader(props.type)}
+                        {createSAContainer(solutionSet)}
                     </Card>
                 )
             }
         )
     }
 
-
-//Executing custom functions
-    const charts = createLiveCharts()
-
     return (
         <div className={classes.root}>
-            {charts}
+            {createCharts()}
         </div>
     )
 }

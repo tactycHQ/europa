@@ -34,7 +34,6 @@ export default function CaseSelector(props) {
         return Object.entries(props.cases[0]).reduce((acc, caseInfo) => {
                 if (isEqual(caseInfo[1], props.currInputVal)) {
                     acc.currCase = caseInfo[0]
-                    console.log(caseInfo[0])
                 }
                 return acc
             }, {currCase: '...'}

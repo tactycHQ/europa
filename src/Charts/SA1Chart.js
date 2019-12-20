@@ -1,7 +1,7 @@
 import React from 'react'
 import {LineChart, XAxis, YAxis, Tooltip, Line, ResponsiveContainer, Legend} from 'recharts'
 import {makeStyles} from "@material-ui/core"
-// import DataFormatter from 'excel-style-dataformatter'
+import {convert_format} from "../utils/utils"
 
 const chartColors = [
     '#083D77',
@@ -19,8 +19,9 @@ export default function SA1Chart(props) {
             fill: props.fill
         }
     }))
-    // const dataFormatter = new DataFormatter()
+
     const classes = useStyles()
+
 
 
     const createArea = () => {
@@ -49,11 +50,20 @@ export default function SA1Chart(props) {
                            margin={{top: 10, right: 30, left: 15, bottom: 0}}
                            style={{background:'linear-gradient(#FEFEFD,#EEF2F6)'}}
                 >
-                    <XAxis dataKey={props.title}/>
+                    <XAxis
+                        dataKey={props.title}
+                        tickFormatter={ tick => convert_format(props.inputFormat,tick)}
+
+                    />
                     <YAxis
                         hide={true}
                         padding={{top: 30, bottom: 30}}/>
-                    <Tooltip/>
+                    <Tooltip
+                        wrapperStyle={{fontSize:'0.9em', fontFamily:'Questrial'}}
+                        cursor={{fill: '#FEFEFD'}}
+                        formatter={(value) => convert_format(props.outputFormat,value)}
+                        labelFormatter={(value) => `${props.title} at ${convert_format(props.inputFormat, value)}`}
+                    />
                     <Legend
                         wrapperStyle={{fontSize:'0.8em', fontFamily:'Questrial'}}
                         verticalAlign="bottom"

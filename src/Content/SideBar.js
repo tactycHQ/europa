@@ -70,7 +70,7 @@ const useStyles = makeStyles(theme => ({
                 fontSize: '0.95em',
                 paddingLeft: '5px',
                 fontFamily: 'Questrial',
-                color: '#4B719C',
+                color: '#292F36',
                 "&:hover": {
                     // color: "#F4F9E9"
                 }
@@ -150,7 +150,6 @@ export default function SideBar(props) {
                         <SaveAltIcon className={classes.icon}/>
                         <div className={classes.buttonLabel}>Save Dashboard</div>
                     </ListItem>
-
                 </List>
             </div>
         </div>
