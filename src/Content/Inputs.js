@@ -38,15 +38,16 @@ const useStyles = makeStyles(theme => ({
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
-                padding:'5px'
-                // background: 'gray'
+                padding: '5px',
+                textAlign: 'center'
             },
             caseText: {
                 fontFamily: 'Questrial',
                 fontSize: '0.9em',
-                fontWeight:'800',
-                color:'#4B719C',
-                marginRight:'10px'
+                fontWeight: '800',
+                color: '#4B719C',
+                marginRight: '10px'
+
             },
             sliderContainer: {
                 display: 'flex',
@@ -55,10 +56,6 @@ const useStyles = makeStyles(theme => ({
                 justifyContent: 'space-evenly',
                 marginLeft: '3.5%',
                 marginRight: '3.5%'
-            },
-            showInputsSwitch: {},
-            switchBase: {
-                color: '#5d4037'
             },
             label: {
                 fontFamily: 'Questrial',

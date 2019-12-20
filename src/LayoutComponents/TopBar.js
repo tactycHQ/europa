@@ -14,17 +14,25 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: '#FEFEFD'
     },
     logo: {
+        display: 'flex',
         marginLeft: '10px',
-        width: '4.5%'
+        fontFamily:'Questrial',
+        minWidth: '7.5%',
+        fontSize:'0.80em',
+        color: '#4185D3',
+        letterSpacing:'3px'
     },
     modelname: {
+        display: 'flex',
         fontSize: '1.1em',
         color: '#292F36',
         fontFamily: 'Questrial',
-        textTransform: 'uppercase'
+        textTransform: 'uppercase',
+        marginRight:'9%'
     },
     icon: {
-        color: '#292F36',
+        display: 'flex',
+        color: '#63655E',
         "&:hover": {
             color: "#4B719C"
         }
@@ -36,7 +44,7 @@ export default function DenseAppBar(props) {
 
     return (
         <div className={classes.root}>
-            <img src="logo.png" alt="logo" className={classes.logo}/>
+            <h3 className={classes.logo}>EPOCH ONE</h3>
             <div className={classes.modelname}><h5>{props.dashName}</h5></div>
             <IconButton edge="start" aria-label="menu">
                 <NavLink to="/home" style={{textDecoration: 'none'}}>

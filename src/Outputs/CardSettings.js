@@ -15,13 +15,17 @@ export default function CardSettings() {
         settingsMenu: {
             display: "flex",
             backgroundColor: '#FEFEFD',
-            color: '#5C6671',
-
+            color: '#5C6671'
         },
-        settingsList: {
+        settingsIcon: {
+            color: '#DEE5ED',
+            "&:hover": {
+                color: "#4B719C"
+            }
         },
+        settingsList: {},
         menuItem: {
-            fontFamily:'Questrial',
+            fontFamily: 'Questrial',
             fontSize: '0.9em'
         },
     }))
@@ -40,10 +44,10 @@ export default function CardSettings() {
         <div>
             <IconButton className={classes.settings} aria-controls="simple-menu" aria-haspopup="true"
                         onClick={handleClick} size={"small"}>
-                <EditIcon/>
+                <EditIcon className={classes.settingsIcon}/>
             </IconButton>
             <Menu
-                classes={{paper: classes.settingsMenu, list:classes.settingsList}}
+                classes={{paper: classes.settingsMenu, list: classes.settingsList}}
                 id="simple-menu"
                 anchorEl={anchorEl}
                 keepMounted
@@ -52,7 +56,7 @@ export default function CardSettings() {
                 disableScrollLock={true}
             >
                 <MenuItem className={classes.menuItem} onClick={handleClose} dense={true}>Hide</MenuItem>
-                <MenuItem className={classes.menuItem} onClick={handleClose} dense={true}>Edit Chart</MenuItem>
+                <MenuItem className={classes.menuItem} onClick={handleClose} dense={true}>Customize Chart</MenuItem>
                 <MenuItem className={classes.menuItem} onClick={handleClose} dense={true}>Remove Output</MenuItem>
             </Menu>
         </div>
