@@ -52,7 +52,7 @@ export default function Layout() {
     const [cases, setCases] = useState(null)
     const [inputCase, setInputCase] = useState(null)
     const [charts, setCharts] = useState(null)
-    const [dashName, setDashName] = useState("Loading...")
+    const [dashName, setDashName] = useState('')
     const [isLoaded, setisLoaded] = useState(false)
     let content
 
