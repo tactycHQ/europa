@@ -19,13 +19,18 @@ import Divider from "@material-ui/core/Divider";
 const useStyles = makeStyles(theme => ({
             root: {
                 display: 'flex',
-                height: '100vh',
-                maxWidth: '12%',
-                minWidth: '12%',
                 position: 'fixed',
+                height: '100%',
                 flexDirection: 'column',
                 alignContent: 'flex-start',
-                backgroundColor: '#FEFEFD'
+                backgroundColor: '#FEFEFD',
+                maxWidth: '12%',
+                minWidth: '12%',
+                overflowY: 'auto',
+            },
+            content: {
+                // height: '100%',
+
             },
             divider: {
                 backgroundColor: '#EBECEC'
