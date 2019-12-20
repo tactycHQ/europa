@@ -46,7 +46,6 @@ export default function Layout() {
     const [domains, setDomains] = useState(null)
     const [formats, setFormats] = useState("0.0")
     const [currInputVal, setcurrInputVal] = useState(null)
-    const [defaultInputVal, setdefaultInputVal] = useState(null)
     const [inputs, setInputs] = useState(null)
     const [outputs, setOutputs] = useState(null)
     const [cases, setCases] = useState(null)
@@ -78,7 +77,6 @@ export default function Layout() {
                 return extractDefaults(i)
             })
 
-            setdefaultInputVal(defaults[0])
             setcurrInputVal(defaults[0])
             setOutputs(metadata.outputs)
             setCharts(metadata.charts)

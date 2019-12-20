@@ -11,6 +11,7 @@ import PlayArrowIcon from '@material-ui/icons/PlayArrow'
 import SaveAltIcon from '@material-ui/icons/SaveAlt'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import TuneIcon from '@material-ui/icons/Tune'
+import ShareSharpIcon from '@material-ui/icons/ShareSharp'
 import {NavLink} from 'react-router-dom'
 import Divider from "@material-ui/core/Divider";
 
@@ -44,9 +45,9 @@ const useStyles = makeStyles(theme => ({
                 margin: '3px',
                 color: '#292F36',
                 backgroundColor: '#EBECEC',
-                borderStyle:'solid',
-                borderColor:'#D8D9DA',
-                borderWidth:1,
+                // borderStyle: 'solid',
+                // borderColor: '#D8D9DA',
+                // borderWidth: 1,
                 justifyContent: 'flex-start',
                 alignItems: 'center',
                 paddingLeft: '1px',
@@ -150,8 +151,12 @@ export default function SideBar(props) {
                         <SaveAltIcon className={classes.icon}/>
                         <div className={classes.buttonLabel}>Save Dashboard</div>
                     </ListItem>
-                </List>
-            </div>
+                    <ListItem className={classes.saveButton} button={true}>
+                        <ShareSharpIcon className={classes.icon}/>
+                        <div className={classes.buttonLabel}>Send Dashboard</div>
+                    </ListItem>
+            </List>
         </div>
+        < /div>
     )
 }
