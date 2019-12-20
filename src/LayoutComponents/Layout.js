@@ -130,7 +130,6 @@ export default function Layout() {
         <div className={classes.root}>
             <div className={classes.top}>
                 <TopBar dashName={dashName}/>
-                <Divider className={classes.divider} variant="middle"/>
             </div>
             <div className={classes.middle}>
                 {content}

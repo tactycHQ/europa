@@ -1,10 +1,11 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import LiveChart from "../Charts/LiveChart"
-import {Card} from "@material-ui/core";
-import CardSettings from "../Outputs/CardSettings";
-import SA1Chart from "../Charts/SA1Chart";
-import {NavLink} from "react-router-dom";
+import LiveChart from "../Outputs/LiveChart"
+import {Card} from "@material-ui/core"
+import CardSettings from "../Outputs/CardSettings"
+import SA1Chart from "../Outputs/SA1Chart"
+import {NavLink} from "react-router-dom"
+import SA2Chart from "../Outputs/SA2Chart"
 
 
 // import StackedBar from "./stackedbar";
@@ -163,13 +164,13 @@ export default function Output(props) {
                                 <h4 className={classes.categoryName}>{chart.category}</h4>
                                 <h4 className={classes.sa1_title}> sensitized to </h4>
                                 <h4 className={classes.titleName}>{chart.title}</h4>
-                                {/*<h4 className={classes.sa1_title}>Other inputs set at current levels</h4>*/}
-                                <SA1Chart data={chart.data}
-                                          category={chart.category}
-                                          title={chart.title}
-                                          inputFormat={chart.inputFormat}
-                                          outputFormat={chart.outputFormat}
-                                          key={chart.category + chart.title}/>
+                                {/*<SA1Chart data={chart.data}*/}
+                                {/*          category={chart.category}*/}
+                                {/*          title={chart.title}*/}
+                                {/*          inputFormat={chart.inputFormat}*/}
+                                {/*          outputFormat={chart.outputFormat}*/}
+                                {/*          key={chart.category + chart.title}/>*/}
+                                <SA2Chart/>
                             </div>
                         )
                     }
@@ -183,7 +184,7 @@ export default function Output(props) {
             return (
                 <div className={classes.cardSectionHeader}>
                     <h2 className={classes.cardSectionTitle}>
-                        Single Input Sensitivity Analysis
+                        Sensitivity Analysis
                     </h2>
                     <h4 className={classes.cardSectionNote}>
                         1 input sensitized while other inputs set at current slider levels
@@ -211,7 +212,7 @@ export default function Output(props) {
             }
         )
     }
-
+    // console.log(props.saChartData)
     return (
         <div className={classes.root}>
             {createCharts()}

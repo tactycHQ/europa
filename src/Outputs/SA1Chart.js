@@ -23,7 +23,7 @@ export default function SA1Chart(props) {
     const classes = useStyles()
 
 
-
+    //Custom Functions
     const createArea = () => {
         const idxs = Object.keys(props.data[0]).slice(1)
         return idxs.map((LineData, idx) => {
@@ -77,6 +77,7 @@ export default function SA1Chart(props) {
         )
     }
 
+    //Execute Functions
     const sa_charts = createCharts()
 
     return (

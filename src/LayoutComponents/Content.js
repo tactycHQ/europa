@@ -106,85 +106,91 @@ export default function Content(props) {
     }
 
     // SA1 Functions
-    const createSAcombos = () => {
-        return props.inputs.map(input => {
-                let combo = input.values.map(value => {
-                        return {
-                            ...props.currInputVal,
-                            [input.address]: value
-                        }
-                    }
-                )
-                return {[input.address]: combo}
-            }
-        )
+    const generateSAPairs = () => {
+        return props.inputs.reduce((acc, v, i) =>
+                acc.concat(props.inputs.slice(i + 1).map(w => [v.address, w.address])),
+            [])
     }
+
+
+    const saPairs = generateSAPairs()
+    // console.log(saPairs)
+
+    const createSAcombos = () => {
+        const result = saPairs.map(pair => {
+            const foundInputs = pair.map(inputAddress => {
+                return props.inputs.find(i => (i.address === inputAddress))
+            })
+
+            const in1 = foundInputs[0]
+            const in2 = foundInputs[1]
+
+            return in1.values.map(in1Val => {
+                return in2.values.map(in2Val => {
+                    return {
+                        ...props.currInputVal,
+                        [in2.address]: in2Val,
+                        [in1.address]: in1Val
+                    }
+                })
+            })
+        })
+        return result
+    }
+
+
+    const sa_combos = createSAcombos()
+    // console.log(sa_combos)
+
+    const inputLabelMap = generateInputLabelMap()
 
     const findSASolution = () => {
-        return sa_combos.map(inputCombo => {
-                const input_address = Object.keys(inputCombo)[0]
-                const input_combos = inputCombo[input_address]
-
-                const output_answers = input_combos.map(combo => {
-                        const answers = findSolution(combo)
-                        return {
-                            input: input_address,
-                            inputValue: combo[input_address],
-                            format: props.formats[input_address],
-                            outputs: {...answers}
-                        }
-                    }
-                )
-                return output_answers
-            }
-        )
-    }
-
-    const arrangeByCategory = () => {
         return props.outputs.map(output => {
-            const _payload = sa_solutions.map(solution => {
-                    const solutionPayload = solution.map(singleSolution => {
+            const solutions = sa_combos.reduce((arr, inputCombos) => {
+                const comboSol = inputCombos.reduce((_arr, combos) => {
 
-                            const __data = Object.entries(output.labels).reduce((acc, addresslabel) => {
-                                acc[addresslabel[1]] = singleSolution.outputs[addresslabel[0]]
+                    const inputWithLabels = combos.map(combo => {
+                        const comboWithlabel = Object.entries(combo).reduce((_labs, _in) => {
+                            const _label = inputLabelMap[_in[0]]
+                            const val =  _in[1]
+                            _labs[_label] = val
+                            return _labs
+                        },{})
+                        return comboWithlabel
+                    })
+
+
+                    const output_answers = combos.map(combo => {
+
+                        const answers = findSolution(combo)
+
+                        return Object.entries(output.labels).reduce((acc, address_lab) => {
+                            if (address_lab[0] in answers) {
+                                acc[address_lab[1]] = answers[address_lab[0]]
                                 return acc
-                            }, {})
-
-
-                            return {
-                                [inputLabelMap[singleSolution.input]]: singleSolution.inputValue,
-                                ...__data
                             }
-                        }
-                    )
+                        }, {})
+                    })
 
-                    return {
-                        category: output.category,
-                        title: inputLabelMap[solution[0].input],
-                        inputFormat: props.formats[solution[0].input],
-                        outputFormat: props.formats[Object.keys(output.labels)[0]],
-                        data: solutionPayload
+                    const result = {
+                        input: inputWithLabels,
+                        output: output_answers
                     }
-                }
-            )
-            return _payload
+                    return _arr.concat(result)
+                }, [])
+                return arr.concat(comboSol)
+            }, [])
+            return {[output.category]: solutions}
         })
     }
 
-
-//Toggle Input Handler
-//     const handleChange = () => {
-//         setChecked(prev => !prev);
-//     }
-
+    const saChartData = findSASolution()
 
 // Function Executions
-    const inputLabelMap = generateInputLabelMap()
+
     const liveSolutionSet = findSolution(props.currInputVal)
     const liveChartData = extractLiveChartMetaData(liveSolutionSet)
-    const sa_combos = createSAcombos()
-    const sa_solutions = findSASolution()
-    const sa_charts = arrangeByCategory()
+
 
     const customRoutes = liveChartData.map(chartCategory => {
         return (
@@ -207,6 +213,8 @@ export default function Content(props) {
             </Route>
         )
     })
+    // console.log(props.inputs)
+    // const array = ["apple", "banana", "lemon", "mango"];
 
 
     return (

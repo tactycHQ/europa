@@ -12,7 +12,9 @@ import SaveAltIcon from '@material-ui/icons/SaveAlt'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import TuneIcon from '@material-ui/icons/Tune'
 import ShareSharpIcon from '@material-ui/icons/ShareSharp'
-import SettingsBackupRestoreSharpIcon from '@material-ui/icons/SettingsBackupRestoreSharp';
+import SettingsBackupRestoreSharpIcon from '@material-ui/icons/SettingsBackupRestoreSharp'
+import VerifiedUserSharpIcon from '@material-ui/icons/VerifiedUserSharp'
+import CloudDownloadSharpIcon from '@material-ui/icons/CloudDownloadSharp';
 import {NavLink} from 'react-router-dom'
 import Divider from "@material-ui/core/Divider";
 
@@ -33,7 +35,10 @@ const useStyles = makeStyles(theme => ({
 
             },
             divider: {
-                backgroundColor: '#EBECEC'
+                backgroundColor: '#D7DEE2',
+                margin:'5px',
+                minHeight:'1px',
+                maxHeight:'1px'
             },
             buttons: {
                 display: 'flex',
@@ -120,6 +125,7 @@ export default function SideBar(props) {
     return (
         <div className={classes.root}>
             <div className={classes.content}>
+                {/*<Divider variant="middle" className={classes.divider}/>*/}
                 <List component="nav" aria-label="main mailbox folders">
                     <NavLink to="/dashboard" style={{textDecoration: 'none'}}>
                         <ListItem className={classes.buttons} button={true}>
@@ -128,17 +134,19 @@ export default function SideBar(props) {
                         </ListItem>
                     </NavLink>
                     {outputs}
+
                     <Divider variant="middle" className={classes.divider}/>
-                    <NavLink to="/sensitivity" style={{textDecoration: 'none'}}>
-                        <ListItem className={classes.buttons} button={true}>
-                            <ShowChartIcon className={classes.icon}/>
-                            <div className={classes.buttonLabel}>Sensitivity Analysis</div>
-                        </ListItem>
-                        <ListItem className={classes.buttons} button={true}>
-                            <ImportExportIcon className={classes.icon}/>
-                            <div className={classes.buttonLabel}>Input Importance</div>
-                        </ListItem>
-                    </NavLink>
+
+                    {/*<NavLink to="/sensitivity" style={{textDecoration: 'none'}}>*/}
+                    {/*    <ListItem className={classes.buttons} button={true}>*/}
+                    {/*        <ShowChartIcon className={classes.icon}/>*/}
+                    {/*        <div className={classes.buttonLabel}>Sensitivity Analysis</div>*/}
+                    {/*    </ListItem>*/}
+                    {/*    <ListItem className={classes.buttons} button={true}>*/}
+                    {/*        <ImportExportIcon className={classes.icon}/>*/}
+                    {/*        <div className={classes.buttonLabel}>Input Importance</div>*/}
+                    {/*    </ListItem>*/}
+                    {/*</NavLink>*/}
                     <NavLink to="/scenario" style={{textDecoration: 'none'}}>
                         <ListItem className={classes.buttons} button={true}>
                             <FilterCenterFocusIcon className={classes.icon}/>
@@ -151,26 +159,36 @@ export default function SideBar(props) {
                             <div className={classes.buttonLabel}>Dependency Graph</div>
                         </ListItem>
                     </NavLink>
+
                     <Divider variant="middle" className={classes.divider}/>
-                    <ListItem className={classes.buttons} button={true}>
-                        <CloudUploadIcon className={classes.icon}/>
-                        <div className={classes.buttonLabel}>Upload New Model</div>
-                    </ListItem>
+
                     <ListItem className={classes.buttons} button={true}>
                         <TuneIcon className={classes.icon}/>
-                        <div className={classes.buttonLabel}>Change Inputs and Outputs</div>
+                        <div className={classes.buttonLabel}>Change Inputs/Outputs</div>
+                    </ListItem>
+                    <ListItem className={classes.buttons} button={true}>
+                        <VerifiedUserSharpIcon className={classes.icon}/>
+                        <div className={classes.buttonLabel}>Audit Model</div>
+                    </ListItem>
+                    <ListItem className={classes.buttons} button={true}>
+                        <CloudUploadIcon className={classes.icon}/>
+                        <div className={classes.buttonLabel}>Upload New Model Excel</div>
+                    </ListItem>
+                    <ListItem className={classes.buttons} button={true}>
+                        <CloudDownloadSharpIcon className={classes.icon}/>
+                        <div className={classes.buttonLabel}>Download Model Excel</div>
                     </ListItem>
                     <ListItem className={classes.saveButton} button={true}>
                         <SaveAltIcon className={classes.icon}/>
-                        <div className={classes.buttonLabel}>Save</div>
+                        <div className={classes.buttonLabel}>Save Dashboard</div>
                     </ListItem>
                     <ListItem className={classes.saveButton} button={true}>
                         <ShareSharpIcon className={classes.icon}/>
-                        <div className={classes.buttonLabel}>Send</div>
+                        <div className={classes.buttonLabel}>Send Dashboard</div>
                     </ListItem>
                     <ListItem className={classes.saveButton} button={true}>
                         <SettingsBackupRestoreSharpIcon className={classes.icon}/>
-                        <div className={classes.buttonLabel}>Reset</div>
+                        <div className={classes.buttonLabel}>Reset Dashboard</div>
                     </ListItem>
                 </List>
             </div>
