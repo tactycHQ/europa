@@ -65,15 +65,33 @@ export default function Output(props) {
             marginTop: '3px',
             marginLeft: '7px'
         },
+        cardSectionHeader:{
+            display:'flex',
+            flexDirection: 'column',
+            justifyContent:'flex-end',
+            // backgroundColor:'gray'
+        },
         cardSectionTitle: {
-            color: '#292F36',
+            display:'flex',
+            color: '#4F545A',
             fontFamily: 'Questrial',
             fontWeight: '50',
-            marginTop: '4%',
-            marginLeft: '7px'
+            marginTop: '7%',
+            marginBottom: '0%',
+            marginLeft: '7px',
+            // background: 'red'
+        },
+        cardSectionNote: {
+            display:'flex',
+            color: '#4F545A',
+            fontFamily: 'Questrial',
+            fontWeight: '50',
+            marginTop: '0%',
+            marginLeft: '7px',
+            // background: 'yellow'
         },
         sa1_title: {
-            color: '#0C0D0F',
+            color: '#4F545A',
             fontFamily: 'Questrial',
             fontWeight: '50',
             marginTop: '2.5%',
@@ -95,7 +113,7 @@ export default function Output(props) {
         categoryName: {
             fontFamily: 'Questrial',
             fontWeight: '150',
-            color: '#0C0D0F',
+            color: '#4F545A',
             display: 'inline',
             marginRight: '0px'
         },
@@ -108,7 +126,7 @@ export default function Output(props) {
         detailsText: {
             fontFamily: 'Questrial',
             fontWeight: '100',
-            color: '#9DA0A3',
+            color: '#4F545A',
             marginLeft: '3px'
         }
     }))
@@ -145,6 +163,7 @@ export default function Output(props) {
                                 <h4 className={classes.categoryName}>{chart.category}</h4>
                                 <h4 className={classes.sa1_title}> sensitized to </h4>
                                 <h4 className={classes.titleName}>{chart.title}</h4>
+                                {/*<h4 className={classes.sa1_title}>Other inputs set at current levels</h4>*/}
                                 <SA1Chart data={chart.data}
                                           category={chart.category}
                                           title={chart.title}
@@ -162,9 +181,14 @@ export default function Output(props) {
     const createSAHeader = (type) => {
         if (type === "detail") {
             return (
-                <h2 className={classes.cardSectionTitle}>
-                    Single Input Sensitivity Analysis
-                </h2>
+                <div className={classes.cardSectionHeader}>
+                    <h2 className={classes.cardSectionTitle}>
+                        Single Input Sensitivity Analysis
+                    </h2>
+                    <h4 className={classes.cardSectionNote}>
+                        1 input sensitized while other inputs set at current slider levels
+                    </h4>
+                </div>
             )
         }
     }

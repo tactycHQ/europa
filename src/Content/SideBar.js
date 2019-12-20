@@ -12,6 +12,7 @@ import SaveAltIcon from '@material-ui/icons/SaveAlt'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import TuneIcon from '@material-ui/icons/Tune'
 import ShareSharpIcon from '@material-ui/icons/ShareSharp'
+import SettingsBackupRestoreSharpIcon from '@material-ui/icons/SettingsBackupRestoreSharp';
 import {NavLink} from 'react-router-dom'
 import Divider from "@material-ui/core/Divider";
 
@@ -148,7 +149,7 @@ export default function SideBar(props) {
                     <Divider variant="middle" className={classes.divider}/>
                     <ListItem className={classes.buttons} button={true}>
                         <CloudUploadIcon className={classes.icon}/>
-                        <div className={classes.buttonLabel}>Update Model Version</div>
+                        <div className={classes.buttonLabel}>Upload New Model</div>
                     </ListItem>
                     <ListItem className={classes.buttons} button={true}>
                         <TuneIcon className={classes.icon}/>
@@ -156,11 +157,15 @@ export default function SideBar(props) {
                     </ListItem>
                     <ListItem className={classes.saveButton} button={true}>
                         <SaveAltIcon className={classes.icon}/>
-                        <div className={classes.buttonLabel}>Save Dashboard</div>
+                        <div className={classes.buttonLabel}>Save</div>
                     </ListItem>
                     <ListItem className={classes.saveButton} button={true}>
                         <ShareSharpIcon className={classes.icon}/>
-                        <div className={classes.buttonLabel}>Send Dashboard</div>
+                        <div className={classes.buttonLabel}>Send</div>
+                    </ListItem>
+                    <ListItem className={classes.saveButton} button={true}>
+                        <SettingsBackupRestoreSharpIcon className={classes.icon}/>
+                        <div className={classes.buttonLabel}>Reset</div>
                     </ListItem>
                 </List>
             </div>

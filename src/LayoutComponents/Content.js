@@ -235,6 +235,14 @@ export default function Content(props) {
                             liveChartData={liveChartData}
                             saChartData={sa_charts}
                         />
+                        <Input
+                            handleSliderChange={props.handleSliderChange}
+                            handleCaseChange={props.handleCaseChange}
+                            currInputVal={props.currInputVal}
+                            inputs={props.inputs}
+                            checked={checked}
+                            cases={props.cases}
+                        />
                     </Route>
                     <Route exact path="/scenario">
                         <SideBar className={classes.sidebar} outputs={props.outputs}/>
