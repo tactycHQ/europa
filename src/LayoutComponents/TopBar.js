@@ -17,8 +17,8 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         marginLeft: '10px',
         fontFamily:'Questrial',
-        minWidth: '7.5%',
-        fontSize:'0.80em',
+        minWidth: '6.5%',
+        fontSize:'0.70em',
         color: '#4185D3',
         letterSpacing:'3px'
     },

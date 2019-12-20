@@ -26,6 +26,9 @@ const useStyles = makeStyles(theme => ({
                 alignContent: 'flex-start',
                 backgroundColor: '#FEFEFD'
             },
+            divider: {
+                backgroundColor: '#EBECEC'
+            },
             buttons: {
                 display: 'flex',
                 margin: '3px',
@@ -77,13 +80,17 @@ const useStyles = makeStyles(theme => ({
                 }
             },
             outputIcon: {
-                color: '#4B719C'
+                color: '#4B719C',
+                height: 15,
+                width: 15
             },
             icon: {
                 color: '#292F36',
                 "&:hover": {
                     // color: "#0091ea"
-                }
+                },
+                height: 15,
+                width: 15
             }
         }
     )
@@ -115,7 +122,7 @@ export default function SideBar(props) {
                         </ListItem>
                     </NavLink>
                     {outputs}
-                    <Divider/>
+                    <Divider variant="middle" className={classes.divider}/>
                     <NavLink to="/sensitivity" style={{textDecoration: 'none'}}>
                         <ListItem className={classes.buttons} button={true}>
                             <ShowChartIcon className={classes.icon}/>
@@ -138,7 +145,7 @@ export default function SideBar(props) {
                             <div className={classes.buttonLabel}>Dependency Graph</div>
                         </ListItem>
                     </NavLink>
-                    <Divider/>
+                    <Divider variant="middle" className={classes.divider}/>
                     <ListItem className={classes.buttons} button={true}>
                         <CloudUploadIcon className={classes.icon}/>
                         <div className={classes.buttonLabel}>Update Model Version</div>
@@ -155,8 +162,8 @@ export default function SideBar(props) {
                         <ShareSharpIcon className={classes.icon}/>
                         <div className={classes.buttonLabel}>Send Dashboard</div>
                     </ListItem>
-            </List>
-        </div>
-        < /div>
-    )
-}
+                </List>
+            </div>
+            < /div>
+                )
+                }
