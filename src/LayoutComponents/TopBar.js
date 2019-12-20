@@ -13,6 +13,11 @@ const useStyles = makeStyles(theme => ({
         width:'100%',
         backgroundColor:'#FEFEFD'
     },
+    logo:{
+        marginLeft:'10px',
+        // height:'1%',
+        width:'4.5%',
+    },
     menuButton: {
         marginLeft:'5px',
         textAlign: 'center',
@@ -34,12 +39,13 @@ export default function DenseAppBar(props) {
 
     return (
         <div className={classes.root}>
-            <IconButton edge="start" className={classes.menuButton} aria-label="menu">
-                <MenuIcon/>
-            </IconButton>
+            {/*<IconButton edge="start" className={classes.menuButton} aria-label="menu">*/}
+                <img src="logo.png" alt="logo" className={classes.logo} />
+                {/*<HomeTwoToneIcon/>*/}
+            {/*</IconButton>*/}
             <div className={classes.modelname}><h5>{props.dashName}</h5></div>
             <IconButton edge="start" className={classes.menuButton} aria-label="menu">
-                <HomeTwoToneIcon/>
+                <MenuIcon/>
             </IconButton>
         </div>
     );
