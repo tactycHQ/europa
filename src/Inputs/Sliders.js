@@ -10,7 +10,6 @@ const useStyles = makeStyles(theme => ({
             flexDirection: 'column',
             alignItems: 'center',
             padding: '20px'
-
         },
         label: {
             display: 'flex',

@@ -21,7 +21,6 @@ const useStyles = makeStyles(theme => ({
                 flexDirection: 'column',
                 minHeight: '92vh',
                 background: '#FEFEFD'
-
             },
             inputHeader: {
                 background: '#4B719C',
@@ -90,7 +89,8 @@ export default function Input(props) {
                                  key={inputAddress}
                                  address={inputAddress}
                                  values={inputValues}
-                                 currSliderVal={currSliderVal}/>
+                                 currSliderVal={currSliderVal}
+                    />
                 )
             }
         )
@@ -116,7 +116,6 @@ export default function Input(props) {
                     </div>
                     <div className={classes.sliderContainer}>
                         {sliders}
-                        {/*{sliders}*/}
                     </div>
                 </Card>
             </Slide>
