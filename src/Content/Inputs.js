@@ -52,9 +52,12 @@ const useStyles = makeStyles(theme => ({
                 display: 'flex',
                 flexDirection: 'column',
                 minHeight: '80vh',
+                // maxHeight: '80vh',
                 justifyContent: 'space-evenly',
                 marginLeft: '3.5%',
-                marginRight: '3.5%'
+                marginRight: '3.5%',
+                // overflowY:'auto'
+
             },
             label: {
                 fontFamily: 'Questrial',
@@ -116,6 +119,7 @@ export default function Input(props) {
                     </div>
                     <div className={classes.sliderContainer}>
                         {sliders}
+                        {/*{sliders}*/}
                     </div>
                 </Card>
             </Slide>
