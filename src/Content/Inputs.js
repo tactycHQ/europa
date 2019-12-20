@@ -52,11 +52,13 @@ const useStyles = makeStyles(theme => ({
                 display: 'flex',
                 flexDirection: 'column',
                 minHeight: '80vh',
-                // maxHeight: '80vh',
+                maxHeight: '80vh',
                 justifyContent: 'space-evenly',
                 marginLeft: '3.5%',
                 marginRight: '3.5%',
-                // overflowY:'auto'
+                // background:'green',
+                // overflowY:'auto',
+                // overflowX:'hidden'
 
             },
             label: {
