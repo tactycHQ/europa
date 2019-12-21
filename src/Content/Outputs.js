@@ -66,14 +66,14 @@ export default function Output(props) {
             marginTop: '3px',
             marginLeft: '7px'
         },
-        cardSectionHeader:{
-            display:'flex',
+        cardSectionHeader: {
+            display: 'flex',
             flexDirection: 'column',
-            justifyContent:'flex-end',
+            justifyContent: 'flex-end',
             // backgroundColor:'gray'
         },
         cardSectionTitle: {
-            display:'flex',
+            display: 'flex',
             color: '#4F545A',
             fontFamily: 'Questrial',
             fontWeight: '50',
@@ -83,7 +83,7 @@ export default function Output(props) {
             // background: 'red'
         },
         cardSectionNote: {
-            display:'flex',
+            display: 'flex',
             color: '#4F545A',
             fontFamily: 'Questrial',
             fontWeight: '50',
@@ -145,79 +145,66 @@ export default function Output(props) {
         )
     }
 
-    const createSAContainer = (solutionSet) => {
+    const createSAContainer = () => {
         return (
             <div className={classes.sa1_container}>
-                {createSAcharts(solutionSet.category)}
+                {createSAcharts()}
             </div>
         )
     }
 
-    const createSAcharts = (outputCategory) => {
+    const createSAcharts = () => {
         if (props.type === "summary") {
         } else {
-            return props.saChartData.map(categoryCharts => {
-                return categoryCharts.map(chart => {
-                    if (chart.category === outputCategory) {
-                        return (
-                            <div className={classes.sa1_chart_container} key={chart.category + chart.title}>
-                                <h4 className={classes.categoryName}>{chart.category}</h4>
-                                <h4 className={classes.sa1_title}> sensitized to </h4>
-                                <h4 className={classes.titleName}>{chart.title}</h4>
-                                {/*<SA1Chart data={chart.data}*/}
-                                {/*          category={chart.category}*/}
-                                {/*          title={chart.title}*/}
-                                {/*          inputFormat={chart.inputFormat}*/}
-                                {/*          outputFormat={chart.outputFormat}*/}
-                                {/*          key={chart.category + chart.title}/>*/}
-                                <SA2Chart/>
-                            </div>
-                        )
-                    }
-                })
-            })
-        }
-    }
-
-    const createSAHeader = (type) => {
-        if (type === "detail") {
             return (
-                <div className={classes.cardSectionHeader}>
-                    <h2 className={classes.cardSectionTitle}>
-                        Sensitivity Analysis
-                    </h2>
-                    <h4 className={classes.cardSectionNote}>
-                        1 input sensitized while other inputs set at current slider levels
-                    </h4>
+                <div className={classes.sa1_chart_container}>
+                    <SA2Chart
+                        data={props.saChartData}
+                    />
                 </div>
             )
         }
     }
 
-    const createCharts = () => {
-        return props.liveChartData.map((solutionSet, idx) => {
-                return (
-                    <Card className={classes.outputCards} key={solutionSet.category}>
-                        <div className={classes.cardHeaderContainer}>
-                            <NavLink to={`/outputs/${solutionSet.category}`} style={{textDecoration: 'none'}}>
-                                <h2 className={classes.cardTitleHeader}>{solutionSet.category}</h2>
-                            </NavLink>
-                            <CardSettings/>
-                        </div>
-                        {createLiveCharts(solutionSet, idx)}
-                        {createSAHeader(props.type)}
-                        {createSAContainer(solutionSet)}
-                    </Card>
-                )
-            }
+const createSAHeader = (type) => {
+    if (type === "detail") {
+        return (
+            <div className={classes.cardSectionHeader}>
+                <h2 className={classes.cardSectionTitle}>
+                    Sensitivity Analysis
+                </h2>
+                <h4 className={classes.cardSectionNote}>
+                    1 input sensitized while other inputs set at current slider levels
+                </h4>
+            </div>
         )
     }
-    // console.log(props.saChartData)
-    return (
-        <div className={classes.root}>
-            {createCharts()}
-        </div>
+}
+
+const createCharts = () => {
+    return props.liveChartData.map((solutionSet, idx) => {
+            return (
+                <Card className={classes.outputCards} key={solutionSet.category}>
+                    <div className={classes.cardHeaderContainer}>
+                        <NavLink to={`/outputs/${solutionSet.category}`} style={{textDecoration: 'none'}}>
+                            <h2 className={classes.cardTitleHeader}>{solutionSet.category}</h2>
+                        </NavLink>
+                        <CardSettings/>
+                    </div>
+                    {createLiveCharts(solutionSet, idx)}
+                    {/*{createSAHeader(props.type)}*/}
+                    {/*{createSAContainer(solutionSet)}*/}
+                </Card>
+            )
+        }
     )
+}
+// console.log(props.saChartData)
+return (
+    <div className={classes.root}>
+        {createCharts()}
+    </div>
+)
 }
 
 

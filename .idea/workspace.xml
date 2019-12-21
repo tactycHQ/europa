@@ -2,16 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Outputs/SA2Chart.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Charts/LiveChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/LiveChart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Charts/SA1Chart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/SA1Chart.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Content/Outputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/Outputs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Content/SideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/SideBar.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Content.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/Content.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Layout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/Layout.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Outputs/SA2Chart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/SA2Chart.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -126,13 +120,6 @@
       <workItem from="1576345386968" duration="6105000" />
       <workItem from="1576435520695" duration="53958000" />
       <workItem from="1576549058087" duration="86413000" />
-    </task>
-    <task id="LOCAL-00017" summary="First commit">
-      <created>1576123515102</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1576123515102</updated>
     </task>
     <task id="LOCAL-00018" summary="First commit">
       <created>1576126322692</created>
@@ -470,7 +457,14 @@
       <option name="project" value="LOCAL" />
       <updated>1576827350301</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="First commit">
+      <created>1576879799136</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1576879799136</updated>
+    </task>
+    <option name="localTasksCounter" value="67" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

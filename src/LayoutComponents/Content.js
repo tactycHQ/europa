@@ -116,54 +116,85 @@ export default function Content(props) {
     const saPairs = generateSAPairs()
     // console.log(saPairs)
 
-    const createSAcombos = () => {
-        const result = saPairs.map(pair => {
-            const foundInputs = pair.map(inputAddress => {
-                return props.inputs.find(i => (i.address === inputAddress))
-            })
+    // const createSAcombos = () => {
+    //     const result = saPairs.map(pair => {
+    //         const foundInputs = pair.map(inputAddress => {
+    //             return props.inputs.find(i => (i.address === inputAddress))
+    //         })
+    //
+    //         const in1 = foundInputs[0]
+    //         const in2 = foundInputs[1]
+    //
+    //         return in1.values.map(in1Val => {
+    //             return in2.values.map(in2Val => {
+    //                 return {
+    //                     ...props.currInputVal,
+    //                     [in2.address]: in2Val,
+    //                     [in1.address]: in1Val
+    //                 }
+    //             })
+    //         })
+    //     })
+    //     return result
+    // }
+    const inputLabelMap = generateInputLabelMap()
+    // console.log(inputLabelMap)
 
-            const in1 = foundInputs[0]
-            const in2 = foundInputs[1]
 
-            return in1.values.map(in1Val => {
-                return in2.values.map(in2Val => {
-                    return {
-                        ...props.currInputVal,
-                        [in2.address]: in2Val,
-                        [in1.address]: in1Val
-                    }
-                })
-            })
+    const createSAData = () => {
+        return saPairs.map(address => {
+
+            const add1 = address[0]
+            const add2 = address[1]
+
+            const in1bounds = props.inputs.find(i1 => (i1.address === add1))
+            const in2bounds = props.inputs.find(i2 => (i2.address === add2))
+
+            return {
+                inputs: [add1, add2],
+                bounds: [{[add1]: in1bounds.values}, {[add2]: in2bounds.values}]
+            }
         })
-        return result
     }
 
+    const sa_data = createSAData()
+    console.log(sa_data)
+
+    const f = (a, b) => [].concat(...a.map(d => b.map(e => [].concat(d, e))));
+    const cartesian = (a, b, ...c) => (b ? cartesian(f(a, b), ...c) : a)
+
+    const createSAcombos = () => {
+        return sa_data.map(data => {
+
+            const arr1 = Object.entries(data.bounds[0])
+            const arr2 = Object.entries(data.bounds[1])
+
+            return cartesian(arr1[0][1], arr2[0][1])
+        })
+    }
 
     const sa_combos = createSAcombos()
-    // console.log(sa_combos)
-
-    const inputLabelMap = generateInputLabelMap()
+    console.log(sa_combos)
 
     const findSASolution = () => {
-        return props.outputs.map(output => {
+        return props.outputs.reduce((chartData, output) => {
+
             const solutions = sa_combos.reduce((arr, inputCombos) => {
+
                 const comboSol = inputCombos.reduce((_arr, combos) => {
 
                     const inputWithLabels = combos.map(combo => {
                         const comboWithlabel = Object.entries(combo).reduce((_labs, _in) => {
                             const _label = inputLabelMap[_in[0]]
-                            const val =  _in[1]
+                            const val = _in[1]
                             _labs[_label] = val
                             return _labs
-                        },{})
+                        }, {})
                         return comboWithlabel
                     })
 
-
                     const output_answers = combos.map(combo => {
-
                         const answers = findSolution(combo)
-
                         return Object.entries(output.labels).reduce((acc, address_lab) => {
                             if (address_lab[0] in answers) {
                                 acc[address_lab[1]] = answers[address_lab[0]]
@@ -176,15 +207,21 @@ export default function Content(props) {
                         input: inputWithLabels,
                         output: output_answers
                     }
+
                     return _arr.concat(result)
                 }, [])
+
                 return arr.concat(comboSol)
             }, [])
-            return {[output.category]: solutions}
-        })
+
+            chartData[output.category] = solutions
+            return chartData
+
+        }, {})
     }
 
     const saChartData = findSASolution()
+// console.log(saChartData)
 
 // Function Executions
 
@@ -193,13 +230,14 @@ export default function Content(props) {
 
 
     const customRoutes = liveChartData.map(chartCategory => {
+
         return (
             <Route exact path={[`/outputs/${chartCategory.category}`]} key={chartCategory.category}>
                 <SideBar className={classes.sidebar} outputs={props.outputs}/>
                 <Output
                     type="detail"
                     liveChartData={[chartCategory]}
-                    saChartData={sa_charts}
+                    saChartData={saChartData[chartCategory.category]}
                     chartSize={"100%"}
                 />
                 <Input
@@ -213,9 +251,6 @@ export default function Content(props) {
             </Route>
         )
     })
-    // console.log(props.inputs)
-    // const array = ["apple", "banana", "lemon", "mango"];
-
 
     return (
         <div className={classes.root}>
@@ -241,7 +276,7 @@ export default function Content(props) {
                         <Output
                             type="detail"
                             liveChartData={liveChartData}
-                            saChartData={sa_charts}
+                            saChartData={saChartData}
                         />
                         <Input
                             handleSliderChange={props.handleSliderChange}
