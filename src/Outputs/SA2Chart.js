@@ -51,7 +51,14 @@ export default function SA2Chart(props) {
             margin:'5%'
 
         },
-        headercell: {
+        headerRow:{
+            background: '#4B719C',
+            display: 'flex',
+            width: '48%',
+            justifyContent: 'space-between'
+
+        },
+        headerCell: {
             backgroundColor: '#4B719C',
             color: '#F4F9E9',
             fontSize: '1.0em',
@@ -121,7 +128,7 @@ export default function SA2Chart(props) {
                 return (
                     <TableRow className={classes.row}>
                         <TableCell
-                            className={classes.headercell}
+                            className={classes.headerCell}
                             align="right"
                             size="small"
                             variant="body"
@@ -137,7 +144,7 @@ export default function SA2Chart(props) {
             const header = bounds2.map((val2) => {
                 const header_val = convert_format('0.0%', val2)
                 return (
-                    <TableCell className={classes.headercell}
+                    <TableCell className={classes.headerCell}
                                align="right"
                                size="small"
                                variant="header"
@@ -150,9 +157,9 @@ export default function SA2Chart(props) {
             return (
                 <Paper className={classes.tableContainer}>
                     <h3>{`${add1} vs. ${add2}`}</h3>
-                    <TableRow className={classes.row}>
+                    <TableRow className={classes.headerRow}>
                         <TableCell
-                            className={classes.headercell}
+                            className={classes.headerCell}
                             align="right"
                             size="small"
                             variant="body"

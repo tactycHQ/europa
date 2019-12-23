@@ -163,7 +163,6 @@ export default function Output(props) {
                     <SA2Chart
                         data={props.saChartData}
                         currInputVal={props.currInputVal}
-                        solutions={props.solutions}
                         findSolution={props.findSolution}
                     />
                 </div>
@@ -179,7 +178,7 @@ export default function Output(props) {
                         Sensitivity Analysis
                     </h2>
                     <h4 className={classes.cardSectionNote}>
-                        1 input sensitized while other inputs set at current slider levels
+                        2 input sensitized at a time, while other input values held at current slider levels
                     </h4>
                 </div>
             )
