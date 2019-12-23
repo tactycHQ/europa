@@ -20,7 +20,7 @@ export function LabelSelector(props) {
         labelSelectorText: {
             fontFamily: 'Questrial',
             fontSize: '1.2em',
-            fontWeight: '800',
+            fontWeight: '620',
             color: '#4B719C',
             marginRight: '10px'
         },
@@ -65,7 +65,7 @@ export function LabelSelector(props) {
 
     return (
         <div className={classes.labelSelectorContainer}>
-            <h3 className={classes.labelSelectorText}>Sensitivity for </h3>
+            <h3 className={classes.labelSelectorText}>Sensitivity for {props.outputs.category}</h3>
             <FormControl
                 className={classes.formControl}
                 disableScrollLock={true}
