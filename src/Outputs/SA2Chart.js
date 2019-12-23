@@ -95,6 +95,7 @@ export default function SA2Chart(props) {
                     }
 
                     const answer = props.findSolution(combo)[outAdd]
+
                     const answer_with_format = convert_format('0.0%', answer)
 
                     return (
