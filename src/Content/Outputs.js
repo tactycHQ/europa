@@ -188,12 +188,6 @@ export default function Output(props) {
         if (type === "detail") {
             return (
                 <div className={classes.cardSectionHeader}>
-                    <h2 className={classes.cardSectionTitle}>
-                        Sensitivity Analysis
-                    </h2>
-                    <h4 className={classes.cardSectionNote}>
-                        2 input sensitized at a time, while other input values held at current slider levels
-                    </h4>
                     <LabelSelector outputs={props.outputs.find(i => (i.category === category))}
                                    handleOutputLabelChange={handleOutputLabelChange}
                                    currOutputCell={currOutputCell}

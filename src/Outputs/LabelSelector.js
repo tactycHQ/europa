@@ -9,9 +9,9 @@ export function LabelSelector(props) {
     const useStyles = makeStyles(theme => ({
         labelSelectorContainer: {
             display: 'flex',
-            justifyContent: 'center',
+            justifyContent: 'flex-start',
             alignItems: 'center',
-            // padding: '5px',
+            padding: '5px',
             // padddingTop:0,
             textAlign: 'center',
             // background:'red',
@@ -19,10 +19,20 @@ export function LabelSelector(props) {
         },
         labelSelectorText: {
             fontFamily: 'Questrial',
-            fontSize: '1.2em',
-            fontWeight: '620',
-            color: '#4B719C',
+            fontSize: '1.4em',
+            fontWeight: '50',
+            color: '#4F545A',
             marginRight: '10px'
+        },
+        saNote: {
+            display: 'flex',
+            clear:'both',
+            color: '#4F545A',
+            fontFamily: 'Questrial',
+            fontWeight: '50',
+            marginTop: '0%',
+            marginLeft: '7px',
+            // background: 'yellow'
         },
         formControl: {
             minWidth: 150
@@ -65,7 +75,7 @@ export function LabelSelector(props) {
 
     return (
         <div className={classes.labelSelectorContainer}>
-            <h3 className={classes.labelSelectorText}>Sensitivity for {props.outputs.category}</h3>
+            <h2 className={classes.labelSelectorText}>Sensitivity Analysis for {props.outputs.category}</h2>
             <FormControl
                 className={classes.formControl}
                 disableScrollLock={true}
