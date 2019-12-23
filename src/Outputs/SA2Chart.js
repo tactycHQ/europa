@@ -37,17 +37,21 @@ export default function SA2Chart(props) {
         },
         tableContainer: {
             display: 'flex',
-            flexDirection:'column',
-            backgroundColor: 'orange',
-            marginTop: '20px',
-            justifyContent:'center',
-            alignItems:'center'
+            flexDirection: 'column',
+            // backgroundColor: 'orange',
+            marginTop: 'auto',
+            width: '100%',
+            justifyContent: 'center',
+            alignItems: 'center'
 
         },
         table: {
+            // display:'flex',
             backgroundColor: '#D7DEE2',
-            width: '70%',
-            height: '100%'
+            justifyContent: 'flex-end',
+            width: '100%',
+            height: '100%',
+            margin: 'auto'
         },
         headercell: {
             color: 'blue',
@@ -55,9 +59,13 @@ export default function SA2Chart(props) {
             fontFamily: 'Questrial'
         },
         cell: {
+            // backgroundColor:'red',
             fontSize: '1.0em',
             color: '#4F545A',
             fontFamily: 'Questrial'
+        },
+        row: {
+            // backgroundColor:'green'
         }
     }))
 
@@ -95,7 +103,7 @@ export default function SA2Chart(props) {
                 })
 
                 return (
-                    <TableRow>
+                    <TableRow className={classes.row}>
                         <TableCell className={classes.headercell}>
                             {convert_format('0.0%', value1)}
                         </TableCell>
@@ -112,17 +120,15 @@ export default function SA2Chart(props) {
             })
 
             return (
-                <div className={classes.tableContainer}>
+                <Paper className={classes.tableContainer}>
                     <h3>{`${add1} vs. ${add2}`}</h3>
-                    <TableContainer className={classes.table} component={Paper}>
-                        <TableRow>
-                            <TableCell>
-                            </TableCell>
-                            {header}
-                        </TableRow>
-                        {table}
-                    </TableContainer>
-                </div>
+                    <TableRow className={classes.row}>
+                        <TableCell className={classes.cell}>
+                        </TableCell>
+                        {header}
+                    </TableRow>
+                    {table}
+                </Paper>
             )
 
 
