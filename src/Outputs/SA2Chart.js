@@ -57,25 +57,31 @@ export default function SA2Chart(props) {
             backgroundColor: 'blue',
             color: 'white',
             fontSize: '1.0em',
-            fontFamily: 'Questrial'
+            fontFamily: 'Questrial',
+            textAlign:'right',
+            padding: 10,
+            minWidth: '15%',
+            maxWidth: '15%'
         },
         cell: {
             // backgroundColor:'red',
             fontSize: '1.0em',
             color: '#4F545A',
             fontFamily: 'Questrial',
+            textAlign:'right',
+            // alignItems:'right',
             // borderStyle:'solid',
-            // padding:10
+            padding: 10,
             // margin:'100px'
-            // minWidth:'1%',
-            // maxWidth:'1%'
+            minWidth: '15%',
+            maxWidth: '15%'
         },
         row: {
-            display:'flex',
+            display: 'flex',
             // backgroundColor:'green',
-            width:'48%',
-            margin:'1%',
-            justifyContent:'space-between'
+            width: '48%',
+            margin: '1%',
+            justifyContent: 'space-between'
 
         }
     }))
@@ -111,7 +117,7 @@ export default function SA2Chart(props) {
                     return (
                         <TableCell
                             className={classes.cell}
-                            align="justify"
+                            align="right"
                             size="small"
                             variant="body"
                         >
@@ -124,7 +130,7 @@ export default function SA2Chart(props) {
                     <TableRow className={classes.row}>
                         <TableCell
                             className={classes.headercell}
-                            align="justify"
+                            align="right"
                             size="small"
                             variant="body"
                         >
@@ -140,7 +146,7 @@ export default function SA2Chart(props) {
                 const header_val = convert_format('0.0%', val2)
                 return (
                     <TableCell className={classes.headercell}
-                               align="justify"
+                               align="right"
                                size="small"
                                variant="body"
                     >
@@ -154,11 +160,11 @@ export default function SA2Chart(props) {
                     <TableRow className={classes.row}>
                         <TableCell
                             className={classes.headercell}
-                            align="justify"
+                            align="right"
                             size="small"
                             variant="body"
                         >
-                            {convert_format('0.0%', 0.3)}
+                            {convert_format('0.00000000%', 0.356)}
                         </TableCell>
                         {header}
                     </TableRow>
