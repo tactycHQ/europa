@@ -109,7 +109,7 @@ export default function LiveChart(props) {
                 />
 
                 <YAxis
-                    hide={true}
+                    hide={false}
                     tick={<CustomizedYAxisTick/>}
                     // ticks={[0,1000,2000,3000,4000,5000,6000,7000]}
                     stroke={props.fill}
@@ -118,7 +118,7 @@ export default function LiveChart(props) {
                     padding={{top: 30, bottom: 30}}
                     interval={0}
                     domain={props.domain}
-                    tickFormatter={tick => yAxisFormatter(tick)}
+                    // tickFormatter={tick => yAxisFormatter(tick)}
                 />
 
                 <Tooltip

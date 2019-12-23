@@ -167,6 +167,7 @@ export default function Output(props) {
                         inputLabelMap={props.inputLabelMap}
                         formats={props.formats}
                         outputs={props.outputs}
+                        domains={props.domains}
                     />
                 </div>
             )

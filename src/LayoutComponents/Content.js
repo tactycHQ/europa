@@ -153,6 +153,7 @@ export default function Content(props) {
                     inputLabelMap={inputLabelMap}
                     formats={props.formats}
                     outputs={props.outputs}
+                    domains={props.domains}
                 />
                 <Input
                     handleSliderChange={props.handleSliderChange}

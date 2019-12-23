@@ -1,11 +1,6 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import {LineChart, XAxis, YAxis, Tooltip, Legend, Line, BarChart} from "recharts";
 import Paper from '@material-ui/core/Paper'
 import {convert_format} from "../utils/utils"
 
@@ -22,17 +17,12 @@ const chartColors = [
 ]
 
 
-// function createRow(rowInput, rowOutput) {
-//     return {name, calories, fat, carbs, protein};
-// }
-
-
 export default function SA2Chart(props) {
     const useStyles = makeStyles(theme => ({
         chartsContainer: {
             display: 'flex',
             flexDirection: 'column',
-            margin:'1%'
+            margin: '1%'
 
         },
         tableContainer: {
@@ -42,16 +32,16 @@ export default function SA2Chart(props) {
             width: '100%',
             justifyContent: 'center',
             alignItems: 'center',
-            margin:'1%',
-            padding:'1%'
+            margin: '1%',
+            padding: '1%'
 
 
         },
         table: {
-            margin:'5%'
+            margin: '5%'
 
         },
-        headerRow:{
+        headerRow: {
             background: '#4B719C',
             display: 'flex',
             width: '48%',
@@ -62,9 +52,9 @@ export default function SA2Chart(props) {
             backgroundColor: '#4B719C',
             color: '#F4F9E9',
             fontSize: '1.0em',
-            fontWeight:'500',
+            fontWeight: '500',
             fontFamily: 'Questrial',
-            borderStyle:'none',
+            borderStyle: 'none',
             padding: 10,
             minWidth: '15%',
             maxWidth: '15%'
@@ -87,11 +77,37 @@ export default function SA2Chart(props) {
 
     const classes = useStyles()
 
+    const yAxisFormatter = (fmt, value) => convert_format(fmt, value)
+
+    function CustomizedYAxisTick(props) {
+        const {x, y, stroke, payload, fmt} = props
+
+        return (
+            <g transform={`translate(${x},${y})`}>
+                <text
+                    x={0}
+                    y={0}
+                    dy={16}
+                    textAnchor="end"
+                    transform="rotate(-0)"
+                    fontSize='1.0em'
+                    // fill={props.fill}
+                    fontFamily="Questrial"
+                >
+                    {yAxisFormatter(fmt, payload.value)}
+                </text>
+            </g>
+        )
+    }
 
     const generateTables = (outAdd) => {
 
         const tables = props.data.map(tableData => {
 
+
+            const minDomain = props.domains.min[outAdd]
+            const maxDomain = props.domains.max[outAdd]
+            const outDomain = [minDomain, maxDomain]
             const flexInputs = tableData.inputs
             const bounds = tableData.bounds
             const add1 = flexInputs[0]
@@ -104,8 +120,7 @@ export default function SA2Chart(props) {
             const bounds2 = bounds[1][add2]
 
             const table = bounds1.map((value1) => {
-                const row = bounds2.map(value2 => {
-
+                const row = bounds2.reduce((acc, value2) => {
 
                     const combo = {
                         ...props.currInputVal,
@@ -114,66 +129,64 @@ export default function SA2Chart(props) {
                     }
 
                     const answer = props.findSolution(combo)[outAdd]
-                    const answer_with_format = convert_format(out_fmt, answer)
+                    acc[value2] = answer
+                    return acc
+                }, {})
 
-                    return (
-                        <TableCell
-                            className={classes.cell}
-                            align="right"
-                            size="small"
-                            variant="body"
-                        >
-                            {answer_with_format}
-                        </TableCell>
-                    )
-                })
+                return {
+                    [add1]: value1,
+                    ...row
+                }
+            })
 
+            const lines = bounds2.map((bound, idx) => {
+                const color_url = "url(#" + idx + ")"
                 return (
-                    <TableRow className={classes.row}>
-                        <TableCell
-                            className={classes.headerCell}
-                            align="right"
-                            size="small"
-                            variant="body"
-                        >
-                            {convert_format(add1_fmt, value1)}
-                        </TableCell>
-                        {row}
-                    </TableRow>
+                    <Line
+                        key={bound}
+                        type="monotone"
+                        dataKey={bound}
+                        stroke={color_url}
+                        fill={chartColors[idx]}
+                        strokeWidth={1}
+                    />
                 )
             })
 
-            //header generation
-            const header = bounds2.map((val2) => {
-                const header_val = convert_format(add2_fmt, val2)
+
+            const gradients = bounds2.map((bound, idx) => {
                 return (
-                    <TableCell className={classes.headerCell}
-                               align="right"
-                               size="small"
-                               variant="head"
-                               sortDirection="asc"
-                    >
-                        {header_val}
-                    </TableCell>)
+                    <defs>
+                        <linearGradient id={idx} x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="50%" stopColor={chartColors[idx]} stopOpacity={0.8}/>
+                            <stop offset="75%" stopColor={chartColors[idx]} stopOpacity={0.5}/>
+                            <stop offset="0%" stopColor={chartColors[idx]} stopOpacity={0.3}/>
+                        </linearGradient>
+                    </defs>
+                )
             })
 
             return (
-
-
-
                 <Paper className={classes.tableContainer}>
                     <h3>{`${props.inputLabelMap[add1]} vs. ${props.inputLabelMap[add2]}`}</h3>
-                    <TableRow className={classes.headerRow}>
-                        <TableCell
-                            className={classes.headerCell}
-                            align="right"
-                            size="small"
-                            variant="body"
-                        >
-                        </TableCell>
-                        {header}
-                    </TableRow>
-                    {table}
+                    <LineChart
+                        width={730}
+                        height={250}
+                        data={table}
+                        margin={{top: 5, right: 30, left: 20, bottom: 5}}
+                    >
+                        {gradients}
+                        <XAxis dataKey={add1}/>
+                        <YAxis
+                            type="number"
+                            tick={<CustomizedYAxisTick fmt={add1_fmt}/>}
+                            domain={['auto', 'auto']}
+                            interval={0}
+                        />
+                        <Tooltip/>
+                        <Legend/>
+                        {lines}
+                    </LineChart>
                 </Paper>
             )
 
