@@ -155,45 +155,45 @@ export default function Content(props) {
         })
     }
 
-    const addCombos = () => {
-        return sa_data.reduce((acc, data) => {
-
-            const arr1 = Object.entries(data.bounds[0])
-            const arr2 = Object.entries(data.bounds[1])
-            const aName = arr1[0][0]
-            const bName = arr2[0][0]
-
-
-            const f = (a, b) => [].concat(...a.map(_a => b.map(_b => ({[aName]: _a, [bName]: _b}))))
-            const cartesian = (a, b) => (b ? cartesian(f(a, b)) : a)
-
-            data['combo'] = cartesian(arr1[0][1], arr2[0][1])
-            return acc
-        }, sa_data)
-    }
-
-    const addSolution = () => {
-        return sa_combos.reduce((acc, inputCombo) => {
-            const solutions = inputCombo.combo.map(states => {
-                const withCurr = {
-                    ...props.currInputVal,
-                    ...states
-                }
-                return findSolution(withCurr)
-            })
-
-            inputCombo['solutions'] = solutions
-            return acc
-        }, sa_combos)
-    }
+    // const addCombos = () => {
+    //     return sa_data.reduce((acc, data) => {
+    //
+    //         const arr1 = Object.entries(data.bounds[0])
+    //         const arr2 = Object.entries(data.bounds[1])
+    //         const aName = arr1[0][0]
+    //         const bName = arr2[0][0]
+    //
+    //
+    //         const f = (a, b) => [].concat(...a.map(_a => b.map(_b => ({[aName]: _a, [bName]: _b}))))
+    //         const cartesian = (a, b) => (b ? cartesian(f(a, b)) : a)
+    //
+    //         data['combo'] = cartesian(arr1[0][1], arr2[0][1])
+    //         return acc
+    //     }, sa_data)
+    // }
+    //
+    // const addSolution = () => {
+    //     return sa_combos.reduce((acc, inputCombo) => {
+    //         const solutions = inputCombo.combo.map(states => {
+    //             const withCurr = {
+    //                 ...props.currInputVal,
+    //                 ...states
+    //             }
+    //             return findSolution(withCurr)
+    //         })
+    //
+    //         inputCombo['solutions'] = solutions
+    //         return acc
+    //     }, sa_combos)
+    // }
 
 
 // Function Executions
     const liveSolutionSet = findSolution(props.currInputVal)
     const liveChartData = extractLiveChartMetaData(liveSolutionSet)
-    const sa_data = createSAData()
-    const sa_combos = addCombos()
-    const saChartData = addSolution()
+    const saChartData = createSAData()
+    // const sa_combos = addCombos()
+    // const saChartData = addSolution()
 
 
     const customRoutes = liveChartData.map(chartCategory => {
@@ -205,6 +205,9 @@ export default function Content(props) {
                     type="detail"
                     liveChartData={[chartCategory]}
                     saChartData={saChartData}
+                    currInputVal={props.currInputVal}
+                    solutions={props.solutions}
+                    findSolution = {findSolution}
                     chartSize={"100%"}
                 />
                 <Input

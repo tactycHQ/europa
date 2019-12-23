@@ -29,18 +29,32 @@ const chartColors = [
 
 export default function SA2Chart(props) {
     const useStyles = makeStyles(theme => ({
-        chartContainer: {},
-        bar: {
-            fill: props.fill
+        chartsContainer: {
+            display: 'flex',
+            backgroundColor: 'yellow',
+            flexDirection: 'column'
+
+        },
+        tableContainer: {
+            display: 'flex',
+            flexDirection:'column',
+            backgroundColor: 'orange',
+            marginTop: '20px',
+            justifyContent:'center',
+            alignItems:'center'
+
         },
         table: {
             backgroundColor: '#D7DEE2',
+            width: '70%',
+            height: '100%'
+        },
+        headercell: {
+            color: 'blue',
             fontSize: '1.0em',
-            color: 'red',
             fontFamily: 'Questrial'
         },
         cell: {
-            // backgroundColor: '#D7DEE2',
             fontSize: '1.0em',
             color: '#4F545A',
             fontFamily: 'Questrial'
@@ -61,24 +75,28 @@ export default function SA2Chart(props) {
 
             const bounds1 = bounds[0][add1]
             const bounds2 = bounds[1][add2]
-            const combos = tableData.combo
-            const solutions = tableData.solutions
 
-            const table = bounds1.map((value1, rowNum) => {
+            const table = bounds1.map((value1) => {
                 const row = bounds2.map(value2 => {
 
-                    const idx = combos.findIndex(item => (item[add1] === value1 && item[add2] === value2))
-                    const answer = solutions[idx][outAdd]
+
+                    const combo = {
+                        ...props.currInputVal,
+                        [add1]: value1,
+                        [add2]: value2
+                    }
+
+                    const answer = props.findSolution(combo)[outAdd]
                     const answer_with_format = convert_format('0.0%', answer)
 
                     return (
-                        <TableCell>{answer_with_format}</TableCell>
+                        <TableCell className={classes.cell}>{answer_with_format}</TableCell>
                     )
                 })
 
                 return (
                     <TableRow>
-                        <TableCell>
+                        <TableCell className={classes.headercell}>
                             {convert_format('0.0%', value1)}
                         </TableCell>
                         {row}
@@ -86,23 +104,25 @@ export default function SA2Chart(props) {
                 )
             })
 
+            //header generation
             const header = bounds2.map((val2) => {
-                const header_val=convert_format('0.0%', val2)
+                const header_val = convert_format('0.0%', val2)
                 return (
-                    <TableCell>{header_val}</TableCell>)
+                    <TableCell className={classes.headercell}>{header_val}</TableCell>)
             })
 
-
-
             return (
-                <TableContainer comonent={Paper}>
-                    <TableRow>
-                        <TableCell>
-                        </TableCell>
-                        {header}
-                    </TableRow>
-                    {table}
-                </TableContainer>
+                <div className={classes.tableContainer}>
+                    <h3>{`${add1} vs. ${add2}`}</h3>
+                    <TableContainer className={classes.table} component={Paper}>
+                        <TableRow>
+                            <TableCell>
+                            </TableCell>
+                            {header}
+                        </TableRow>
+                        {table}
+                    </TableContainer>
+                </div>
             )
 
 
@@ -112,17 +132,15 @@ export default function SA2Chart(props) {
 
 
     //Execute Functions
-    const _tables = generateTables("Annual!D73")
-    console.log(_tables)
+    const tables = generateTables("Annual!D73")
 
 
     return (
 
-        _tables.map(table => {
+        tables.map(table => {
             return (
-                <div>
-                    <div>Table</div>
-                    <div>{table}</div>
+                <div className={classes.chartsContainer}>
+                    {table}
                 </div>
             )
         })
