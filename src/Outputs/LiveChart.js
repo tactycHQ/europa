@@ -109,7 +109,7 @@ export default function LiveChart(props) {
                 />
 
                 <YAxis
-                    hide={false}
+                    hide={true}
                     tick={<CustomizedYAxisTick/>}
                     // ticks={[0,1000,2000,3000,4000,5000,6000,7000]}
                     stroke={props.fill}
@@ -133,9 +133,9 @@ export default function LiveChart(props) {
                     className={classes.bar}
                     dataKey={title}
                     name={title}
-                    isAnimationActive={true}
+                    isAnimationActive={false}
                     fill={color_url}
-                    animationDuration={500}
+                    animationDuration={200}
                 >
                     <LabelList
                         dataKey="label"

@@ -46,7 +46,6 @@ const useStyles = makeStyles(theme => ({
                 fontWeight: '800',
                 color: '#4B719C',
                 marginRight: '10px'
-
             },
             sliderContainer: {
                 display: 'flex',

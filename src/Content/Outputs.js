@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import LiveChart from "../Outputs/LiveChart"
 import {Card} from "@material-ui/core"
@@ -6,6 +6,7 @@ import CardSettings from "../Outputs/CardSettings"
 import SA1Chart from "../Outputs/SA1Chart"
 import {NavLink} from "react-router-dom"
 import SA2Chart from "../Outputs/SA2Chart"
+import {LabelSelector} from "../Outputs/LabelSelector";
 
 
 // import StackedBar from "./stackedbar";
@@ -33,6 +34,7 @@ export default function Output(props) {
         }
     }
     const custom_width = get_width()
+
 
 
     //Defining hooks
@@ -134,9 +136,14 @@ export default function Output(props) {
         }
     }))
     const classes = useStyles()
+    const [currOutputCell, setCurrOutputCell] = useState('')
 
 
     // Defining custom functions for Live charts
+    const handleOutputLabelChange = (event) => {
+        setCurrOutputCell(event.target.value)
+    }
+
     const createLiveCharts = (solutionSet, idx) => {
         return (
             <LiveChart
@@ -147,34 +154,37 @@ export default function Output(props) {
         )
     }
 
-    const createSAContainer = () => {
+    const createSAContainer = (category, currOutputCell) => {
         return (
             <div className={classes.sa1_container}>
-                {createSAcharts()}
+                {createSAcharts(category, currOutputCell)}
             </div>
         )
     }
 
-    const createSAcharts = () => {
+    const createSAcharts = (category, currOutputCell) => {
         if (props.type === "summary") {
         } else {
             return (
                 <div className={classes.sa1_chart_container}>
                     <SA2Chart
+                        category={category}
                         data={props.saChartData}
                         currInputVal={props.currInputVal}
                         findSolution={props.findSolution}
                         inputLabelMap={props.inputLabelMap}
                         formats={props.formats}
-                        outputs={props.outputs}
+                        outputs={props.outputs.find(i => (i.category === category))}
                         domains={props.domains}
+                        currOutputCell={currOutputCell}
                     />
                 </div>
             )
         }
     }
 
-    const createSAHeader = (type) => {
+    const createSAHeader = (type, category) => {
+
         if (type === "detail") {
             return (
                 <div className={classes.cardSectionHeader}>
@@ -184,6 +194,10 @@ export default function Output(props) {
                     <h4 className={classes.cardSectionNote}>
                         2 input sensitized at a time, while other input values held at current slider levels
                     </h4>
+                    <LabelSelector outputs={props.outputs.find(i => (i.category === category))}
+                                   handleOutputLabelChange={handleOutputLabelChange}
+                                   currOutputCell={currOutputCell}
+                    />
                 </div>
             )
         }
@@ -200,13 +214,12 @@ export default function Output(props) {
                         <CardSettings/>
                     </div>
                     {createLiveCharts(solutionSet, idx)}
-                    {createSAHeader(props.type)}
-                    {createSAContainer(solutionSet)}
+                    {createSAHeader(props.type,solutionSet.category)}
+                    {createSAContainer(solutionSet.category, currOutputCell)}
                 </Card>
             )
         })
     }
-
 
     return (
         <div className={classes.root}>
