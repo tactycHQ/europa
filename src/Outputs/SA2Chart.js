@@ -96,6 +96,9 @@ export default function SA2Chart(props) {
             const bounds = tableData.bounds
             const add1 = flexInputs[0]
             const add2 = flexInputs[1]
+            const out_fmt = props.formats[outAdd]
+            const add1_fmt = props.formats[add1]
+            const add2_fmt = props.formats[add2]
 
             const bounds1 = bounds[0][add1]
             const bounds2 = bounds[1][add2]
@@ -111,7 +114,7 @@ export default function SA2Chart(props) {
                     }
 
                     const answer = props.findSolution(combo)[outAdd]
-                    const answer_with_format = convert_format('0.0%', answer)
+                    const answer_with_format = convert_format(out_fmt, answer)
 
                     return (
                         <TableCell
@@ -133,7 +136,7 @@ export default function SA2Chart(props) {
                             size="small"
                             variant="body"
                         >
-                            {convert_format('0.0%', value1)}
+                            {convert_format(add1_fmt, value1)}
                         </TableCell>
                         {row}
                     </TableRow>
@@ -142,7 +145,7 @@ export default function SA2Chart(props) {
 
             //header generation
             const header = bounds2.map((val2) => {
-                const header_val = convert_format('0.0%', val2)
+                const header_val = convert_format(add2_fmt, val2)
                 return (
                     <TableCell className={classes.headerCell}
                                align="right"
@@ -155,8 +158,11 @@ export default function SA2Chart(props) {
             })
 
             return (
+
+
+
                 <Paper className={classes.tableContainer}>
-                    <h3>{`${add1} vs. ${add2}`}</h3>
+                    <h3>{`${props.inputLabelMap[add1]} vs. ${props.inputLabelMap[add2]}`}</h3>
                     <TableRow className={classes.headerRow}>
                         <TableCell
                             className={classes.headerCell}

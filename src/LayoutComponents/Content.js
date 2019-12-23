@@ -6,7 +6,6 @@ import Sensitivity from "../Sidebar/Sensitivity";
 import {Switch, Route} from 'react-router-dom'
 import ScenarioAnalysis from "../Sidebar/ScenarioAnalysis"
 import DependencyGraph from "../Sidebar/DependencyGraph"
-import ToggleInput from "../Other/ToggleInput"
 import isEqual from "lodash.isequal";
 import SideBar from "../Content/SideBar";
 
@@ -67,7 +66,7 @@ export default function Content(props) {
         }
     }
 
-    const extractLiveChartMetaData = (solutionSet) => {
+    const addLiveChartMetaData = (solutionSet) => {
         const labelsInChart = props.outputs.map(output => {
 
                 // Applying labels and formats
@@ -135,7 +134,7 @@ export default function Content(props) {
 
 // Function Executions
     const liveSolutionSet = findSolution(props.currInputVal)
-    const liveChartData = extractLiveChartMetaData(liveSolutionSet)
+    const liveChartData = addLiveChartMetaData(liveSolutionSet)
     const saChartData = createSAData()
 
 
@@ -149,9 +148,11 @@ export default function Content(props) {
                     liveChartData={[chartCategory]}
                     saChartData={saChartData}
                     currInputVal={props.currInputVal}
-                    solutions={props.solutions}
                     findSolution = {findSolution}
                     chartSize={"100%"}
+                    inputLabelMap={inputLabelMap}
+                    formats={props.formats}
+                    outputs={props.outputs}
                 />
                 <Input
                     handleSliderChange={props.handleSliderChange}

@@ -101,7 +101,7 @@ export default function Output(props) {
         },
         sa1_container: {
             display: 'flex',
-            flexDirection:'column',
+            flexDirection: 'column',
             height: '100%',
             width: '100%',
             // flexWrap: 'wrap',
@@ -164,6 +164,9 @@ export default function Output(props) {
                         data={props.saChartData}
                         currInputVal={props.currInputVal}
                         findSolution={props.findSolution}
+                        inputLabelMap={props.inputLabelMap}
+                        formats={props.formats}
+                        outputs={props.outputs}
                     />
                 </div>
             )
@@ -187,21 +190,20 @@ export default function Output(props) {
 
     const createCharts = () => {
         return props.liveChartData.map((solutionSet, idx) => {
-                return (
-                    <Card className={classes.outputCards} key={solutionSet.category}>
-                        <div className={classes.cardHeaderContainer}>
-                            <NavLink to={`/outputs/${solutionSet.category}`} style={{textDecoration: 'none'}}>
-                                <h2 className={classes.cardTitleHeader}>{solutionSet.category}</h2>
-                            </NavLink>
-                            <CardSettings/>
-                        </div>
-                        {createLiveCharts(solutionSet, idx)}
-                        {createSAHeader(props.type)}
-                        {createSAContainer(solutionSet)}
-                    </Card>
-                )
-            }
-        )
+            return (
+                <Card className={classes.outputCards} key={solutionSet.category}>
+                    <div className={classes.cardHeaderContainer}>
+                        <NavLink to={`/outputs/${solutionSet.category}`} style={{textDecoration: 'none'}}>
+                            <h2 className={classes.cardTitleHeader}>{solutionSet.category}</h2>
+                        </NavLink>
+                        <CardSettings/>
+                    </div>
+                    {createLiveCharts(solutionSet, idx)}
+                    {createSAHeader(props.type)}
+                    {createSAContainer(solutionSet)}
+                </Card>
+            )
+        })
     }
 
 
