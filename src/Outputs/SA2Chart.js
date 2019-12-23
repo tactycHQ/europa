@@ -31,56 +31,48 @@ export default function SA2Chart(props) {
     const useStyles = makeStyles(theme => ({
         chartsContainer: {
             display: 'flex',
-            // backgroundColor: 'yellow',
-            flexDirection: 'column'
+            flexDirection: 'column',
+            margin:'1%'
 
         },
         tableContainer: {
             display: 'flex',
             flexDirection: 'column',
-            // backgroundColor: 'orange',
-            marginTop: 'auto',
+            background: 'linear-gradient(#FEFEFD,#EEF2F6)',
             width: '100%',
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
+            margin:'1%',
+            padding:'1%'
+
 
         },
         table: {
-            // display:'flex',
-            backgroundColor: '#D7DEE2',
-            // justifyContent: 'flex-end',
-            width: '100%',
-            height: '100%',
-            margin: 'auto'
+            margin:'5%'
+
         },
         headercell: {
-            backgroundColor: 'blue',
-            color: 'white',
+            backgroundColor: '#4B719C',
+            color: '#F4F9E9',
             fontSize: '1.0em',
+            fontWeight:'500',
             fontFamily: 'Questrial',
-            textAlign:'right',
+            borderStyle:'none',
             padding: 10,
             minWidth: '15%',
             maxWidth: '15%'
         },
         cell: {
-            // backgroundColor:'red',
             fontSize: '1.0em',
             color: '#4F545A',
             fontFamily: 'Questrial',
-            textAlign:'right',
-            // alignItems:'right',
-            // borderStyle:'solid',
             padding: 10,
-            // margin:'100px'
             minWidth: '15%',
-            maxWidth: '15%'
+            maxWidth: '15%',
         },
         row: {
             display: 'flex',
-            // backgroundColor:'green',
             width: '48%',
-            margin: '1%',
             justifyContent: 'space-between'
 
         }
@@ -148,7 +140,8 @@ export default function SA2Chart(props) {
                     <TableCell className={classes.headercell}
                                align="right"
                                size="small"
-                               variant="body"
+                               variant="header"
+                               sortDirection="asc"
                     >
                         {header_val}
                     </TableCell>)
@@ -164,7 +157,6 @@ export default function SA2Chart(props) {
                             size="small"
                             variant="body"
                         >
-                            {convert_format('0.00000000%', 0.356)}
                         </TableCell>
                         {header}
                     </TableRow>

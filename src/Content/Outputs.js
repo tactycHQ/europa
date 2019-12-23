@@ -107,7 +107,7 @@ export default function Output(props) {
             // flexWrap: 'wrap',
             justifyContent: 'center',
             // alignContent: 'flex-end',
-            background: 'gray'
+            // background: 'gray'
         },
         sa1_chart_container: {
             margin: '2%',
