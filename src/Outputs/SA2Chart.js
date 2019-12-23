@@ -147,7 +147,7 @@ export default function SA2Chart(props) {
                     <TableCell className={classes.headerCell}
                                align="right"
                                size="small"
-                               variant="header"
+                               variant="head"
                                sortDirection="asc"
                     >
                         {header_val}

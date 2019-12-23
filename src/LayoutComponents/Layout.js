@@ -96,7 +96,7 @@ export default function Layout() {
 
 
     useEffect(() => {
-        setInputCase(null)
+        setInputCase('')
     }, [currInputVal])
 
     // Defining functions
