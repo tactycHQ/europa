@@ -31,7 +31,7 @@ export default function SA2Chart(props) {
     const useStyles = makeStyles(theme => ({
         chartsContainer: {
             display: 'flex',
-            backgroundColor: 'yellow',
+            // backgroundColor: 'yellow',
             flexDirection: 'column'
 
         },
@@ -48,13 +48,14 @@ export default function SA2Chart(props) {
         table: {
             // display:'flex',
             backgroundColor: '#D7DEE2',
-            justifyContent: 'flex-end',
+            // justifyContent: 'flex-end',
             width: '100%',
             height: '100%',
             margin: 'auto'
         },
         headercell: {
-            color: 'blue',
+            backgroundColor: 'blue',
+            color: 'white',
             fontSize: '1.0em',
             fontFamily: 'Questrial'
         },
@@ -62,10 +63,20 @@ export default function SA2Chart(props) {
             // backgroundColor:'red',
             fontSize: '1.0em',
             color: '#4F545A',
-            fontFamily: 'Questrial'
+            fontFamily: 'Questrial',
+            // borderStyle:'solid',
+            // padding:10
+            // margin:'100px'
+            // minWidth:'1%',
+            // maxWidth:'1%'
         },
         row: {
-            // backgroundColor:'green'
+            display:'flex',
+            // backgroundColor:'green',
+            width:'48%',
+            margin:'1%',
+            justifyContent:'space-between'
+
         }
     }))
 
@@ -95,17 +106,28 @@ export default function SA2Chart(props) {
                     }
 
                     const answer = props.findSolution(combo)[outAdd]
-
                     const answer_with_format = convert_format('0.0%', answer)
 
                     return (
-                        <TableCell className={classes.cell}>{answer_with_format}</TableCell>
+                        <TableCell
+                            className={classes.cell}
+                            align="justify"
+                            size="small"
+                            variant="body"
+                        >
+                            {answer_with_format}
+                        </TableCell>
                     )
                 })
 
                 return (
                     <TableRow className={classes.row}>
-                        <TableCell className={classes.headercell}>
+                        <TableCell
+                            className={classes.headercell}
+                            align="justify"
+                            size="small"
+                            variant="body"
+                        >
                             {convert_format('0.0%', value1)}
                         </TableCell>
                         {row}
@@ -117,14 +139,26 @@ export default function SA2Chart(props) {
             const header = bounds2.map((val2) => {
                 const header_val = convert_format('0.0%', val2)
                 return (
-                    <TableCell className={classes.headercell}>{header_val}</TableCell>)
+                    <TableCell className={classes.headercell}
+                               align="justify"
+                               size="small"
+                               variant="body"
+                    >
+                        {header_val}
+                    </TableCell>)
             })
 
             return (
                 <Paper className={classes.tableContainer}>
                     <h3>{`${add1} vs. ${add2}`}</h3>
                     <TableRow className={classes.row}>
-                        <TableCell className={classes.cell}>
+                        <TableCell
+                            className={classes.headercell}
+                            align="justify"
+                            size="small"
+                            variant="body"
+                        >
+                            {convert_format('0.0%', 0.3)}
                         </TableCell>
                         {header}
                     </TableRow>
