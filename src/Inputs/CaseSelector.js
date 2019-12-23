@@ -55,10 +55,6 @@ export default function CaseSelector(props) {
             <FormControl
                 className={classes.formControl}
                 disableScrollLock={true}
-                // size="small"
-                // margin="dense"
-                // variant="standard"
-                // fullWidth={true}
             >
                 <Select
                     classes={{selectMenu: classes.caseSelect}}

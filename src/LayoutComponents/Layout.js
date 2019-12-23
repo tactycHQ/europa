@@ -87,12 +87,17 @@ export default function Layout() {
     }, [])
 
 
-    useEffect (() => {
+    useEffect(() => {
         if (inputCase) {
             setcurrInputVal(cases[0][inputCase])
         }
 
-    },[cases, inputCase])
+    }, [cases, inputCase])
+
+
+    useEffect(() => {
+        setInputCase(null)
+    }, [currInputVal])
 
     // Defining functions
     const handleSliderChange = (event, newValue, setAddress) => {

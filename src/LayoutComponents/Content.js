@@ -112,31 +112,8 @@ export default function Content(props) {
             [])
     }
 
-
     const saPairs = generateSAPairs()
-    // console.log(saPairs)
 
-    // const createSAcombos = () => {
-    //     const result = saPairs.map(pair => {
-    //         const foundInputs = pair.map(inputAddress => {
-    //             return props.inputs.find(i => (i.address === inputAddress))
-    //         })
-    //
-    //         const in1 = foundInputs[0]
-    //         const in2 = foundInputs[1]
-    //
-    //         return in1.values.map(in1Val => {
-    //             return in2.values.map(in2Val => {
-    //                 return {
-    //                     ...props.currInputVal,
-    //                     [in2.address]: in2Val,
-    //                     [in1.address]: in1Val
-    //                 }
-    //             })
-    //         })
-    //     })
-    //     return result
-    // }
     const inputLabelMap = generateInputLabelMap()
 
     const createSAData = () => {
