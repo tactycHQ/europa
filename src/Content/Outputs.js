@@ -192,8 +192,8 @@ const createCharts = () => {
                         <CardSettings/>
                     </div>
                     {createLiveCharts(solutionSet, idx)}
-                    {/*{createSAHeader(props.type)}*/}
-                    {/*{createSAContainer(solutionSet)}*/}
+                    {createSAHeader(props.type)}
+                    {createSAContainer(solutionSet)}
                 </Card>
             )
         }

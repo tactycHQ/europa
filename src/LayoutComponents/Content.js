@@ -138,8 +138,6 @@ export default function Content(props) {
     //     return result
     // }
     const inputLabelMap = generateInputLabelMap()
-    // console.log(inputLabelMap)
-
 
     const createSAData = () => {
         return saPairs.map(address => {
@@ -157,76 +155,45 @@ export default function Content(props) {
         })
     }
 
-    const sa_data = createSAData()
-    console.log(sa_data)
-
-    const f = (a, b) => [].concat(...a.map(d => b.map(e => [].concat(d, e))));
-    const cartesian = (a, b, ...c) => (b ? cartesian(f(a, b), ...c) : a)
-
-    const createSAcombos = () => {
-        return sa_data.map(data => {
+    const addCombos = () => {
+        return sa_data.reduce((acc, data) => {
 
             const arr1 = Object.entries(data.bounds[0])
             const arr2 = Object.entries(data.bounds[1])
+            const aName = arr1[0][0]
+            const bName = arr2[0][0]
 
-            return cartesian(arr1[0][1], arr2[0][1])
-        })
+
+            const f = (a, b) => [].concat(...a.map(_a => b.map(_b => ({[aName]: _a, [bName]: _b}))))
+            const cartesian = (a, b) => (b ? cartesian(f(a, b)) : a)
+
+            data['combo'] = cartesian(arr1[0][1], arr2[0][1])
+            return acc
+        }, sa_data)
     }
 
-    const sa_combos = createSAcombos()
-    console.log(sa_combos)
+    const addSolution = () => {
+        return sa_combos.reduce((acc, inputCombo) => {
+            const solutions = inputCombo.combo.map(states => {
+                const withCurr = {
+                    ...props.currInputVal,
+                    ...states
+                }
+                return findSolution(withCurr)
+            })
 
-    const findSASolution = () => {
-        return props.outputs.reduce((chartData, output) => {
-
-            const solutions = sa_combos.reduce((arr, inputCombos) => {
-
-                const comboSol = inputCombos.reduce((_arr, combos) => {
-
-                    const inputWithLabels = combos.map(combo => {
-                        const comboWithlabel = Object.entries(combo).reduce((_labs, _in) => {
-                            const _label = inputLabelMap[_in[0]]
-                            const val = _in[1]
-                            _labs[_label] = val
-                            return _labs
-                        }, {})
-                        return comboWithlabel
-                    })
-
-                    const output_answers = combos.map(combo => {
-                        const answers = findSolution(combo)
-                        return Object.entries(output.labels).reduce((acc, address_lab) => {
-                            if (address_lab[0] in answers) {
-                                acc[address_lab[1]] = answers[address_lab[0]]
-                                return acc
-                            }
-                        }, {})
-                    })
-
-                    const result = {
-                        input: inputWithLabels,
-                        output: output_answers
-                    }
-
-                    return _arr.concat(result)
-                }, [])
-
-                return arr.concat(comboSol)
-            }, [])
-
-            chartData[output.category] = solutions
-            return chartData
-
-        }, {})
+            inputCombo['solutions'] = solutions
+            return acc
+        }, sa_combos)
     }
 
-    const saChartData = findSASolution()
-// console.log(saChartData)
 
 // Function Executions
-
     const liveSolutionSet = findSolution(props.currInputVal)
     const liveChartData = extractLiveChartMetaData(liveSolutionSet)
+    const sa_data = createSAData()
+    const sa_combos = addCombos()
+    const saChartData = addSolution()
 
 
     const customRoutes = liveChartData.map(chartCategory => {
@@ -237,7 +204,7 @@ export default function Content(props) {
                 <Output
                     type="detail"
                     liveChartData={[chartCategory]}
-                    saChartData={saChartData[chartCategory.category]}
+                    saChartData={saChartData}
                     chartSize={"100%"}
                 />
                 <Input

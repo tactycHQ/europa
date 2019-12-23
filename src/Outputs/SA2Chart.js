@@ -7,6 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper'
+import {convert_format} from "../utils/utils"
 
 // import {convert_format} from "../utils/utils"
 
@@ -49,49 +50,81 @@ export default function SA2Chart(props) {
     const classes = useStyles()
 
 
-    const generateCells = () => {
-        return props.data.map(solution => {
-            return (
-                <TableCell>
-                    {solution.output[0]['Y1']}
-                </TableCell>
-            )
-        })
-    }
+    const generateTables = (outAdd) => {
 
-    const generateBounds = () => {
-        return props.data.map(solution => {
+        const tables = props.data.map(tableData => {
+
+            const flexInputs = tableData.inputs
+            const bounds = tableData.bounds
+            const add1 = flexInputs[0]
+            const add2 = flexInputs[1]
+
+            const bounds1 = bounds[0][add1]
+            const bounds2 = bounds[1][add2]
+            const combos = tableData.combo
+            const solutions = tableData.solutions
+
+            const table = bounds1.map((value1, rowNum) => {
+                const row = bounds2.map(value2 => {
+
+                    const idx = combos.findIndex(item => (item[add1] === value1 && item[add2] === value2))
+                    const answer = solutions[idx][outAdd]
+                    const answer_with_format = convert_format('0.0%', answer)
+
+                    return (
+                        <TableCell>{answer_with_format}</TableCell>
+                    )
+                })
+
+                return (
+                    <TableRow>
+                        <TableCell>
+                            {convert_format('0.0%', value1)}
+                        </TableCell>
+                        {row}
+                    </TableRow>
+                )
+            })
+
+            const header = bounds2.map((val2) => {
+                const header_val=convert_format('0.0%', val2)
+                return (
+                    <TableCell>{header_val}</TableCell>)
+            })
+
+
+
             return (
-                <TableCell>
-                    {solution.output[0]['Y1']}
-                </TableCell>
+                <TableContainer comonent={Paper}>
+                    <TableRow>
+                        <TableCell>
+                        </TableCell>
+                        {header}
+                    </TableRow>
+                    {table}
+                </TableContainer>
             )
+
+
         })
+        return tables
     }
 
 
     //Execute Functions
-    // const cells = generateCells()
-    const bounds = generateBounds()
-    console.log(props)
-    console.log(bounds)
+    const _tables = generateTables("Annual!D73")
+    console.log(_tables)
+
 
     return (
-        <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="simple table">
-                {/*<TableHead>*/}
-                {/*    <TableRow>*/}
-                {/*        <TableCell className={classes.cell}>Dessert (100g serving)</TableCell>*/}
-                {/*        <TableCell className={classes.cell} align="right">Calories</TableCell>*/}
-                {/*        <TableCell className={classes.cell} align="right">Fat&nbsp;(g)</TableCell>*/}
-                {/*    </TableRow>*/}
-                {/*</TableHead>*/}
-                <TableBody>
-                    <TableRow>
-                        {/*{cells}*/}
-                    </TableRow>
-                </TableBody>
-            </Table>
-        </TableContainer>
+
+        _tables.map(table => {
+            return (
+                <div>
+                    <div>Table</div>
+                    <div>{table}</div>
+                </div>
+            )
+        })
     )
 }
