@@ -195,8 +195,8 @@ export default function SAChart(props) {
                         Variables:</em> {props.inputLabelMap[add2]}, {props.inputLabelMap[add1]}</h3>
                     <ResponsiveContainer width="100%" height={310}>
                         <AreaChart
-                            width={730}
-                            height={250}
+                            // width={730}
+                            // height={250}
                             data={table}
                             margin={{top: 5, right: 20, left: 10, bottom: 30}}
                             baseValue="dataMin"

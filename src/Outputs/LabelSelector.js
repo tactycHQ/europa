@@ -82,7 +82,7 @@ export function LabelSelector(props) {
 
     return (
         <div className={classes.labelSelectorContainer}>
-            <h2 className={classes.labelSelectorText}>Sensitivity Analysis for {props.outputs.category}</h2>
+            <h2 className={classes.labelSelectorText}>{props.titleText}{props.outputs.category}</h2>
             <FormControl
                 className={classes.formControl}
                 disableScrollLock={true}

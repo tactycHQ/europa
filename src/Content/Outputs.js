@@ -6,6 +6,7 @@ import CardSettings from "../Outputs/CardSettings"
 import {NavLink} from "react-router-dom"
 import SAChart from "../Outputs/SAChart"
 import {LabelSelector} from "../Outputs/LabelSelector";
+import InputImportance from "../Outputs/InputImportance"
 
 const chartColors = [
     '#004666',
@@ -60,14 +61,15 @@ export default function Output(props) {
             marginTop: '3px',
             marginLeft: '7px'
         },
+        midPanel: {
+            display: 'flex'
+        },
         saContainer: {
             display: 'flex',
-            // flexDirection: 'column',
             height: '100%',
             width: '100%',
             justifyContent: 'center',
-            flexWrap: 'wrap',
-            // background: 'red'
+            flexWrap: 'wrap'
         }
     }))
     const classes = useStyles()
@@ -101,35 +103,97 @@ export default function Output(props) {
     }
 
     const createSAcharts = (category, currOutputCell) => {
-        if (props.type === "summary") {
-        } else {
-            return (
-                <SAChart
-                    category={category}
-                    data={props.saChartData}
-                    currInputVal={props.currInputVal}
-                    findSolution={props.findSolution}
-                    inputLabelMap={props.inputLabelMap}
-                    formats={props.formats}
-                    outputs={props.outputs.find(i => (i.category === category))}
-                    domains={props.domains}
-                    currOutputCell={currOutputCell}
-                />
-            )
-        }
+        return (
+            <SAChart
+                category={category}
+                data={props.saChartData}
+                currInputVal={props.currInputVal}
+                findSolution={props.findSolution}
+                inputLabelMap={props.inputLabelMap}
+                formats={props.formats}
+                outputs={props.outputs.find(i => (i.category === category))}
+                domains={props.domains}
+                currOutputCell={currOutputCell}
+            />
+        )
     }
 
-    const createSAHeader = (type, category) => {
-        if (type === "detail") {
-            return (
-                <LabelSelector outputs={props.outputs.find(i => (i.category === category))}
-                               handleOutputLabelChange={handleOutputLabelChange}
-                               currOutputCell={currOutputCell}
-                />
-            )}}
+    const createSAHeader = (category) => {
+        return (
+            <LabelSelector outputs={props.outputs.find(i => (i.category === category))}
+                           handleOutputLabelChange={handleOutputLabelChange}
+                           currOutputCell={currOutputCell}
+                           titleText={"Sensitivity Analysis for "}
+            />
+        )
+    }
+
+    const createOutpuRangeHeader = (category) => {
+        return (
+            <LabelSelector outputs={props.outputs.find(i => (i.category === category))}
+                           handleOutputLabelChange={handleOutputLabelChange}
+                           currOutputCell={currOutputCell}
+                           titleText={"Valid Range for "}
+            />
+        )
+    }
+
+    const createOutputRangeCharts = () => {
+        return <InputImportance/>
+    }
+
+    const createInputImportanceHeader = (category) => {
+        return (
+            <LabelSelector outputs={props.outputs.find(i => (i.category === category))}
+                           handleOutputLabelChange={handleOutputLabelChange}
+                           currOutputCell={currOutputCell}
+                           titleText={"Input Impact on "}
+            />
+        )
+    }
+
+    const createInputImportanceCharts = () => {
+        return <InputImportance/>
+    }
+
 
     const createCharts = () => {
         return props.liveChartData.map((solutionSet, idx) => {
+
+            let saHeader
+            let saContainer
+            let inputImportanceCharts
+            let inputImportanceHeader
+            let outputRangeHeader
+            let outputRangeCharts
+            let detailSection
+
+            if (props.type === 'detail') {
+                saHeader = createSAHeader(solutionSet.category)
+                saContainer = createSAContainer(solutionSet.category, currOutputCell)
+                inputImportanceHeader = createInputImportanceHeader(solutionSet.category)
+                inputImportanceCharts = createInputImportanceCharts()
+                outputRangeHeader = createOutpuRangeHeader(solutionSet.category)
+                outputRangeCharts = createOutputRangeCharts()
+                detailSection = (
+                    <div>
+                        <div className={classes.midPanel}>
+                            <div className={classes.inputImportance}>
+                                {inputImportanceHeader}
+                                {inputImportanceCharts}
+                            </div>
+                            <div className={classes.inputImportance}>
+                                {outputRangeHeader}
+                                {outputRangeCharts}
+                            </div>
+                        </div>
+                        {saHeader}
+                        {saContainer}
+                    </div>
+                )
+            }
+
+
             return (
                 <Card className={classes.outputCards} key={solutionSet.category}>
                     <div className={classes.cardHeaderContainer}>
@@ -139,10 +203,11 @@ export default function Output(props) {
                         <CardSettings/>
                     </div>
                     {createLiveCharts(solutionSet, idx)}
-                    {createSAHeader(props.type, solutionSet.category)}
-                    {createSAContainer(solutionSet.category, currOutputCell)}
+                    {detailSection}
                 </Card>
-            )})}
+            )
+        })
+    }
 
     //Function executions
     const final_charts = createCharts()
