@@ -1,14 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Content from "./Content";
-import TopBar from "./TopBar";
-import Spinner from "../Other/Spinner";
+import React, {useEffect, useState} from 'react'
+import {makeStyles} from '@material-ui/core/styles'
+import Content from "./Content"
+import TopBar from "./TopBar"
+import Spinner from "../Other/Spinner"
 import {getSolutions, getMetaData, getFormats} from "../api/api"
-import Divider from "@material-ui/core/Divider"
 
 
-const useStyles = makeStyles(theme => ({
+function extractDefaults(values) {
+    if (Object.keys(values)[0] === 'Default') {
+        return values.Default
+    }
+}
+
+export default function Layout() {
+
+    // Defining hooks
+    const useStyles = makeStyles(theme => ({
     root: {
         display: 'flex',
         flexDirection: 'column'
@@ -31,16 +38,6 @@ const useStyles = makeStyles(theme => ({
         display: 'flex'
     }
 }));
-
-function extractDefaults(values) {
-    if (Object.keys(values)[0] === 'Default') {
-        return values.Default
-    }
-}
-
-export default function Layout() {
-
-    // Defining hooks
     const classes = useStyles()
     const [solutions, setSolutions] = useState(null)
     const [domains, setDomains] = useState(null)
@@ -86,14 +83,12 @@ export default function Layout() {
         runEffect()
     }, [])
 
-
     useEffect(() => {
         if (inputCase) {
             setcurrInputVal(cases[0][inputCase])
         }
 
     }, [cases, inputCase])
-
 
     useEffect(() => {
         setInputCase('')
@@ -107,9 +102,7 @@ export default function Layout() {
         }))
     }
 
-    const handleCaseChange = event => {
-        setInputCase(event.target.value)
-    }
+    const handleCaseChange = event => setInputCase(event.target.value)
 
     if (isLoaded) {
         content =

@@ -6,6 +6,7 @@ import {makeStyles} from "@material-ui/core";
 
 export function LabelSelector(props) {
 
+    //Styles
     const useStyles = makeStyles(theme => ({
         labelSelectorContainer: {
             display: 'flex',
@@ -54,11 +55,20 @@ export function LabelSelector(props) {
         }
 
     }));
-
     const classes = useStyles()
+
+    //Custom variables
     const defaultVal = Object.keys(props.outputs.labels)[0]
-    let currDisplay = ''
+    const outputLabels = Object.entries(props.outputs.labels)
+    const menuItems = outputLabels.map(combo => {
+        const outAdd = combo[0]
+        const outLabel = combo[1]
+        return (<MenuItem key={outAdd} classes={{root: classes.caseItem}} value={outAdd}>{outLabel}</MenuItem>)
+    })
+
+    //Custom Functions
     const getCurrDisplay = () => {
+        let currDisplay
         if (props.currOutputCell === '') {
             currDisplay = defaultVal
         } else {
@@ -67,13 +77,7 @@ export function LabelSelector(props) {
         return currDisplay
     }
 
-    const outputLabels = Object.entries(props.outputs.labels)
-    const menuItems = outputLabels.map(combo => {
-        const outAdd = combo[0]
-        const outLabel = combo[1]
-        return (<MenuItem key={outAdd} classes={{root: classes.caseItem}} value={outAdd}>{outLabel}</MenuItem>)
-    })
-
+    //Function Execution
     const _currDisplay = getCurrDisplay()
 
     return (

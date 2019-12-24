@@ -35,7 +35,7 @@ export default function CaseSelector(props) {
                     acc.currCase = caseInfo[0]
                 }
                 return acc
-            }, {currCase: '...'}
+            }, {currCase: ''}
         )
     }
 

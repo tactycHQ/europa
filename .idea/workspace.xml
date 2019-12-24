@@ -3,13 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Content/Inputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/Inputs.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Content/Outputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/Outputs.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Content/SideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/SideBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Inputs/Sliders.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Inputs/Sliders.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Layout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/Layout.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Outputs/LabelSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/LabelSelector.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Outputs/LiveChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/LiveChart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Outputs/SA2Chart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/SA2Chart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Outputs/SA2Chart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/SAChart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/api/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/api.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -124,13 +123,6 @@
       <workItem from="1576345386968" duration="6105000" />
       <workItem from="1576435520695" duration="53958000" />
       <workItem from="1576549058087" duration="86413000" />
-    </task>
-    <task id="LOCAL-00035" summary="First commit">
-      <created>1576554975203</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1576554975203</updated>
     </task>
     <task id="LOCAL-00036" summary="First commit">
       <created>1576562237451</created>
@@ -468,7 +460,14 @@
       <option name="project" value="LOCAL" />
       <updated>1577150239620</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="First commit">
+      <created>1577163376711</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1577163376711</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

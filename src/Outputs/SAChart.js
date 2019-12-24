@@ -3,15 +3,10 @@ import {makeStyles} from '@material-ui/core/styles';
 import {AreaChart, XAxis, YAxis, Tooltip, Legend, Area, Label, ResponsiveContainer} from "recharts";
 import Paper from '@material-ui/core/Paper'
 import {convert_format} from "../utils/utils"
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-
-// import {convert_format} from "../utils/utils"
 
 
 const chartColors = [
-    '#006E9F',
+    '#004666',
     '#A5014B',
     '#247308',
     '#41C0EB',
@@ -20,7 +15,9 @@ const chartColors = [
 ]
 
 
-export default function SA2Chart(props) {
+export default function SAChart(props) {
+
+    //Styles
     const useStyles = makeStyles(theme => ({
         chartsContainer: {
             display: 'flex',
@@ -46,19 +43,14 @@ export default function SA2Chart(props) {
             fontSize: '1.2em',
             fontWeight: '300',
             color: '#3C4148',
-            // padding: '10px',
             marginBottom: '0'
-            // width:'100%'
         },
         chartNote: {
             fontFamily: 'Questrial',
-            // background: 'red',
             fontSize: '0.9em',
             fontWeight: '300',
             color: '#3C4148',
-            // padding: '10px',
             marginTop: '0'
-            // width:'100%'
         },
         xlabel: {
             fontFamily: 'Questrial',
@@ -74,20 +66,22 @@ export default function SA2Chart(props) {
         }
 
     }))
-
-    let outAdd
-    if (props.currOutputCell === '') {
-        outAdd = Object.keys(props.outputs.labels)[0]
-    } else {
-        outAdd = props.currOutputCell
-    }
-
-
     const classes = useStyles()
+
+    //Custom Functions
+    const getOutAdd =() => {
+        let outAdd
+        if (props.currOutputCell === '') {
+            outAdd = Object.keys(props.outputs.labels)[0]
+        } else {
+            outAdd = props.currOutputCell
+        }
+        return outAdd
+    }
 
     const AxisFormatter = (fmt, value) => convert_format(fmt, value)
 
-    function CustomizedYAxisTick(props) {
+    const CustomizedYAxisTick = (props) => {
         const {x, y, stroke, payload, fmt} = props
 
         return (
@@ -108,7 +102,7 @@ export default function SA2Chart(props) {
         )
     }
 
-    function CustomizedXAxisTick(props) {
+    const CustomizedXAxisTick = (props) => {
         const {x, y, stroke, payload, fmt} = props
 
         return (
@@ -133,11 +127,6 @@ export default function SA2Chart(props) {
     const generateTables = (outAdd) => {
 
         const tables = props.data.map(tableData => {
-
-
-            // const minDomain = props.domains.min[outAdd]
-            // const maxDomain = props.domains.max[outAdd]
-            // const outDomain = [minDomain, maxDomain]
             const flexInputs = tableData.inputs
             const bounds = tableData.bounds
             const add1 = flexInputs[0]
@@ -187,7 +176,7 @@ export default function SA2Chart(props) {
 
             const gradients = bounds2.map((bound, idx) => {
                 return (
-                    <defs>
+                    <defs key={bound}>
                         <linearGradient id={bound} x1="0" y1="0" x2="0" y2="1">
                             <stop offset="1%" stopColor={chartColors[idx]} stopOpacity={0.1}/>
                             <stop offset="12%" stopColor={chartColors[idx]} stopOpacity={0.01}/>
@@ -268,15 +257,13 @@ export default function SA2Chart(props) {
         return tables
     }
 
-
     //Execute Functions
+    const outAdd = getOutAdd()
     const tables = generateTables(outAdd)
 
 
     return (
-
         tables.map(table => {
-
             return (
                 <div className={classes.chartsContainer} key={table.key}>
                     {table}

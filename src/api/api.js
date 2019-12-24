@@ -1,3 +1,5 @@
+//API Functions
+
 export const getSolutions = async () => {
     console.log("Getting Solutions...");
     const api_url = "http://localhost:5000/getSolutions"
@@ -44,7 +46,6 @@ export const getMetaData = async () => {
     console.log("Metadata recieved")
     return result
 }
-
 
 export const getFormats = async () => {
     console.log("Getting formats...");

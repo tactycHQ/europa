@@ -1,21 +1,14 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import LiveChart from "../Outputs/LiveChart"
 import {Card} from "@material-ui/core"
 import CardSettings from "../Outputs/CardSettings"
-import SA1Chart from "../Outputs/SA1Chart"
 import {NavLink} from "react-router-dom"
-import SA2Chart from "../Outputs/SA2Chart"
+import SAChart from "../Outputs/SAChart"
 import {LabelSelector} from "../Outputs/LabelSelector";
 
-
-// import StackedBar from "./stackedbar";
-// import MixBar from "./mixbar";
-// import Radial from "./radial";
-
-
 const chartColors = [
-    '#006E9F',
+    '#004666',
     '#A5014B',
     '#247308',
     '#41C0EB',
@@ -35,8 +28,7 @@ export default function Output(props) {
     }
     const custom_width = get_width()
 
-
-    //Defining hooks
+    //Defining Styles
     const useStyles = makeStyles(theme => ({
         root: {
             display: 'flex',
@@ -79,6 +71,9 @@ export default function Output(props) {
         }
     }))
     const classes = useStyles()
+
+
+    //Defining hooks
     const [currOutputCell, setCurrOutputCell] = useState('')
 
 
@@ -109,7 +104,7 @@ export default function Output(props) {
         if (props.type === "summary") {
         } else {
             return (
-                <SA2Chart
+                <SAChart
                     category={category}
                     data={props.saChartData}
                     currInputVal={props.currInputVal}
@@ -125,17 +120,13 @@ export default function Output(props) {
     }
 
     const createSAHeader = (type, category) => {
-
         if (type === "detail") {
             return (
                 <LabelSelector outputs={props.outputs.find(i => (i.category === category))}
                                handleOutputLabelChange={handleOutputLabelChange}
                                currOutputCell={currOutputCell}
                 />
-
-            )
-        }
-    }
+            )}}
 
     const createCharts = () => {
         return props.liveChartData.map((solutionSet, idx) => {
@@ -151,13 +142,14 @@ export default function Output(props) {
                     {createSAHeader(props.type, solutionSet.category)}
                     {createSAContainer(solutionSet.category, currOutputCell)}
                 </Card>
-            )
-        })
-    }
+            )})}
+
+    //Function executions
+    const final_charts = createCharts()
 
     return (
         <div className={classes.root}>
-            {createCharts()}
+            {final_charts}
         </div>
     )
 }

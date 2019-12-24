@@ -1,10 +1,8 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ImportExportIcon from '@material-ui/icons/ImportExport'
+import List from '@material-ui/core/List'
+import ListItem from '@material-ui/core/ListItem'
 import InsertChartIcon from '@material-ui/icons/InsertChart'
-import ShowChartIcon from '@material-ui/icons/ShowChart'
 import FilterCenterFocusIcon from '@material-ui/icons/FilterCenterFocus'
 import AccountTreeIcon from '@material-ui/icons/AccountTree'
 import PlayArrowIcon from '@material-ui/icons/PlayArrow'
@@ -18,7 +16,10 @@ import CloudDownloadSharpIcon from '@material-ui/icons/CloudDownloadSharp';
 import {NavLink} from 'react-router-dom'
 import Divider from "@material-ui/core/Divider";
 
-const useStyles = makeStyles(theme => ({
+
+
+export default function SideBar(props) {
+    const useStyles = makeStyles(theme => ({
             root: {
                 display: 'flex',
                 position: 'fixed',
@@ -51,7 +52,7 @@ const useStyles = makeStyles(theme => ({
                 paddingTop: '7px',
                 paddingBottom: '7px',
                 "&:hover": {
-                    background: '#006E9F'
+                    background: '#A2CADC'
                 }
             },
             saveButton: {
@@ -69,7 +70,7 @@ const useStyles = makeStyles(theme => ({
                 paddingTop: '7px',
                 paddingBottom: '7px',
                 "&:hover": {
-                    background: "#006E9F"
+                    background: "#B9D7E4"
                 }
             },
             buttonLabel: {
@@ -95,22 +96,18 @@ const useStyles = makeStyles(theme => ({
                 height: 15,
                 width: 15,
                 "&:hover": {
-                    color: "#FEFEFD"
+                    color: "#B9D7E4"
                 },
             },
             icon: {
                 color: '#006E9F',
                 "&:hover": {
-                    color: "#FEFEFD"
+                    color: "#3B9D7E4"
                 },
                 height: 15,
                 width: 15
             }
-        }
-    )
-)
-
-export default function SideBar(props) {
+        }))
     const classes = useStyles()
 
     const outputs = props.outputs.map(output => {
