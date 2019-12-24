@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
                 background: '#FEFEFD'
             },
             inputHeader: {
-                background: '#4B719C',
+                background: '#006E9F',
                 height: '3vh',
                 marginBottom: '5%'
             },

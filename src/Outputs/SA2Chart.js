@@ -1,6 +1,6 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import {LineChart, XAxis, YAxis, Tooltip, Legend, Line, Label, ResponsiveContainer} from "recharts";
+import {AreaChart, XAxis, YAxis, Tooltip, Legend, Area, Label, ResponsiveContainer} from "recharts";
 import Paper from '@material-ui/core/Paper'
 import {convert_format} from "../utils/utils"
 import FormControl from "@material-ui/core/FormControl";
@@ -11,12 +11,12 @@ import MenuItem from "@material-ui/core/MenuItem";
 
 
 const chartColors = [
-    '#083D77',
-    'red',
-    'green',
-    '#546e7a',
-    '#0288d1',
-    '#0288d1'
+    '#006E9F',
+    '#A5014B',
+    '#247308',
+    '#41C0EB',
+    '#EC7404',
+    '#00044E'
 ]
 
 
@@ -25,6 +25,7 @@ export default function SA2Chart(props) {
         chartsContainer: {
             display: 'flex',
             flexDirection: 'column',
+            width: '48%',
             margin: '1%',
             justifyContent: 'center',
             alignItems: 'center'
@@ -37,21 +38,32 @@ export default function SA2Chart(props) {
             alignItems: 'center',
             margin: '1%',
             padding: '1%',
-            background: 'linear-gradient(#FEFEFD,#EEF2F6)'
+            background: 'linear-gradient(#FFFFFF 60%,#F4F4F4)'
         },
-        chartTitle:{
+        chartTitle: {
             fontFamily: 'Questrial',
             // background: '#7C97B7',
             fontSize: '1.2em',
-            fontWeight:'300',
-            color: '#7C97B7',
-            padding:'10px'
+            fontWeight: '300',
+            color: '#3C4148',
+            // padding: '10px',
+            marginBottom: '0'
+            // width:'100%'
+        },
+        chartNote: {
+            fontFamily: 'Questrial',
+            // background: 'red',
+            fontSize: '0.9em',
+            fontWeight: '300',
+            color: '#3C4148',
+            // padding: '10px',
+            marginTop: '0'
             // width:'100%'
         },
         xlabel: {
             fontFamily: 'Questrial',
             fontSize: '1.0em',
-            fontWeight:'100',
+            fontWeight: '100',
             fill: '#4F545A'
         },
         ylabel: {
@@ -87,7 +99,7 @@ export default function SA2Chart(props) {
                     textAnchor="end"
                     transform="rotate(-0)"
                     fontSize='0.9em'
-                    fill='#899CA9'
+                    fill='#3C4148'
                     fontFamily="Questrial"
                 >
                     {AxisFormatter(fmt, payload.value)}
@@ -106,7 +118,7 @@ export default function SA2Chart(props) {
                     y={0}
                     dy={16}
                     textAnchor="middle"
-                    fill='#899CA9'
+                    fill='#3C4148'
                     transform="rotate(-0)"
                     fontSize='0.9em'
                     fontFamily="Questrial"
@@ -155,19 +167,33 @@ export default function SA2Chart(props) {
                 }
             })
 
-            const lines = bounds2.map((bound, idx) => {
+            const areas = bounds2.map((bound, idx) => {
+                const color_url = `url(#${bound})`
                 return (
-                    <Line
+                    <Area
                         key={bound}
                         type="monotone"
                         dataKey={convert_format(add2_fmt, bound)}
                         stroke={chartColors[idx]}
-                        fill={chartColors[idx]}
-                        strokeWidth={1.2}
+                        fill={color_url}
+                        // strokeWidth={1.2}
                         isAnimationActive={false}
                         animationDuration={500}
-                        dot={{ stroke: '#F4F9E9', strokeWidth: 2 }}
+                        dot={{stroke: 'white', fill: chartColors[idx], strokeWidth: 2}}
+                        activeDot={{stroke: 'white', strokeWidth: 2, r: 4}}
                     />
+                )
+            })
+
+            const gradients = bounds2.map((bound, idx) => {
+                return (
+                    <defs>
+                        <linearGradient id={bound} x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="1%" stopColor={chartColors[idx]} stopOpacity={0.1}/>
+                            <stop offset="12%" stopColor={chartColors[idx]} stopOpacity={0.01}/>
+                            <stop offset="20%" stopColor={chartColors[idx]} stopOpacity={0.00}/>
+                        </linearGradient>
+                    </defs>
                 )
             })
 
@@ -175,20 +201,24 @@ export default function SA2Chart(props) {
             return (
                 <Paper className={classes.paper} key={tableData.inputs.toString() + outAdd.toString()}
                 >
-                    <h3 className={classes.chartTitle}>{props.outputs.labels[outAdd]} - {props.outputs.category}</h3>
+                    <h3 className={classes.chartTitle}>{props.outputs.labels[outAdd]}, {props.outputs.category}</h3>
+                    <h3 className={classes.chartNote}><em>Sensitized
+                        Variables:</em> {props.inputLabelMap[add2]}, {props.inputLabelMap[add1]}</h3>
                     <ResponsiveContainer width="100%" height={310}>
-                        <LineChart
+                        <AreaChart
                             width={730}
                             height={250}
                             data={table}
-                            margin={{top: 5, right: 130, left: 50, bottom: 30}}
+                            margin={{top: 5, right: 20, left: 10, bottom: 30}}
+                            baseValue="dataMin"
                         >
+                            {gradients}
                             <XAxis
                                 dataKey={add1}
                                 tick={<CustomizedXAxisTick fmt={add1_fmt}/>}
                                 tickLine={false}
                                 padding={{top: 30, bottom: 30}}
-                                stroke='#899CA9'
+                                stroke='#3C4148'
                             >
                                 <Label
                                     value={`${props.inputLabelMap[add1]}`}
@@ -204,7 +234,7 @@ export default function SA2Chart(props) {
                                 domain={['auto', 'auto']}
                                 interval={0}
                                 padding={{top: 30, bottom: 30}}
-                                stroke='#899CA9'
+                                stroke='#3C4148'
                             >
                             </YAxis>
                             <Tooltip
@@ -213,13 +243,13 @@ export default function SA2Chart(props) {
                                 formatter={(value) => AxisFormatter(out_fmt, value)}
                                 labelFormatter={(value) => `${props.inputLabelMap[add1]}: ` + AxisFormatter(add1_fmt, value)}
                             />
-                            {lines}
+                            {areas}
                             <Legend
                                 wrapperStyle={{
                                     fontSize: '0.9em',
                                     fontFamily: 'Questrial',
                                     bottom: 0,
-                                    color: '#899CA9',
+                                    color: '#3C4148',
                                 }}
                                 iconType="circle"
                                 iconSize="10"
@@ -228,7 +258,7 @@ export default function SA2Chart(props) {
                                 layout="horizontal"
                                 formatter={(value, entry, index) => `${props.inputLabelMap[add2]}: ` + value}
                             />
-                        </LineChart>
+                        </AreaChart>
                     </ResponsiveContainer>
                 </Paper>
             )

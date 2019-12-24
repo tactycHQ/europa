@@ -15,14 +15,17 @@ export function LabelSelector(props) {
             // padddingTop:0,
             textAlign: 'center',
             // background:'red',
-            marginTop:"2%"
+            marginTop:"4%",
+            marginBottom:0,
+            paddingBottom:0
         },
         labelSelectorText: {
             fontFamily: 'Questrial',
             fontSize: '1.5em',
             fontWeight: '50',
             color: '#4F545A',
-            marginRight: '10px'
+            marginRight: '10px',
+            marginLeft: '8px'
         },
         saNote: {
             display: 'flex',

@@ -15,12 +15,12 @@ import {LabelSelector} from "../Outputs/LabelSelector";
 
 
 const chartColors = [
-    '#083D77',
-    'red',
-    'green',
-    '#546e7a',
-    '#0288d1',
-    '#0288d1'
+    '#006E9F',
+    '#A5014B',
+    '#247308',
+    '#41C0EB',
+    '#EC7404',
+    '#00044E'
 ]
 
 export default function Output(props) {
@@ -70,10 +70,12 @@ export default function Output(props) {
         },
         saContainer: {
             display: 'flex',
-            flexDirection: 'column',
+            // flexDirection: 'column',
             height: '100%',
             width: '100%',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            // background: 'red'
         }
     }))
     const classes = useStyles()

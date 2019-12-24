@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
             buttons: {
                 display: 'flex',
                 margin: '3px',
-                color: '#292F36',
+                color: '#006E9F',
                 justifyContent: 'flex-start',
                 alignItems: 'center',
                 paddingLeft: '1px',
@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
                 paddingTop: '7px',
                 paddingBottom: '7px',
                 "&:hover": {
-                    background: "#D2DBE6"
+                    background: '#006E9F'
                 }
             },
             saveButton: {
@@ -69,7 +69,7 @@ const useStyles = makeStyles(theme => ({
                 paddingTop: '7px',
                 paddingBottom: '7px',
                 "&:hover": {
-                    background: "#D2DBE6"
+                    background: "#006E9F"
                 }
             },
             buttonLabel: {
@@ -78,7 +78,7 @@ const useStyles = makeStyles(theme => ({
                 fontFamily: 'Questrial',
                 color: '#292F36',
                 "&:hover": {
-                    color: "#293E56"
+                    color: "#FEFEFD"
                 }
             },
             outputLabel: {
@@ -87,18 +87,21 @@ const useStyles = makeStyles(theme => ({
                 fontFamily: 'Questrial',
                 color: '#292F36',
                 "&:hover": {
-                    // color: "#F4F9E9"
+                    color: "#FEFEFD"
                 }
             },
             outputIcon: {
-                color: '#4B719C',
+                color: '#006E9F',
                 height: 15,
-                width: 15
+                width: 15,
+                "&:hover": {
+                    color: "#FEFEFD"
+                },
             },
             icon: {
-                color: '#292F36',
+                color: '#006E9F',
                 "&:hover": {
-                    // color: "#0091ea"
+                    color: "#FEFEFD"
                 },
                 height: 15,
                 width: 15
