@@ -25,10 +25,11 @@ export default function SA2Chart(props) {
         chartsContainer: {
             display: 'flex',
             flexDirection: 'column',
-            margin: '1%'
-
+            margin: '1%',
+            justifyContent: 'center',
+            alignItems: 'center'
         },
-        tableContainer: {
+        paper: {
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
@@ -38,9 +39,19 @@ export default function SA2Chart(props) {
             padding: '1%',
             background: 'linear-gradient(#FEFEFD,#EEF2F6)'
         },
+        chartTitle:{
+            fontFamily: 'Questrial',
+            // background: '#7C97B7',
+            fontSize: '1.2em',
+            fontWeight:'300',
+            color: '#7C97B7',
+            padding:'10px'
+            // width:'100%'
+        },
         xlabel: {
             fontFamily: 'Questrial',
             fontSize: '1.0em',
+            fontWeight:'100',
             fill: '#4F545A'
         },
         ylabel: {
@@ -152,19 +163,19 @@ export default function SA2Chart(props) {
                         dataKey={convert_format(add2_fmt, bound)}
                         stroke={chartColors[idx]}
                         fill={chartColors[idx]}
-                        strokeWidth={1}
-                        isAnimationActive={true}
+                        strokeWidth={1.2}
+                        isAnimationActive={false}
                         animationDuration={500}
+                        dot={{ stroke: '#F4F9E9', strokeWidth: 2 }}
                     />
                 )
             })
 
 
             return (
-                <Paper
-                    className={classes.tableContainer}
-                    key={tableData.inputs.toString() + outAdd.toString()}
+                <Paper className={classes.paper} key={tableData.inputs.toString() + outAdd.toString()}
                 >
+                    <h3 className={classes.chartTitle}>{props.outputs.labels[outAdd]} - {props.outputs.category}</h3>
                     <ResponsiveContainer width="100%" height={310}>
                         <LineChart
                             width={730}
@@ -205,7 +216,7 @@ export default function SA2Chart(props) {
                             {lines}
                             <Legend
                                 wrapperStyle={{
-                                    fontSize: '0.8em',
+                                    fontSize: '0.9em',
                                     fontFamily: 'Questrial',
                                     bottom: 0,
                                     color: '#899CA9',
@@ -237,10 +248,7 @@ export default function SA2Chart(props) {
         tables.map(table => {
 
             return (
-                <div
-                    className={classes.chartsContainer}
-                    key={table.key}
-                >
+                <div className={classes.chartsContainer} key={table.key}>
                     {table}
                 </div>
             )

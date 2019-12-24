@@ -36,7 +36,6 @@ export default function Output(props) {
     const custom_width = get_width()
 
 
-
     //Defining hooks
     const useStyles = makeStyles(theme => ({
         root: {
@@ -64,75 +63,17 @@ export default function Output(props) {
         cardTitleHeader: {
             color: '#4F545A',
             fontFamily: 'Questrial',
-            fontWeight: '100',
+            fontWeight: '20',
+            fontSize: '2em',
             marginTop: '3px',
             marginLeft: '7px'
         },
-        cardSectionHeader: {
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'flex-end',
-            // backgroundColor:'gray'
-        },
-        cardSectionTitle: {
-            display: 'flex',
-            color: '#4F545A',
-            fontFamily: 'Questrial',
-            fontWeight: '50',
-            marginTop: '7%',
-            marginBottom: '0%',
-            marginLeft: '7px',
-            // background: 'red'
-        },
-        cardSectionNote: {
-            display: 'flex',
-            color: '#4F545A',
-            fontFamily: 'Questrial',
-            fontWeight: '50',
-            marginTop: '0%',
-            marginLeft: '7px',
-            // background: 'yellow'
-        },
-        sa1_title: {
-            color: '#4F545A',
-            fontFamily: 'Questrial',
-            fontWeight: '50',
-            marginTop: '2.5%',
-            marginLeft: '3px',
-            display: 'inline'
-        },
-        sa1_container: {
+        saContainer: {
             display: 'flex',
             flexDirection: 'column',
             height: '100%',
             width: '100%',
-            // flexWrap: 'wrap',
-            justifyContent: 'center',
-            // alignContent: 'flex-end',
-            // background: 'gray'
-        },
-        sa1_chart_container: {
-            margin: '2%',
-            // backgroundColor:'red'
-        },
-        categoryName: {
-            fontFamily: 'Questrial',
-            fontWeight: '150',
-            color: '#4F545A',
-            display: 'inline',
-            marginRight: '0px'
-        },
-        titleName: {
-            fontFamily: 'Questrial',
-            fontWeight: '750',
-            color: '#4B719C',
-            display: 'inline'
-        },
-        detailsText: {
-            fontFamily: 'Questrial',
-            fontWeight: '100',
-            color: '#4F545A',
-            marginLeft: '3px'
+            justifyContent: 'center'
         }
     }))
     const classes = useStyles()
@@ -156,7 +97,7 @@ export default function Output(props) {
 
     const createSAContainer = (category, currOutputCell) => {
         return (
-            <div className={classes.sa1_container}>
+            <div className={classes.saContainer}>
                 {createSAcharts(category, currOutputCell)}
             </div>
         )
@@ -166,19 +107,17 @@ export default function Output(props) {
         if (props.type === "summary") {
         } else {
             return (
-                <div className={classes.sa1_chart_container}>
-                    <SA2Chart
-                        category={category}
-                        data={props.saChartData}
-                        currInputVal={props.currInputVal}
-                        findSolution={props.findSolution}
-                        inputLabelMap={props.inputLabelMap}
-                        formats={props.formats}
-                        outputs={props.outputs.find(i => (i.category === category))}
-                        domains={props.domains}
-                        currOutputCell={currOutputCell}
-                    />
-                </div>
+                <SA2Chart
+                    category={category}
+                    data={props.saChartData}
+                    currInputVal={props.currInputVal}
+                    findSolution={props.findSolution}
+                    inputLabelMap={props.inputLabelMap}
+                    formats={props.formats}
+                    outputs={props.outputs.find(i => (i.category === category))}
+                    domains={props.domains}
+                    currOutputCell={currOutputCell}
+                />
             )
         }
     }
@@ -187,12 +126,11 @@ export default function Output(props) {
 
         if (type === "detail") {
             return (
-                <div className={classes.cardSectionHeader}>
-                    <LabelSelector outputs={props.outputs.find(i => (i.category === category))}
-                                   handleOutputLabelChange={handleOutputLabelChange}
-                                   currOutputCell={currOutputCell}
-                    />
-                </div>
+                <LabelSelector outputs={props.outputs.find(i => (i.category === category))}
+                               handleOutputLabelChange={handleOutputLabelChange}
+                               currOutputCell={currOutputCell}
+                />
+
             )
         }
     }
@@ -208,7 +146,7 @@ export default function Output(props) {
                         <CardSettings/>
                     </div>
                     {createLiveCharts(solutionSet, idx)}
-                    {createSAHeader(props.type,solutionSet.category)}
+                    {createSAHeader(props.type, solutionSet.category)}
                     {createSAContainer(solutionSet.category, currOutputCell)}
                 </Card>
             )
