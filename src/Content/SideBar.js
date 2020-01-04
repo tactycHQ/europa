@@ -121,7 +121,7 @@ export default function SideBar() {
                     <NavLink to="/dashboard" style={{textDecoration: 'none'}}>
                         <ListItem className={classes.buttons} button={true}>
                             <InsertChartIcon className={classes.icon}/>
-                            <div className={classes.buttonLabel}>Live Dashboard</div>
+                            <div className={classes.buttonLabel}>Summary Dashboard</div>
                         </ListItem>
                     </NavLink>
                     <NavLink to="/distributions" style={{textDecoration: 'none'}}>

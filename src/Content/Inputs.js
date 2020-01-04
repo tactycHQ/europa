@@ -104,7 +104,7 @@ export default function Input(props) {
         <div className={classes.root}>
             <Slide
                 direction="left"
-                in={props.checked}
+                in="true"
                 timeout={1000}
                 mountOnEnter
                 unmountOnExit>

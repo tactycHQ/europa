@@ -30,7 +30,6 @@ export default function Content(props) {
         }
     }))
     const classes = useStyles()
-    const [checked, setChecked] = React.useState(true);
 
 
     // Custom Functions
@@ -90,7 +89,6 @@ export default function Content(props) {
     }
 
 
-
     // SA1 Functions
     const generateSAPairs = () => {
         return props.inputs.reduce((acc, v, i) =>
@@ -120,18 +118,18 @@ export default function Content(props) {
 
 
 // Function Executions
-    const liveSolutionSet = findSolution(props.currInputVal)
-    const liveChartData = addLiveChartMetaData(liveSolutionSet)
+    const summarySolutionSet = findSolution(props.currInputVal)
+    const summaryChartData = addLiveChartMetaData(summarySolutionSet)
     const saChartData = createSAData()
 
 
-    //const customRoutes = liveChartData.map(chartCategory => {
+    //const customRoutes = summaryChartData.map(chartCategory => {
     //     return (
     //         <Route exact path={[`/outputs/${chartCategory.category}`]} key={chartCategory.category}>
     //             <SideBar className={classes.sidebar}/>
     //             <Output
     //                 type="detail"
-    //                 liveChartData={[chartCategory]}
+    //                 summaryChartData={[chartCategory]}
     //                 saChartData={saChartData}
     //                 currInputVal={props.currInputVal}
     //                 findSolution = {findSolution}
@@ -157,40 +155,33 @@ export default function Content(props) {
     return (
         <div className={classes.root}>
             <div className={classes.content}>
+                <SideBar className={classes.sidebar} outputs={props.outputs}/>
                 <Switch>
                     <Route exact path={["/", "/dashboard"]}>
-                        <SideBar className={classes.sidebar} outputs={props.outputs}/>
                         <Output
                             type="summary"
-                            liveChartData={liveChartData}
+                            data={summaryChartData}
                         />
-                        <Input
-                            handleSliderChange={props.handleSliderChange}
-                            handleCaseChange={props.handleCaseChange}
-                            currInputVal={props.currInputVal}
-                            inputs={props.inputs}
-                            checked={checked}
-                            cases={props.cases}
+                    </Route>
+                    <Route exact path="/distributions">
+                        <Output
+                            type="distributions"
+                            data={summaryChartData}
                         />
                     </Route>
                     <Route exact path="/sensitivity">
-                        <SideBar className={classes.sidebar} outputs={props.outputs}/>
                         <Output
-                            type="detail"
-                            liveChartData={liveChartData}
-                            saChartData={saChartData}
+                            type="sensitivity"
+                            data={saChartData}
                         />
-                        <Input
-                            handleSliderChange={props.handleSliderChange}
-                            handleCaseChange={props.handleCaseChange}
-                            currInputVal={props.currInputVal}
-                            inputs={props.inputs}
-                            checked={checked}
-                            cases={props.cases}
+                    </Route>
+                    <Route exact path="/inputimportance">
+                        <Output
+                            type="inputimportance"
+                            data={summaryChartData}
                         />
                     </Route>
                     <Route exact path="/scenario">
-                        <SideBar className={classes.sidebar} outputs={props.outputs}/>
                         <ScenarioAnalysis/>
                     </Route>
                     <Route exact path="/dependency">
@@ -200,6 +191,13 @@ export default function Content(props) {
                         <div>This is home</div>
                     </Route>
                 </Switch>
+                <Input
+                    handleSliderChange={props.handleSliderChange}
+                    handleCaseChange={props.handleCaseChange}
+                    currInputVal={props.currInputVal}
+                    inputs={props.inputs}
+                    cases={props.cases}
+                />
             </div>
         </div>
     )

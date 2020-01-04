@@ -162,7 +162,7 @@ export default function Output(props) {
     }
 
     const createCharts = () => {
-        return props.liveChartData.map((solutionSet, idx) => {
+        return props.data.map((solutionSet, idx) => {
 
             let saHeader
             let saContainer
