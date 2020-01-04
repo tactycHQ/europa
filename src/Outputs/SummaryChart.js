@@ -4,7 +4,7 @@ import {makeStyles} from "@material-ui/core"
 import {convert_format} from "../utils/utils"
 
 
-export default function LiveChart(props) {
+export default function SummaryChart(props) {
 
     // Defining hooks
     const useStyles = makeStyles(theme => ({

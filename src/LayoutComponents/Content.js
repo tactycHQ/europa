@@ -12,7 +12,6 @@ import SideBar from "../Content/SideBar";
 
 export default function Content(props) {
 
-
     // Defining Hooks
     const useStyles = makeStyles(theme => ({
         root: {
@@ -32,7 +31,7 @@ export default function Content(props) {
     const classes = useStyles()
 
 
-    // Custom Functions
+    // Custom Utility Functions
     const generateInputLabelMap = () => {
         return props.inputs.reduce((acc, inputData) => {
                 acc[inputData.address] = inputData.label
@@ -118,8 +117,8 @@ export default function Content(props) {
 
 
 // Function Executions
-    const summarySolutionSet = findSolution(props.currInputVal)
-    const summaryChartData = addLiveChartMetaData(summarySolutionSet)
+    const currSolution = findSolution(props.currInputVal)
+    const summaryChartData = addLiveChartMetaData(currSolution)
     const saChartData = createSAData()
 
 
@@ -167,12 +166,20 @@ export default function Content(props) {
                         <Output
                             type="distributions"
                             data={summaryChartData}
+                            outputs={props.outputs}
+                            solutions={props.solutions}
                         />
                     </Route>
                     <Route exact path="/sensitivity">
                         <Output
                             type="sensitivity"
                             data={saChartData}
+                            outputs={props.outputs}
+                            formats={props.formats}
+                            findSolution = {findSolution}
+                            inputLabelMap={inputLabelMap}
+                            solutions={props.solutions}
+                            currInputVal={props.currInputVal}
                         />
                     </Route>
                     <Route exact path="/inputimportance">

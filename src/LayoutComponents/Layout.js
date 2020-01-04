@@ -16,28 +16,28 @@ export default function Layout() {
 
     // Defining hooks
     const useStyles = makeStyles(theme => ({
-    root: {
-        display: 'flex',
-        flexDirection: 'column'
-    },
-    top: {
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100%',
-        position: 'fixed',
-        zIndex: '2'
-    },
-    divider: {
-        backgroundColor: '#EBECEC'
-    },
-    middle: {
-        display: 'flex',
-        marginTop: '5vh'
-    },
-    spinner: {
-        display: 'flex'
-    }
-}));
+        root: {
+            display: 'flex',
+            flexDirection: 'column'
+        },
+        top: {
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            position: 'fixed',
+            zIndex: '2'
+        },
+        divider: {
+            backgroundColor: '#EBECEC'
+        },
+        middle: {
+            display: 'flex',
+            marginTop: '5vh'
+        },
+        spinner: {
+            display: 'flex'
+        }
+    }));
     const classes = useStyles()
     const [solutions, setSolutions] = useState(null)
     const [distributions, setDistributions] = useState(null)
@@ -50,7 +50,7 @@ export default function Layout() {
     const [charts, setCharts] = useState(null)
     const [dashName, setDashName] = useState('')
     const [isLoaded, setisLoaded] = useState(false)
-    let content
+
 
     // At initial load
     useEffect(() => {
@@ -106,24 +106,26 @@ export default function Layout() {
 
     const handleCaseChange = event => setInputCase(event.target.value)
 
-    if (isLoaded) {
-        content =
-            <Content handleSliderChange={handleSliderChange}
-                     handleCaseChange={handleCaseChange}
-                     solutions={solutions}
-                     currInputVal={currInputVal}
-                     distributions={distributions}
-                     formats={formats}
-                     inputs={inputs}
-                     outputs={outputs}
-                     charts={charts}
-                     cases={cases}
-            />
-
-
-    } else {
-        content = <Spinner className={classes.spinner}/>
+    const createContent = () => {
+        if (isLoaded) {
+            return <Content handleSliderChange={handleSliderChange}
+                         handleCaseChange={handleCaseChange}
+                         solutions={solutions}
+                         currInputVal={currInputVal}
+                         distributions={distributions}
+                         formats={formats}
+                         inputs={inputs}
+                         outputs={outputs}
+                         charts={charts}
+                         cases={cases}
+                />
+        } else {
+            return <Spinner className={classes.spinner}/>
+        }
     }
+
+    // Executing functions
+    const content = createContent()
 
 
     return (

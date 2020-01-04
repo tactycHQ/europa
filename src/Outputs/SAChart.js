@@ -125,7 +125,6 @@ export default function SAChart(props) {
     }
 
     const generateTables = (outAdd) => {
-
         const tables = props.data.map(tableData => {
             const flexInputs = tableData.inputs
             const bounds = tableData.bounds
