@@ -42,22 +42,7 @@ export default function Content(props) {
         )
     }
 
-    // const generateOutputLabelMap = () => {
-    //     return props.outputs.reduce((acc, outputData) => {
-    //
-    //             Object.entries(outputData.labels).map(addressLabel => {
-    //                 acc[addressLabel[0]] = {
-    //                     category: outputData.category,
-    //                     label: addressLabel[1]
-    //                 }
-    //             })
-    //             return acc
-    //         }, {}
-    //     )
-    // }
-
     const findSolution = (inputCombo) => {
-        // console.log(inputCombo)
         if (props.solutions && inputCombo) {
             const foundSolution = props.solutions.find(i => isEqual(i.inputs, inputCombo))
             return foundSolution.outputs
@@ -82,14 +67,14 @@ export default function Content(props) {
 
                 // Adding max domains
                 const max_domains = Object.entries(output.labels).map(labelSet => {
-                    return props.domains.max[labelSet[0]]
+                    return props.distributions.max[labelSet[0]]
                 })
                 const max_domain = Math.max(...max_domains)
 
 
                 // Adding min domains
                 const min_domains = Object.entries(output.labels).map(labelSet => {
-                    return props.domains.min[labelSet[0]]
+                    return props.distributions.min[labelSet[0]]
                 })
                 const min_domain = Math.min(...min_domains)
 
@@ -103,6 +88,8 @@ export default function Content(props) {
 
         return labelsInChart
     }
+
+
 
     // SA1 Functions
     const generateSAPairs = () => {
@@ -138,34 +125,34 @@ export default function Content(props) {
     const saChartData = createSAData()
 
 
-    const customRoutes = liveChartData.map(chartCategory => {
-
-        return (
-            <Route exact path={[`/outputs/${chartCategory.category}`]} key={chartCategory.category}>
-                <SideBar className={classes.sidebar} outputs={props.outputs}/>
-                <Output
-                    type="detail"
-                    liveChartData={[chartCategory]}
-                    saChartData={saChartData}
-                    currInputVal={props.currInputVal}
-                    findSolution = {findSolution}
-                    chartSize={"100%"}
-                    inputLabelMap={inputLabelMap}
-                    formats={props.formats}
-                    outputs={props.outputs}
-                    domains={props.domains}
-                />
-                <Input
-                    handleSliderChange={props.handleSliderChange}
-                    handleCaseChange={props.handleCaseChange}
-                    currInputVal={props.currInputVal}
-                    inputs={props.inputs}
-                    checked={checked}
-                    cases={props.cases}
-                />
-            </Route>
-        )
-    })
+    //const customRoutes = liveChartData.map(chartCategory => {
+    //     return (
+    //         <Route exact path={[`/outputs/${chartCategory.category}`]} key={chartCategory.category}>
+    //             <SideBar className={classes.sidebar}/>
+    //             <Output
+    //                 type="detail"
+    //                 liveChartData={[chartCategory]}
+    //                 saChartData={saChartData}
+    //                 currInputVal={props.currInputVal}
+    //                 findSolution = {findSolution}
+    //                 chartSize={"100%"}
+    //                 inputLabelMap={inputLabelMap}
+    //                 formats={props.formats}
+    //                 outputs={props.outputs}
+    //                 domains={props.domains}
+    //                 solutions={props.solutions}
+    //             />
+    //             <Input
+    //                 handleSliderChange={props.handleSliderChange}
+    //                 handleCaseChange={props.handleCaseChange}
+    //                 currInputVal={props.currInputVal}
+    //                 inputs={props.inputs}
+    //                 checked={checked}
+    //                 cases={props.cases}
+    //             />
+    //         </Route>
+    //     )
+    // })
 
     return (
         <div className={classes.root}>
@@ -212,7 +199,6 @@ export default function Content(props) {
                     <Route exact path="/home">
                         <div>This is home</div>
                     </Route>
-                    {customRoutes}
                 </Switch>
             </div>
         </div>

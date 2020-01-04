@@ -40,7 +40,7 @@ export default function Layout() {
 }));
     const classes = useStyles()
     const [solutions, setSolutions] = useState(null)
-    const [domains, setDomains] = useState(null)
+    const [distributions, setDistributions] = useState(null)
     const [formats, setFormats] = useState("0.0")
     const [currInputVal, setcurrInputVal] = useState(null)
     const [inputs, setInputs] = useState(null)
@@ -59,7 +59,7 @@ export default function Layout() {
             const _solutions = await getSolutions()
             const _formats = await getFormats()
             setSolutions(_solutions.solutions)
-            setDomains(_solutions.domains)
+            setDistributions(_solutions.distributions)
 
             for (const _add in _formats) {
                 _formats[_add] = _formats[_add].replace(/\\/g, "")
@@ -83,6 +83,7 @@ export default function Layout() {
         runEffect()
     }, [])
 
+    // If case is changed
     useEffect(() => {
         if (inputCase) {
             setcurrInputVal(cases[0][inputCase])
@@ -90,6 +91,7 @@ export default function Layout() {
 
     }, [cases, inputCase])
 
+    // If slider is changed
     useEffect(() => {
         setInputCase('')
     }, [currInputVal])
@@ -110,7 +112,7 @@ export default function Layout() {
                      handleCaseChange={handleCaseChange}
                      solutions={solutions}
                      currInputVal={currInputVal}
-                     domains={domains}
+                     distributions={distributions}
                      formats={formats}
                      inputs={inputs}
                      outputs={outputs}

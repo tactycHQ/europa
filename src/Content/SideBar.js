@@ -5,122 +5,113 @@ import ListItem from '@material-ui/core/ListItem'
 import InsertChartIcon from '@material-ui/icons/InsertChart'
 import FilterCenterFocusIcon from '@material-ui/icons/FilterCenterFocus'
 import AccountTreeIcon from '@material-ui/icons/AccountTree'
-import PlayArrowIcon from '@material-ui/icons/PlayArrow'
 import SaveAltIcon from '@material-ui/icons/SaveAlt'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import TuneIcon from '@material-ui/icons/Tune'
 import ShareSharpIcon from '@material-ui/icons/ShareSharp'
 import SettingsBackupRestoreSharpIcon from '@material-ui/icons/SettingsBackupRestoreSharp'
 import VerifiedUserSharpIcon from '@material-ui/icons/VerifiedUserSharp'
-import CloudDownloadSharpIcon from '@material-ui/icons/CloudDownloadSharp';
+import CloudDownloadSharpIcon from '@material-ui/icons/CloudDownloadSharp'
+import PieChartSharpIcon from '@material-ui/icons/PieChartSharp'
+import TimelineSharpIcon from '@material-ui/icons/TimelineSharp'
+import GraphicEqSharpIcon from '@material-ui/icons/GraphicEqSharp'
 import {NavLink} from 'react-router-dom'
 import Divider from "@material-ui/core/Divider";
 
 
-
-export default function SideBar(props) {
+export default function SideBar() {
     const useStyles = makeStyles(theme => ({
-            root: {
-                display: 'flex',
-                position: 'fixed',
-                height: '100%',
-                flexDirection: 'column',
-                alignContent: 'flex-start',
-                backgroundColor: '#FEFEFD',
-                maxWidth: '12%',
-                minWidth: '12%',
-                overflowY: 'auto',
-            },
-            content: {
-                // height: '100%',
+        root: {
+            display: 'flex',
+            position: 'fixed',
+            height: '100%',
+            flexDirection: 'column',
+            alignContent: 'flex-start',
+            backgroundColor: '#FEFEFD',
+            maxWidth: '12%',
+            minWidth: '12%',
+            overflowY: 'auto',
+        },
+        content: {
+            // height: '100%',
 
-            },
-            divider: {
-                backgroundColor: '#D7DEE2',
-                margin:'5px',
-                minHeight:'1px',
-                maxHeight:'1px'
-            },
-            buttons: {
-                display: 'flex',
-                margin: '3px',
-                color: '#006E9F',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                paddingLeft: '1px',
-                paddingRight: '1px',
-                paddingTop: '7px',
-                paddingBottom: '7px',
-                "&:hover": {
-                    background: '#A2CADC'
-                }
-            },
-            saveButton: {
-                display: 'flex',
-                margin: '3px',
-                color: '#292F36',
-                backgroundColor: '#EBECEC',
-                // borderStyle: 'solid',
-                // borderColor: '#D8D9DA',
-                // borderWidth: 1,
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                paddingLeft: '1px',
-                paddingRight: '1px',
-                paddingTop: '7px',
-                paddingBottom: '7px',
-                "&:hover": {
-                    background: "#B9D7E4"
-                }
-            },
-            buttonLabel: {
-                fontSize: '0.95em',
-                paddingLeft: '5px',
-                fontFamily: 'Questrial',
-                color: '#292F36',
-                "&:hover": {
-                    color: "#FEFEFD"
-                }
-            },
-            outputLabel: {
-                fontSize: '0.95em',
-                paddingLeft: '5px',
-                fontFamily: 'Questrial',
-                color: '#292F36',
-                "&:hover": {
-                    color: "#FEFEFD"
-                }
-            },
-            outputIcon: {
-                color: '#006E9F',
-                height: 15,
-                width: 15,
-                "&:hover": {
-                    color: "#B9D7E4"
-                },
-            },
-            icon: {
-                color: '#006E9F',
-                "&:hover": {
-                    color: "#3B9D7E4"
-                },
-                height: 15,
-                width: 15
+        },
+        divider: {
+            backgroundColor: '#D7DEE2',
+            margin: '5px',
+            minHeight: '1px',
+            maxHeight: '1px',
+            marginTop:'10%',
+            marginBottom:'10%'
+        },
+        buttons: {
+            display: 'flex',
+            margin: '3px',
+            color: '#006E9F',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            paddingLeft: '1px',
+            paddingRight: '1px',
+            paddingTop: '7px',
+            paddingBottom: '7px',
+            "&:hover": {
+                background: '#A2CADC'
             }
-        }))
+        },
+        saveButton: {
+            display: 'flex',
+            margin: '3px',
+            color: '#292F36',
+            backgroundColor: '#EBECEC',
+            // borderStyle: 'solid',
+            // borderColor: '#D8D9DA',
+            // borderWidth: 1,
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            paddingLeft: '1px',
+            paddingRight: '1px',
+            paddingTop: '7px',
+            paddingBottom: '7px',
+            "&:hover": {
+                background: "#B9D7E4"
+            }
+        },
+        buttonLabel: {
+            fontSize: '0.95em',
+            paddingLeft: '5px',
+            fontFamily: 'Questrial',
+            color: '#292F36',
+            "&:hover": {
+                color: "#FEFEFD"
+            }
+        },
+        outputLabel: {
+            fontSize: '0.95em',
+            paddingLeft: '5px',
+            fontFamily: 'Questrial',
+            color: '#292F36',
+            "&:hover": {
+                color: "#FEFEFD"
+            }
+        },
+        outputIcon: {
+            color: '#006E9F',
+            height: 15,
+            width: 15,
+            "&:hover": {
+                color: "#B9D7E4"
+            },
+        },
+        icon: {
+            color: '#006E9F',
+            "&:hover": {
+                color: "#3B9D7E4"
+            },
+            height: 15,
+            width: 15
+        }
+    }))
     const classes = useStyles()
-
-    const outputs = props.outputs.map(output => {
-        return (
-            <NavLink to={`/outputs/${output.category}`} style={{textDecoration: 'none'}} key={output.category}>
-                <ListItem className={classes.buttons} button={true}>
-                    <PlayArrowIcon className={classes.outputIcon}/>
-                    <div className={classes.outputLabel}>{output.category}</div>
-                </ListItem>
-            </NavLink>
-        )
-
-    })
 
     return (
         <div className={classes.root}>
@@ -133,20 +124,24 @@ export default function SideBar(props) {
                             <div className={classes.buttonLabel}>Live Dashboard</div>
                         </ListItem>
                     </NavLink>
-                    {outputs}
-
-                    <Divider variant="middle" className={classes.divider}/>
-
-                    {/*<NavLink to="/sensitivity" style={{textDecoration: 'none'}}>*/}
-                    {/*    <ListItem className={classes.buttons} button={true}>*/}
-                    {/*        <ShowChartIcon className={classes.icon}/>*/}
-                    {/*        <div className={classes.buttonLabel}>Sensitivity Analysis</div>*/}
-                    {/*    </ListItem>*/}
-                    {/*    <ListItem className={classes.buttons} button={true}>*/}
-                    {/*        <ImportExportIcon className={classes.icon}/>*/}
-                    {/*        <div className={classes.buttonLabel}>Input Importance</div>*/}
-                    {/*    </ListItem>*/}
-                    {/*</NavLink>*/}
+                    <NavLink to="/distributions" style={{textDecoration: 'none'}}>
+                        <ListItem className={classes.buttons} button={true}>
+                            <GraphicEqSharpIcon className={classes.icon}/>
+                            <div className={classes.buttonLabel}>Output Distributions</div>
+                        </ListItem>
+                    </NavLink>
+                    <NavLink to="/sensitivity" style={{textDecoration: 'none'}}>
+                        <ListItem className={classes.buttons} button={true}>
+                            <TimelineSharpIcon className={classes.icon}/>
+                            <div className={classes.buttonLabel}>Sensitivity Analysis</div>
+                        </ListItem>
+                    </NavLink>
+                    <NavLink to="/inputimportance" style={{textDecoration: 'none'}}>
+                        <ListItem className={classes.buttons} button={true}>
+                            <PieChartSharpIcon className={classes.icon}/>
+                            <div className={classes.buttonLabel}>Input Importance</div>
+                        </ListItem>
+                    </NavLink>
                     <NavLink to="/scenario" style={{textDecoration: 'none'}}>
                         <ListItem className={classes.buttons} button={true}>
                             <FilterCenterFocusIcon className={classes.icon}/>

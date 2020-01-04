@@ -7,6 +7,7 @@ import {NavLink} from "react-router-dom"
 import SAChart from "../Outputs/SAChart"
 import {LabelSelector} from "../Outputs/LabelSelector";
 import InputImportance from "../Outputs/InputImportance"
+import DistributionChart from "../Outputs/DistributionChart";
 
 const chartColors = [
     '#004666',
@@ -62,7 +63,10 @@ export default function Output(props) {
             marginLeft: '7px'
         },
         midPanel: {
-            display: 'flex'
+            display: 'flex',
+            flexWrap:'wrap',
+            justifyContent:'center',
+            alignItems:'space-between'
         },
         saContainer: {
             display: 'flex',
@@ -105,14 +109,12 @@ export default function Output(props) {
     const createSAcharts = (category, currOutputCell) => {
         return (
             <SAChart
-                category={category}
                 data={props.saChartData}
                 currInputVal={props.currInputVal}
                 findSolution={props.findSolution}
                 inputLabelMap={props.inputLabelMap}
                 formats={props.formats}
                 outputs={props.outputs.find(i => (i.category === category))}
-                domains={props.domains}
                 currOutputCell={currOutputCell}
             />
         )
@@ -133,13 +135,16 @@ export default function Output(props) {
             <LabelSelector outputs={props.outputs.find(i => (i.category === category))}
                            handleOutputLabelChange={handleOutputLabelChange}
                            currOutputCell={currOutputCell}
-                           titleText={"Valid Range for "}
+                           titleText={"Distribution of "}
             />
         )
     }
 
-    const createOutputRangeCharts = () => {
-        return <InputImportance/>
+    const createOutputRangeCharts = (category) => {
+        return <DistributionChart
+            outputs={props.outputs.find(i => (i.category === category))}
+            solutions={props.solutions}
+        />
     }
 
     const createInputImportanceHeader = (category) => {
@@ -155,7 +160,6 @@ export default function Output(props) {
     const createInputImportanceCharts = () => {
         return <InputImportance/>
     }
-
 
     const createCharts = () => {
         return props.liveChartData.map((solutionSet, idx) => {
@@ -174,7 +178,7 @@ export default function Output(props) {
                 inputImportanceHeader = createInputImportanceHeader(solutionSet.category)
                 inputImportanceCharts = createInputImportanceCharts()
                 outputRangeHeader = createOutpuRangeHeader(solutionSet.category)
-                outputRangeCharts = createOutputRangeCharts()
+                outputRangeCharts = createOutputRangeCharts(solutionSet.category)
                 detailSection = (
                     <div>
                         <div className={classes.midPanel}>
