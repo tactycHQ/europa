@@ -2,13 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/docs/specs.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Content/Inputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/Inputs.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Content/Outputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/Outputs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Content.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/Content.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Layout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/Layout.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Outputs/LiveChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/SummaryChart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Content/SideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/SideBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Other/Spinner.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Other/Spinner.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Outputs/LabelSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/LabelSelector.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Outputs/SAChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/SAChart.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -255,14 +254,7 @@
       <workItem from="1577993935802" duration="1367000" />
       <workItem from="1578059429798" duration="6778000" />
       <workItem from="1578150062953" duration="75000" />
-      <workItem from="1578150192920" duration="8063000" />
-    </task>
-    <task id="LOCAL-00041" summary="First commit">
-      <created>1576619443432</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1576619443432</updated>
+      <workItem from="1578150192920" duration="14652000" />
     </task>
     <task id="LOCAL-00042" summary="First commit">
       <created>1576653360045</created>
@@ -600,7 +592,14 @@
       <option name="project" value="LOCAL" />
       <updated>1578161308087</updated>
     </task>
-    <option name="localTasksCounter" value="90" />
+    <task id="LOCAL-00090" summary="First commit">
+      <created>1578167907507</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1578167907507</updated>
+    </task>
+    <option name="localTasksCounter" value="91" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

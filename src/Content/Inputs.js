@@ -14,7 +14,8 @@ const useStyles = makeStyles(theme => ({
                 flexDirection: 'column',
                 width: '15%',
                 marginTop: '10px',
-                marginRight: '0.5%'
+                marginRight: '0.5%',
+                // background:'pink'
             },
             inputContainer: {
                 display: 'flex',

@@ -39,11 +39,12 @@ export default function Output(props) {
         root: {
             display: 'flex',
             minHeight: '100vh',
-            width: '72%',
+            width: '72.5%',
             marginLeft: '12%',
             flexWrap: 'wrap',
             justifyContent: 'center',
-            padding: '7px'
+            padding: '8px',
+            // paddingTop:'8px',
             // background: "red"
 
         },
@@ -54,9 +55,22 @@ export default function Output(props) {
             margin: '5px',
             background: '#FEFEFD'
         },
+        saCard: {
+            // borderStyle: 'solid',
+            flexDirection: 'column',
+            // backgroundColor:'orange',
+            width: '100%'
+        },
+        saChartContainer: {
+            display: 'flex',
+            // backgroundColor:'orange',
+            flexWrap: 'wrap'
+        },
         cardHeaderContainer: {
             display: 'flex',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            // backgroundColor:'yellow',
+            // marginBottom:0
         },
         cardTitleHeader: {
             color: '#4F545A',
@@ -64,15 +78,8 @@ export default function Output(props) {
             fontWeight: '20',
             fontSize: '2em',
             marginTop: '3px',
-            marginLeft: '7px'
-        },
-        saContainer: {
-            display: 'flex',
-            height: '100%',
-            width: '100%',
-            justifyContent: 'center',
-            flexWrap: 'wrap',
-            borderStyle:'solid'
+            marginLeft: '7px',
+            // backgroundColor:'blue'
         }
     }))
     const classes = useStyles()
@@ -81,12 +88,17 @@ export default function Output(props) {
     //Defining hooks
     // Hook to set current output label selected by user in sensitivity analysis drop down
     const [currOutputCell, setCurrOutputCell] = useState('')
+    const [currCategory, setCurrCategory] = useState(props.outputs[0]['category'])
 
 
     // Defining custom functions
     // Drop down selection of output label in sensitivity analysis
     const handleOutputLabelChange = (event) => {
         setCurrOutputCell(event.target.value)
+    }
+
+    const handleOutputCategoryChange = (event) => {
+        setCurrCategory(event.target.value)
     }
 
     const createSummaryCharts = (solutionSet, idx) => {
@@ -99,15 +111,7 @@ export default function Output(props) {
         )
     }
 
-    const createSAContainer = (category, currOutputCell) => {
-        return (
-            <div className={classes.saContainer}>
-                {createSAcharts(category, currOutputCell)}
-            </div>
-        )
-    }
-
-    const createSAcharts = (category, currOutputCell) => {
+    const createSAcharts = (currCategory, currOutputCell) => {
         return (
             <SAChart
                 data={props.data}
@@ -115,19 +119,26 @@ export default function Output(props) {
                 findSolution={props.findSolution}
                 inputLabelMap={props.inputLabelMap}
                 formats={props.formats}
-                outputs={props.outputs.find(i => (i.category === category))}
+                outputs={props.outputs.find(i => (i.category === currCategory))}
                 currOutputCell={currOutputCell}
             />
         )
     }
 
-    const createSAHeader = (category) => {
+    const createSAHeader = (currCategory) => {
         return (
-            <LabelSelector outputs={props.outputs.find(i => (i.category === category))}
-                           handleOutputLabelChange={handleOutputLabelChange}
-                           currOutputCell={currOutputCell}
-                           titleText={"Sensitivity Analysis for "}
-            />
+            <div>
+                <div className={classes.cardHeaderContainer}>
+                    <h2 className={classes.cardTitleHeader}>Sensitivity Analysis</h2>
+                </div>
+                <LabelSelector outputs={props.outputs}
+                               handleOutputLabelChange={handleOutputLabelChange}
+                               handleOutputCategoryChange={handleOutputCategoryChange}
+                               currOutputCell={currOutputCell}
+                               currCategory={currCategory}
+                               titleText={"For "}/>
+            </div>
+
         )
     }
 
@@ -137,7 +148,7 @@ export default function Output(props) {
         if (props.type === 'summary') {
             return props.data.map((solutionSet, idx) => {
                 return (
-                    <Card className={classes.outputCards} key={solutionSet.category}>
+                    <Card className={classes.outputCards} key={"summary" + solutionSet.category}>
                         <div className={classes.cardHeaderContainer}>
                             <h2 className={classes.cardTitleHeader}>{solutionSet.category}</h2>
                             <CardSettings/>
@@ -147,16 +158,16 @@ export default function Output(props) {
                 )
             })
         } else if (props.type === 'sensitivity') {
-            return props.outputs.map(output => {
-                saHeader = createSAHeader(output.category)
-                saContainer = createSAContainer(output.category, currOutputCell)
-                return (
-                    <div className={classes.saCard}>
-                        {saHeader}
+            saHeader = createSAHeader(currCategory)
+            saContainer = createSAcharts(currCategory, currOutputCell)
+            return (
+                <Card className={classes.saCard} key={"SA" + currCategory}>
+                    {saHeader}
+                    <div className={classes.saChartContainer}>
                         {saContainer}
                     </div>
-                )
-            })
+                </Card>
+            )
         }
     }
 

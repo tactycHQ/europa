@@ -22,7 +22,7 @@ export default function SAChart(props) {
         chartsContainer: {
             display: 'flex',
             flexDirection: 'column',
-            width: '48%',
+            minWidth: '48%',
             margin: '1%',
             justifyContent: 'center',
             alignItems: 'center'

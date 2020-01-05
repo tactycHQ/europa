@@ -2,6 +2,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import React from "react";
+import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core";
 
 export function LabelSelector(props) {
@@ -10,19 +11,17 @@ export function LabelSelector(props) {
     const useStyles = makeStyles(theme => ({
         labelSelectorContainer: {
             display: 'flex',
-            justifyContent: 'flex-start',
+            justifyContent: 'center',
             alignItems: 'center',
             padding: '5px',
-            // padddingTop:0,
             textAlign: 'center',
-            // background:'red',
-            marginTop:"4%",
-            marginBottom:0,
-            paddingBottom:0
+            marginBottom: 0,
+            paddingBottom: 0,
+            // backgroundColor:'green'
         },
         labelSelectorText: {
             fontFamily: 'Questrial',
-            fontSize: '1.5em',
+            fontSize: '1.0em',
             fontWeight: '50',
             color: '#4F545A',
             marginRight: '10px',
@@ -30,7 +29,7 @@ export function LabelSelector(props) {
         },
         saNote: {
             display: 'flex',
-            clear:'both',
+            clear: 'both',
             color: '#4F545A',
             fontFamily: 'Questrial',
             fontWeight: '50',
@@ -44,7 +43,7 @@ export function LabelSelector(props) {
         caseSelect: {
             marginTop: '1px',
             fontFamily: 'Questrial',
-            fontSize: '1.0em',
+            fontSize: '0.8em',
             background: '#F1F2EF',
             padding: '2px',
         },
@@ -57,40 +56,83 @@ export function LabelSelector(props) {
     }));
     const classes = useStyles()
 
+
     //Custom variables
-    const defaultVal = Object.keys(props.outputs.labels)[0]
-    const outputLabels = Object.entries(props.outputs.labels)
-    const menuItems = outputLabels.map(combo => {
+
+
+
+    const currOutput = props.outputs.find(i => (i.category === props.currCategory))
+
+    const defaultLabelVal = Object.keys(currOutput.labels)[0]
+    const defaultCatVal = Object.keys(currOutput.category)[0]
+    const outputLabels = Object.entries(currOutput.labels)
+    const outputCats = props.outputs.map(output => output.category)
+
+
+    const menuCatItems = outputCats.map(category => {
+        return (<MenuItem key={category} classes={{root: classes.caseItem}} value={category}>{category}</MenuItem>)
+    })
+
+    const menuLabelItems = outputLabels.map(combo => {
         const outAdd = combo[0]
         const outLabel = combo[1]
         return (<MenuItem key={outAdd} classes={{root: classes.caseItem}} value={outAdd}>{outLabel}</MenuItem>)
     })
 
     //Custom Functions
-    const getCurrDisplay = () => {
-        let currDisplay
+    const getCurrLabelDisplay = () => {
+        let currLabelDisplay
         if (props.currOutputCell === '') {
-            currDisplay = defaultVal
+            currLabelDisplay = defaultLabelVal
         } else {
-            currDisplay = props.currOutputCell
+            currLabelDisplay = props.currOutputCell
         }
-        return currDisplay
+        return currLabelDisplay
+    }
+
+
+    const getCurrCatDisplay = () => {
+        let currCatDisplay
+        if (props.currCategory === '') {
+            currCatDisplay = defaultCatVal
+        } else {
+            currCatDisplay = props.currCategory
+        }
+        return currCatDisplay
     }
 
     //Function Execution
-    const _currDisplay = getCurrDisplay()
+    const _currLabelDisplay = getCurrLabelDisplay()
+    const _currCatDisplay = getCurrCatDisplay()
 
     return (
         <div className={classes.labelSelectorContainer}>
-            <h2 className={classes.labelSelectorText}>{props.titleText}{props.outputs.category}</h2>
+            <h4 className={classes.labelSelectorText}>Category </h4>
             <FormControl
                 className={classes.formControl}
                 disableScrollLock={true}
             >
                 <Select
                     classes={{selectMenu: classes.caseSelect}}
-                    // defaultValue='Test'
-                    value={_currDisplay}
+                    value={_currCatDisplay}
+                    onChange={props.handleOutputCategoryChange}
+                    displayEmpty
+                    disableUnderline
+                    MenuProps={{
+                        disableScrollLock: true
+                    }}
+                >
+                    {menuCatItems}
+                </Select>
+            </FormControl>
+            <h4 className={classes.labelSelectorText}>Label </h4>
+            <FormControl
+                className={classes.formControl}
+                disableScrollLock={true}
+            >
+                <Select
+                    classes={{selectMenu: classes.caseSelect}}
+                    value={_currLabelDisplay}
                     onChange={props.handleOutputLabelChange}
                     displayEmpty
                     disableUnderline
@@ -98,8 +140,7 @@ export function LabelSelector(props) {
                         disableScrollLock: true
                     }}
                 >
-
-                    {menuItems}
+                    {menuLabelItems}
                 </Select>
             </FormControl>
         </div>

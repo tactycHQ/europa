@@ -30,7 +30,8 @@ export default function SideBar() {
             backgroundColor: '#FEFEFD',
             maxWidth: '12%',
             minWidth: '12%',
-            overflowY: 'auto',
+            overflowY: 'auto'
+
         },
         content: {
             // height: '100%',
