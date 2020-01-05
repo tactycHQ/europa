@@ -2,7 +2,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import React from "react";
-import Button from "@material-ui/core/Button";
+import Paper from "@material-ui/core/Paper";
 import {makeStyles} from "@material-ui/core";
 
 export function LabelSelector(props) {
@@ -11,21 +11,25 @@ export function LabelSelector(props) {
     const useStyles = makeStyles(theme => ({
         labelSelectorContainer: {
             display: 'flex',
+            justifyContent: 'center'
+        },
+        selectionContainer: {
+            display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            padding: '5px',
-            textAlign: 'center',
-            marginBottom: 0,
-            paddingBottom: 0,
-            // backgroundColor:'green'
+            maxHeight: '1%',
+            marginRight: '10px',
+            marginBottom:'10px',
+            padding: '0px'
         },
         labelSelectorText: {
             fontFamily: 'Questrial',
-            fontSize: '1.0em',
-            fontWeight: '50',
-            color: '#4F545A',
+            fontSize: '0.9em',
+            fontWeight: '800',
+            color: '#4B719C',
             marginRight: '10px',
-            marginLeft: '8px'
+            marginTop:'0px',
+            marginBottom:'0px'
         },
         saNote: {
             display: 'flex',
@@ -35,13 +39,15 @@ export function LabelSelector(props) {
             fontWeight: '50',
             marginTop: '0%',
             marginLeft: '7px',
-            // background: 'yellow'
         },
         formControl: {
-            minWidth: 150
+            minWidth: 150,
+            // margin:0,
+            // background:'yellow'
+            marginRight: '75px',
         },
         caseSelect: {
-            marginTop: '1px',
+            // marginTop: '1px',
             fontFamily: 'Questrial',
             fontSize: '0.8em',
             background: '#F1F2EF',
@@ -58,7 +64,6 @@ export function LabelSelector(props) {
 
 
     //Custom variables
-
 
 
     const currOutput = props.outputs.find(i => (i.category === props.currCategory))
@@ -107,42 +112,46 @@ export function LabelSelector(props) {
 
     return (
         <div className={classes.labelSelectorContainer}>
-            <h4 className={classes.labelSelectorText}>Category </h4>
-            <FormControl
-                className={classes.formControl}
-                disableScrollLock={true}
-            >
-                <Select
-                    classes={{selectMenu: classes.caseSelect}}
-                    value={_currCatDisplay}
-                    onChange={props.handleOutputCategoryChange}
-                    displayEmpty
-                    disableUnderline
-                    MenuProps={{
-                        disableScrollLock: true
-                    }}
+            <div className={classes.selectionContainer}>
+                <h4 className={classes.labelSelectorText}>Category </h4>
+                <FormControl
+                    className={classes.formControl}
+                    disableScrollLock={true}
                 >
-                    {menuCatItems}
-                </Select>
-            </FormControl>
-            <h4 className={classes.labelSelectorText}>Label </h4>
-            <FormControl
-                className={classes.formControl}
-                disableScrollLock={true}
-            >
-                <Select
-                    classes={{selectMenu: classes.caseSelect}}
-                    value={_currLabelDisplay}
-                    onChange={props.handleOutputLabelChange}
-                    displayEmpty
-                    disableUnderline
-                    MenuProps={{
-                        disableScrollLock: true
-                    }}
+                    <Select
+                        classes={{selectMenu: classes.caseSelect}}
+                        value={_currCatDisplay}
+                        onChange={props.handleOutputCategoryChange}
+                        displayEmpty
+                        disableUnderline
+                        MenuProps={{
+                            disableScrollLock: true
+                        }}
+                    >
+                        {menuCatItems}
+                    </Select>
+                </FormControl>
+            </div>
+            <div className={classes.selectionContainer}>
+                <h4 className={classes.labelSelectorText}>Label </h4>
+                <FormControl
+                    className={classes.formControl}
+                    disableScrollLock={true}
                 >
-                    {menuLabelItems}
-                </Select>
-            </FormControl>
+                    <Select
+                        classes={{selectMenu: classes.caseSelect}}
+                        value={_currLabelDisplay}
+                        onChange={props.handleOutputLabelChange}
+                        displayEmpty
+                        disableUnderline
+                        MenuProps={{
+                            disableScrollLock: true
+                        }}
+                    >
+                        {menuLabelItems}
+                    </Select>
+                </FormControl>
+            </div>
         </div>
 
     )

@@ -3,7 +3,6 @@ import {makeStyles} from '@material-ui/core/styles'
 import SummaryChart from "../Outputs/SummaryChart"
 import {Card} from "@material-ui/core"
 import CardSettings from "../Outputs/CardSettings"
-import {NavLink} from "react-router-dom"
 import SAChart from "../Outputs/SAChart"
 import {LabelSelector} from "../Outputs/LabelSelector";
 import InputImportance from "../Outputs/InputImportance"
@@ -68,8 +67,8 @@ export default function Output(props) {
         },
         cardHeaderContainer: {
             display: 'flex',
-            justifyContent: 'space-between',
-            // backgroundColor:'yellow',
+            // justifyContent: 'space-between',
+            // backgroundColor:'orange',
             // marginBottom:0
         },
         cardTitleHeader: {
@@ -79,6 +78,7 @@ export default function Output(props) {
             fontSize: '2em',
             marginTop: '3px',
             marginLeft: '7px',
+            marginBottom:'10px',
             // backgroundColor:'blue'
         }
     }))

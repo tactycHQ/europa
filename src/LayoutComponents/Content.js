@@ -160,6 +160,7 @@ export default function Content(props) {
                         <Output
                             type="summary"
                             data={summaryChartData}
+                            outputs={props.outputs}
                         />
                     </Route>
                     <Route exact path="/distributions">
