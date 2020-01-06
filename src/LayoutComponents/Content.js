@@ -2,7 +2,6 @@ import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Output from "../Content/Outputs"
 import Input from "../Content/Inputs";
-import Sensitivity from "../Sidebar/Sensitivity";
 import {Switch, Route} from 'react-router-dom'
 import ScenarioAnalysis from "../Sidebar/ScenarioAnalysis"
 import DependencyGraph from "../Sidebar/DependencyGraph"
@@ -39,6 +38,7 @@ export default function Content(props) {
             }, {}
         )
     }
+    const inputLabelMap = generateInputLabelMap()
 
     const findSolution = (inputCombo) => {
         if (props.solutions && inputCombo) {
@@ -87,17 +87,13 @@ export default function Content(props) {
         return labelsInChart
     }
 
-
-    // SA1 Functions
+    // SA Functions
     const generateSAPairs = () => {
         return props.inputs.reduce((acc, v, i) =>
                 acc.concat(props.inputs.slice(i + 1).map(w => [v.address, w.address])),
             [])
     }
-
     const saPairs = generateSAPairs()
-
-    const inputLabelMap = generateInputLabelMap()
 
     const createSAData = () => {
         return saPairs.map(address => {

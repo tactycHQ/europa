@@ -59,29 +59,26 @@ export function LabelSelector(props) {
     }));
     const classes = useStyles()
 
-
     //Custom variables
-
-
     const currOutput = props.outputs.find(i => (i.category === props.currCategory))
-
     const defaultLabelVal = Object.keys(currOutput.labels)[0]
     const defaultCatVal = Object.keys(currOutput.category)[0]
     const outputLabels = Object.entries(currOutput.labels)
     const outputCats = props.outputs.map(output => output.category)
 
-
+    //Generate list of category items for drop down
     const menuCatItems = outputCats.map(category => {
         return (<MenuItem key={category} classes={{root: classes.caseItem}} value={category}>{category}</MenuItem>)
     })
 
+    //Generate list of labelitems for drop down
     const menuLabelItems = outputLabels.map(combo => {
         const outAdd = combo[0]
         const outLabel = combo[1]
         return (<MenuItem key={outAdd} classes={{root: classes.caseItem}} value={outAdd}>{outLabel}</MenuItem>)
     })
 
-    //Custom Functions
+    //Custom Functions to get label and category to show
     const getCurrLabelDisplay = () => {
         let currLabelDisplay
         if (props.currOutputCell === '') {
@@ -91,7 +88,6 @@ export function LabelSelector(props) {
         }
         return currLabelDisplay
     }
-
 
     const getCurrCatDisplay = () => {
         let currCatDisplay
@@ -150,9 +146,7 @@ export function LabelSelector(props) {
                 </FormControl>
             </div>
         </div>
-
     )
-
 }
 
 

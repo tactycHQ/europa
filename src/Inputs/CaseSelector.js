@@ -53,7 +53,7 @@ export default function CaseSelector(props) {
         <div>
             <FormControl
                 className={classes.formControl}
-                disableScrollLock={true}
+                //disableScrollLock={true}
             >
                 <Select
                     classes={{selectMenu: classes.caseSelect}}

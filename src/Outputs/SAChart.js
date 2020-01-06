@@ -28,7 +28,6 @@ export default function SAChart(props) {
             display: 'flex',
             flexDirection: 'column',
             width: '100%'
-
         },
         paper: {
             display: 'flex',
@@ -87,6 +86,7 @@ export default function SAChart(props) {
     const classes = useStyles()
 
     //Custom Functions
+    // Get address of outout label selected from dropdown
     const getOutAdd = () => {
         let outAdd
         if (props.currOutputCell === '') {
@@ -97,10 +97,12 @@ export default function SAChart(props) {
         return outAdd
     }
 
+    //Axis formatter
     const AxisFormatter = (fmt, value) => convert_format(fmt, value)
 
+    //Tick formatter
     const CustomizedYAxisTick = (props) => {
-        const {x, y, stroke, payload, fmt} = props
+        const {x, y, payload, fmt} = props
 
         return (
             <g transform={`translate(${x},${y})`}>
@@ -120,8 +122,9 @@ export default function SAChart(props) {
         )
     }
 
+    //Tick formatter
     const CustomizedXAxisTick = (props) => {
-        const {x, y, stroke, payload, fmt} = props
+        const {x, y, payload, fmt} = props
 
         return (
             <g transform={`translate(${x},${y})`}>
@@ -142,6 +145,7 @@ export default function SAChart(props) {
         )
     }
 
+    //Area chart creator
     const generateTables = (outAdd) => {
         const tables = props.data.map(tableData => {
             const flexInputs = tableData.inputs

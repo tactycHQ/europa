@@ -1,12 +1,8 @@
 import React, {useState} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import SummaryChart from "../Outputs/SummaryChart"
-import {Card} from "@material-ui/core"
-import CardSettings from "../Outputs/CardSettings"
 import SAChart from "../Outputs/SAChart"
-import {LabelSelector} from "../Outputs/LabelSelector";
-import InputImportance from "../Outputs/InputImportance"
-import DistributionChart from "../Outputs/DistributionChart";
+
 
 const chartColors = [
     '#004666',
@@ -19,10 +15,6 @@ const chartColors = [
 
 export default function Output(props) {
 
-    // Initializing variables
-    let saHeader
-    let saContainer
-
 
     //Defining Styles
     const useStyles = makeStyles(theme => ({
@@ -34,6 +26,11 @@ export default function Output(props) {
             flexWrap: 'wrap',
             justifyContent: 'center',
             padding: '8px'
+        },
+        summaryContainer: {
+            display: 'flex',
+            width:'100%',
+            flexWrap:'wrap'
         }
 
     }))
@@ -41,24 +38,23 @@ export default function Output(props) {
 
 
     //Defining hooks
-    // Hook to set current output label selected by user in sensitivity analysis drop down
-    const [currOutputCell, setCurrOutputCell] = useState('')
-    const [currCategory, setCurrCategory] = useState(props.outputs[0]['category'])
-    const [summaryPrefs, setSummaryPrefs] = useState({})
+    const [currOutputCell, setCurrOutputCell] = useState('') //for output label selection from dropdown
+    const [currCategory, setCurrCategory] = useState(props.outputs[0]['category']) //for category selection from dropdown
+    const [summaryPrefs, setSummaryPrefs] = useState({}) //for chart preferences
 
 
-    // Defining custom functions
-    // Drop down selection of output label in sensitivity analysis
+    // Defining custom function
+    // Drop down selection of output label in detailed analysis
     const handleOutputLabelChange = (event) => {
         setCurrOutputCell(event.target.value)
     }
 
+    // Drop down selection of output category in detailed analysis
     const handleOutputCategoryChange = (event) => {
         setCurrCategory(event.target.value)
     }
 
     const createSummaryCharts = (solutionSet, idx) => {
-
         return (
             <SummaryChart
                 key={"solution" + solutionSet.category}
@@ -92,10 +88,13 @@ export default function Output(props) {
     const createCharts = () => {
 
         if (props.type === 'summary') {
-            return props.data.map((solutionSet, idx) => {
+            const summaryCharts = props.data.map((solutionSet, idx) => {
                 return createSummaryCharts(solutionSet, idx)
-
             })
+            return (
+                <div className={classes.summaryContainer}>
+                    {summaryCharts}
+                </div>)
         } else if (props.type === 'sensitivity') {
             return createSAcharts(currCategory, currOutputCell)
         }

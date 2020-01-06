@@ -7,7 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 
 export default function CardSettings(props) {
 
-
+    //Initialization function to set drop down label based on user prefs
     const getSizeLabel = () => {
         if (props.category in props.summaryPrefs && 'size' in props.summaryPrefs[props.category] ){
             return 'Minimize'
@@ -16,6 +16,7 @@ export default function CardSettings(props) {
         }
     }
 
+    //Styles
     const useStyles = makeStyles(theme => ({
         root: {},
         settings: {
@@ -40,13 +41,15 @@ export default function CardSettings(props) {
         },
     }))
     const classes = useStyles()
+
+    //Hooks for anchorEl and list of items in menu
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [item, setItem] = React.useState({
         size: getSizeLabel(),
         visibile: 'Hide'
     });
 
-
+    //Handlers for events
     const handleClick = event => {
         setAnchorEl(event.currentTarget);
     };
@@ -74,7 +77,6 @@ export default function CardSettings(props) {
 
         setAnchorEl(null);
     };
-
 
     return (
         <div>

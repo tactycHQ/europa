@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {BarChart, Bar, XAxis, YAxis, LabelList, Tooltip, ResponsiveContainer, ReferenceLine} from 'recharts'
 import {Card, makeStyles} from "@material-ui/core"
 import {convert_format} from "../utils/utils"
@@ -8,15 +8,18 @@ import CardSettings from "./CardSettings";
 export default function SummaryChart(props) {
 
 
+
+    // Initialization function to get width of chart based on user preferences
+    const defaultWidth ='49%'
     const getWidth = () => {
         if (props.category in props.summaryPrefs && 'size' in props.summaryPrefs[props.category]) {
             if (props.summaryPrefs[props.category].size === 'Maximize') {
                 return '100%'
             } else {
-                return '48%'
+                return defaultWidth
             }
         } else {
-            return '48%'
+            return defaultWidth
         }
     }
     const chartWidth = getWidth(props)
@@ -71,7 +74,7 @@ export default function SummaryChart(props) {
     const yAxisFormatter = value => convert_format(master_fmt, value)
 
     function CustomizedYAxisTick(props) {
-        const {x, y, stroke, payload} = props
+        const {x, y, payload} = props
 
         return (
             <g transform={`translate(${x},${y})`}>
@@ -92,7 +95,7 @@ export default function SummaryChart(props) {
     }
 
     function CustomizedXAxisTick(props) {
-        const {x, y, stroke, payload} = props
+        const {x, y, payload} = props
 
         return (
             <g transform={`translate(${x},${y})`}>
@@ -113,10 +116,8 @@ export default function SummaryChart(props) {
         )
     }
 
-
-    // Calling functions
+    // Function executions
     const processedData = process_formats()
-
 
     return (
         <Card className={classes.outputCards} key={"summary" + props.category}>
