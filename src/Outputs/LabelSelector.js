@@ -23,7 +23,7 @@ export function LabelSelector(props) {
         },
         labelSelectorText: {
             fontFamily: 'Questrial',
-            fontSize: '0.9em',
+            fontSize: '1.0em',
             fontWeight: '800',
             color: '#4B719C',
             marginRight: '10px',
@@ -40,17 +40,15 @@ export function LabelSelector(props) {
             marginLeft: '7px',
         },
         formControl: {
-            minWidth: 150,
-            // margin:0,
-            // background:'yellow'
+            minWidth: 200,
             marginRight: '75px',
         },
         caseSelect: {
             // marginTop: '1px',
             fontFamily: 'Questrial',
-            fontSize: '0.8em',
+            textAlign:'center',
+            fontSize: '0.9em',
             background: '#F1F2EF',
-            padding: '2px',
         },
         caseItem: {
             fontFamily: 'Questrial',

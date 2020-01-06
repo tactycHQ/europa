@@ -183,7 +183,6 @@ export default function SummaryChart(props) {
                         <LabelList
                             dataKey="label"
                             position="top"
-                            // formatter={(value) => value}
                             style={{fill: props.fill, fontFamily: 'Questrial', fontSize: '1.0em', fontWeight: '500'}}
                         />
                     </Bar>

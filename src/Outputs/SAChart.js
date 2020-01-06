@@ -28,11 +28,11 @@ export default function SAChart(props) {
             display: 'flex',
             flexDirection: 'column',
             width: '100%'
+
         },
         paper: {
             display: 'flex',
             flexDirection: 'column',
-            width: '100%',
             justifyContent: 'center',
             alignItems: 'center',
             margin: '1%',
