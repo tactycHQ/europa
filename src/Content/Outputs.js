@@ -33,22 +33,9 @@ export default function Output(props) {
             marginLeft: '12%',
             flexWrap: 'wrap',
             justifyContent: 'center',
-            padding: '8px',
-            // paddingTop:'8px',
-            // background: "red"
-
-        },
-        saCard: {
-            // borderStyle: 'solid',
-            flexDirection: 'column',
-            // backgroundColor:'orange',
-            width: '100%'
-        },
-        saChartContainer: {
-            display: 'flex',
-            // backgroundColor:'orange',
-            flexWrap: 'wrap'
+            padding: '8px'
         }
+
     }))
     const classes = useStyles()
 
@@ -57,7 +44,7 @@ export default function Output(props) {
     // Hook to set current output label selected by user in sensitivity analysis drop down
     const [currOutputCell, setCurrOutputCell] = useState('')
     const [currCategory, setCurrCategory] = useState(props.outputs[0]['category'])
-    const [summarySize, setSummarySize] = useState(null)
+    const [summaryPrefs, setSummaryPrefs] = useState({})
 
 
     // Defining custom functions
@@ -71,15 +58,16 @@ export default function Output(props) {
     }
 
     const createSummaryCharts = (solutionSet, idx) => {
+
         return (
             <SummaryChart
-                key={"solution"+solutionSet.category}
+                key={"solution" + solutionSet.category}
                 category={solutionSet.category}
                 currSolution={solutionSet.values}
                 fill={chartColors[idx]}
                 domain={solutionSet.domains}
-                summarySize={summarySize}
-                setSummarySize={setSummarySize}
+                summaryPrefs={summaryPrefs}
+                setSummaryPrefs={setSummaryPrefs}
             />
         )
     }
@@ -92,29 +80,14 @@ export default function Output(props) {
                 findSolution={props.findSolution}
                 inputLabelMap={props.inputLabelMap}
                 formats={props.formats}
-                outputs={props.outputs.find(i => (i.category === currCategory))}
+                outputs={props.outputs}
+                currCategory={currCategory}
                 currOutputCell={currOutputCell}
+                handleOutputLabelChange={handleOutputLabelChange}
+                handleOutputCategoryChange={handleOutputCategoryChange}
             />
         )
     }
-
-    const createSAHeader = (currCategory) => {
-        return (
-            <div>
-                <div className={classes.cardHeaderContainer}>
-                    <h2 className={classes.cardTitleHeader}>Sensitivity Analysis</h2>
-                </div>
-                <LabelSelector outputs={props.outputs}
-                               handleOutputLabelChange={handleOutputLabelChange}
-                               handleOutputCategoryChange={handleOutputCategoryChange}
-                               currOutputCell={currOutputCell}
-                               currCategory={currCategory}
-                               titleText={"For "}/>
-            </div>
-
-        )
-    }
-
 
     const createCharts = () => {
 
@@ -124,16 +97,7 @@ export default function Output(props) {
 
             })
         } else if (props.type === 'sensitivity') {
-            saHeader = createSAHeader(currCategory)
-            saContainer = createSAcharts(currCategory, currOutputCell)
-            return (
-                <Card className={classes.saCard} key={"SA" + currCategory}>
-                    {saHeader}
-                    <div className={classes.saChartContainer}>
-                        {saContainer}
-                    </div>
-                </Card>
-            )
+            return createSAcharts(currCategory, currOutputCell)
         }
     }
 

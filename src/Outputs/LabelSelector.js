@@ -2,7 +2,6 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import React from "react";
-import Paper from "@material-ui/core/Paper";
 import {makeStyles} from "@material-ui/core";
 
 export function LabelSelector(props) {

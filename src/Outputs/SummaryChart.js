@@ -9,8 +9,12 @@ export default function SummaryChart(props) {
 
 
     const getWidth = () => {
-        if (props.summarySize && props.summarySize[props.category]) {
-            return props.summarySize[props.category]
+        if (props.category in props.summaryPrefs && 'size' in props.summaryPrefs[props.category]) {
+            if (props.summaryPrefs[props.category].size === 'Maximize') {
+                return '100%'
+            } else {
+                return '48%'
+            }
         } else {
             return '48%'
         }
@@ -118,8 +122,9 @@ export default function SummaryChart(props) {
         <Card className={classes.outputCards} key={"summary" + props.category}>
             <div className={classes.cardHeaderContainer}>
                 <h2 className={classes.cardTitleHeader}>{props.category}</h2>
-                <CardSettings category={props.category} setSummarySize={props.setSummarySize}
-                              summarySize={props.summarySize}/>
+                <CardSettings category={props.category}
+                              setSummaryPrefs={props.setSummaryPrefs}
+                              summaryPrefs={props.summaryPrefs}/>
             </div>
             <ResponsiveContainer width="100%" height={310}>
                 <BarChart

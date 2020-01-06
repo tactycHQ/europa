@@ -3,6 +3,8 @@ import {makeStyles} from '@material-ui/core/styles';
 import {AreaChart, XAxis, YAxis, Tooltip, Legend, Area, Label, ResponsiveContainer} from "recharts";
 import Paper from '@material-ui/core/Paper'
 import {convert_format} from "../utils/utils"
+import {LabelSelector} from "./LabelSelector";
+import {Card} from "@material-ui/core";
 
 
 const chartColors = [
@@ -17,16 +19,15 @@ const chartColors = [
 
 export default function SAChart(props) {
 
+    //Initializing variables
+    const outCat = props.outputs.find(output => (output.category === props.currCategory))
+
     //Styles
     const useStyles = makeStyles(theme => ({
-        chartsContainer: {
+        saCard: {
             display: 'flex',
             flexDirection: 'column',
-            minWidth: '48%',
-            margin: '1%',
-            justifyContent: 'center',
-            alignItems: 'center'
-
+            width: '100%'
         },
         paper: {
             display: 'flex',
@@ -37,6 +38,22 @@ export default function SAChart(props) {
             margin: '1%',
             padding: '1%',
             background: 'linear-gradient(#FFFFFF 60%,#F4F4F4)'
+        },
+        cardHeaderContainer: {
+            display: 'flex',
+            justifyContent: 'space-between',
+            // backgroundColor:'orange',
+            // marginBottom:0
+        },
+        cardTitleHeader: {
+            color: '#4F545A',
+            fontFamily: 'Questrial',
+            fontWeight: '20',
+            fontSize: '2em',
+            marginTop: '3px',
+            marginLeft: '7px',
+            marginBottom: '10px',
+            // backgroundColor:'blue'
         },
         chartTitle: {
             fontFamily: 'Questrial',
@@ -70,10 +87,10 @@ export default function SAChart(props) {
     const classes = useStyles()
 
     //Custom Functions
-    const getOutAdd =() => {
+    const getOutAdd = () => {
         let outAdd
         if (props.currOutputCell === '') {
-            outAdd = Object.keys(props.outputs.labels)[0]
+            outAdd = Object.keys(outCat.labels)[0]
         } else {
             outAdd = props.currOutputCell
         }
@@ -186,11 +203,9 @@ export default function SAChart(props) {
                 )
             })
 
-
             return (
-                <Paper className={classes.paper} key={tableData.inputs.toString() + outAdd.toString()}
-                >
-                    <h3 className={classes.chartTitle}>{props.outputs.labels[outAdd]}, {props.outputs.category}</h3>
+                <Paper className={classes.paper} key={tableData.inputs.toString() + outAdd.toString()}>
+                    <h3 className={classes.chartTitle}>{outCat.labels[outAdd]}, {props.currCategory}</h3>
                     <h3 className={classes.chartNote}><em>Sensitized
                         Variables:</em> {props.inputLabelMap[add2]}, {props.inputLabelMap[add1]}</h3>
                     <ResponsiveContainer width="100%" height={310}>
@@ -251,8 +266,6 @@ export default function SAChart(props) {
                     </ResponsiveContainer>
                 </Paper>
             )
-
-
         })
         return tables
     }
@@ -263,12 +276,17 @@ export default function SAChart(props) {
 
 
     return (
-        tables.map(table => {
-            return (
-                <div className={classes.chartsContainer} key={table.key}>
-                    {table}
-                </div>
-            )
-        })
+        <Card className={classes.saCard} key={"SA" + props.currOutputCell}>
+            <div className={classes.cardHeaderContainer}>
+                <h2 className={classes.cardTitleHeader}>Sensitivity Analysis</h2>
+            </div>
+            <LabelSelector outputs={props.outputs}
+                           handleOutputLabelChange={props.handleOutputLabelChange}
+                           handleOutputCategoryChange={props.handleOutputCategoryChange}
+                           currOutputCell={props.currOutputCell}
+                           currCategory={props.currCategory}/>
+            {tables}
+        </Card>
     )
 }
+

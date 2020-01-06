@@ -6,6 +6,16 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
 export default function CardSettings(props) {
+
+
+    const getSizeLabel = () => {
+        if (props.category in props.summaryPrefs && 'size' in props.summaryPrefs[props.category] ){
+            return 'Minimize'
+        } else {
+            return 'Maximize'
+        }
+    }
+
     const useStyles = makeStyles(theme => ({
         root: {},
         settings: {
@@ -32,9 +42,10 @@ export default function CardSettings(props) {
     const classes = useStyles()
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [item, setItem] = React.useState({
-        size: 'Maximize',
+        size: getSizeLabel(),
         visibile: 'Hide'
     });
+
 
     const handleClick = event => {
         setAnchorEl(event.currentTarget);
@@ -44,38 +55,26 @@ export default function CardSettings(props) {
         setAnchorEl(null);
     };
 
-    const handleChange = (event, value) => {
+    const handleChange = (event, type, value) => {
         // console.log(event.currentTarget)
         // const {myValue} = event.currentTarget
 
-        if (item.size === 'Maximize') {
-            props.setSummarySize(
-                {
-                    ...props.summarySize,
-                    [props.category]: '100%'
-                }
-            )
-            setItem({
-                ...item,
-                size: 'Minimize'
-            })
-        } else {
-            props.setSummarySize(
-                {
-                    ...props.summarySize,
-                    [props.category]: '48%'
-                }
-            )
-            setItem({
-                ...item,
-                size: 'Maximize'
-            })
-
+        if (type === 'size') {
+            if (value === 'Maximize') {
+                props.setSummaryPrefs({
+                    ...props.summaryPrefs,
+                    [props.category]: {size: 'Maximize'}
+                })
+                setItem({...item, size: 'Minimize'})
+            } else {
+                props.setSummaryPrefs({...props.summaryPrefs, [props.category]: {size: 'Minimize'}})
+                setItem({...item, size: 'Maximize'})
+            }
         }
-
 
         setAnchorEl(null);
     };
+
 
     return (
         <div>
@@ -93,7 +92,8 @@ export default function CardSettings(props) {
                 onChange={handleChange}
                 disableScrollLock={true}
             >
-                <MenuItem className={classes.menuItem} onClick={(event) => handleChange(event, item.size)}
+                <MenuItem className={classes.menuItem}
+                          onClick={(event) => handleChange(event, 'size', item.size)}
                           dense={true}>{item.size}</MenuItem>
                 <MenuItem className={classes.menuItem} onClick={handleClose} dense={true}>Hide</MenuItem>
                 <MenuItem className={classes.menuItem} onClick={handleClose} dense={true}>Customize Chart</MenuItem>
