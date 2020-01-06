@@ -31,6 +31,10 @@ export default function CardSettings(props) {
     }))
     const classes = useStyles()
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [item, setItem] = React.useState({
+        size: 'Maximize',
+        visibile: 'Hide'
+    });
 
     const handleClick = event => {
         setAnchorEl(event.currentTarget);
@@ -43,10 +47,33 @@ export default function CardSettings(props) {
     const handleChange = (event, value) => {
         // console.log(event.currentTarget)
         // const {myValue} = event.currentTarget
-        props.setSummarySize(
-            {...props.summarySize,
-            [props.category]: '100%'}
+
+        if (item.size === 'Maximize') {
+            props.setSummarySize(
+                {
+                    ...props.summarySize,
+                    [props.category]: '100%'
+                }
             )
+            setItem({
+                ...item,
+                size: 'Minimize'
+            })
+        } else {
+            props.setSummarySize(
+                {
+                    ...props.summarySize,
+                    [props.category]: '48%'
+                }
+            )
+            setItem({
+                ...item,
+                size: 'Maximize'
+            })
+
+        }
+
+
         setAnchorEl(null);
     };
 
@@ -66,7 +93,8 @@ export default function CardSettings(props) {
                 onChange={handleChange}
                 disableScrollLock={true}
             >
-                <MenuItem className={classes.menuItem} onClick={(event) => handleChange(event, "Maximize")} dense={true} >Maximize</MenuItem>
+                <MenuItem className={classes.menuItem} onClick={(event) => handleChange(event, item.size)}
+                          dense={true}>{item.size}</MenuItem>
                 <MenuItem className={classes.menuItem} onClick={handleClose} dense={true}>Hide</MenuItem>
                 <MenuItem className={classes.menuItem} onClick={handleClose} dense={true}>Customize Chart</MenuItem>
                 <MenuItem className={classes.menuItem} onClick={handleClose} dense={true}>Remove Output</MenuItem>

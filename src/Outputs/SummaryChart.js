@@ -9,7 +9,7 @@ export default function SummaryChart(props) {
 
 
     const getWidth = () => {
-        if (props.summarySize) {
+        if (props.summarySize && props.summarySize[props.category]) {
             return props.summarySize[props.category]
         } else {
             return '48%'
