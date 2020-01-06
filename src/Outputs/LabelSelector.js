@@ -109,7 +109,7 @@ export function LabelSelector(props) {
                 <h4 className={classes.labelSelectorText}>Category </h4>
                 <FormControl
                     className={classes.formControl}
-                    disableScrollLock={true}
+                    // disableScrollLock={true}
                 >
                     <Select
                         classes={{selectMenu: classes.caseSelect}}
@@ -129,7 +129,7 @@ export function LabelSelector(props) {
                 <h4 className={classes.labelSelectorText}>Label </h4>
                 <FormControl
                     className={classes.formControl}
-                    disableScrollLock={true}
+                    // disableScrollLock={true}
                 >
                     <Select
                         classes={{selectMenu: classes.caseSelect}}
