@@ -23,15 +23,6 @@ export default function Output(props) {
     let saHeader
     let saContainer
 
-    //Initialization functions for formatting depending on type
-    const get_width = () => {
-        if (props.type === "summary") {
-            return "48%"
-        } else {
-            return "100%"
-        }
-    }
-    const custom_width = get_width()
 
     //Defining Styles
     const useStyles = makeStyles(theme => ({
@@ -47,13 +38,6 @@ export default function Output(props) {
             // background: "red"
 
         },
-        outputCards: {
-            display: 'flex',
-            flexDirection: 'column',
-            width: custom_width,
-            margin: '5px',
-            background: '#FEFEFD'
-        },
         saCard: {
             // borderStyle: 'solid',
             flexDirection: 'column',
@@ -64,22 +48,6 @@ export default function Output(props) {
             display: 'flex',
             // backgroundColor:'orange',
             flexWrap: 'wrap'
-        },
-        cardHeaderContainer: {
-            display: 'flex',
-            // justifyContent: 'space-between',
-            // backgroundColor:'orange',
-            // marginBottom:0
-        },
-        cardTitleHeader: {
-            color: '#4F545A',
-            fontFamily: 'Questrial',
-            fontWeight: '20',
-            fontSize: '2em',
-            marginTop: '3px',
-            marginLeft: '7px',
-            marginBottom:'10px',
-            // backgroundColor:'blue'
         }
     }))
     const classes = useStyles()
@@ -89,6 +57,7 @@ export default function Output(props) {
     // Hook to set current output label selected by user in sensitivity analysis drop down
     const [currOutputCell, setCurrOutputCell] = useState('')
     const [currCategory, setCurrCategory] = useState(props.outputs[0]['category'])
+    const [summarySize, setSummarySize] = useState(null)
 
 
     // Defining custom functions
@@ -104,9 +73,13 @@ export default function Output(props) {
     const createSummaryCharts = (solutionSet, idx) => {
         return (
             <SummaryChart
+                key={"solution"+solutionSet.category}
+                category={solutionSet.category}
                 currSolution={solutionSet.values}
                 fill={chartColors[idx]}
                 domain={solutionSet.domains}
+                summarySize={summarySize}
+                setSummarySize={setSummarySize}
             />
         )
     }
@@ -147,15 +120,8 @@ export default function Output(props) {
 
         if (props.type === 'summary') {
             return props.data.map((solutionSet, idx) => {
-                return (
-                    <Card className={classes.outputCards} key={"summary" + solutionSet.category}>
-                        <div className={classes.cardHeaderContainer}>
-                            <h2 className={classes.cardTitleHeader}>{solutionSet.category}</h2>
-                            <CardSettings/>
-                        </div>
-                        {createSummaryCharts(solutionSet, idx)}
-                    </Card>
-                )
+                return createSummaryCharts(solutionSet, idx)
+
             })
         } else if (props.type === 'sensitivity') {
             saHeader = createSAHeader(currCategory)

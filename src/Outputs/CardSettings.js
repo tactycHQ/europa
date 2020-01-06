@@ -5,7 +5,7 @@ import EditIcon from '@material-ui/icons/Edit'
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
-export default function CardSettings() {
+export default function CardSettings(props) {
     const useStyles = makeStyles(theme => ({
         root: {},
         settings: {
@@ -40,6 +40,16 @@ export default function CardSettings() {
         setAnchorEl(null);
     };
 
+    const handleChange = (event, value) => {
+        // console.log(event.currentTarget)
+        // const {myValue} = event.currentTarget
+        props.setSummarySize(
+            {...props.summarySize,
+            [props.category]: '100%'}
+            )
+        setAnchorEl(null);
+    };
+
     return (
         <div>
             <IconButton className={classes.settings} aria-controls="simple-menu" aria-haspopup="true"
@@ -53,8 +63,10 @@ export default function CardSettings() {
                 keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
+                onChange={handleChange}
                 disableScrollLock={true}
             >
+                <MenuItem className={classes.menuItem} onClick={(event) => handleChange(event, "Maximize")} dense={true} >Maximize</MenuItem>
                 <MenuItem className={classes.menuItem} onClick={handleClose} dense={true}>Hide</MenuItem>
                 <MenuItem className={classes.menuItem} onClick={handleClose} dense={true}>Customize Chart</MenuItem>
                 <MenuItem className={classes.menuItem} onClick={handleClose} dense={true}>Remove Output</MenuItem>

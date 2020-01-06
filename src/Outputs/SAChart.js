@@ -26,6 +26,7 @@ export default function SAChart(props) {
             margin: '1%',
             justifyContent: 'center',
             alignItems: 'center'
+
         },
         paper: {
             display: 'flex',
