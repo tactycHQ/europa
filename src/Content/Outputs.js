@@ -53,6 +53,7 @@ export default function Output(props) {
     // Drop down selection of output category in detailed analysis
     const handleOutputCategoryChange = (event) => {
         setCurrCategory(event.target.value)
+        setCurrOutputCell('')
     }
 
     const createSummaryCharts = (solutionSet, idx) => {
