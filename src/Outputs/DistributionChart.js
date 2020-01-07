@@ -168,7 +168,7 @@ export default function Distribution(props) {
             if (caseVal[0] === "Current") {
                 labelposition = "top"
                 labelfill = '#DB0263'
-                labelWeight = 400
+                labelWeight = 600
                 labelwidth = 4
                 labelFront = true
                 labelDash="5 0"
@@ -314,7 +314,7 @@ export default function Distribution(props) {
                             yAxisId="count"
                             dataKey="count"
                             fill={color_url}
-                            isAnimationActive={false}>
+                            isAnimationActive={true}>
                         </Bar>
                     </BarChart>
                 </ResponsiveContainer>
@@ -379,7 +379,7 @@ export default function Distribution(props) {
                               fill={area_color_url}
                               stroke="#F4F9E9"
                               connectNulls={true}
-                              isAnimationActive={false}/>
+                              isAnimationActive={true}/>
                     </AreaChart>
                 </ResponsiveContainer>
             </Paper>
