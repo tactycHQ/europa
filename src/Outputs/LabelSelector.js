@@ -14,12 +14,14 @@ export function LabelSelector(props) {
         },
         selectionContainer: {
             display: 'flex',
+            flexWrap: 'wrap',
             justifyContent: 'center',
-            alignItems: 'center',
-            maxHeight: '1%',
-            marginRight: '10px',
-            marginBottom:'10px',
             padding: '0px'
+        },
+        labelContainer: {
+            display: 'flex',
+            alignItems: 'center',
+            marginBottom: '10px'
         },
         labelSelectorText: {
             fontFamily: 'Questrial',
@@ -27,8 +29,8 @@ export function LabelSelector(props) {
             fontWeight: '800',
             color: '#4B719C',
             marginRight: '10px',
-            marginTop:'0px',
-            marginBottom:'0px'
+            marginTop: '0px',
+            marginBottom: '0px'
         },
         saNote: {
             display: 'flex',
@@ -46,7 +48,7 @@ export function LabelSelector(props) {
         caseSelect: {
             // marginTop: '1px',
             fontFamily: 'Questrial',
-            textAlign:'center',
+            textAlign: 'center',
             fontSize: '0.9em',
             background: '#F1F2EF',
         },
@@ -106,44 +108,48 @@ export function LabelSelector(props) {
     return (
         <div className={classes.labelSelectorContainer}>
             <div className={classes.selectionContainer}>
-                <h4 className={classes.labelSelectorText}>Category </h4>
-                <FormControl
-                    className={classes.formControl}
-                    // disableScrollLock={true}
-                >
-                    <Select
-                        classes={{selectMenu: classes.caseSelect}}
-                        value={_currCatDisplay}
-                        onChange={props.handleOutputCategoryChange}
-                        displayEmpty
-                        disableUnderline
-                        MenuProps={{
-                            disableScrollLock: true
-                        }}
+                <div className={classes.labelContainer}>
+                    <h4 className={classes.labelSelectorText}>Category</h4>
+                    <FormControl
+                        className={classes.formControl}
+                        // disableScrollLock={true}
                     >
-                        {menuCatItems}
-                    </Select>
-                </FormControl>
-            </div>
-            <div className={classes.selectionContainer}>
-                <h4 className={classes.labelSelectorText}>Label </h4>
-                <FormControl
-                    className={classes.formControl}
-                    // disableScrollLock={true}
-                >
-                    <Select
-                        classes={{selectMenu: classes.caseSelect}}
-                        value={_currLabelDisplay}
-                        onChange={props.handleOutputLabelChange}
-                        displayEmpty
-                        disableUnderline
-                        MenuProps={{
-                            disableScrollLock: true
-                        }}
-                    >
-                        {menuLabelItems}
-                    </Select>
-                </FormControl>
+                        <Select
+                            classes={{selectMenu: classes.caseSelect}}
+                            value={_currCatDisplay}
+                            onChange={props.handleOutputCategoryChange}
+                            displayEmpty
+                            disableUnderline
+                            MenuProps={{
+                                disableScrollLock: true
+                            }}
+                        >
+                            {menuCatItems}
+                        </Select>
+                    </FormControl>
+                </div>
+                <div className={classes.selectionContainer}>
+                    <div className={classes.labelContainer}>
+                        <h4 className={classes.labelSelectorText}>Label</h4>
+                        <FormControl
+                            className={classes.formControl}
+                            // disableScrollLock={true}
+                        >
+                            <Select
+                                classes={{selectMenu: classes.caseSelect}}
+                                value={_currLabelDisplay}
+                                onChange={props.handleOutputLabelChange}
+                                displayEmpty
+                                disableUnderline
+                                MenuProps={{
+                                    disableScrollLock: true
+                                }}
+                            >
+                                {menuLabelItems}
+                            </Select>
+                        </FormControl>
+                    </div>
+                </div>
             </div>
         </div>
     )

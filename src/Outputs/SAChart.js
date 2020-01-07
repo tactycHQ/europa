@@ -232,7 +232,6 @@ export default function SAChart(props) {
                                     value={`${props.inputLabelMap[add1]}`}
                                     position="bottom"
                                     className={classes.xlabel}
-
                                 />
                             </XAxis>
                             <YAxis

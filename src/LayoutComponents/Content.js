@@ -162,9 +162,15 @@ export default function Content(props) {
                     <Route exact path="/distributions">
                         <Output
                             type="distributions"
-                            data={summaryChartData}
+                            distributions={props.distributions}
+                            currSolution={currSolution}
+                            findSolution = {findSolution}
                             outputs={props.outputs}
                             solutions={props.solutions}
+                            formats={props.formats}
+                            inputLabelMap={inputLabelMap}
+                            currInputVal={props.currInputVal}
+                            cases={props.cases}
                         />
                     </Route>
                     <Route exact path="/sensitivity">

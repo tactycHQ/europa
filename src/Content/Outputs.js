@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import SummaryChart from "../Outputs/SummaryChart"
 import SAChart from "../Outputs/SAChart"
+import DistributionChart from "../Outputs/DistributionChart";
 
 
 const chartColors = [
@@ -85,6 +86,24 @@ export default function Output(props) {
         )
     }
 
+    const createDistcharts = (currCategory, currOutputCell) => {
+        return (
+            <DistributionChart
+                distributions={props.distributions}
+                currSolution={props.currSolution}
+                findSolution={props.findSolution}
+                inputLabelMap={props.inputLabelMap}
+                formats={props.formats}
+                outputs={props.outputs}
+                currCategory={currCategory}
+                currOutputCell={currOutputCell}
+                handleOutputLabelChange={handleOutputLabelChange}
+                handleOutputCategoryChange={handleOutputCategoryChange}
+                cases={props.cases}
+            />
+        )
+    }
+
     const createCharts = () => {
 
         if (props.type === 'summary') {
@@ -97,6 +116,8 @@ export default function Output(props) {
                 </div>)
         } else if (props.type === 'sensitivity') {
             return createSAcharts(currCategory, currOutputCell)
+        } else if (props.type === 'distributions') {
+            return createDistcharts(currCategory, currOutputCell)
         }
     }
 
