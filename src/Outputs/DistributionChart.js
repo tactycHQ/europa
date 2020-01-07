@@ -48,17 +48,52 @@ export default function Distribution(props) {
             padding: '1%',
             background: 'linear-gradient(#FFFFFF 60%,#F4F4F4)'
         },
+        keyStatsContainer: {
+            display: 'flex',
+            justifyContent: 'center',
+            flexWrap:'wrap',
+            alignItems: 'center',
+            width: '100%',
+            margin: '1%',
+            padding: '1%',
+            background: 'linear-gradient(#FFFFFF 60%,#F4F4F4)'
+        },
+        keyStatsPaper: {
+            display: 'flex',
+            flexDirection: 'column',
+            // justifyContent: 'center',
+            // alignItems: 'center',
+            minWidth: '20%',
+            // maxHeight:'5%',
+            margin: '1%',
+            padding: '1%',
+            background: '#768C9B'
+        },
+        statsText: {
+            color: '#F4F9E9',
+            fontFamily: 'Questrial',
+            // textAlign:'center',
+            margin:'0px',
+            fontWeight: '20',
+            fontSize: '1em'
+        },
+        statFigure: {
+            color: '#F4F9E9',
+            textAlign:'center',
+            margin:'0px',
+            fontFamily: 'Questrial',
+            fontWeight: '10',
+            fontSize: '2.5em'
+        },
         cardHeaderContainer: {
             display: 'flex',
             justifyContent: 'space-between',
-            // backgroundColor:'orange',
-            // marginBottom:0
         },
         cardTitleHeader: {
             color: '#4F545A',
             fontFamily: 'Questrial',
             fontWeight: '20',
-            fontSize: '2em',
+            fontSize: '1.5em',
             marginTop: '3px',
             marginLeft: '7px',
             marginBottom: '10px',
@@ -134,12 +169,12 @@ export default function Distribution(props) {
                 labelposition = "top"
                 labelfill = '#A5014B'
                 labelWeight = 500
-                labelwidth=2
+                labelwidth = 2
             } else {
                 labelposition = "insideLeft"
                 labelfill = '#004666'
                 labelWeight = 350
-                labelwidth=1.5
+                labelwidth = 1.5
             }
             if (yAxisId === 'pdf') {
                 labelvalue = caseVal[0] + ": " + convert_format("0.0%", caseVal[1][1])
@@ -153,15 +188,15 @@ export default function Distribution(props) {
                 x={caseVal[1][0]}
                 stroke={labelfill}
                 strokeWidth={labelwidth}
+                strokeDasharray="3 3"
                 label={{
                     position: labelposition,
                     value: labelvalue,
                     fontFamily: 'Questrial',
-                    fontSize: '0.9em',
+                    fontSize: '0.8em',
                     fill: labelfill,
                     width: '10px',
-                    fontWeight: labelWeight,
-                    background: 'yellow'
+                    fontWeight: labelWeight
                 }}
                 isFront={true}
                 ifOverflow="extendDomain"
@@ -234,7 +269,8 @@ export default function Distribution(props) {
         return (
             <Paper className={classes.paper}>
                 <h3 className={classes.chartTitle}>Histogram for {outCat.labels[outAdd]}, {props.currCategory}</h3>
-                <h3 className={classes.chartNote}><em>Represents relative frequency of values assuming a standrard bin width</em></h3>
+                <h3 className={classes.chartNote}><em>Represents relative frequency of values assuming a standrard bin
+                    width</em></h3>
                 <ResponsiveContainer width="100%" height={300}>
                     <BarChart
                         data={hist_data}
@@ -253,11 +289,11 @@ export default function Distribution(props) {
                             type="number"
                             tick={<CustomizedXAxisTick fmt={outAdd_fmt}/>}
                             ticks={bin_centers}
-                            // tickLine={false}
+                            tickLine={false}
                             interval={0}
                             // padding={{top: 30, bottom: 30}}
-                            stroke='#3C4148'
-                            scale="linear"
+                            stroke='#004666'
+                            // scale="linear"
                             domain={[props.distributions.min[outAdd], props.distributions.max[outAdd]]}
                         />
                         <Label
@@ -293,7 +329,8 @@ export default function Distribution(props) {
 
         return (
             <Paper className={classes.paper}>
-                <h3 className={classes.chartTitle}>Estimated Probability Distribution for {outCat.labels[outAdd]}, {props.currCategory}</h3>
+                <h3 className={classes.chartTitle}>Estimated Probability Distribution
+                    for {outCat.labels[outAdd]}, {props.currCategory}</h3>
                 <h3 className={classes.chartNote}><em>Represents probability of achievement</em></h3>
                 <ResponsiveContainer width="100%" height={350}>
                     <AreaChart
@@ -346,11 +383,40 @@ export default function Distribution(props) {
         )
     }
 
+    const generateKeyStats = (outAdd) => {
+        const xmin = props.distributions.min[outAdd]
+        const xmax = props.distributions.max[outAdd]
+        const xmean = props.distributions.mean[outAdd]
+        const xstd = props.distributions.std[outAdd]
+
+        return (
+            <div className={classes.keyStatsContainer}>
+                <Paper className={classes.keyStatsPaper}>
+                    <h2 className={classes.statsText}>{'Mean'}<h3
+                        className={classes.statFigure}>{convert_format(outAdd_fmt, xmean)}</h3></h2>
+                </Paper>
+                <Paper className={classes.keyStatsPaper}>
+                    <h2 className={classes.statsText}>{'Minimum'}<h3
+                        className={classes.statFigure}>{convert_format(outAdd_fmt, xmin)}</h3></h2>
+                </Paper>
+                <Paper className={classes.keyStatsPaper}>
+                    <h2 className={classes.statsText}>{'Maximum'}<h3
+                        className={classes.statFigure}>{convert_format(outAdd_fmt, xmax)}</h3></h2>
+                </Paper>
+                <Paper className={classes.keyStatsPaper}>
+                    <h2 className={classes.statsText}>{'Standard Deviation'}<h3
+                        className={classes.statFigure}>{convert_format(outAdd_fmt, xstd)}</h3></h2>
+                </Paper>
+            </div>
+        )
+    }
+
 
     //Execute Functions
     const caseVals = processCases()
     const histChart = generateHistChart(outAdd, caseVals)
     const probChart = generateProbChart(outAdd, caseVals)
+    const keyStats = generateKeyStats(outAdd)
 
     return (
         <Card className={classes.saCard} key={"dist" + props.currOutputCell}>
@@ -362,6 +428,7 @@ export default function Distribution(props) {
                            handleOutputCategoryChange={props.handleOutputCategoryChange}
                            currOutputCell={props.currOutputCell}
                            currCategory={props.currCategory}/>
+            {keyStats}
             {histChart}
             {probChart}
         </Card>
