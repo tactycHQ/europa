@@ -12,7 +12,7 @@ import {
     ResponsiveContainer,
     ReferenceLine,
     Label,
-    Legend
+    Legend, ReferenceDot
 } from 'recharts'
 import Paper from '@material-ui/core/Paper'
 import {Card} from "@material-ui/core";
@@ -111,27 +111,58 @@ export default function Distribution(props) {
     }
     const outAdd = getOutAdd()
     const outAdd_fmt = props.formats[outAdd]
-
+    const probs = props.distributions.prob[outAdd]
 
     const processCases = () => {
         return Object.entries(props.cases[0]).reduce((acc, caseData) => {
             const caseName = caseData[0]
             const inputCombo = caseData[1]
             const caseOutVal = props.findSolution(inputCombo)[outAdd]
-            acc[caseName] = caseOutVal
+            acc[caseName] = [caseOutVal, probs[caseOutVal][1]]
             return acc
-        }, {'Current': props.currSolution[outAdd]})
+        }, {'Current': [props.currSolution[outAdd], probs[props.currSolution[outAdd]][1]]})
     }
 
-    const createRefBars = (caseVals) => {
-        return Object.entries(caseVals).map((caseVal, idx) => {
-            console.log(caseVal[1])
+    const createRefBars = (caseVals, yAxisId) => {
+        return Object.entries(caseVals).map((caseVal) => {
+            let labelposition
+            let labelfill
+            let labelWeight
+            let labelvalue
+            let labelwidth
+            if (caseVal[0] === "Current") {
+                labelposition = "top"
+                labelfill = '#A5014B'
+                labelWeight = 500
+                labelwidth=2
+            } else {
+                labelposition = "insideLeft"
+                labelfill = '#004666'
+                labelWeight = 350
+                labelwidth=1.5
+            }
+            if (yAxisId === 'pdf') {
+                labelvalue = caseVal[0] + ": " + convert_format("0.0%", caseVal[1][1])
+            } else {
+                labelvalue = caseVal[0] + ": " + convert_format(outAdd_fmt, caseVal[1][0])
+            }
+
             return <ReferenceLine
                 key={caseVal[0]}
-                yAxisId="pdf"
-                x={caseVal[1]}
-                stroke='#004666'
-                label={{position:'top',value:caseVal[0]+": "+convert_format(outAdd_fmt,caseVal[1]), fontFamily:'Questrial', fontSize:'0.9em', fill: '#004666'}}
+                yAxisId={yAxisId}
+                x={caseVal[1][0]}
+                stroke={labelfill}
+                strokeWidth={labelwidth}
+                label={{
+                    position: labelposition,
+                    value: labelvalue,
+                    fontFamily: 'Questrial',
+                    fontSize: '0.9em',
+                    fill: labelfill,
+                    width: '10px',
+                    fontWeight: labelWeight,
+                    background: 'yellow'
+                }}
                 isFront={true}
                 ifOverflow="extendDomain"
             />
@@ -142,12 +173,10 @@ export default function Distribution(props) {
         return Object.entries(probs).map(ValProbPair => {
             const outVal = parseFloat(ValProbPair[0])
             const pdf = ValProbPair[1][0]
-            const cdf = ValProbPair[1][1]
 
             return ({
                 value: outVal,
-                pdf: pdf,
-                cdf: cdf
+                pdf: pdf
             })
         })
     }
@@ -196,23 +225,26 @@ export default function Distribution(props) {
         )
     }
 
-    const generateHistChart = (outAdd) => {
+    const generateHistChart = (outAdd, caseVals) => {
         const counts = props.distributions.count[outAdd]
         const bin_centers = createBinCenters(counts)
         const hist_data = createHistogramData(bin_centers, counts)
+        const referenceBars = createRefBars(caseVals, "count")
 
         return (
             <Paper className={classes.paper}>
+                <h3 className={classes.chartTitle}>Histogram for {outCat.labels[outAdd]}, {props.currCategory}</h3>
+                <h3 className={classes.chartNote}><em>Represents relative frequency of values assuming a standrard bin width</em></h3>
                 <ResponsiveContainer width="100%" height={300}>
                     <BarChart
                         data={hist_data}
-                        margin={{top: 15, right: 0, left: 0, bottom: 0}}
+                        margin={{top: 50, right: 100, left: 100, bottom: 0}}
                         barSize={20}
                         style={{background: 'linear-gradient(#FFFFFF 60%,#F4F4F4)'}}
                     >
                         <defs>
                             <linearGradient id={'#004666'} x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor={'#004666'} stopOpacity={1.0}/>
+                                <stop offset="0%" stopColor={'#004666'} stopOpacity={0.6}/>
                                 <stop offset="75%" stopColor={'#004666'} stopOpacity={0.4}/>
                             </linearGradient>
                         </defs>
@@ -237,11 +269,13 @@ export default function Distribution(props) {
                             yAxisId="count"
                             hide={true}/>
                         <Tooltip/>
+                        {referenceBars}
                         <Bar
                             yAxisId="count"
                             dataKey="count"
                             fill={color_url}
-                            isAnimationActive={false}/>
+                            isAnimationActive={false}>
+                        </Bar>
                     </BarChart>
                 </ResponsiveContainer>
             </Paper>
@@ -249,9 +283,8 @@ export default function Distribution(props) {
     }
 
     const generateProbChart = (outAdd, caseVals) => {
-        const probs = props.distributions.prob[outAdd]
         const prob_data = createProbData(probs)
-        const referenceBars = createRefBars(caseVals)
+        const referenceBars = createRefBars(caseVals, "pdf")
 
 
         //Combine with cases
@@ -260,10 +293,12 @@ export default function Distribution(props) {
 
         return (
             <Paper className={classes.paper}>
+                <h3 className={classes.chartTitle}>Estimated Probability Distribution for {outCat.labels[outAdd]}, {props.currCategory}</h3>
+                <h3 className={classes.chartNote}><em>Represents probability of achievement</em></h3>
                 <ResponsiveContainer width="100%" height={350}>
                     <AreaChart
                         data={prob_data}
-                        margin={{top: 15, right: 50, left: 50, bottom: 0}}
+                        margin={{top: 50, right: 100, left: 100, bottom: 0}}
                         barSize={20}
                     >
                         <defs>
@@ -314,7 +349,7 @@ export default function Distribution(props) {
 
     //Execute Functions
     const caseVals = processCases()
-    const histChart = generateHistChart(outAdd)
+    const histChart = generateHistChart(outAdd, caseVals)
     const probChart = generateProbChart(outAdd, caseVals)
 
     return (

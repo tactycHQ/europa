@@ -56,7 +56,6 @@ export default function SAChart(props) {
         },
         chartTitle: {
             fontFamily: 'Questrial',
-            // background: '#7C97B7',
             fontSize: '1.2em',
             fontWeight: '300',
             color: '#3C4148',
