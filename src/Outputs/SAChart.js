@@ -282,11 +282,13 @@ export default function SAChart(props) {
             <div className={classes.cardHeaderContainer}>
                 <h2 className={classes.cardTitleHeader}>Sensitivity Analysis</h2>
             </div>
-            <LabelSelector outputs={props.outputs}
-                           handleOutputLabelChange={props.handleOutputLabelChange}
-                           handleOutputCategoryChange={props.handleOutputCategoryChange}
-                           currOutputCell={props.currOutputCell}
-                           currCategory={props.currCategory}/>
+            <LabelSelector
+                type="withLabel"
+                outputs={props.outputs}
+                handleOutputLabelChange={props.handleOutputLabelChange}
+                handleOutputCategoryChange={props.handleOutputCategoryChange}
+                currOutputCell={props.currOutputCell}
+                currCategory={props.currCategory}/>
             {tables}
         </Card>
     )

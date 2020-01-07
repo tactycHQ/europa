@@ -3,6 +3,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import SummaryChart from "../Outputs/SummaryChart"
 import SAChart from "../Outputs/SAChart"
 import DistributionChart from "../Outputs/DistributionChart";
+import InputImportance from "../Outputs/InputImportance";
 
 
 const chartColors = [
@@ -17,21 +18,30 @@ const chartColors = [
 export default function Output(props) {
 
 
+    const getWidth = () => {
+        if (['summary','distributions','sensitivity'].includes(props.type)) {
+            return '72.5%'}
+            else {
+                return '100%'
+    }}
+    let outputWidth=getWidth()
+
+
     //Defining Styles
     const useStyles = makeStyles(theme => ({
         root: {
             display: 'flex',
             minHeight: '100vh',
-            width: '72.5%',
+            width: outputWidth,
             marginLeft: '12%',
             flexWrap: 'wrap',
             justifyContent: 'center',
-            padding: '8px'
+            padding: '8px',
         },
         summaryContainer: {
             display: 'flex',
-            width:'100%',
-            flexWrap:'wrap'
+            width: '100%',
+            flexWrap: 'wrap'
         }
 
     }))
@@ -105,6 +115,18 @@ export default function Output(props) {
         )
     }
 
+    const createVarianceCharts = (currCategory) => {
+        return (
+            <InputImportance
+                inputLabelMap={props.inputLabelMap}
+                outputs={props.outputs}
+                currCategory={currCategory}
+                variance={props.variance}
+                handleOutputCategoryChange={handleOutputCategoryChange}
+            />
+        )
+    }
+
     const createCharts = () => {
 
         if (props.type === 'summary') {
@@ -119,8 +141,11 @@ export default function Output(props) {
             return createSAcharts(currCategory, currOutputCell)
         } else if (props.type === 'distributions') {
             return createDistcharts(currCategory, currOutputCell)
+        } else if (props.type === 'inputimportance') {
+            return createVarianceCharts(currCategory)
         }
     }
+
 
 //Function executions
     const final_charts = createCharts()

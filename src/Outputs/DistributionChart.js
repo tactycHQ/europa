@@ -51,7 +51,7 @@ export default function Distribution(props) {
         keyStatsContainer: {
             display: 'flex',
             justifyContent: 'center',
-            flexWrap:'wrap',
+            flexWrap: 'wrap',
             alignItems: 'center',
             width: '100%',
             margin: '1%',
@@ -65,20 +65,20 @@ export default function Distribution(props) {
             // maxHeight:'5%',
             margin: '1%',
             padding: '1%',
-            background: '#768C9B'
+            background: '#006E9F'
         },
         statsText: {
             color: '#F4F9E9',
             fontFamily: 'Questrial',
             // textAlign:'center',
-            margin:'0px',
+            margin: '0px',
             fontWeight: '20',
             fontSize: '1em'
         },
         statFigure: {
             color: '#F4F9E9',
-            textAlign:'center',
-            margin:'0px',
+            textAlign: 'center',
+            margin: '0px',
             fontFamily: 'Questrial',
             fontWeight: '10',
             fontSize: '2.2em'
@@ -124,11 +124,10 @@ export default function Distribution(props) {
             fill: '#4F545A',
             textAnchor: 'left'
         }
-
     }))
     const classes = useStyles()
-    const color_url = "url(#" + '#004666' + ")"
-    const area_color_url = "url(#" + '#41C0EB' + ")"
+    const color_url = "url(#" + '#006E9F' + ")"
+    const area_color_url = "url(#" + '#006E9F' + ")"
 
 
     // Get address of outout label selected from dropdown
@@ -171,7 +170,7 @@ export default function Distribution(props) {
                 labelWeight = 600
                 labelwidth = 4
                 labelFront = true
-                labelDash="5 0"
+                labelDash = "5 0"
             } else {
                 labelposition = "insideLeft"
                 labelfill = '#DB0263'
@@ -264,9 +263,7 @@ export default function Distribution(props) {
         )
     }
 
-    const generateHistChart = (outAdd, caseVals) => {
-        const counts = props.distributions.count[outAdd]
-        const bin_centers = createBinCenters(counts)
+    const generateHistChart = (outAdd, caseVals, counts, bin_centers) => {
         const hist_data = createHistogramData(bin_centers, counts)
         const referenceBars = createRefBars(caseVals, "count")
 
@@ -283,9 +280,9 @@ export default function Distribution(props) {
                         // style={{background: 'linear-gradient(#FFFFFF 60%,#F4F4F4)'}}
                     >
                         <defs>
-                            <linearGradient id={'#004666'} x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor={'#004666'} stopOpacity={0.4}/>
-                                <stop offset="75%" stopColor={'#004666'} stopOpacity={0.15}/>
+                            <linearGradient id={'#006E9F'} x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="0%" stopColor={'#006E9F'} stopOpacity={0.5}/>
+                                <stop offset="75%" stopColor={'#006E9F'} stopOpacity={0.25}/>
                             </linearGradient>
                         </defs>
                         <XAxis
@@ -322,7 +319,7 @@ export default function Distribution(props) {
         )
     }
 
-    const generateProbChart = (outAdd, caseVals) => {
+    const generateProbChart = (outAdd, caseVals, ticks) => {
         const prob_data = createProbData(probs)
         const referenceBars = createRefBars(caseVals, "pdf")
 
@@ -334,7 +331,8 @@ export default function Distribution(props) {
             <Paper className={classes.paper}>
                 <h3 className={classes.chartTitle}>Estimated Probability of Achievement
                     for {outCat.labels[outAdd]}, {props.currCategory}</h3>
-                <h3 className={classes.chartNote}><em>Represents probability that Case will be achieved or exceeded</em></h3>
+                <h3 className={classes.chartNote}><em>Represents probability that Case will be achieved or exceeded</em>
+                </h3>
                 <ResponsiveContainer width="100%" height={350}>
                     <AreaChart
                         data={prob_data}
@@ -344,17 +342,17 @@ export default function Distribution(props) {
                         <defs>
                             {/*<linearGradient id={'#41C0EB'} x1="0" y1="0" x2="0" y2="1">*/}
                             <linearGradient id={'#41C0EB'} x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%" stopColor="#768C9B" stopOpacity={0.7}/>
-                                <stop offset="95%" stopColor="#768C9B" stopOpacity={0.1}/>
+                                <stop offset="5%" stopColor="#006E9F" stopOpacity={0.7}/>
+                                <stop offset="95%" stopColor="#006E9F" stopOpacity={0.1}/>
                             </linearGradient>
                         </defs>
                         <XAxis
                             dataKey="value"
                             type="number"
                             tick={<CustomizedXAxisTick fmt={outAdd_fmt}/>}
-                            // ticks={bin_centers}
+                            ticks={ticks}
                             tickLine={false}
-                            interval="preserveStartEnd"
+                            interval={0}
                             padding={{top: 30, bottom: 30}}
                             stroke='#768C9B'
                             // scale="linear"
@@ -395,20 +393,22 @@ export default function Distribution(props) {
         return (
             <div className={classes.keyStatsContainer}>
                 <Paper className={classes.keyStatsPaper}>
-                    <h2 className={classes.statsText}>{'Mean'}<h3
-                        className={classes.statFigure}>{convert_format(outAdd_fmt, xmean)}</h3></h2>
+                    <h2 className={classes.statsText}>{'Mean'}</h2>
+                    <h3
+                        className={classes.statFigure}>{convert_format(outAdd_fmt, xmean)}
+                    </h3>
                 </Paper>
                 <Paper className={classes.keyStatsPaper}>
-                    <h2 className={classes.statsText}>{'Minimum'}<h3
-                        className={classes.statFigure}>{convert_format(outAdd_fmt, xmin)}</h3></h2>
+                    <h2 className={classes.statsText}>{'Minimum'}</h2>
+                    <h3 className={classes.statFigure}>{convert_format(outAdd_fmt, xmin)}</h3>
                 </Paper>
                 <Paper className={classes.keyStatsPaper}>
-                    <h2 className={classes.statsText}>{'Maximum'}<h3
-                        className={classes.statFigure}>{convert_format(outAdd_fmt, xmax)}</h3></h2>
+                    <h2 className={classes.statsText}> {'Maximum'}</h2>
+                    <h3 className={classes.statFigure}>{convert_format(outAdd_fmt, xmax)}</h3>
                 </Paper>
                 <Paper className={classes.keyStatsPaper}>
-                    <h2 className={classes.statsText}>{'Standard Deviation'}<h3
-                        className={classes.statFigure}>{convert_format(outAdd_fmt, xstd)}</h3></h2>
+                    <h2 className={classes.statsText}> {'Standard Deviation'}</h2>
+                    <h3 className={classes.statFigure}>{convert_format(outAdd_fmt, xstd)}</h3>
                 </Paper>
             </div>
         )
@@ -417,8 +417,10 @@ export default function Distribution(props) {
 
     //Execute Functions
     const caseVals = processCases()
-    const histChart = generateHistChart(outAdd, caseVals)
-    const probChart = generateProbChart(outAdd, caseVals)
+    const counts = props.distributions.count[outAdd]
+    const bin_centers = createBinCenters(counts)
+    const histChart = generateHistChart(outAdd, caseVals, counts, bin_centers)
+    const probChart = generateProbChart(outAdd, caseVals, bin_centers)
     const keyStats = generateKeyStats(outAdd)
 
     return (
@@ -426,11 +428,13 @@ export default function Distribution(props) {
             <div className={classes.cardHeaderContainer}>
                 <h2 className={classes.cardTitleHeader}>Output Distributions</h2>
             </div>
-            <LabelSelector outputs={props.outputs}
-                           handleOutputLabelChange={props.handleOutputLabelChange}
-                           handleOutputCategoryChange={props.handleOutputCategoryChange}
-                           currOutputCell={props.currOutputCell}
-                           currCategory={props.currCategory}/>
+            <LabelSelector
+                type="withLabel"
+                outputs={props.outputs}
+                handleOutputLabelChange={props.handleOutputLabelChange}
+                handleOutputCategoryChange={props.handleOutputCategoryChange}
+                currOutputCell={props.currOutputCell}
+                currCategory={props.currCategory}/>
             {keyStats}
             {histChart}
             {probChart}

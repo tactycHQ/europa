@@ -3,7 +3,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import Content from "./Content"
 import TopBar from "./TopBar"
 import Spinner from "../Other/Spinner"
-import {getSolutions, getMetaData, getFormats} from "../api/api"
+import {getSolutions, getMetaData, getFormats, getVarianceAnalysis} from "../api/api"
 
 
 function extractDefaults(values) {
@@ -40,6 +40,7 @@ export default function Layout() {
     }));
     const classes = useStyles()
     const [solutions, setSolutions] = useState(null)
+    const [variance, setVariance] = useState(null)
     const [distributions, setDistributions] = useState(null)
     const [formats, setFormats] = useState("0.0")
     const [currInputVal, setcurrInputVal] = useState(null)
@@ -58,6 +59,7 @@ export default function Layout() {
             const metadata = await getMetaData()
             const _solutions = await getSolutions()
             const _formats = await getFormats()
+            const _variance = await getVarianceAnalysis()
             setSolutions(_solutions.solutions)
             setDistributions(_solutions.distributions)
 
@@ -66,6 +68,8 @@ export default function Layout() {
             }
 
             setFormats(_formats)
+            setFormats(_formats)
+            setVariance(_variance)
             setDashName(metadata.name)
             setCases(metadata.cases)
             setInputs(metadata.inputs)
@@ -109,16 +113,17 @@ export default function Layout() {
     const createContent = () => {
         if (isLoaded) {
             return <Content handleSliderChange={handleSliderChange}
-                         handleCaseChange={handleCaseChange}
-                         solutions={solutions}
-                         currInputVal={currInputVal}
-                         distributions={distributions}
-                         formats={formats}
-                         inputs={inputs}
-                         outputs={outputs}
-                         charts={charts}
-                         cases={cases}
-                />
+                            handleCaseChange={handleCaseChange}
+                            solutions={solutions}
+                            currInputVal={currInputVal}
+                            distributions={distributions}
+                            formats={formats}
+                            inputs={inputs}
+                            outputs={outputs}
+                            charts={charts}
+                            cases={cases}
+                            variance={variance}
+            />
         } else {
             return <Spinner className={classes.spinner}/>
         }

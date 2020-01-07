@@ -13,6 +13,7 @@ import SettingsBackupRestoreSharpIcon from '@material-ui/icons/SettingsBackupRes
 import VerifiedUserSharpIcon from '@material-ui/icons/VerifiedUserSharp'
 import CloudDownloadSharpIcon from '@material-ui/icons/CloudDownloadSharp'
 import PieChartSharpIcon from '@material-ui/icons/PieChartSharp'
+import SignalCellular3BarSharpIcon from '@material-ui/icons/SignalCellular3BarSharp';
 import TimelineSharpIcon from '@material-ui/icons/TimelineSharp'
 import GraphicEqSharpIcon from '@material-ui/icons/GraphicEqSharp'
 import {NavLink} from 'react-router-dom'
@@ -42,8 +43,8 @@ export default function SideBar() {
             margin: '5px',
             minHeight: '1px',
             maxHeight: '1px',
-            marginTop:'10%',
-            marginBottom:'10%'
+            marginTop: '10%',
+            marginBottom: '10%'
         },
         buttons: {
             display: 'flex',
@@ -147,6 +148,12 @@ export default function SideBar() {
                         <ListItem className={classes.buttons} button={true}>
                             <FilterCenterFocusIcon className={classes.icon}/>
                             <div className={classes.buttonLabel}>Scenario Analysis</div>
+                        </ListItem>
+                    </NavLink>
+                    <NavLink to="/waterfall" style={{textDecoration: 'none'}}>
+                        <ListItem className={classes.buttons} button={true}>
+                            <SignalCellular3BarSharpIcon className={classes.icon}/>
+                            <div className={classes.buttonLabel}>Waterfall Analysis</div>
                         </ListItem>
                     </NavLink>
                     <NavLink to="/dependency" style={{textDecoration: 'none'}}>

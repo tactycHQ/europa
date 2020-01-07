@@ -118,35 +118,6 @@ export default function Content(props) {
     const saChartData = createSAData()
 
 
-    //const customRoutes = summaryChartData.map(chartCategory => {
-    //     return (
-    //         <Route exact path={[`/outputs/${chartCategory.category}`]} key={chartCategory.category}>
-    //             <SideBar className={classes.sidebar}/>
-    //             <Output
-    //                 type="detail"
-    //                 summaryChartData={[chartCategory]}
-    //                 saChartData={saChartData}
-    //                 currInputVal={props.currInputVal}
-    //                 findSolution = {findSolution}
-    //                 chartSize={"100%"}
-    //                 inputLabelMap={inputLabelMap}
-    //                 formats={props.formats}
-    //                 outputs={props.outputs}
-    //                 domains={props.domains}
-    //                 solutions={props.solutions}
-    //             />
-    //             <Input
-    //                 handleSliderChange={props.handleSliderChange}
-    //                 handleCaseChange={props.handleCaseChange}
-    //                 currInputVal={props.currInputVal}
-    //                 inputs={props.inputs}
-    //                 checked={checked}
-    //                 cases={props.cases}
-    //             />
-    //         </Route>
-    //     )
-    // })
-
     return (
         <div className={classes.root}>
             <div className={classes.content}>
@@ -158,6 +129,13 @@ export default function Content(props) {
                             data={summaryChartData}
                             outputs={props.outputs}
                         />
+                        <Input
+                    handleSliderChange={props.handleSliderChange}
+                    handleCaseChange={props.handleCaseChange}
+                    currInputVal={props.currInputVal}
+                    inputs={props.inputs}
+                    cases={props.cases}
+                />
                     </Route>
                     <Route exact path="/distributions">
                         <Output
@@ -172,6 +150,13 @@ export default function Content(props) {
                             currInputVal={props.currInputVal}
                             cases={props.cases}
                         />
+                        <Input
+                    handleSliderChange={props.handleSliderChange}
+                    handleCaseChange={props.handleCaseChange}
+                    currInputVal={props.currInputVal}
+                    inputs={props.inputs}
+                    cases={props.cases}
+                />
                     </Route>
                     <Route exact path="/sensitivity">
                         <Output
@@ -184,11 +169,20 @@ export default function Content(props) {
                             solutions={props.solutions}
                             currInputVal={props.currInputVal}
                         />
+                        <Input
+                    handleSliderChange={props.handleSliderChange}
+                    handleCaseChange={props.handleCaseChange}
+                    currInputVal={props.currInputVal}
+                    inputs={props.inputs}
+                    cases={props.cases}
+                />
                     </Route>
                     <Route exact path="/inputimportance">
                         <Output
                             type="inputimportance"
-                            data={summaryChartData}
+                            outputs={props.outputs}
+                            inputLabelMap={inputLabelMap}
+                            variance={props.variance}
                         />
                     </Route>
                     <Route exact path="/scenario">
@@ -201,13 +195,6 @@ export default function Content(props) {
                         <div>This is home</div>
                     </Route>
                 </Switch>
-                <Input
-                    handleSliderChange={props.handleSliderChange}
-                    handleCaseChange={props.handleCaseChange}
-                    currInputVal={props.currInputVal}
-                    inputs={props.inputs}
-                    cases={props.cases}
-                />
             </div>
         </div>
     )
