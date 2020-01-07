@@ -34,7 +34,7 @@ export default function Distribution(props) {
 
     //Styles
     const useStyles = makeStyles(theme => ({
-        saCard: {
+        distCard: {
             display: 'flex',
             flexDirection: 'column',
             width: '100%'
@@ -55,8 +55,6 @@ export default function Distribution(props) {
             alignItems: 'center',
             width: '100%',
             margin: '1%',
-            padding: '1%',
-            background: 'linear-gradient(#FFFFFF 60%,#F4F4F4)'
         },
         keyStatsPaper: {
             display: 'flex',
@@ -83,7 +81,7 @@ export default function Distribution(props) {
             margin:'0px',
             fontFamily: 'Questrial',
             fontWeight: '10',
-            fontSize: '2.5em'
+            fontSize: '2.2em'
         },
         cardHeaderContainer: {
             display: 'flex',
@@ -93,7 +91,7 @@ export default function Distribution(props) {
             color: '#4F545A',
             fontFamily: 'Questrial',
             fontWeight: '20',
-            fontSize: '1.5em',
+            fontSize: '2em',
             marginTop: '3px',
             marginLeft: '7px',
             marginBottom: '10px',
@@ -165,21 +163,27 @@ export default function Distribution(props) {
             let labelWeight
             let labelvalue
             let labelwidth
+            let labelFront
+            let labelDash
             if (caseVal[0] === "Current") {
                 labelposition = "top"
-                labelfill = '#A5014B'
-                labelWeight = 500
-                labelwidth = 2
+                labelfill = '#DB0263'
+                labelWeight = 400
+                labelwidth = 4
+                labelFront = true
+                labelDash="5 0"
             } else {
                 labelposition = "insideLeft"
-                labelfill = '#004666'
+                labelfill = '#DB0263'
                 labelWeight = 350
-                labelwidth = 1.5
+                labelwidth = 0.7
+                labelFront = false
+                labelDash = "3 3"
             }
             if (yAxisId === 'pdf') {
-                labelvalue = caseVal[0] + ": " + convert_format("0.0%", caseVal[1][1])
+                labelvalue = caseVal[0] + " " + convert_format("0.0%", caseVal[1][1])
             } else {
-                labelvalue = caseVal[0] + ": " + convert_format(outAdd_fmt, caseVal[1][0])
+                labelvalue = caseVal[0] + " " + convert_format(outAdd_fmt, caseVal[1][0])
             }
 
             return <ReferenceLine
@@ -188,17 +192,17 @@ export default function Distribution(props) {
                 x={caseVal[1][0]}
                 stroke={labelfill}
                 strokeWidth={labelwidth}
-                strokeDasharray="3 3"
+                strokeDasharray={labelDash}
                 label={{
                     position: labelposition,
                     value: labelvalue,
                     fontFamily: 'Questrial',
-                    fontSize: '0.8em',
+                    fontSize: '0.9em',
                     fill: labelfill,
                     width: '10px',
                     fontWeight: labelWeight
                 }}
-                isFront={true}
+                isFront={labelFront}
                 ifOverflow="extendDomain"
             />
         })
@@ -280,8 +284,8 @@ export default function Distribution(props) {
                     >
                         <defs>
                             <linearGradient id={'#004666'} x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor={'#004666'} stopOpacity={0.6}/>
-                                <stop offset="75%" stopColor={'#004666'} stopOpacity={0.4}/>
+                                <stop offset="0%" stopColor={'#004666'} stopOpacity={0.4}/>
+                                <stop offset="75%" stopColor={'#004666'} stopOpacity={0.15}/>
                             </linearGradient>
                         </defs>
                         <XAxis
@@ -322,16 +326,15 @@ export default function Distribution(props) {
         const prob_data = createProbData(probs)
         const referenceBars = createRefBars(caseVals, "pdf")
 
-
         //Combine with cases
         prob_data.sort((a, b) => a.value - b.value)
 
 
         return (
             <Paper className={classes.paper}>
-                <h3 className={classes.chartTitle}>Estimated Probability Distribution
+                <h3 className={classes.chartTitle}>Estimated Probability of Achievement
                     for {outCat.labels[outAdd]}, {props.currCategory}</h3>
-                <h3 className={classes.chartNote}><em>Represents probability of achievement</em></h3>
+                <h3 className={classes.chartNote}><em>Represents probability that Case will be achieved or exceeded</em></h3>
                 <ResponsiveContainer width="100%" height={350}>
                     <AreaChart
                         data={prob_data}
@@ -341,8 +344,8 @@ export default function Distribution(props) {
                         <defs>
                             {/*<linearGradient id={'#41C0EB'} x1="0" y1="0" x2="0" y2="1">*/}
                             <linearGradient id={'#41C0EB'} x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8}/>
-                                <stop offset="95%" stopColor="#82ca9d" stopOpacity={0}/>
+                                <stop offset="5%" stopColor="#768C9B" stopOpacity={0.7}/>
+                                <stop offset="95%" stopColor="#768C9B" stopOpacity={0.1}/>
                             </linearGradient>
                         </defs>
                         <XAxis
@@ -353,7 +356,7 @@ export default function Distribution(props) {
                             tickLine={false}
                             interval="preserveStartEnd"
                             padding={{top: 30, bottom: 30}}
-                            stroke='#3C4148'
+                            stroke='#768C9B'
                             // scale="linear"
                             domain={[props.distributions.min[outAdd], props.distributions.max[outAdd]]}
                         />
@@ -374,7 +377,7 @@ export default function Distribution(props) {
                               type="monotone"
                               dataKey="pdf"
                               fill={area_color_url}
-                              stroke="#82ca9d"
+                              stroke="#F4F9E9"
                               connectNulls={true}
                               isAnimationActive={false}/>
                     </AreaChart>
@@ -419,7 +422,7 @@ export default function Distribution(props) {
     const keyStats = generateKeyStats(outAdd)
 
     return (
-        <Card className={classes.saCard} key={"dist" + props.currOutputCell}>
+        <Card className={classes.distCard} key={"dist" + props.currOutputCell}>
             <div className={classes.cardHeaderContainer}>
                 <h2 className={classes.cardTitleHeader}>Output Distributions</h2>
             </div>
