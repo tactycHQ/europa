@@ -4,6 +4,7 @@
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Outputs/DistributionChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/DistributionChart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Outputs/SAChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/SAChart.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -124,13 +125,6 @@
       <workItem from="1578150062953" duration="75000" />
       <workItem from="1578150192920" duration="17487000" />
       <workItem from="1578238258143" duration="21876000" />
-    </task>
-    <task id="LOCAL-00052" summary="First commit">
-      <created>1576790200558</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1576790200558</updated>
     </task>
     <task id="LOCAL-00053" summary="First commit">
       <created>1576791426464</created>
@@ -468,7 +462,14 @@
       <option name="project" value="LOCAL" />
       <updated>1578373516743</updated>
     </task>
-    <option name="localTasksCounter" value="101" />
+    <task id="LOCAL-00101" summary="First commit">
+      <created>1578376099575</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1578376099575</updated>
+    </task>
+    <option name="localTasksCounter" value="102" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -36,7 +36,7 @@ export default function SAChart(props) {
             alignItems: 'center',
             margin: '1%',
             padding: '1%',
-            background: 'linear-gradient(#FFFFFF 60%,#F4F4F4)'
+            background: 'linear-gradient(#F4F4F4 40%,#F4F4F4)'
         },
         cardHeaderContainer: {
             display: 'flex',

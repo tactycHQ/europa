@@ -46,7 +46,7 @@ export default function Distribution(props) {
             alignItems: 'center',
             margin: '1%',
             padding: '1%',
-            background: 'linear-gradient(#FFFFFF 60%,#F4F4F4)'
+            background: 'linear-gradient(#F4F4F4 0%,#F4F4F4 100%)',
         },
         keyStatsContainer: {
             display: 'flex',
@@ -157,7 +157,7 @@ export default function Distribution(props) {
     }
 
     const createRefBars = (caseVals, yAxisId) => {
-        return Object.entries(caseVals).map((caseVal) => {
+        return Object.entries(caseVals).map((caseVal, idx) => {
             let labelposition
             let labelfill
             let labelWeight
@@ -272,7 +272,7 @@ export default function Distribution(props) {
 
         return (
             <Paper className={classes.paper}>
-                <h3 className={classes.chartTitle}>Histogram for {outCat.labels[outAdd]}, {props.currCategory}</h3>
+                <h3 className={classes.chartTitle}>Histogram for {props.currCategory}, {outCat.labels[outAdd]}</h3>
                 <h3 className={classes.chartNote}><em>Represents relative frequency of values assuming a standrard bin
                     width</em></h3>
                 <ResponsiveContainer width="100%" height={300}>
@@ -280,7 +280,7 @@ export default function Distribution(props) {
                         data={hist_data}
                         margin={{top: 50, right: 100, left: 100, bottom: 0}}
                         barSize={20}
-                        style={{background: 'linear-gradient(#FFFFFF 60%,#F4F4F4)'}}
+                        // style={{background: 'linear-gradient(#FFFFFF 60%,#F4F4F4)'}}
                     >
                         <defs>
                             <linearGradient id={'#004666'} x1="0" y1="0" x2="0" y2="1">
