@@ -16,15 +16,8 @@ import Paper from '@material-ui/core/Paper'
 import {Card} from "@material-ui/core";
 import {LabelSelector} from "./LabelSelector";
 import {convert_format} from "../utils/utils"
+import Fade from '@material-ui/core/Fade'
 
-const chartColors = [
-    '#004666',
-    '#A5014B',
-    '#247308',
-    '#41C0EB',
-    '#EC7404',
-    '#00044E'
-]
 
 export default function Distribution(props) {
 
@@ -432,7 +425,9 @@ export default function Distribution(props) {
                 handleOutputCategoryChange={props.handleOutputCategoryChange}
                 currOutputCell={props.currOutputCell}
                 currCategory={props.currCategory}/>
-            {keyStats}
+            <Fade in={true} timeout={1000}>
+                {keyStats}
+            </Fade>
             {histChart}
             {probChart}
         </Card>

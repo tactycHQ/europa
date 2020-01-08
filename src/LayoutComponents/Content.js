@@ -116,7 +116,7 @@ export default function Content(props) {
     const currSolution = findSolution(props.currInputVal)
     const summaryChartData = addLiveChartMetaData(currSolution)
     const saChartData = createSAData()
-
+    console.log(saChartData)
 
     return (
         <div className={classes.root}>
@@ -130,19 +130,19 @@ export default function Content(props) {
                             outputs={props.outputs}
                         />
                         <Input
-                    handleSliderChange={props.handleSliderChange}
-                    handleCaseChange={props.handleCaseChange}
-                    currInputVal={props.currInputVal}
-                    inputs={props.inputs}
-                    cases={props.cases}
-                />
+                            handleSliderChange={props.handleSliderChange}
+                            handleCaseChange={props.handleCaseChange}
+                            currInputVal={props.currInputVal}
+                            inputs={props.inputs}
+                            cases={props.cases}
+                        />
                     </Route>
                     <Route exact path="/distributions">
                         <Output
                             type="distributions"
                             distributions={props.distributions}
                             currSolution={currSolution}
-                            findSolution = {findSolution}
+                            findSolution={findSolution}
                             outputs={props.outputs}
                             solutions={props.solutions}
                             formats={props.formats}
@@ -151,12 +151,12 @@ export default function Content(props) {
                             cases={props.cases}
                         />
                         <Input
-                    handleSliderChange={props.handleSliderChange}
-                    handleCaseChange={props.handleCaseChange}
-                    currInputVal={props.currInputVal}
-                    inputs={props.inputs}
-                    cases={props.cases}
-                />
+                            handleSliderChange={props.handleSliderChange}
+                            handleCaseChange={props.handleCaseChange}
+                            currInputVal={props.currInputVal}
+                            inputs={props.inputs}
+                            cases={props.cases}
+                        />
                     </Route>
                     <Route exact path="/sensitivity">
                         <Output
@@ -164,18 +164,18 @@ export default function Content(props) {
                             data={saChartData}
                             outputs={props.outputs}
                             formats={props.formats}
-                            findSolution = {findSolution}
+                            findSolution={findSolution}
                             inputLabelMap={inputLabelMap}
                             solutions={props.solutions}
                             currInputVal={props.currInputVal}
                         />
                         <Input
-                    handleSliderChange={props.handleSliderChange}
-                    handleCaseChange={props.handleCaseChange}
-                    currInputVal={props.currInputVal}
-                    inputs={props.inputs}
-                    cases={props.cases}
-                />
+                            handleSliderChange={props.handleSliderChange}
+                            handleCaseChange={props.handleCaseChange}
+                            currInputVal={props.currInputVal}
+                            inputs={props.inputs}
+                            cases={props.cases}
+                        />
                     </Route>
                     <Route exact path="/inputimportance">
                         <Output
@@ -183,6 +183,13 @@ export default function Content(props) {
                             outputs={props.outputs}
                             inputLabelMap={inputLabelMap}
                             variance={props.variance}
+                        />
+                        <Input
+                            handleSliderChange={props.handleSliderChange}
+                            handleCaseChange={props.handleCaseChange}
+                            currInputVal={props.currInputVal}
+                            inputs={props.inputs}
+                            cases={props.cases}
                         />
                     </Route>
                     <Route exact path="/scenario">

@@ -44,13 +44,15 @@ export function LabelSelector(props) {
         formControl: {
             minWidth: 200,
             marginRight: '75px',
+            borderStyle: 'solid'
         },
         caseSelect: {
             // marginTop: '1px',
             fontFamily: 'Questrial',
             textAlign: 'center',
-            fontSize: '0.9em',
+            fontSize: '0.8em',
             background: '#F1F2EF',
+            // background: 'red',
         },
         caseItem: {
             fontFamily: 'Questrial',
@@ -143,6 +145,8 @@ export function LabelSelector(props) {
                         <h4 className={classes.labelSelectorText}>Category</h4>
                         <FormControl
                             className={classes.formControl}
+                            color={"secondary"}
+                            size="small"
                             // disableScrollLock={true}
                         >
                             <Select
