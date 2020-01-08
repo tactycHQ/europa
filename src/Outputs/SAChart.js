@@ -1,10 +1,16 @@
-import React from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import {AreaChart, XAxis, YAxis, Tooltip, Legend, Area, Label, ResponsiveContainer} from "recharts";
+import React from 'react'
+import {makeStyles} from '@material-ui/core/styles'
+import {AreaChart, XAxis, YAxis, Tooltip, Legend, Area, Label, ResponsiveContainer} from "recharts"
 import Paper from '@material-ui/core/Paper'
 import {convert_format} from "../utils/utils"
-import {LabelSelector} from "./LabelSelector";
-import {Card} from "@material-ui/core";
+import {LabelSelector} from "./LabelSelector"
+import {Card} from "@material-ui/core"
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
 
 const chartColors = [
@@ -36,7 +42,7 @@ export default function SAChart(props) {
             alignItems: 'center',
             margin: '1%',
             padding: '1%',
-            background: 'linear-gradient(#F4F4F4 40%,#F4F4F4)'
+            background: 'linear-gradient(#F4F4F4 10%,#EBEEF0)',
         },
         cardHeaderContainer: {
             display: 'flex',
@@ -79,6 +85,40 @@ export default function SAChart(props) {
             fontSize: '1.0em',
             fill: '#4F545A',
             textAnchor: 'left'
+        },
+        tableCell: {
+            fontFamily: 'Questrial',
+            fontSize: '0.9em',
+            fontWeight:'550',
+            textAlign: 'center',
+            color: '#3C4148',
+            background: '#FEFEFD',
+        },
+        topBoundCell: {
+            fontFamily: 'Questrial',
+            fontSize: '0.9em',
+            fontWeight: '500',
+            textAlign: 'center',
+            // background: '#B9D7E4',
+            color: '#001021',
+            background: '#D7DEE2',
+            // width:'15px'
+        },
+        leftBoundCell: {
+            fontFamily: 'Questrial',
+            fontSize: '0.9em',
+            fontWeight: '500',
+            textAlign: 'center',
+            // background: '#B9D7E4',
+            color: '#001021',
+            background: '#D7DEE2'
+        },
+        cornerCell: {
+            fontFamily: 'Questrial',
+            fontSize: '0',
+            textAlign: 'center',
+            // background: '#284B63',
+            // color: '#284B63'
         }
 
     }))
@@ -145,10 +185,10 @@ export default function SAChart(props) {
     }
 
     //Area chart creator
-    const generateTables = (outAdd) => {
-        const tables = props.data.map(tableData => {
-            const flexInputs = tableData.inputs
-            const bounds = tableData.bounds
+    const generateLineCharts = (outAdd) => {
+        const charts = props.data.map(chartData => {
+            const flexInputs = chartData.inputs
+            const bounds = chartData.bounds
             const add1 = flexInputs[0]
             const add2 = flexInputs[1]
             const out_fmt = props.formats[outAdd]
@@ -157,9 +197,8 @@ export default function SAChart(props) {
             const bounds1 = bounds[0][add1]
             const bounds2 = bounds[1][add2]
 
-            const table = bounds1.map((value1) => {
+            const lineChart = bounds1.map((value1) => {
                 const row = bounds2.reduce((acc, value2) => {
-
                     const combo = {
                         ...props.currInputVal,
                         [add1]: value1,
@@ -207,7 +246,7 @@ export default function SAChart(props) {
             })
 
             return (
-                <Paper className={classes.paper} key={tableData.inputs.toString() + outAdd.toString()}>
+                <Paper className={classes.paper} key={chartData.inputs.toString() + outAdd.toString()}>
                     <h3 className={classes.chartTitle}>{outCat.labels[outAdd]}, {props.currCategory}</h3>
                     <h3 className={classes.chartNote}><em>Sensitized
                         Variables:</em> {props.inputLabelMap[add2]}, {props.inputLabelMap[add1]}</h3>
@@ -215,7 +254,7 @@ export default function SAChart(props) {
                         <AreaChart
                             // width={730}
                             // height={250}
-                            data={table}
+                            data={lineChart}
                             margin={{top: 5, right: 20, left: 10, bottom: 30}}
                             baseValue="dataMin"
                         >
@@ -269,12 +308,74 @@ export default function SAChart(props) {
                 </Paper>
             )
         })
-        return tables
+        return charts
+    }
+
+    //Table chart creator
+    const generateTableCharts = (outAdd) => {
+        const charts = props.data.map(chartData => {
+            const flexInputs = chartData.inputs
+            const bounds = chartData.bounds
+            const add1 = flexInputs[0]
+            const add2 = flexInputs[1]
+            const out_fmt = props.formats[outAdd]
+            const add1_fmt = props.formats[add1]
+            const add2_fmt = props.formats[add2]
+            const bounds1 = bounds[0][add1]
+            const bounds2 = bounds[1][add2]
+
+            const body = bounds1.map((value1) => {
+                const row = bounds2.reduce((acc, value2, idx) => {
+                    const combo = {
+                        ...props.currInputVal,
+                        [add1]: value1,
+                        [add2]: value2
+                    }
+
+                    const answer = props.findSolution(combo)[outAdd]
+                    acc.push(<TableCell className={classes.tableCell}>{convert_format(out_fmt, answer)}</TableCell>)
+                    return acc
+                }, [<TableCell className={classes.leftBoundCell}>{convert_format(add1_fmt, value1)}</TableCell>])
+                return (
+                    <TableRow>
+                        {row}
+                    </TableRow>
+                )
+            })
+
+
+            const topRow = bounds2.reduce((acc, value2) => {
+                acc.push(<TableCell className={classes.topBoundCell}>{convert_format(add2_fmt, value2)}</TableCell>)
+                return acc
+            }, [<TableCell className={classes.cornerCell}>{convert_format(add1_fmt, 0)}</TableCell>])
+
+            return (
+                <Paper className={classes.paper} key={chartData.inputs.toString() + outAdd.toString()}>
+                    <h3 className={classes.chartTitle}>{outCat.labels[outAdd]}, {props.currCategory}</h3>
+                    <h3 className={classes.chartNote}><em>Sensitized
+                        Variables:</em> {props.inputLabelMap[add2]}, {props.inputLabelMap[add1]}</h3>
+                    <TableContainer>
+                        <Table>
+                            <TableHead>
+                            </TableHead>
+                            <TableBody>
+                                <TableRow>
+                                    {topRow}
+                                </TableRow>
+                                {body}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Paper>
+            )
+        })
+        return charts
     }
 
     //Execute Functions
     const outAdd = getOutAdd()
-    const tables = generateTables(outAdd)
+    const linecharts = generateLineCharts(outAdd)
+    const tablecharts = generateTableCharts(outAdd)
 
 
     return (
@@ -289,7 +390,8 @@ export default function SAChart(props) {
                 handleOutputCategoryChange={props.handleOutputCategoryChange}
                 currOutputCell={props.currOutputCell}
                 currCategory={props.currCategory}/>
-            {tables}
+            {/*{linecharts}*/}
+            {tablecharts}
         </Card>
     )
 }

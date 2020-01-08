@@ -26,8 +26,8 @@ export function LabelSelector(props) {
         labelSelectorText: {
             fontFamily: 'Questrial',
             fontSize: '1.0em',
-            fontWeight: '800',
-            color: '#4B719C',
+            fontWeight: '600',
+            color: '#006E9F',
             marginRight: '10px',
             marginTop: '0px',
             marginBottom: '0px'
