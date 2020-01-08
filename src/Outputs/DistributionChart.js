@@ -37,6 +37,7 @@ export default function Distribution(props) {
             margin: '1%',
             padding: '1%',
             background: 'linear-gradient(#F4F4F4 10%,#EBEEF0)',
+            // borderRadius:'64px'
         },
         keyStatsContainer: {
             display: 'flex',
