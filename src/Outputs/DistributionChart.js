@@ -7,17 +7,14 @@ import {
     Area,
     XAxis,
     YAxis,
-    LabelList,
     Tooltip,
     ResponsiveContainer,
     ReferenceLine,
-    Label,
-    Legend, ReferenceDot
+    Label
 } from 'recharts'
 import Paper from '@material-ui/core/Paper'
 import {Card} from "@material-ui/core";
 import {LabelSelector} from "./LabelSelector";
-import CardSettings from "./CardSettings";
 import {convert_format} from "../utils/utils"
 
 const chartColors = [

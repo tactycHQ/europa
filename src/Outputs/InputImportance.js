@@ -55,7 +55,22 @@ export default function InputImportance(props) {
             marginLeft: '7px',
             marginBottom: '10px',
             // backgroundColor:'blue'
-        }
+        },
+        chartTitle: {
+            fontFamily: 'Questrial',
+            // background: '#7C97B7',
+            fontSize: '1.2em',
+            fontWeight: '300',
+            color: '#3C4148',
+            marginBottom: '0'
+        },
+        chartNote: {
+            fontFamily: 'Questrial',
+            fontSize: '0.9em',
+            fontWeight: '300',
+            color: '#3C4148',
+            marginTop: '0'
+        },
     }))
     const classes = useStyles()
 
@@ -68,19 +83,18 @@ export default function InputImportance(props) {
         const outAdds = Object.keys(outCat.labels)
         return outAdds.map(address => {
             const st = Object.entries(props.variance[address]['ST'])
-            return st.map(pair => {
+            const dataPairs = st.map(pair => {
                 return ({
-                        "name": props.inputLabelMap[pair[0]],
-                        "value": pair[1]
-                    }
-                )
+                    "name": props.inputLabelMap[pair[0]],
+                    "value": pair[1]
+                })
             })
+            return {[address]: dataPairs}
         })
     }
     const pieData = getPieData(outCat)
 
     const LabelFormatter = (props) => {
-        console.log(props)
         const {cx, x, y, payload} = props
 
         return (
@@ -89,7 +103,8 @@ export default function InputImportance(props) {
                     x={x}
                     y={y}
                     textAnchor={x > cx ? "start" : "end"}
-                    fontSize='0.8em'
+                    fontSize='0.85em'
+                    fontWeight={500}
                     fill={props.fill}
                     fontFamily="Questrial"
                 >
@@ -101,9 +116,14 @@ export default function InputImportance(props) {
     }
 
     const createCharts = () => {
-        return pieData.map(data => {
+        return pieData.map(outData => {
+            const outAdd = Object.keys(outData)[0]
+            const chartData = Object.values(outData)[0]
+
             return (
-                <Paper className={classes.paper}>
+                <Paper key={outAdd} className={classes.paper}>
+                    <h3 className={classes.chartTitle}>Impact on {props.currCategory}, {outCat.labels[outAdd]}</h3>
+                    <h3 className={classes.chartNote}><em>Represents % of Output Variance Impacted by Input</em></h3>
                     <ResponsiveContainer
                         // className={classes.chart}
                         width="100%"
@@ -115,13 +135,16 @@ export default function InputImportance(props) {
                         >
                             <Pie
                                 isAnimationActive={true}
-                                data={data}
+                                data={chartData}
+                                dataKey="value"
                                 innerRadius={40}
                                 outerRadius={80}
                                 fill="blue"
                                 label={LabelFormatter}
+                                animationDuration={600}
                             >
-                                {data.map((entry, index) => <Cell fill={COLORS[index % COLORS.length]}/>)}
+                                {chartData.map((entry, index) => <Cell key={entry + index}
+                                                                       fill={COLORS[index % COLORS.length]}/>)}
                             </Pie>
                             <Tooltip/>
                         </PieChart>
