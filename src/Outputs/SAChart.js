@@ -17,7 +17,7 @@ const chartColors = [
     '#A5014B',
     '#247308',
     '#41C0EB',
-    '#EC7404',
+    '#006E9F',
     '#00044E'
 ]
 
@@ -392,9 +392,9 @@ export default function SAChart(props) {
             return (
                 <defs key={bound}>
                     <linearGradient id={bound} x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="1%" stopColor={chartColors[idx]} stopOpacity={0.1}/>
-                        <stop offset="12%" stopColor={chartColors[idx]} stopOpacity={0.01}/>
-                        <stop offset="20%" stopColor={chartColors[idx]} stopOpacity={0.00}/>
+                        <stop offset="5%" stopColor={chartColors[idx]} stopOpacity={0.15}/>
+                        {/*<stop offset="12%" stopColor={chartColors[idx]} stopOpacity={0.01}/>*/}
+                        <stop offset="75%" stopColor={chartColors[idx]} stopOpacity={0.01}/>
                     </linearGradient>
                 </defs>
             )
@@ -419,7 +419,7 @@ export default function SAChart(props) {
                         dataKey={add1}
                         tick={<CustomizedXAxisTick fmt={add1_fmt}/>}
                         tickLine={false}
-                        padding={{top: 30, bottom: 30}}
+                        // padding={{top: 30, bottom: 30}}
                         stroke='#3C4148'
                     >
                         <Label
@@ -434,7 +434,7 @@ export default function SAChart(props) {
                         tickLine={false}
                         domain={['auto', 'auto']}
                         interval={0}
-                        padding={{top: 30, bottom: 30}}
+                        padding={{top: 30, bottom: 5}}
                         stroke='#3C4148'
                     >
                     </YAxis>

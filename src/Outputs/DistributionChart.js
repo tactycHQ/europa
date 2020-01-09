@@ -191,7 +191,10 @@ export default function Distribution(props) {
                     fontSize: '0.9em',
                     fill: labelfill,
                     width: '10px',
-                    fontWeight: labelWeight
+                    fontWeight: labelWeight,
+                    transform:'rotate(270deg)',
+                    transformOrigin:'left top 0',
+                    float:'left',
                 }}
                 isFront={labelFront}
                 ifOverflow="extendDomain"
