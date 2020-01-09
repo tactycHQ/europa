@@ -15,7 +15,8 @@ export default function Content(props) {
     const useStyles = makeStyles(theme => ({
         root: {
             display: 'flex',
-            width: '100%'
+            width: '100%',
+            background:'#FEFEFD'
         },
         content: {
             display: 'flex',
@@ -116,7 +117,6 @@ export default function Content(props) {
     const currSolution = findSolution(props.currInputVal)
     const summaryChartData = addLiveChartMetaData(currSolution)
     const saChartData = createSAData()
-    console.log(saChartData)
 
     return (
         <div className={classes.root}>

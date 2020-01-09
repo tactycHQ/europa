@@ -45,9 +45,9 @@ export default function SummaryChart(props) {
             fontFamily: 'Questrial',
             fontWeight: '20',
             fontSize: '2em',
-            marginTop: '3px',
-            marginLeft: '7px',
-            marginBottom: '10px',
+            marginTop: '10px',
+            marginLeft: '15px',
+            marginBottom: '20px',
             // backgroundColor:'blue'
         }
     }))
@@ -120,7 +120,7 @@ export default function SummaryChart(props) {
     const processedData = process_formats()
 
     return (
-        <Card className={classes.outputCards} key={"summary" + props.category}>
+        <Card className={classes.outputCards} key={"summary" + props.category} elevation={3}>
             <div className={classes.cardHeaderContainer}>
                 <h2 className={classes.cardTitleHeader}>{props.category}</h2>
                 <CardSettings category={props.category}

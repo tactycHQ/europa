@@ -79,7 +79,7 @@ export default function SideBar() {
             }
         },
         buttonLabel: {
-            fontSize: '0.95em',
+            fontSize: '0.9em',
             paddingLeft: '5px',
             fontFamily: 'Questrial',
             color: '#292F36',
@@ -88,7 +88,7 @@ export default function SideBar() {
             }
         },
         outputLabel: {
-            fontSize: '0.95em',
+            fontSize: '0.9em',
             paddingLeft: '5px',
             fontFamily: 'Questrial',
             color: '#292F36',

@@ -109,7 +109,7 @@ export default function Input(props) {
                 timeout={1000}
                 mountOnEnter
                 unmountOnExit>
-                <Card className={classes.inputContainer} rounded={"true"}>
+                <Card className={classes.inputContainer} rounded={"true"} elevation={4}>
                     <CardHeader classes={{root: classes.inputHeader, title: classes.inputTitle}} title="Inputs"/>
                     <div className={classes.caseSelectorContainer}>
                         <div className={classes.caseText}>Case</div>

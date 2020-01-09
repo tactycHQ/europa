@@ -21,34 +21,40 @@ const useStyles = makeStyles(theme => ({
             color: '#006E9F',
             textAlign:'center'
         },
-        slider: {
-            color: '#006E9F'
-
-        },
         mark: {
-            backgroundColor: '#006E9F',
+            backgroundColor: '#C4C6C8',
             height: 6,
             width: 0.8
         },
+        markActive: {
+            backgroundColor: '#006E9F'
+        },
+        rail:{
+            backgroundColor:'#767A7F'
+        },
+        track:{
+            backgroundColor:'#006E9F'
+        },
         active: {
-            backgroundColor: '#0097D8'
+            backgroundColor: '#A5014B'
         },
         markLabel: {
             fontSize: '0.85em',
-            color:'#006E9F',
+            color:'#4F545A',
             // fontWeight:'700',
             fontFamily: 'Questrial'
         },
         markLabelActive:{
             color:'#006E9F',
-            fontFamily: 'Questrial'
+            fontFamily: 'Questrial',
+            // fontWeight:'600',
         },
         thumb:{
-            color:'#4B719C',
+            color:'#006E9F',
             fontFamily: 'Questrial'
         },
         valueLabel:{
-            color:'#4B719C',
+            color:'#006E9F',
             fontFamily: 'Questrial'
         }
 
@@ -88,13 +94,16 @@ export default function InputSlider(props) {
     return (
         <div className={classes.root}>
             <Slider classes={{
-                root: classes.slider,
-                mark: classes.mark,
+                // root: classes.slider,
                 active: classes.active,
+                mark: classes.mark,
+                markActive:classes.markActive,
                 markLabel: classes.markLabel,
                 markLabelActive: classes.markLabelActive,
                 thumb: classes.thumb,
-                valueLabel: classes.valueLabel
+                valueLabel: classes.valueLabel,
+                track:classes.track,
+                rail:classes.rail
             }}
                     // defaultValue={props.currSliderVal}
                     value={displayVal}

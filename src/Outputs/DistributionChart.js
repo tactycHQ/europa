@@ -27,7 +27,8 @@ export default function Distribution(props) {
         distCard: {
             display: 'flex',
             flexDirection: 'column',
-            width: '100%'
+            width: '100%',
+            background:'#FEFEFD'
         },
         paper: {
             display: 'flex',
@@ -56,7 +57,7 @@ export default function Distribution(props) {
             // maxHeight:'5%',
             margin: '1%',
             padding: '1%',
-            background: '#006E9F'
+            background: '#4595B9'
         },
         statsText: {
             color: '#F4F9E9',
@@ -72,7 +73,7 @@ export default function Distribution(props) {
             margin: '0px',
             fontFamily: 'Questrial',
             fontWeight: '10',
-            fontSize: '2.2em'
+            fontSize: '2.0em'
         },
         cardHeaderContainer: {
             display: 'flex',
@@ -83,9 +84,9 @@ export default function Distribution(props) {
             fontFamily: 'Questrial',
             fontWeight: '20',
             fontSize: '2em',
-            marginTop: '3px',
-            marginLeft: '7px',
-            marginBottom: '10px',
+            marginTop: '10px',
+            marginLeft: '15px',
+            marginBottom: '20px',
             // backgroundColor:'blue'
         },
         chartTitle: {
@@ -259,7 +260,7 @@ export default function Distribution(props) {
         const referenceBars = createRefBars(caseVals, "count")
 
         return (
-            <Paper className={classes.paper}>
+            <Paper className={classes.paper} elevation={2}>
                 <h3 className={classes.chartTitle}>Histogram for {props.currCategory}, {outCat.labels[outAdd]}</h3>
                 <h3 className={classes.chartNote}><em>Represents relative frequency of values assuming a standrard bin
                     width</em></h3>
@@ -319,7 +320,7 @@ export default function Distribution(props) {
 
 
         return (
-            <Paper className={classes.paper}>
+            <Paper className={classes.paper} elevation={2}>
                 <h3 className={classes.chartTitle}>Estimated Probability of Achievement
                     for {outCat.labels[outAdd]}, {props.currCategory}</h3>
                 <h3 className={classes.chartNote}><em>Represents probability that Case will be achieved or exceeded</em>
@@ -383,21 +384,21 @@ export default function Distribution(props) {
 
         return (
             <div className={classes.keyStatsContainer}>
-                <Paper className={classes.keyStatsPaper}>
+                <Paper className={classes.keyStatsPaper} elevation={3}>
                     <h2 className={classes.statsText}>{'Mean'}</h2>
                     <h3
                         className={classes.statFigure}>{convert_format(outAdd_fmt, xmean)}
                     </h3>
                 </Paper>
-                <Paper className={classes.keyStatsPaper}>
+                <Paper className={classes.keyStatsPaper} elevation={3}>
                     <h2 className={classes.statsText}>{'Minimum'}</h2>
                     <h3 className={classes.statFigure}>{convert_format(outAdd_fmt, xmin)}</h3>
                 </Paper>
-                <Paper className={classes.keyStatsPaper}>
+                <Paper className={classes.keyStatsPaper} elevation={3}>
                     <h2 className={classes.statsText}> {'Maximum'}</h2>
                     <h3 className={classes.statFigure}>{convert_format(outAdd_fmt, xmax)}</h3>
                 </Paper>
-                <Paper className={classes.keyStatsPaper}>
+                <Paper className={classes.keyStatsPaper} elevation={3}>
                     <h2 className={classes.statsText}> {'Standard Deviation'}</h2>
                     <h3 className={classes.statFigure}>{convert_format(outAdd_fmt, xstd)}</h3>
                 </Paper>
@@ -415,7 +416,12 @@ export default function Distribution(props) {
     const keyStats = generateKeyStats(outAdd)
 
     return (
-        <Card className={classes.distCard} key={"dist" + props.currOutputCell}>
+        <Card
+            className={classes.distCard}
+            key={"dist" + props.currOutputCell}
+            // raised={true}
+            elevation={3}
+        >
             <div className={classes.cardHeaderContainer}>
                 <h2 className={classes.cardTitleHeader}>Output Distributions</h2>
             </div>

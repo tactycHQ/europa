@@ -51,9 +51,9 @@ export default function InputImportance(props) {
             fontFamily: 'Questrial',
             fontWeight: '20',
             fontSize: '2em',
-            marginTop: '3px',
-            marginLeft: '7px',
-            marginBottom: '10px',
+            marginTop: '10px',
+            marginLeft: '15px',
+            marginBottom: '20px',
             // backgroundColor:'blue'
         },
         chartTitle: {
@@ -158,7 +158,7 @@ export default function InputImportance(props) {
     const pieCharts = createCharts()
 
     return (
-        <Card className={classes.varianceCard} key={"dist" + props.currOutputCell}>
+        <Card className={classes.varianceCard} key={"dist" + props.currOutputCell} elevation={4}>
             <div className={classes.cardHeaderContainer}>
                 <h2 className={classes.cardTitleHeader}>Input Importance</h2>
             </div>
