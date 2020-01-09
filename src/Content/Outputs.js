@@ -58,8 +58,7 @@ export default function Output(props) {
     const [summaryPrefs, setSummaryPrefs] = useState({}) //for chart preferences
 
 
-    // Defining custom function
-    // Handlers for drop down for category and label
+    /// Handlers
     const handleOutputLabelChange = (event) => {
         setCurrOutputCell(event.target.value)
     }
@@ -69,7 +68,8 @@ export default function Output(props) {
         setCurrOutputCell('')
     }
 
-    //Utility functions
+    ///======== Utility Functions========
+    //Returns outout address and category of dropdown
     const getOutAdd = () => {
 
         const outCat = props.outputs.find(output => (output.category === currCategory))
@@ -83,6 +83,7 @@ export default function Output(props) {
         return [outAdd, outCat]
     }
 
+    //Creates an input label map
     const generateInputLabelMap = () => {
         return props.inputs.reduce((acc, inputData) => {
                 acc[inputData.address] = inputData.label
@@ -91,6 +92,7 @@ export default function Output(props) {
         )
     }
 
+    //For an input combo, returns the solution of output values
     const findSolution = (inputCombo) => {
         if (props.solutions && inputCombo) {
             const foundSolution = props.solutions.find(i => isEqual(i.inputs, inputCombo))
@@ -100,44 +102,7 @@ export default function Output(props) {
         }
     }
 
-    const addLiveChartMetaData = (solutionSet) => {
-        const labelsInChart = props.outputs.map(output => {
-
-                // Applying labels and formats
-                const reformatted = Object.entries(output.labels).map(labelSet => {
-
-                    return {
-                        x: labelSet[1],
-                        [output.category]: solutionSet[labelSet[0]],
-                        format: props.formats[labelSet[0]]
-                    }
-                })
-
-
-                // Adding max domains
-                const max_domains = Object.entries(output.labels).map(labelSet => {
-                    return props.distributions.max[labelSet[0]]
-                })
-                const max_domain = Math.max(...max_domains)
-
-
-                // Adding min domains
-                const min_domains = Object.entries(output.labels).map(labelSet => {
-                    return props.distributions.min[labelSet[0]]
-                })
-                const min_domain = Math.min(...min_domains)
-
-                return {
-                    category: output.category,
-                    values: reformatted,
-                    domains: [min_domain, max_domain]
-                }
-            }
-        )
-
-        return labelsInChart
-    }
-
+    //Creates rows and lines for SA charts i.e. range of output values over a bound
     const createLines = (saCombos, outAdd) => {
 
         return saCombos.map(chartData => {
@@ -181,7 +146,48 @@ export default function Output(props) {
         })
     }
 
-    //Summary Chart
+    ///======== Summary Chart Functions========
+
+    //Adds labels and formats to solutions
+    const addLiveChartMetaData = (solutionSet) => {
+        const labelsInChart = props.outputs.map(output => {
+
+                // Applying labels and formats
+                const reformatted = Object.entries(output.labels).map(labelSet => {
+
+                    return {
+                        x: labelSet[1],
+                        [output.category]: solutionSet[labelSet[0]],
+                        format: props.formats[labelSet[0]]
+                    }
+                })
+
+
+                // Adding max domains
+                const max_domains = Object.entries(output.labels).map(labelSet => {
+                    return props.distributions.max[labelSet[0]]
+                })
+                const max_domain = Math.max(...max_domains)
+
+
+                // Adding min domains
+                const min_domains = Object.entries(output.labels).map(labelSet => {
+                    return props.distributions.min[labelSet[0]]
+                })
+                const min_domain = Math.min(...min_domains)
+
+                return {
+                    category: output.category,
+                    values: reformatted,
+                    domains: [min_domain, max_domain]
+                }
+            }
+        )
+
+        return labelsInChart
+    }
+
+    //Summary chart creator
     const createSummaryCharts = (solutionSet, idx) => {
         return (
             <SummaryChart
@@ -197,7 +203,7 @@ export default function Output(props) {
     }
 
 
-    // SA Functions
+    ///======== SA Functions========
     const generateSAPairs = () => {
         return props.inputs.reduce((acc, v, i) =>
                 acc.concat(props.inputs.slice(i + 1).map(w => [v.address, w.address])),
@@ -239,7 +245,7 @@ export default function Output(props) {
     }
 
 
-    // Distributions
+    // =========Distributions=======
     const createDistcharts = (currCategory, currOutputCell) => {
         return (
             <DistributionChart
@@ -259,29 +265,18 @@ export default function Output(props) {
     }
 
 
-    // Input Importance
+    // =========II=======
     const createInputImptCharts = (lineData, outAdd, outCat, out_fmt) => {
         console.log(lineData)
     }
 
-    const createVarianceCharts = (currCategory) => {
-        return (
-            <InputImportance
-                inputLabelMap={props.inputLabelMap}
-                outputs={props.outputs}
-                currCategory={currCategory}
-                variance={props.variance}
-                handleOutputCategoryChange={handleOutputCategoryChange}
-            />
-        )
-    }
 
-
-    // Final create charts
+    // =========Final dispatcher=======
     const createCharts = () => {
 
         if (props.type === 'summary') {
 
+            //Get relevant data for summary charts
             const summaryChartData = addLiveChartMetaData(currSolution)
             const summaryCharts = summaryChartData.map((solutionSet, idx) => {
                 return createSummaryCharts(solutionSet, idx)
