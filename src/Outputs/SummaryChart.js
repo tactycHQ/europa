@@ -8,9 +8,8 @@ import CardSettings from "./CardSettings";
 export default function SummaryChart(props) {
 
 
-
     // Initialization function to get width of chart based on user preferences
-    const defaultWidth ='48%'
+    const defaultWidth = '48%'
     const getWidth = () => {
         if (props.category in props.summaryPrefs && 'size' in props.summaryPrefs[props.category]) {
             if (props.summaryPrefs[props.category].size === 'Maximize') {

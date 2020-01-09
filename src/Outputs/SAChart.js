@@ -24,9 +24,6 @@ const chartColors = [
 
 export default function SAChart(props) {
 
-    //Initializing variables
-    const outCat = props.outputs.find(output => (output.category === props.currCategory))
-
     //Styles
     const useStyles = makeStyles(theme => ({
         saCard: {
@@ -172,16 +169,7 @@ export default function SAChart(props) {
     const classes = useStyles()
 
     //Custom Functions
-    // Get address of outout label selected from dropdown
-    const getOutAdd = () => {
-        let outAdd
-        if (props.currOutputCell === '') {
-            outAdd = Object.keys(outCat.labels)[0]
-        } else {
-            outAdd = props.currOutputCell
-        }
-        return outAdd
-    }
+    //Get address of outout label selected from dropdown
 
     //Axis formatter
     const AxisFormatter = (fmt, value) => convert_format(fmt, value)
@@ -232,20 +220,13 @@ export default function SAChart(props) {
     }
 
 
-    const generateCharts = (outAdd) => {
+    const generateCharts = () => {
         return props.data.map(chartData => {
-            const flexInputs = chartData.inputs
-            const bounds = chartData.bounds
-            const add1 = flexInputs[0]
-            const add2 = flexInputs[1]
-            const out_fmt = props.formats[outAdd]
-            const add1_fmt = props.formats[add1]
-            const add2_fmt = props.formats[add2]
-            const bounds1 = bounds[0][add1]
-            const bounds2 = bounds[1][add2]
 
-            const lineChart = createLineChart(chartData, outAdd, bounds1, bounds2, add1, add2, add2_fmt, add1_fmt, out_fmt)
-            const tableChart = createTableChart(chartData, outAdd, bounds1, bounds2, add1, add2, add2_fmt, add1_fmt, out_fmt)
+            let {lines, bounds1, bounds2, add1, add2, add2_fmt, add1_fmt} = chartData
+            let {out_fmt, outAdd, outCat} = props
+            const lineChart = createLineChart(lines, outAdd, bounds1, bounds2, add1, add2, add2_fmt, add1_fmt, out_fmt)
+            const tableChart = createTableChart(lines, outAdd, bounds1, bounds2, add1, add2, add2_fmt, add1_fmt, out_fmt)
 
             return (
                 <Paper
@@ -253,7 +234,7 @@ export default function SAChart(props) {
                     key={outAdd + add1 + add2 + '_combo'}
                     elevation={2}
                 >
-                    <h3 className={classes.chartTitle}>{outCat.labels[outAdd]}, {props.currCategory}</h3>
+                    <h3 className={classes.chartTitle}>{outCat.labels[outAdd]}, {outCat.category}</h3>
                     <h3 className={classes.chartNote}><em>Sensitized
                         Variables:</em> {props.inputLabelMap[add2]}, {props.inputLabelMap[add1]}</h3>
                     {lineChart}
@@ -264,40 +245,33 @@ export default function SAChart(props) {
     }
 
     //Table chart creator
-    const createTableChart = (chartData, outAdd, bounds1, bounds2, add1, add2, add2_fmt, add1_fmt, out_fmt) => {
-
-        const body = bounds1.map((value1) => {
-
-            const row = bounds2.reduce((acc, value2, idx) => {
-                    const combo = {
-                        ...props.currInputVal,
-                        [add1]: value1,
-                        [add2]: value2
-                    }
-                    const answer = props.findSolution(combo)[outAdd]
-
-                    acc.push(<TableCell
-                        className={classes.tableCell}
-                        key={add1 + add2 + '_table' + add2 + value2}
-                    >
-                        {convert_format(out_fmt, answer)}
-                    </TableCell>)
-
-                    return acc
-
-                },
-                [<TableCell className={classes.leftBoundCell} key={add1 + add2 + '_leftBound'}>
-                    {convert_format(add1_fmt, value1)}
-                </TableCell>]
-            )
+    const createTableChart = (lines, outAdd, bounds1, bounds2, add1, add2, add2_fmt, add1_fmt, out_fmt) => {
+        const body = lines.map((line,idx) => {
+            const lineValues = Object.values(line)
+            const leftCellValue = convert_format(add1_fmt, lineValues[0])
+            const row = lineValues.map((value, idx) => {
+                if (idx > 0) {
+                    return (
+                        <TableCell className={classes.tableCell} key={'tableVal_' + add1 + add2 + value + outAdd + idx}>
+                            {convert_format(out_fmt, value)}
+                        </TableCell>
+                    )
+                } else {
+                    return (
+                        <TableCell className={classes.leftBoundCell}
+                                   key={'tableLeft_' + add1 + add2 + outAdd + leftCellValue}>
+                            {leftCellValue}
+                        </TableCell>
+                    )
+                }
+            })
 
             return (
-                <TableRow className={classes.bodyRow} key={bounds1 + value1} hover>
+                <TableRow className={classes.bodyRow} key={'tablerow_' + add1 + add2 + outAdd+idx} hover>
                     {row}
                 </TableRow>
             )
         })
-
 
         const topRow = bounds2.reduce((acc, value2) => {
             acc.push(<TableCell className={classes.topBoundCell}
@@ -350,25 +324,7 @@ export default function SAChart(props) {
     }
 
     //Area chart creator
-    const createLineChart = (chartData, outAdd, bounds1, bounds2, add1, add2, add2_fmt, add1_fmt, out_fmt) => {
-
-        const lineChart = bounds1.map((value1) => {
-            const row = bounds2.reduce((acc, value2) => {
-                const combo = {
-                    ...props.currInputVal,
-                    [add1]: value1,
-                    [add2]: value2
-                }
-
-                const answer = props.findSolution(combo)[outAdd]
-                acc[convert_format(add2_fmt, value2)] = answer
-                return acc
-            }, {})
-            return {
-                [add1]: value1,
-                ...row
-            }
-        })
+    const createLineChart = (lines, outAdd, bounds1, bounds2, add1, add2, add2_fmt, add1_fmt, out_fmt) => {
 
         const areas = bounds2.map((bound, idx) => {
             const color_url = `url(#${bound})`
@@ -410,7 +366,7 @@ export default function SAChart(props) {
                 <AreaChart
                     // width={730}
                     // height={250}
-                    data={lineChart}
+                    data={lines}
                     margin={{top: 5, right: 20, left: 10, bottom: 30}}
                     baseValue="dataMin"
                 >
@@ -441,7 +397,7 @@ export default function SAChart(props) {
                     <Tooltip
                         wrapperStyle={{fontSize: '0.9em', fontFamily: 'Questrial'}}
                         cursor={{fill: '#FEFEFD', fontFamily: 'Questrial', fontSize: '0.8em'}}
-                        formatter={(value,name) => [AxisFormatter(out_fmt, value),`${props.inputLabelMap[add2]+'@ '+name}`]}
+                        formatter={(value, name) => [AxisFormatter(out_fmt, value), `${props.inputLabelMap[add2] + '@ ' + name}`]}
                         labelFormatter={(value) => `${props.inputLabelMap[add1]}: ` + AxisFormatter(add1_fmt, value)}
                     />
                     {areas}
@@ -462,19 +418,17 @@ export default function SAChart(props) {
                 </AreaChart>
             </ResponsiveContainer>
         )
-
     }
 
 
     //Execute Functions
-    const outAdd = getOutAdd()
-    const charts = generateCharts(outAdd)
+    const charts = generateCharts()
 
 
     return (
         <Card
             className={classes.saCard}
-            key={"SA" + props.currOutputCell}
+            key={"SA_" + props.outAdd}
             elevation={3}
         >
             <div className={classes.cardHeaderContainer}>
@@ -485,8 +439,8 @@ export default function SAChart(props) {
                 outputs={props.outputs}
                 handleOutputLabelChange={props.handleOutputLabelChange}
                 handleOutputCategoryChange={props.handleOutputCategoryChange}
-                currOutputCell={props.currOutputCell}
-                currCategory={props.currCategory}/>
+                currOutputCell={props.outAdd}
+                currCategory={props.outCat.category}/>
             {charts}
         </Card>
     )

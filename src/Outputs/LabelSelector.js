@@ -70,6 +70,7 @@ export function LabelSelector(props) {
     const outputLabels = Object.entries(currOutput.labels)
     const outputCats = props.outputs.map(output => output.category)
 
+
     //Generate list of category items for drop down
     const menuCatItems = outputCats.map(category => {
         return (<MenuItem key={category} classes={{root: classes.caseItem}} value={category}>{category}</MenuItem>)

@@ -124,6 +124,7 @@ export default function Distribution(props) {
 
     // Get address of outout label selected from dropdown
     const outCat = props.outputs.find(output => (output.category === props.currCategory))
+
     const getOutAdd = () => {
         let outAdd
         if (props.currOutputCell === '') {
@@ -191,10 +192,7 @@ export default function Distribution(props) {
                     fontSize: '0.9em',
                     fill: labelfill,
                     width: '10px',
-                    fontWeight: labelWeight,
-                    transform:'rotate(270deg)',
-                    transformOrigin:'left top 0',
-                    float:'left',
+                    fontWeight: labelWeight
                 }}
                 isFront={labelFront}
                 ifOverflow="extendDomain"

@@ -100,6 +100,7 @@ export default function Layout() {
         setInputCase('')
     }, [currInputVal])
 
+
     // Defining functions
     const handleSliderChange = (event, newValue, setAddress) => {
         setcurrInputVal(prevState => ({
@@ -131,7 +132,6 @@ export default function Layout() {
 
     // Executing functions
     const content = createContent()
-
 
     return (
         <div className={classes.root}>
