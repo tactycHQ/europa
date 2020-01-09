@@ -441,7 +441,7 @@ export default function SAChart(props) {
                     <Tooltip
                         wrapperStyle={{fontSize: '0.9em', fontFamily: 'Questrial'}}
                         cursor={{fill: '#FEFEFD', fontFamily: 'Questrial', fontSize: '0.8em'}}
-                        formatter={(value) => AxisFormatter(out_fmt, value)}
+                        formatter={(value,name) => [AxisFormatter(out_fmt, value),`${props.inputLabelMap[add2]+'@ '+name}`]}
                         labelFormatter={(value) => `${props.inputLabelMap[add1]}: ` + AxisFormatter(add1_fmt, value)}
                     />
                     {areas}
@@ -457,17 +457,12 @@ export default function SAChart(props) {
                         align="center"
                         verticalAlign="bottom"
                         layout="horizontal"
-                        formatter={(value, entry, index) => `${props.inputLabelMap[add2]}: ` + value}
+                        formatter={(value) => `${props.inputLabelMap[add2]}: ` + value}
                     />
                 </AreaChart>
             </ResponsiveContainer>
         )
 
-    }
-
-    //Key
-    const createKeyStats = (tableData, outAdd, bounds1, bounds2, add1, add2, add2_fmt, add1_fmt, out_fmt) => {
-        console.log(tableData)
     }
 
 
