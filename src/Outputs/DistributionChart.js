@@ -28,7 +28,7 @@ export default function Distribution(props) {
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            background:'#FEFEFD'
+            background: '#FEFEFD'
         },
         paper: {
             display: 'flex',
@@ -137,15 +137,20 @@ export default function Distribution(props) {
     const outAdd = getOutAdd()
     const outAdd_fmt = props.formats[outAdd]
     const probs = props.distributions.prob[outAdd]
+    // Object.keys(probs).forEach(function (el) {
+    //     probs[el] = parseFloat(probs[el])
+    // })
 
     const processCases = () => {
+
+        const probKey = props.currSolution[outAdd].toFixed(1)
         return Object.entries(props.cases[0]).reduce((acc, caseData) => {
             const caseName = caseData[0]
             const inputCombo = caseData[1]
             const caseOutVal = props.findSolution(inputCombo)[outAdd]
             acc[caseName] = [caseOutVal, probs[caseOutVal][1]]
             return acc
-        }, {'Current': [props.currSolution[outAdd], probs[props.currSolution[outAdd]][1]]})
+        }, {'Current': [props.currSolution[outAdd], probs[probKey][1]]})
     }
 
     const createRefBars = (caseVals, yAxisId) => {

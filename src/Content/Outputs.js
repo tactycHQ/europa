@@ -3,8 +3,6 @@ import {makeStyles} from '@material-ui/core/styles'
 import SummaryChart from "../Outputs/SummaryChart"
 import SAChart from "../Outputs/SAChart"
 import DistributionChart from "../Outputs/DistributionChart";
-import InputImportance from "../Outputs/InputImportance";
-import TableCell from "@material-ui/core/TableCell";
 import {convert_format} from "../utils/utils";
 import isEqual from "lodash.isequal";
 
@@ -266,6 +264,14 @@ export default function Output(props) {
 
 
     // =========II=======
+    const createImpacts = (outAdd) =>{
+        props.solutions.map(solution => {
+
+        })
+        console.log(outAdd)
+    }
+
+
     const createInputImptCharts = (lineData, outAdd, outCat, out_fmt) => {
         console.log(lineData)
     }
@@ -307,11 +313,11 @@ export default function Output(props) {
             //Get relevant data for II charts
             const outCellData = getOutAdd()
             const outAdd = outCellData[0]
-            const outCat = outCellData[1]
-            const out_fmt = props.formats[outAdd]
-            const lineData = createLines(outAdd)
+            // const outCat = outCellData[1]
+            // const out_fmt = props.formats[outAdd]
+            // const lineData = createImpacts(outAdd)
 
-            return createInputImptCharts(lineData, outAdd, outCat, out_fmt)
+            // return createInputImptCharts(lineData, outAdd, outCat, out_fmt)
         }
     }
 

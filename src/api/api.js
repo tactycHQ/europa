@@ -65,6 +65,7 @@ export const getFormats = async () => {
                 "Quarterly!E8",
                 "Quarterly!E10",
                 "Quarterly!E11",
+                "Quarterly!E16",
                 "Annual!D83",
                 "Annual!E83",
                 "Annual!F83",

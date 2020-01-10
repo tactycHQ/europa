@@ -54,6 +54,7 @@ const useStyles = makeStyles(theme => ({
                 minHeight: '80vh',
                 maxHeight: '80vh',
                 justifyContent: 'space-evenly',
+                marginTop: '5.0%',
                 marginLeft: '3.5%',
                 marginRight: '3.5%',
                 // background:'green',
@@ -95,6 +96,7 @@ export default function Input(props) {
                                  address={inputAddress}
                                  values={inputValues}
                                  currSliderVal={currSliderVal}
+                                 formats={props.formats}
                     />
                 )
             }

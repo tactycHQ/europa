@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Slider from '@material-ui/core/Slider'
-import * as ssf from 'ssf'
+import {convert_format} from "../utils/utils";
 
 
 const useStyles = makeStyles(theme => ({
@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
             marginTop: '0%',
             marginBottom: '7%',
             color: '#006E9F',
-            textAlign:'center'
+            textAlign: 'center'
         },
         mark: {
             backgroundColor: '#C4C6C8',
@@ -29,53 +29,54 @@ const useStyles = makeStyles(theme => ({
         markActive: {
             backgroundColor: '#006E9F'
         },
-        rail:{
-            backgroundColor:'#767A7F'
+        rail: {
+            backgroundColor: '#767A7F'
         },
-        track:{
-            backgroundColor:'#006E9F'
+        track: {
+            backgroundColor: '#006E9F'
         },
         active: {
             backgroundColor: '#A5014B'
         },
         markLabel: {
-            fontSize: '0.85em',
-            color:'#4F545A',
+            borderStyle: 'solid',
+            borderColor:'#B9D7E4',
+            borderRadius:'100%',
+            borderWidth: '3px',
+            fontSize: '0.0em',
+            color: '#4F545A',
             // fontWeight:'700',
-            fontFamily: 'Questrial'
+            fontFamily: 'Questrial',
+            "&:hover": {
+                fontSize: '0.9em',
+                borderStyle: 'none',
+                top: -17
+            }
         },
-        markLabelActive:{
-            color:'#006E9F',
+        markLabelActive: {
+            color: '#006E9F',
             fontFamily: 'Questrial',
             // fontWeight:'600',
         },
-        thumb:{
-            color:'#006E9F',
+        thumb: {
+            color: '#006E9F',
             fontFamily: 'Questrial'
         },
-        valueLabel:{
-            color:'#006E9F',
-            fontFamily: 'Questrial'
+        valueLabel: {
+            left: 'calc(-50%)',
+            top: -22,
+            '& *': {
+                background: 'transparent',
+                color: '#006E9F',
+                fontFamily: 'Questrial',
+            },
+            color: '#006E9F',
+            fontFamily: 'Questrial',
+            fontSize: '0.9em',
+            // backgroundColor:'red'
         }
-
     }
 ))
-
-
-
-function valueLabelFormat(value) {
-    return ssf.format('0%',value)
-}
-
-function generateMarks(values) {
-    return values.map(v => (
-            {
-                value: v,
-                label:ssf.format('0%',v)
-            }
-        )
-    )
-}
 
 
 export default function InputSlider(props) {
@@ -86,26 +87,40 @@ export default function InputSlider(props) {
     const min = Math.min(...props.values)
     const max = Math.max(...props.values)
 
+    function valueLabelFormat(value) {
+        return convert_format(props.formats[props.address], value)
+    }
+
+    function generateMarks(values) {
+        return values.map(v => (
+                {
+                    value: v,
+                    label: convert_format(props.formats[props.address], v)
+                }
+            )
+        )
+    }
+
+
     useEffect(() => {
         setDisplayVal(props.currSliderVal)
-    },[props.currSliderVal])
+    }, [props.currSliderVal])
 
 
     return (
         <div className={classes.root}>
             <Slider classes={{
-                // root: classes.slider,
                 active: classes.active,
                 mark: classes.mark,
-                markActive:classes.markActive,
+                markActive: classes.markActive,
                 markLabel: classes.markLabel,
                 markLabelActive: classes.markLabelActive,
                 thumb: classes.thumb,
                 valueLabel: classes.valueLabel,
-                track:classes.track,
-                rail:classes.rail
+                track: classes.track,
+                rail: classes.rail
             }}
-                    // defaultValue={props.currSliderVal}
+                // defaultValue={props.currSliderVal}
                     value={displayVal}
                     aria-labelledby="discrete-slider-restricted"
                     valueLabelDisplay="on"

@@ -5,7 +5,6 @@ import Input from "../Content/Inputs";
 import {Switch, Route} from 'react-router-dom'
 import ScenarioAnalysis from "../Sidebar/ScenarioAnalysis"
 import DependencyGraph from "../Sidebar/DependencyGraph"
-import isEqual from "lodash.isequal";
 import SideBar from "../Content/SideBar";
 
 
@@ -52,6 +51,7 @@ export default function Content(props) {
                             currInputVal={props.currInputVal}
                             inputs={props.inputs}
                             cases={props.cases}
+                            formats={props.formats}
                         />
                     </Route>
                     <Route exact path="/distributions">
@@ -71,6 +71,7 @@ export default function Content(props) {
                             currInputVal={props.currInputVal}
                             inputs={props.inputs}
                             cases={props.cases}
+                            formats={props.formats}
                         />
                     </Route>
                     <Route exact path="/sensitivity">
@@ -88,14 +89,16 @@ export default function Content(props) {
                             currInputVal={props.currInputVal}
                             inputs={props.inputs}
                             cases={props.cases}
+                            formats={props.formats}
                         />
                     </Route>
                     <Route exact path="/inputimportance">
                         <Output
                             type="inputimportance"
+                            inputs={props.inputs}
                             outputs={props.outputs}
+                            solutions={props.solutions}
                             formats={props.formats}
-                            currInputVal={props.currInputVal}
                         />
                         <Input
                             handleSliderChange={props.handleSliderChange}
@@ -103,6 +106,7 @@ export default function Content(props) {
                             currInputVal={props.currInputVal}
                             inputs={props.inputs}
                             cases={props.cases}
+                            formats={props.formats}
                         />
                     </Route>
                     <Route exact path="/scenario">
