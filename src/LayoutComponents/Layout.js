@@ -86,12 +86,12 @@ export default function Layout() {
     }, [])
 
     // If case is changed
-    useEffect(() => {
-        if (inputCase) {
-            setcurrInputVal(cases[0][inputCase])
-        }
-
-    }, [cases, inputCase])
+    // useEffect(() => {
+    //     if (inputCase) {
+    //         setcurrInputVal(cases[0][inputCase])
+    //     }
+    //
+    // }, [cases, inputCase])
 
     // If slider is changed
     useEffect(() => {
@@ -105,9 +105,13 @@ export default function Layout() {
             ...prevState,
             [setAddress]: newValue
         }))
+        setInputCase('')
     }
 
-    const handleCaseChange = event => setInputCase(event.target.value)
+    const handleCaseChange = event => {
+        setInputCase(event.target.value)
+        setcurrInputVal(cases[0][event.target.value])
+    }
 
     const createContent = () => {
         if (isLoaded) {

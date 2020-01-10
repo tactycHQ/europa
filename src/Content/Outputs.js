@@ -289,8 +289,8 @@ export default function Output(props) {
     }
 
 
-    const createInputImptCharts = (lineData, outAdd, outCat, out_fmt) => {
-        console.log(lineData)
+    const createInputImptCharts = (avgData, outAdd, outCat, out_fmt) => {
+        console.log(avgData)
     }
 
 
@@ -330,12 +330,11 @@ export default function Output(props) {
             //Get relevant data for II charts
             const outCellData = getOutAdd()
             const outAdd = outCellData[0]
-            // const outCat = outCellData[1]
-            // const out_fmt = props.formats[outAdd]
+            const outCat = outCellData[1]
+            const out_fmt = props.formats[outAdd]
             const avgData = createImpacts(outAdd)
-            console.log(avgData)
 
-            // return createInputImptCharts(lineData, outAdd, outCat, out_fmt)
+            return createInputImptCharts(avgData, outAdd, outCat, out_fmt)
         }
     }
 

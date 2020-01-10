@@ -52,10 +52,11 @@ const useStyles = makeStyles(theme => ({
             borderColor: '#D8D9DA',
             // opacity:'70%',
             borderRadius: '100%',
+            // padding:'5px',
             borderWidth: '4px',
             fontSize: '0.0em',
             color: '#4F545A',
-            top: 10,
+            top: 11,
             // fontWeight:'700',
             fontFamily: 'Questrial',
             "&:hover": {
