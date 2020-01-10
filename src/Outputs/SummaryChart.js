@@ -176,7 +176,7 @@ export default function SummaryChart(props) {
                         className={classes.bar}
                         dataKey={title}
                         name={title}
-                        isAnimationActive={false}
+                        isAnimationActive={true}
                         fill={color_url}
                         animationDuration={200}
                     >

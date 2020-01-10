@@ -40,9 +40,10 @@ const useStyles = makeStyles(theme => ({
         },
         markLabel: {
             borderStyle: 'solid',
-            borderColor:'#B9D7E4',
+            borderColor:'#B1B3B5',
+            opacity:'70%',
             borderRadius:'100%',
-            borderWidth: '3px',
+            borderWidth: '4px',
             fontSize: '0.0em',
             color: '#4F545A',
             // fontWeight:'700',
@@ -50,7 +51,8 @@ const useStyles = makeStyles(theme => ({
             "&:hover": {
                 fontSize: '0.9em',
                 borderStyle: 'none',
-                top: -17
+                top: -17,
+                // borderColor: '#4F545A',
             }
         },
         markLabelActive: {
