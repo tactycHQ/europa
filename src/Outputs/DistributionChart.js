@@ -141,13 +141,14 @@ export default function Distribution(props) {
     //     probs[el] = parseFloat(probs[el])
     // })
 
+
     const processCases = () => {
 
-        const probKey = props.currSolution[outAdd].toFixed(1)
+        const probKey = props.currSolution[outAdd].toFixed(3)
         return Object.entries(props.cases[0]).reduce((acc, caseData) => {
             const caseName = caseData[0]
             const inputCombo = caseData[1]
-            const caseOutVal = props.findSolution(inputCombo)[outAdd]
+            const caseOutVal = props.findSolution(inputCombo)[outAdd].toFixed(3)
             acc[caseName] = [caseOutVal, probs[caseOutVal][1]]
             return acc
         }, {'Current': [props.currSolution[outAdd], probs[probKey][1]]})
