@@ -9,7 +9,16 @@ const useStyles = makeStyles(theme => ({
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            padding: '20px'
+            // backgroundColor: 'red',
+            marginBottom: '0px'
+        },
+        sliderContainer: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            padding: '20px',
+            // backgroundColor: 'green',
+            // margin: '5%'
         },
         label: {
             display: 'flex',
@@ -30,19 +39,19 @@ const useStyles = makeStyles(theme => ({
             backgroundColor: '#006E9F'
         },
         rail: {
-            backgroundColor: '#767A7F'
+            backgroundColor: '#767A7F',
         },
         track: {
-            backgroundColor: '#006E9F'
+            backgroundColor: '#006E9F',
         },
         active: {
             backgroundColor: '#A5014B'
         },
         markLabel: {
             borderStyle: 'solid',
-            borderColor:'#D8D9DA',
+            borderColor: '#D8D9DA',
             // opacity:'70%',
-            borderRadius:'100%',
+            borderRadius: '100%',
             borderWidth: '4px',
             fontSize: '0.0em',
             color: '#4F545A',
@@ -57,7 +66,7 @@ const useStyles = makeStyles(theme => ({
             }
         },
         markLabelActive: {
-            borderColor:'#006E9F',
+            borderColor: '#006E9F',
             color: '#006E9F',
             fontFamily: 'Questrial',
             // fontWeight:'600',
@@ -112,9 +121,9 @@ export default function InputSlider(props) {
 
 
     return (
-        <div className={classes.root}>
+        <div className={classes.sliderContainer}>
             <Slider classes={{
-                // root: classes.root,
+                root: classes.root,
                 active: classes.active,
                 mark: classes.mark,
                 markActive: classes.markActive,

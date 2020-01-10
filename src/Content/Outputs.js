@@ -5,6 +5,7 @@ import SAChart from "../Outputs/SAChart"
 import DistributionChart from "../Outputs/DistributionChart";
 import {convert_format} from "../utils/utils";
 import isEqual from "lodash.isequal";
+import {getAvg} from "../utils/utils";
 
 
 const chartColors = [
@@ -264,11 +265,27 @@ export default function Output(props) {
 
 
     // =========II=======
-    const createImpacts = (outAdd) =>{
-        props.solutions.map(solution => {
+    const createImpacts = (outAdd) => {
+        return props.inputs.map(input => {
+            const inAdd = input.address
+            const values = input.values
 
+            const _values = values.reduce((acc, value) => {
+                const outVals = []
+                props.solutions.map(solution => {
+                    if (solution.inputs[inAdd] === value) {
+                        const outVal = solution.outputs[outAdd]
+                        outVals.push(outVal)
+                    }
+                    return outVals
+                })
+                acc[value] = getAvg(outVals)
+                return acc
+            }, {})
+
+            return {[inAdd]: _values}
         })
-        console.log(outAdd)
+
     }
 
 
@@ -315,7 +332,8 @@ export default function Output(props) {
             const outAdd = outCellData[0]
             // const outCat = outCellData[1]
             // const out_fmt = props.formats[outAdd]
-            // const lineData = createImpacts(outAdd)
+            const avgData = createImpacts(outAdd)
+            console.log(avgData)
 
             // return createInputImptCharts(lineData, outAdd, outCat, out_fmt)
         }
