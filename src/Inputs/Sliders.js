@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
         },
         mark: {
             backgroundColor: '#C4C6C8',
-            height: 6,
+            height: 0,
             width: 0.8
         },
         markActive: {
@@ -40,12 +40,13 @@ const useStyles = makeStyles(theme => ({
         },
         markLabel: {
             borderStyle: 'solid',
-            borderColor:'#B1B3B5',
-            opacity:'70%',
+            borderColor:'#D8D9DA',
+            // opacity:'70%',
             borderRadius:'100%',
             borderWidth: '4px',
             fontSize: '0.0em',
             color: '#4F545A',
+            top: 10,
             // fontWeight:'700',
             fontFamily: 'Questrial',
             "&:hover": {
@@ -56,6 +57,7 @@ const useStyles = makeStyles(theme => ({
             }
         },
         markLabelActive: {
+            borderColor:'#006E9F',
             color: '#006E9F',
             fontFamily: 'Questrial',
             // fontWeight:'600',
@@ -112,6 +114,7 @@ export default function InputSlider(props) {
     return (
         <div className={classes.root}>
             <Slider classes={{
+                // root: classes.root,
                 active: classes.active,
                 mark: classes.mark,
                 markActive: classes.markActive,
