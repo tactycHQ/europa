@@ -40,14 +40,12 @@ export default function Layout() {
     }));
     const classes = useStyles()
     const [solutions, setSolutions] = useState(null)
-    // const [variance, setVariance] = useState(null)
     const [distributions, setDistributions] = useState(null)
     const [formats, setFormats] = useState("0.0")
     const [currInputVal, setcurrInputVal] = useState(null)
     const [inputs, setInputs] = useState(null)
     const [outputs, setOutputs] = useState(null)
     const [cases, setCases] = useState(null)
-    const [inputCase, setInputCase] = useState(null)
     const [charts, setCharts] = useState(null)
     const [dashName, setDashName] = useState('')
     const [isLoaded, setisLoaded] = useState(false)
@@ -85,19 +83,6 @@ export default function Layout() {
         runEffect()
     }, [])
 
-    // If case is changed
-    // useEffect(() => {
-    //     if (inputCase) {
-    //         setcurrInputVal(cases[0][inputCase])
-    //     }
-    //
-    // }, [cases, inputCase])
-
-    // If slider is changed
-    useEffect(() => {
-        setInputCase('')
-    }, [currInputVal])
-
 
     // Defining functions
     const handleSliderChange = (event, newValue, setAddress) => {
@@ -105,11 +90,9 @@ export default function Layout() {
             ...prevState,
             [setAddress]: newValue
         }))
-        setInputCase('')
     }
 
     const handleCaseChange = event => {
-        setInputCase(event.target.value)
         setcurrInputVal(cases[0][event.target.value])
     }
 

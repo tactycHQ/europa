@@ -38,7 +38,7 @@ export default function Distribution(props) {
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            background: '#FEFEFD'
+            background: '#FEFEFD',
         },
         paper: {
             display: 'flex',
@@ -57,7 +57,7 @@ export default function Distribution(props) {
             alignItems: 'center',
             margin: '1%',
             padding: '1%',
-            background: 'linear-gradient(#F4F4F4 10%,#EBEEF0)',
+            background: 'linear-gradient(#F4F4F4 10%,#EBEEF0)'
         },
         deltaChart: {
             display: 'flex',
@@ -130,7 +130,8 @@ export default function Distribution(props) {
             fontSize: '1.2em',
             fontWeight: '300',
             color: '#3C4148',
-            marginBottom: '0'
+            marginTop: '0px',
+            marginBottom: '0px'
         },
         chartNote: {
             fontFamily: 'Questrial',
@@ -296,7 +297,7 @@ export default function Distribution(props) {
 
         const inputCompChart = (
             <div className={classes.inputComparisonContainer}>
-                <h3 className={classes.chartTitle}>Input Importance Comparison</h3>
+                <h3 className={classes.chartTitle}>Relative Impact on {props.outCat.category}, {props.outCat.labels[props.outAdd]} from input changes</h3>
                 <h3 className={classes.chartNote}><em>Impact of one increment movement in input</em></h3>
                 <ResponsiveContainer width="75%" height={300}>
                     <BarChart
@@ -361,7 +362,7 @@ export default function Distribution(props) {
 
         const inputMagChart = (
             <div className={classes.inputComparisonContainer}>
-                <h3 className={classes.chartTitle}>Input Magnitude Comparison</h3>
+                <h3 className={classes.chartTitle}>Absolute Change Comparison</h3>
                 <h3 className={classes.chartNote}><em>Absolute impact of one increment movement in input</em></h3>
                 <ResponsiveContainer
                     width="75%"
