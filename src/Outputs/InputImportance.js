@@ -1,22 +1,32 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles'
 import {
-    AreaChart,
     BarChart,
     Bar,
-    Area,
+    LabelList,
     XAxis,
     YAxis,
     Tooltip,
     ResponsiveContainer,
-    ReferenceLine,
-    Label
+    PieChart,
+    Pie,
+    Cell,
+    ReferenceLine
 } from 'recharts'
 import Paper from '@material-ui/core/Paper'
 import {Card} from "@material-ui/core";
 import {LabelSelector} from "./LabelSelector";
-import {convert_format} from "../utils/utils"
+import {getAvgfromKey, getMaxfromKey, getMinfromKey, getDomains, convert_format} from "../utils/utils";
 import Fade from '@material-ui/core/Fade'
+
+const chartColors = [
+    '#006E9F',
+    '#A5014B',
+    '#3DA32D',
+    '#4B719C',
+    '#FE7F2D',
+    '#00044E'
+]
 
 
 export default function Distribution(props) {
@@ -39,6 +49,31 @@ export default function Distribution(props) {
             padding: '1%',
             background: 'linear-gradient(#F4F4F4 10%,#EBEEF0)',
             // borderRadius:'64px'
+        },
+        deltaChartsContainer: {
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            margin: '1%',
+            padding: '1%',
+            background: 'linear-gradient(#F4F4F4 10%,#EBEEF0)',
+        },
+        deltaChart: {
+            display: 'flex',
+            width: '45%',
+            flexDirection: 'column',
+            alignItems: 'center',
+            margin: '1%',
+            padding: '1%',
+        },
+        inputComparisonContainer: {
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            alignItems: 'center',
+            margin: '1%',
+            padding: '1%'
         },
         keyStatsContainer: {
             display: 'flex',
@@ -73,7 +108,7 @@ export default function Distribution(props) {
             margin: '0px',
             fontFamily: 'Questrial',
             fontWeight: '10',
-            fontSize: '2.0em'
+            fontSize: '1.5em'
         },
         cardHeaderContainer: {
             display: 'flex',
@@ -103,141 +138,325 @@ export default function Distribution(props) {
             fontWeight: '300',
             color: '#3C4148',
             marginTop: '0'
-        },
-        xlabel: {
-            fontFamily: 'Questrial',
-            fontSize: '1.0em',
-            fontWeight: '100',
-            fill: '#4F545A'
-        },
-        ylabel: {
-            fontFamily: 'Questrial',
-            fontSize: '1.0em',
-            fill: '#4F545A',
-            textAnchor: 'left'
         }
     }))
     const classes = useStyles()
-    const color_url = "url(#" + '#006E9F' + ")"
-    const area_color_url = "url(#" + '#006E9F' + ")"
+    const color_url = (color) => "url(#" + color + ")"
 
 
-    // Get address of outout label selected from dropdown
-    const outCat = props.outputs.find(output => (output.category === props.currCategory))
+    //Tick formatter
+    const CustomizedXAxisTick = (props) => {
+        const {x, y, payload} = props
 
-    const getOutAdd = () => {
-        let outAdd
-        if (props.currOutputCell === '') {
-            outAdd = Object.keys(outCat.labels)[0]
-        } else {
-            outAdd = props.currOutputCell
-        }
-        return outAdd
+        return (
+            <g transform={`translate(${x},${y})`}>
+                <text
+                    x={0}
+                    y={0}
+                    dx={10}
+                    dy={16}
+                    textAnchor="middle"
+                    fill='#3C4148'
+                    transform="rotate(-0)"
+                    fontSize='0.8em'
+                    fontFamily="Questrial"
+                    fontWeight='500'
+                >
+                    {payload.value}
+                </text>
+            </g>
+        )
     }
-    const outAdd = getOutAdd()
-    const outAdd_fmt = props.formats[outAdd]
-    const probs = props.distributions.prob[outAdd]
-    // Object.keys(probs).forEach(function (el) {
-    //     probs[el] = parseFloat(probs[el])
-    // })
 
 
-    const processCases = () => {
+    const LabelFormatter = (props) => {
+        const {cx, x, y, payload, fmt} = props
 
-        const probKey = props.currSolution[outAdd].toFixed(3)
-        return Object.entries(props.cases[0]).reduce((acc, caseData) => {
-            const caseName = caseData[0]
-            const inputCombo = caseData[1]
-            const caseOutVal = props.findSolution(inputCombo)[outAdd].toFixed(3)
-            acc[caseName] = [caseOutVal, probs[caseOutVal][1]]
-            return acc
-        }, {'Current': [props.currSolution[outAdd], probs[probKey][1]]})
+        return (
+            <g>
+                <text
+                    x={x}
+                    y={y}
+                    textAnchor={x > cx ? "start" : "end"}
+                    fontSize='0.85em'
+                    fontWeight={500}
+                    fill={props.fill}
+                    fontFamily="Questrial"
+                >
+                    {payload.name + ": " + convert_format(fmt, payload.value)}
+                </text>
+            </g>
+
+        )
     }
 
 
     //Tick formatter
+    const inptCompData = []
+    const inptMagData = []
 
-    const generateHistChart = (outAdd, caseVals, counts, bin_centers) => {
-        const hist_data = createHistogramData(bin_centers, counts)
-        const referenceBars = createRefBars(caseVals, "count")
+    const generateCharts = () => {
+        let {avgData, out_fmt, outAdd, outCat} = props
+
+
+        // const inptMagData = []
+
+        const deltaCharts = avgData.map((inptData, idx) => {
+            const inAdd = Object.keys(inptData)
+            const inputLabel = props.inputLabelMap[inAdd]
+            const inVal = Object.values(inptData)[0]
+            const xmax = getMaxfromKey(inVal, "value")
+            const xmin = getMinfromKey(inVal, "value")
+            const domains = getDomains(xmin, xmax)
+
+
+            inptCompData.push({
+                "name": inputLabel,
+                "value": (getAvgfromKey(inVal, "value")),
+                "fill": color_url(chartColors[idx])
+            })
+
+            inptMagData.push({
+                "name": inputLabel,
+                "value": Math.abs(getAvgfromKey(inVal, "value")),
+                "fill": color_url(chartColors[idx])
+            })
+
+            return (
+                <div className={classes.deltaChart} key={"Delta_" + out_fmt + inAdd}>
+                    <h3 className={classes.chartTitle}>Impact of {inputLabel}</h3>
+                    <h3 className={classes.chartNote}><em>Represents average change for one slider increment</em></h3>
+                    <ResponsiveContainer width="100%" height={300}>
+                        <BarChart
+                            data={inVal}
+                            margin={{top: 25, right: 10, left: 10, bottom: 10}}
+                            barSize={20}
+                            // style={{background: 'linear-gradient(#FFFFFF 60%,#F4F4F4)'}}
+                        >
+                            <defs>
+                                <linearGradient id={chartColors[idx]} x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stopColor={chartColors[idx]} stopOpacity={0.75}/>
+                                    <stop offset="75%" stopColor={chartColors[idx]} stopOpacity={0.25}/>
+                                </linearGradient>
+                            </defs>
+                            <XAxis
+                                dataKey="name"
+                                type="category"
+                                tick={<CustomizedXAxisTick/>}
+                                // ticks={bin_centers}
+                                tickLine={false}
+                                interval={0}
+                                // padding={{top: 30, bottom: 30}}
+                                stroke='#004666'
+                                // scale="linear"
+                                // domain={[props.distributions.min[outAdd], props.distributions.max[outAdd]]}
+                            />
+                            <YAxis
+                                // yAxisId="count"
+                                hide={true}
+                                // domain={[-30000, 0]}
+                                domain={domains}
+                            />
+                            <Tooltip/>
+                            <ReferenceLine
+                                y={0}
+                                label={{
+                                    position: "right",
+                                    value: '0',
+                                    opacity: '60%',
+                                    fontFamily: 'Questrial',
+                                    fontSize: '0.7em',
+                                    fill: '#767A7F',
+                                    width: '10px'
+                                    // fontWeight: labelWeight
+                                }}
+                                stroke='#B1B3B5'
+                                strokeDasharray="3 3"
+                            />
+                            <Bar
+                                // yAxisId="count"
+                                dataKey="value"
+                                isAnimationActive={true}
+                                fill={color_url(chartColors[idx])}
+                            >
+                                >
+                                <LabelList
+                                    dataKey="value"
+                                    position="top"
+                                    style={{
+                                        fontFamily: 'Questrial',
+                                        fontSize: '0.8em',
+                                        fontWeight: '500',
+                                        fill: chartColors[idx]
+                                    }}
+                                    formatter={(value) => convert_format(out_fmt, value)}
+                                />
+                            </Bar>
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
+            )
+        })
+
+        const inputCompChart =
+            (
+                <div className={classes.inputComparisonContainer}>
+                    <h3 className={classes.chartTitle}>Input Importance Comparison</h3>
+                    <h3 className={classes.chartNote}><em>Impact of one increment movement in input</em></h3>
+                    <ResponsiveContainer width="75%" height={300}>
+                        <BarChart
+                            data={inptCompData}
+                            margin={{top: 50, right: 25, left: 25, bottom: 0}}
+                            barSize={20}
+                        >
+                            <XAxis
+                                dataKey="name"
+                                tick={{
+                                    fontFamily: 'Questrial',
+                                    fontSize: '0.85em'
+                                }}
+                                tickLine={false}
+                                interval={0}
+                                padding={{top: 30, bottom: 30}}
+                                stroke='#004666'
+                                // domain={[props.distributions.min[outAdd], props.distributions.max[outAdd]]}
+                            />
+
+                            <YAxis
+                                hide={true}
+                                padding={{top: 30, bottom: 30}}
+                            />
+                            <Tooltip/>
+                            <ReferenceLine
+                                y={0}
+                                label={{
+                                    position: "right",
+                                    value: '0',
+                                    opacity: '60%',
+                                    fontFamily: 'Questrial',
+                                    fontSize: '0.9em',
+                                    fill: '#767A7F',
+                                    width: '10px'
+                                    // fontWeight: labelWeight
+                                }}
+                                stroke='#B1B3B5'
+                                strokeDasharray="3 3"
+                            />
+                            <Bar
+                                dataKey="value"
+                                isAnimationActive={true}
+                                barSize={30}
+                            >
+                                <LabelList
+                                    dataKey="value"
+                                    position="top"
+                                    style={{
+                                        fontFamily: 'Questrial',
+                                        fontSize: '0.9em',
+                                        fontWeight: '500',
+                                        fill: '#292F36'
+                                    }}
+                                    formatter={(value) => convert_format(out_fmt, value)}
+                                />
+                            </Bar>
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
+            )
+
+
+        const inputMagChart =
+            (
+                <div className={classes.inputComparisonContainer}>
+                    <h3 className={classes.chartTitle}>Input Magnitude Comparison</h3>
+                    <h3 className={classes.chartNote}><em>Absolute impact of one increment movement in input</em></h3>
+                    <ResponsiveContainer
+                        width="75%"
+                        height={300}
+                        margin={{top: 5, right: 20, left: 10, bottom: 300}}
+                    >
+                        <PieChart>
+                            <Pie
+                                data={inptMagData}
+                                dataKey="value"
+                                cx={"50%"}
+                                cy={"50%"}
+                                labelLine={true}
+                                label={<LabelFormatter fmt={out_fmt}/>}
+                                innerRadius={60}
+                                outerRadius={100}
+                                fill="#8884d8"
+                                animationDuration={600}
+                            >
+                                {
+                                    inptMagData.map((entry, index) => <Cell key={"cell_" + index}
+                                                                            fill={chartColors[index % chartColors.length]}/>)
+                                }
+                            </Pie>
+                            <Tooltip/>
+                        </PieChart>
+                    </ResponsiveContainer>
+                </div>
+            )
+
 
         return (
             <Paper className={classes.paper} elevation={2}>
-                <h3 className={classes.chartTitle}>Histogram for {props.currCategory}, {outCat.labels[outAdd]}</h3>
-                <h3 className={classes.chartNote}><em>Represents relative frequency of values assuming a standrard bin
-                    width</em></h3>
-                <ResponsiveContainer width="100%" height={300}>
-                    <BarChart
-                        data={hist_data}
-                        margin={{top: 50, right: 100, left: 100, bottom: 0}}
-                        barSize={20}
-                        // style={{background: 'linear-gradient(#FFFFFF 60%,#F4F4F4)'}}
-                    >
-                        <defs>
-                            <linearGradient id={'#006E9F'} x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor={'#006E9F'} stopOpacity={0.5}/>
-                                <stop offset="75%" stopColor={'#006E9F'} stopOpacity={0.25}/>
-                            </linearGradient>
-                        </defs>
-                        <XAxis
-                            dataKey="value"
-                            type="number"
-                            tick={<CustomizedXAxisTick fmt={outAdd_fmt}/>}
-                            ticks={bin_centers}
-                            tickLine={false}
-                            interval={0}
-                            // padding={{top: 30, bottom: 30}}
-                            stroke='#004666'
-                            // scale="linear"
-                            domain={[props.distributions.min[outAdd], props.distributions.max[outAdd]]}
-                        />
-                        <Label
-                            value={`${props.inputLabelMap[outAdd]}`}
-                            position="bottom"
-                            className={classes.xlabel}
-                        />
-                        <YAxis
-                            yAxisId="count"
-                            hide={true}/>
-                        <Tooltip/>
-                        {referenceBars}
-                        <Bar
-                            yAxisId="count"
-                            dataKey="count"
-                            fill={color_url}
-                            isAnimationActive={true}>
-                        </Bar>
-                    </BarChart>
-                </ResponsiveContainer>
+                {inputCompChart}
+                {inputMagChart}
+                <Paper className={classes.deltaChartsContainer} elevation={4}>
+                    {deltaCharts}
+                </Paper>
             </Paper>
+
         )
+
     }
 
-    const generateKeyStats = (outAdd) => {
-        const xmin = props.distributions.min[outAdd]
-        const xmax = props.distributions.max[outAdd]
-        const xmean = props.distributions.mean[outAdd]
-        const xstd = props.distributions.std[outAdd]
+    const generateKeyStats = () => {
+        console.log(inptMagData)
+        const mostSensitiveMag = inptMagData.reduce(function (prev, current) {
+            return (prev.value > current.value) ? prev : current
+        })
+
+        const leastSensitiveMag = inptMagData.reduce(function (prev, current) {
+            return (prev.value < current.value) ? prev : current
+        })
+
+        const mostSensitive = inptCompData.reduce(function (prev, current) {
+            return (prev.value > current.value) ? prev : current
+        })
+
+        const leastSensitive = inptCompData.reduce(function (prev, current) {
+            return (prev.value < current.value) ? prev : current
+        })
+
 
         return (
             <div className={classes.keyStatsContainer}>
                 <Paper className={classes.keyStatsPaper} elevation={3}>
-                    <h2 className={classes.statsText}>{'Mean'}</h2>
+                    <h2 className={classes.statsText}>{'Most Sensitive Driver'}</h2>
                     <h3
-                        className={classes.statFigure}>{convert_format(outAdd_fmt, xmean)}
+                        className={classes.statFigure}>{mostSensitiveMag.name}
                     </h3>
                 </Paper>
                 <Paper className={classes.keyStatsPaper} elevation={3}>
-                    <h2 className={classes.statsText}>{'Minimum'}</h2>
-                    <h3 className={classes.statFigure}>{convert_format(outAdd_fmt, xmin)}</h3>
+                    <h2 className={classes.statsText}>{'Least Sensitive Driver'}</h2>
+                    <h3
+                        className={classes.statFigure}>{leastSensitiveMag.name}
+                    </h3>
                 </Paper>
                 <Paper className={classes.keyStatsPaper} elevation={3}>
-                    <h2 className={classes.statsText}> {'Maximum'}</h2>
-                    <h3 className={classes.statFigure}>{convert_format(outAdd_fmt, xmax)}</h3>
+                    <h2 className={classes.statsText}>{'Highest Positive Driver'}</h2>
+                    <h3
+                        className={classes.statFigure}>{mostSensitive.name}
+                    </h3>
                 </Paper>
                 <Paper className={classes.keyStatsPaper} elevation={3}>
-                    <h2 className={classes.statsText}> {'Standard Deviation'}</h2>
-                    <h3 className={classes.statFigure}>{convert_format(outAdd_fmt, xstd)}</h3>
+                    <h2 className={classes.statsText}>{'Highest Negative Driver'}</h2>
+                    <h3
+                        className={classes.statFigure}>{leastSensitive.name}
+                    </h3>
                 </Paper>
             </div>
         )
@@ -245,35 +464,32 @@ export default function Distribution(props) {
 
 
     //Execute Functions
-    const caseVals = processCases()
-    const counts = props.distributions.count[outAdd]
-    const bin_centers = createBinCenters(counts)
-    const histChart = generateHistChart(outAdd, caseVals, counts, bin_centers)
-    const probChart = generateProbChart(outAdd, caseVals, bin_centers)
-    const keyStats = generateKeyStats(outAdd)
+
+    const charts = generateCharts()
+    const keyStats = generateKeyStats()
 
     return (
         <Card
             className={classes.distCard}
-            key={"dist" + props.currOutputCell}
+            key={"ii_" + props.outAdd}
             // raised={true}
             elevation={3}
         >
             <div className={classes.cardHeaderContainer}>
-                <h2 className={classes.cardTitleHeader}>Output Distributions</h2>
+                <h2 className={classes.cardTitleHeader}>Input Importance</h2>
             </div>
             <LabelSelector
                 type="withLabel"
                 outputs={props.outputs}
                 handleOutputLabelChange={props.handleOutputLabelChange}
                 handleOutputCategoryChange={props.handleOutputCategoryChange}
-                currOutputCell={props.currOutputCell}
-                currCategory={props.currCategory}/>
+                currOutputCell={props.outAdd}
+                currCategory={props.outCat.category}/>
             <Fade in={true} timeout={1000}>
                 {keyStats}
             </Fade>
-            {histChart}
-            {probChart}
+            {charts}
+            {/*{probChart}*/}
         </Card>
     )
 

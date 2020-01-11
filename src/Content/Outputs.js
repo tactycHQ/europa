@@ -3,6 +3,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import SummaryChart from "../Outputs/SummaryChart"
 import SAChart from "../Outputs/SAChart"
 import DistributionChart from "../Outputs/DistributionChart";
+import InputImportance from "../Outputs/InputImportance";
 import {convert_format} from "../utils/utils";
 import isEqual from "lodash.isequal";
 import {getAvg} from "../utils/utils";
@@ -268,29 +269,55 @@ export default function Output(props) {
     const createImpacts = (outAdd) => {
         return props.inputs.map(input => {
             const inAdd = input.address
-            const values = input.values
+            const in_fmt= props.formats[inAdd]
+            const increments = input.values
 
-            const _values = values.reduce((acc, value) => {
+            const averages = increments.reduce((acc, incr, idx) => {
                 const outVals = []
                 props.solutions.map(solution => {
-                    if (solution.inputs[inAdd] === value) {
-                        const outVal = solution.outputs[outAdd]
-                        outVals.push(outVal)
+                    if (solution.inputs[inAdd] === incr) {
+                        outVals.push(solution.outputs[outAdd])
                     }
                     return outVals
                 })
-                acc[value] = getAvg(outVals)
+                acc.push({
+                        "name": incr,
+                        "value": getAvg(outVals)
+                    })
                 return acc
-            }, {})
 
-            return {[inAdd]: _values}
+            }, [])
+            const delta = averages.reduce((_acc, average, idx) => {
+                if (idx<averages.length-1) {
+                    _acc.push({
+                        'name': `${convert_format(in_fmt,average.name)} to ${convert_format(in_fmt,averages[idx + 1].name)}`,
+                        'value': averages[idx + 1].value-average.value
+                    })
+                }
+                return _acc
+            },[])
+
+            return {[inAdd]: delta}
         })
 
     }
 
 
     const createInputImptCharts = (avgData, outAdd, outCat, out_fmt) => {
-        console.log(avgData)
+
+        return (
+            <InputImportance
+                avgData={avgData}
+                outAdd={outAdd}
+                outCat={outCat}
+                out_fmt={out_fmt}
+                inputLabelMap={inputLabelMap}
+                formats={props.formats}
+                outputs={props.outputs}
+                handleOutputLabelChange={handleOutputLabelChange}
+                handleOutputCategoryChange={handleOutputCategoryChange}
+            />
+        )
     }
 
 

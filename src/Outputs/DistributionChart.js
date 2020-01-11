@@ -145,6 +145,10 @@ export default function Distribution(props) {
     const processCases = () => {
 
         const probKey = props.currSolution[outAdd].toFixed(3)
+        console.log(probKey)
+        console.log(probs)
+        console.log(probKey in probs)
+        console.log(probs[probKey])
         return Object.entries(props.cases[0]).reduce((acc, caseData) => {
             const caseName = caseData[0]
             const inputCombo = caseData[1]
@@ -303,7 +307,8 @@ export default function Distribution(props) {
                         />
                         <YAxis
                             yAxisId="count"
-                            hide={true}/>
+                            hide={true}
+                        />
                         <Tooltip/>
                         {referenceBars}
                         <Bar

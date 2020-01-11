@@ -170,7 +170,7 @@ export default function SummaryChart(props) {
                         formatter={(value) => yAxisFormatter(value)
                         }
                     />
-                    <ReferenceLine y={0} stroke="gray" strokeDasharray="3 3" strokeWidth={0.1}/>
+                    <ReferenceLine y={0} stroke='#767A7F' strokeDasharray="3 3" strokeWidth={0.1}/>
 
                     <Bar
                         className={classes.bar}
