@@ -45,7 +45,7 @@ export default function Distribution(props) {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            margin: '1%',
+            // margin: '1%',
             padding: '1%',
             background: 'linear-gradient(#F4F4F4 10%,#EBEEF0)',
             // borderRadius:'64px'
@@ -297,8 +297,10 @@ export default function Distribution(props) {
 
         const inputCompChart = (
             <div className={classes.inputComparisonContainer}>
-                <h3 className={classes.chartTitle}>Relative Impact on {props.outCat.category}, {props.outCat.labels[props.outAdd]} from input changes</h3>
-                <h3 className={classes.chartNote}><em>Impact of one increment movement in input</em></h3>
+                <h3 className={classes.chartTitle}>Impact Analysis
+                        on {props.outCat.category}, {props.outCat.labels[props.outAdd]}</h3>
+                    <h3 className={classes.chartNote}><em>Average change in output for 1 increment change in input</em>
+                    </h3>
                 <ResponsiveContainer width="75%" height={300}>
                     <BarChart
                         data={inptCompData}
@@ -362,8 +364,9 @@ export default function Distribution(props) {
 
         const inputMagChart = (
             <div className={classes.inputComparisonContainer}>
-                <h3 className={classes.chartTitle}>Absolute Change Comparison</h3>
-                <h3 className={classes.chartNote}><em>Absolute impact of one increment movement in input</em></h3>
+                <h3 className={classes.chartTitle}>Contribution Analysis
+                    on {props.outCat.category}, {props.outCat.labels[props.outAdd]} </h3>
+                <h3 className={classes.chartNote}><em>Average impact contribution of input</em></h3>
                 <ResponsiveContainer
                     width="75%"
                     height={300}
