@@ -15,7 +15,7 @@ export default function Content(props) {
         root: {
             display: 'flex',
             width: '100%',
-            background:'#FEFEFD'
+            background: '#FEFEFD'
         },
         content: {
             display: 'flex',
@@ -74,6 +74,15 @@ export default function Content(props) {
                             formats={props.formats}
                         />
                     </Route>
+                    <Route exact path="/inputimportance">
+                        <Output
+                            type="inputimportance"
+                            inputs={props.inputs}
+                            outputs={props.outputs}
+                            solutions={props.solutions}
+                            formats={props.formats}
+                        />
+                    </Route>
                     <Route exact path="/sensitivity">
                         <Output
                             type="sensitivity"
@@ -82,23 +91,6 @@ export default function Content(props) {
                             solutions={props.solutions}
                             formats={props.formats}
                             currInputVal={props.currInputVal}
-                        />
-                        <Input
-                            handleSliderChange={props.handleSliderChange}
-                            handleCaseChange={props.handleCaseChange}
-                            currInputVal={props.currInputVal}
-                            inputs={props.inputs}
-                            cases={props.cases}
-                            formats={props.formats}
-                        />
-                    </Route>
-                    <Route exact path="/inputimportance">
-                        <Output
-                            type="inputimportance"
-                            inputs={props.inputs}
-                            outputs={props.outputs}
-                            solutions={props.solutions}
-                            formats={props.formats}
                         />
                         <Input
                             handleSliderChange={props.handleSliderChange}

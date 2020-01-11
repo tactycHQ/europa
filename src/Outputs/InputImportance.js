@@ -158,7 +158,7 @@ export default function Distribution(props) {
                     textAnchor="middle"
                     fill='#3C4148'
                     transform="rotate(-0)"
-                    fontSize='0.8em'
+                    fontSize='0.9em'
                     fontFamily="Questrial"
                     fontWeight='500'
                 >
@@ -167,7 +167,6 @@ export default function Distribution(props) {
             </g>
         )
     }
-
 
     const LabelFormatter = (props) => {
         const {cx, x, y, payload, fmt} = props
@@ -191,12 +190,9 @@ export default function Distribution(props) {
     }
 
 
-    //Tick formatter
-    const inptCompData = []
-    const inptMagData = []
-
+    //Functions
     const generateCharts = () => {
-        let {avgData, out_fmt, outAdd, outCat} = props
+        let {avgData, out_fmt} = props
 
 
         // const inptMagData = []
@@ -298,106 +294,102 @@ export default function Distribution(props) {
             )
         })
 
-        const inputCompChart =
-            (
-                <div className={classes.inputComparisonContainer}>
-                    <h3 className={classes.chartTitle}>Input Importance Comparison</h3>
-                    <h3 className={classes.chartNote}><em>Impact of one increment movement in input</em></h3>
-                    <ResponsiveContainer width="75%" height={300}>
-                        <BarChart
-                            data={inptCompData}
-                            margin={{top: 50, right: 25, left: 25, bottom: 0}}
-                            barSize={20}
-                        >
-                            <XAxis
-                                dataKey="name"
-                                tick={{
-                                    fontFamily: 'Questrial',
-                                    fontSize: '0.85em'
-                                }}
-                                tickLine={false}
-                                interval={0}
-                                padding={{top: 30, bottom: 30}}
-                                stroke='#004666'
-                                // domain={[props.distributions.min[outAdd], props.distributions.max[outAdd]]}
-                            />
+        const inputCompChart = (
+            <div className={classes.inputComparisonContainer}>
+                <h3 className={classes.chartTitle}>Input Importance Comparison</h3>
+                <h3 className={classes.chartNote}><em>Impact of one increment movement in input</em></h3>
+                <ResponsiveContainer width="75%" height={300}>
+                    <BarChart
+                        data={inptCompData}
+                        margin={{top: 50, right: 25, left: 25, bottom: 0}}
+                        barSize={20}
+                    >
+                        <XAxis
+                            dataKey="name"
+                            tick={{
+                                fontFamily: 'Questrial',
+                                fontSize: '0.90em'
+                            }}
+                            tickLine={false}
+                            interval={0}
+                            padding={{top: 30, bottom: 30}}
+                            stroke='#004666'
+                            // domain={[props.distributions.min[outAdd], props.distributions.max[outAdd]]}
+                        />
 
-                            <YAxis
-                                hide={true}
-                                padding={{top: 30, bottom: 30}}
-                            />
-                            <Tooltip/>
-                            <ReferenceLine
-                                y={0}
-                                label={{
-                                    position: "right",
-                                    value: '0',
-                                    opacity: '60%',
+                        <YAxis
+                            hide={true}
+                            padding={{top: 30, bottom: 30}}
+                        />
+                        <Tooltip/>
+                        <ReferenceLine
+                            y={0}
+                            label={{
+                                position: "right",
+                                value: '0',
+                                opacity: '60%',
+                                fontFamily: 'Questrial',
+                                fontSize: '0.9em',
+                                fill: '#767A7F',
+                                width: '10px'
+                                // fontWeight: labelWeight
+                            }}
+                            stroke='#B1B3B5'
+                            strokeDasharray="3 3"
+                        />
+                        <Bar
+                            dataKey="value"
+                            isAnimationActive={true}
+                            barSize={30}
+                        >
+                            <LabelList
+                                dataKey="value"
+                                position="top"
+                                style={{
                                     fontFamily: 'Questrial',
                                     fontSize: '0.9em',
-                                    fill: '#767A7F',
-                                    width: '10px'
-                                    // fontWeight: labelWeight
+                                    fontWeight: '500',
+                                    fill: '#292F36'
                                 }}
-                                stroke='#B1B3B5'
-                                strokeDasharray="3 3"
+                                formatter={(value) => convert_format(out_fmt, value)}
                             />
-                            <Bar
-                                dataKey="value"
-                                isAnimationActive={true}
-                                barSize={30}
-                            >
-                                <LabelList
-                                    dataKey="value"
-                                    position="top"
-                                    style={{
-                                        fontFamily: 'Questrial',
-                                        fontSize: '0.9em',
-                                        fontWeight: '500',
-                                        fill: '#292F36'
-                                    }}
-                                    formatter={(value) => convert_format(out_fmt, value)}
-                                />
-                            </Bar>
-                        </BarChart>
-                    </ResponsiveContainer>
-                </div>
-            )
+                        </Bar>
+                    </BarChart>
+                </ResponsiveContainer>
+            </div>
+        )
 
-
-        const inputMagChart =
-            (
-                <div className={classes.inputComparisonContainer}>
-                    <h3 className={classes.chartTitle}>Input Magnitude Comparison</h3>
-                    <h3 className={classes.chartNote}><em>Absolute impact of one increment movement in input</em></h3>
-                    <ResponsiveContainer
-                        width="75%"
-                        height={300}
-                        margin={{top: 5, right: 20, left: 10, bottom: 300}}
-                    >
-                        <PieChart>
-                            <Pie
-                                data={inptMagData}
-                                dataKey="value"
-                                cx={"50%"}
-                                cy={"50%"}
-                                labelLine={true}
-                                label={<LabelFormatter fmt={out_fmt}/>}
-                                innerRadius={60}
-                                outerRadius={100}
-                                fill="#8884d8"
-                                animationDuration={600}
-                            >
-                                {
-                                    inptMagData.map((entry, index) => <Cell key={"cell_" + index}
-                                                                            fill={chartColors[index % chartColors.length]}/>)
-                                }
-                            </Pie>
-                            <Tooltip/>
-                        </PieChart>
-                    </ResponsiveContainer>
-                </div>
-            )
+        const inputMagChart = (
+            <div className={classes.inputComparisonContainer}>
+                <h3 className={classes.chartTitle}>Input Magnitude Comparison</h3>
+                <h3 className={classes.chartNote}><em>Absolute impact of one increment movement in input</em></h3>
+                <ResponsiveContainer
+                    width="75%"
+                    height={300}
+                    margin={{top: 5, right: 20, left: 10, bottom: 300}}
+                >
+                    <PieChart>
+                        <Pie
+                            data={inptMagData}
+                            dataKey="value"
+                            cx={"50%"}
+                            cy={"50%"}
+                            labelLine={true}
+                            label={<LabelFormatter fmt={out_fmt}/>}
+                            innerRadius={60}
+                            outerRadius={100}
+                            animationDuration={600}
+                        >
+                            {
+                                inptMagData.map((entry, index) => <Cell key={"cell_" + index}
+                                                                        fill={chartColors[index]}/>)
+                            }
+                        </Pie>
+                        <Tooltip/>
+                    </PieChart>
+                </ResponsiveContainer>
+            </div>
+        )
 
 
         return (
@@ -464,7 +456,8 @@ export default function Distribution(props) {
 
 
     //Execute Functions
-
+    const inptCompData = []
+    const inptMagData = []
     const charts = generateCharts()
     const keyStats = generateKeyStats()
 

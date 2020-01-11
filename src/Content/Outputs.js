@@ -22,7 +22,7 @@ export default function Output(props) {
 
 
     const getWidth = () => {
-        if (['summary', 'distributions', 'sensitivity', 'inputimportance'].includes(props.type)) {
+        if (['summary', 'distributions', 'sensitivity'].includes(props.type)) {
             return '72.5%'
         } else {
             return '100%'
