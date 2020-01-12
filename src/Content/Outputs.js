@@ -241,11 +241,13 @@ export default function Output(props) {
     }
 
     //Summary chart creator
-    const createSummaryCharts = (solutionSet, idx,outAdd,outCat,inputLabelMap) => {
+    const createSummaryCharts = (summaryChartData,outAdd,outCat,inputLabelMap) => {
 
-        return (
+        return summaryChartData.map((solutionSet, idx) => (
             <SummaryChart
+
                 key={"summary_" + solutionSet.category}
+
                 category={solutionSet.category}
                 currSolution={solutionSet.values}
                 outAdd={outAdd}
@@ -258,7 +260,7 @@ export default function Output(props) {
                 handleSummaryBarMouseClick={handleSummaryBarMouseClick}
                 handleSummaryTickMouseClick={handleSummaryTickMouseClick}
             />
-        )
+        ))
     }
 
 
@@ -391,10 +393,9 @@ export default function Output(props) {
 
             //Get relevant data for summary charts
             const summaryChartData = addLiveChartMetaData(currSolution)
+            const summaryCharts = createSummaryCharts(summaryChartData,outAdd,outCat,inputLabelMap)
             // const miniKeyStatsChart = distKeyStats(outAdd, out_fmt)
-            const summaryCharts = summaryChartData.map((solutionSet, idx) => {
-                return createSummaryCharts(solutionSet, idx, outAdd,outCat,inputLabelMap)
-            })
+
             return (
                 <Card className={classes.summaryContainer}>
                     {summaryCharts}
