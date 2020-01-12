@@ -96,6 +96,10 @@ export default function SummaryChart(props) {
     function CustomizedXAxisTick(props) {
         const {x, y, payload} = props
 
+        console.log(props)
+
+        // if(props.name==="Investor IRRs" && props.payload.)
+
         return (
             <g transform={`translate(${x},${y})`}>
                 <text
@@ -117,6 +121,8 @@ export default function SummaryChart(props) {
 
     // Function executions
     const processedData = process_formats()
+
+    //Handlers
 
     return (
         <Card className={classes.outputCards} key={"summary" + props.category} elevation={3}>
@@ -144,11 +150,13 @@ export default function SummaryChart(props) {
                         hide={false}
                         stroke={props.fill}
                         dataKey="x"
+                        name={title}
                         tickLine={false}
                         minTickGap={2}
                         interval={0}
                         tick={<CustomizedXAxisTick/>}
                         padding={{top: 30, bottom: 30}}
+                        onMouseDown={(e) => props.handleSummaryTickMouseClick(e, props.category)}
                     />
 
                     <YAxis
@@ -179,6 +187,7 @@ export default function SummaryChart(props) {
                         isAnimationActive={true}
                         fill={color_url}
                         animationDuration={200}
+                        onMouseDown={(e) => props.handleSummaryBarMouseClick(e,props.category)}
                     >
                         <LabelList
                             dataKey="label"

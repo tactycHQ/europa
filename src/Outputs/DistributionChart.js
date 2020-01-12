@@ -125,8 +125,8 @@ export default function Distribution(props) {
     // Get address of outout label selected from dropdown
 
     const outAdd = props.outAdd
-    const out_fmt = props.out_fmt
-    const outCat=props.outCat
+    const out_fmt = props.formats[outAdd]
+    const outCat = props.outCat
     const probs = props.distributions.prob[outAdd]
 
 
@@ -254,7 +254,7 @@ export default function Distribution(props) {
 
         return (
             <Paper className={classes.paper} elevation={2}>
-                <h3 className={classes.chartTitle}>Histogram for {props.currCategory}, {outCat.labels[outAdd]}</h3>
+                <h3 className={classes.chartTitle}>Histogram for {props.outCat.category}, {outCat.labels[outAdd]}</h3>
                 <h3 className={classes.chartNote}><em>Represents relative frequency of values assuming a standrard bin
                     width</em></h3>
                 <ResponsiveContainer width="100%" height={300}>
@@ -273,7 +273,7 @@ export default function Distribution(props) {
                         <XAxis
                             dataKey="value"
                             type="number"
-                            tick={(tickData) => CustomizedXAxisTick(tickData,out_fmt)}
+                            tick={(tickData) => CustomizedXAxisTick(tickData, out_fmt)}
                             ticks={bin_centers}
                             tickLine={false}
                             interval={0}
@@ -291,7 +291,12 @@ export default function Distribution(props) {
                             yAxisId="count"
                             hide={true}
                         />
-                        <Tooltip/>
+                        <Tooltip
+                            wrapperStyle={{fontSize: '0.9em', fontFamily: 'Questrial'}}
+                            cursor={{fill: '#FEFEFD', fontFamily: 'Questrial', fontSize: '0.8em'}}
+                            formatter={value => [`${value} solutions`]}
+                            labelFormatter={value => `${convert_format(out_fmt, value)}`}
+                        />
                         {referenceBars}
                         <Bar
                             yAxisId="count"
@@ -354,7 +359,11 @@ export default function Distribution(props) {
                                hide={true}
                         />
                         {/*<YAxis yAxisId="cdf" orientation='right'/>*/}
-                        <Tooltip/>
+                        <Tooltip
+                            wrapperStyle={{fontSize: '0.9em', fontFamily: 'Questrial'}}
+                            cursor={{fill: '#FEFEFD', fontFamily: 'Questrial', fontSize: '0.8em'}}
+                            labelFormatter={value => `${convert_format(out_fmt, value)}`}
+                        />
                         {/*<Legend/>*/}
                         {referenceBars}
                         <Area yAxisId="pdf"

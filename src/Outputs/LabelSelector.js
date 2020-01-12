@@ -87,7 +87,7 @@ export function LabelSelector(props) {
             return (
                 <div className={classes.selectionContainer}>
                     <div className={classes.labelContainer}>
-                        <h4 className={classes.labelSelectorText}>Label</h4>
+                        <h4 className={classes.labelSelectorText}>Output Label</h4>
                         <FormControl
                             className={classes.formControl}
                             // disableScrollLock={true}
@@ -119,7 +119,7 @@ export function LabelSelector(props) {
             <div className={classes.labelSelectorContainer}>
                 <div className={classes.selectionContainer}>
                     <div className={classes.labelContainer}>
-                        <h4 className={classes.labelSelectorText}>Category</h4>
+                        <h4 className={classes.labelSelectorText}>Output Category</h4>
                         <FormControl
                             className={classes.formControl}
                             color={"secondary"}

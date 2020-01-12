@@ -145,7 +145,7 @@ export default function Distribution(props) {
     const color_url = (color) => "url(#" + color + ")"
 
 
-    //Tick formatter
+    //Formatters
     const CustomizedCompXAxisTick = (props) => {
         const {x, y, payload} = props
 
@@ -192,9 +192,8 @@ export default function Distribution(props) {
         )
     }
 
-
     const pieLabelFormatter = (props, fmt) => {
-        const {cx, x, y, payload} = props
+        const {cx, x, y, payload, index} = props
 
         return (
             <g>
@@ -204,7 +203,7 @@ export default function Distribution(props) {
                     textAnchor={x > cx ? "start" : "end"}
                     fontSize='0.85em'
                     fontWeight={500}
-                    fill={chartColors}
+                    fill={chartColors[index]}
                     fontFamily="Questrial"
                 >
                     {payload.name + ": " + convert_format(fmt, payload.value)}
@@ -215,9 +214,10 @@ export default function Distribution(props) {
     }
 
 
-    //Functions
+    //Chart Creators
     const generateCharts = () => {
-        let {avgData, out_fmt} = props
+        const {avgData, outAdd} = props
+        const out_fmt = props.formats[outAdd]
 
 
         // const inptMagData = []
@@ -277,7 +277,12 @@ export default function Distribution(props) {
                                 // domain={[-30000, 0]}
                                 domain={domains}
                             />
-                            <Tooltip/>
+                            <Tooltip
+                                wrapperStyle={{fontSize: '0.9em', fontFamily: 'Questrial'}}
+                                cursor={{fill: '#FEFEFD', fontFamily: 'Questrial', fontSize: '0.8em'}}
+                                labelFormatter={value => `${value}`}
+                                formatter={value => [`${convert_format(out_fmt, value)}`]}
+                            />
                             <ReferenceLine
                                 y={0}
                                 label={{
@@ -344,7 +349,12 @@ export default function Distribution(props) {
                             hide={true}
                             padding={{top: 30, bottom: 30}}
                         />
-                        <Tooltip/>
+                        <Tooltip
+                            wrapperStyle={{fontSize: '0.9em', fontFamily: 'Questrial'}}
+                            cursor={{fill: '#FEFEFD', fontFamily: 'Questrial', fontSize: '0.8em'}}
+                            labelFormatter={value => `${value}`}
+                            formatter={value => [`${convert_format(out_fmt, value)}`]}
+                        />
                         <ReferenceLine
                             y={0}
                             label={{
@@ -409,12 +419,15 @@ export default function Distribution(props) {
                                                                         fill={chartColors[index]}/>)
                             }
                         </Pie>
-                        <Tooltip/>
+                        <Tooltip
+                            wrapperStyle={{fontSize: '0.9em', fontFamily: 'Questrial'}}
+                            cursor={{fill: '#FEFEFD', fontFamily: 'Questrial', fontSize: '0.8em'}}
+                            // labelFormatter={value => `${value}`}
+                            formatter={(value,name) => [`${convert_format(out_fmt, value)}`,`${name}`]}/>
                     </PieChart>
                 </ResponsiveContainer>
             </div>
         )
-
 
         return (
             <Paper className={classes.paper} elevation={2}>

@@ -7,6 +7,7 @@ import InputImportance from "../Outputs/InputImportance";
 import {convert_format} from "../utils/utils";
 import isEqual from "lodash.isequal";
 import {getAvg} from "../utils/utils";
+import Paper from "@material-ui/core/Paper";
 
 
 const chartColors = [
@@ -68,6 +69,23 @@ export default function Output(props) {
         setCurrOutputCell('')
     }
 
+    const handleSummaryTickMouseClick = (event, category) => {
+        setCurrCategory(category)
+        const _catdata = props.outputs.find(cat => cat.category === category)
+        const _catlabels = _catdata.labels
+        const catlabel = Object.keys(_catdata.labels).find(k => _catlabels[k] === event.value)
+        setCurrOutputCell(catlabel)
+    }
+
+    const handleSummaryBarMouseClick = (event, category) => {
+        setCurrCategory(category)
+        const _catdata = props.outputs.find(cat => cat.category === category)
+        const _catlabels = _catdata.labels
+        const catlabel = Object.keys(_catdata.labels).find(k => _catlabels[k] === event.payload.x)
+        setCurrOutputCell(catlabel)
+    }
+
+
     ///======== Utility Functions========
     //Returns output address and category name of dropdown
     const getOutAdd = () => {
@@ -80,7 +98,7 @@ export default function Output(props) {
         } else {
             outAdd = currOutputCell
         }
-        return [outAdd, outCat]
+        return {'outAdd': outAdd, 'outCat': outCat}
     }
 
     //Creates an input label map
@@ -187,6 +205,38 @@ export default function Output(props) {
         return labelsInChart
     }
 
+
+    //Mini Charts
+    const distKeyStats = (outAdd, out_fmt) => {
+        const xmin = props.distributions.min[outAdd]
+        const xmax = props.distributions.max[outAdd]
+        const xmean = props.distributions.mean[outAdd]
+        const xstd = props.distributions.std[outAdd]
+
+        return (
+            <div className={classes.keyStatsContainer}>
+                <Paper className={classes.keyStatsPaper} elevation={3}>
+                    <h2 className={classes.statsText}>{'Mean'}</h2>
+                    <h3
+                        className={classes.statFigure}>{convert_format(out_fmt, xmean)}
+                    </h3>
+                </Paper>
+                <Paper className={classes.keyStatsPaper} elevation={3}>
+                    <h2 className={classes.statsText}>{'Minimum'}</h2>
+                    <h3 className={classes.statFigure}>{convert_format(out_fmt, xmin)}</h3>
+                </Paper>
+                <Paper className={classes.keyStatsPaper} elevation={3}>
+                    <h2 className={classes.statsText}> {'Maximum'}</h2>
+                    <h3 className={classes.statFigure}>{convert_format(out_fmt, xmax)}</h3>
+                </Paper>
+                <Paper className={classes.keyStatsPaper} elevation={3}>
+                    <h2 className={classes.statsText}> {'Standard Deviation'}</h2>
+                    <h3 className={classes.statFigure}>{convert_format(out_fmt, xstd)}</h3>
+                </Paper>
+            </div>
+        )
+    }
+
     //Summary chart creator
     const createSummaryCharts = (solutionSet, idx) => {
         return (
@@ -198,6 +248,8 @@ export default function Output(props) {
                 domain={solutionSet.domains}
                 summaryPrefs={summaryPrefs}
                 setSummaryPrefs={setSummaryPrefs}
+                handleSummaryBarMouseClick={handleSummaryBarMouseClick}
+                handleSummaryTickMouseClick={handleSummaryTickMouseClick}
             />
         )
     }
@@ -235,7 +287,7 @@ export default function Output(props) {
                 data={lineData}
                 outAdd={outAdd}
                 outCat={outCat}
-                out_fmt={out_fmt}
+                formats={props.formats}
                 outputs={props.outputs}
                 inputLabelMap={inputLabelMap}
                 handleOutputLabelChange={handleOutputLabelChange}
@@ -257,7 +309,6 @@ export default function Output(props) {
                 outputs={props.outputs}
                 outCat={outCat}
                 outAdd={outAdd}
-                out_fmt={out_fmt}
                 handleOutputLabelChange={handleOutputLabelChange}
                 handleOutputCategoryChange={handleOutputCategoryChange}
                 cases={props.cases}
@@ -270,7 +321,7 @@ export default function Output(props) {
     const createImpacts = (outAdd) => {
         return props.inputs.map(input => {
             const inAdd = input.address
-            const in_fmt= props.formats[inAdd]
+            const in_fmt = props.formats[inAdd]
             const increments = input.values
 
             const averages = increments.reduce((acc, incr, idx) => {
@@ -282,21 +333,21 @@ export default function Output(props) {
                     return outVals
                 })
                 acc.push({
-                        "name": incr,
-                        "value": getAvg(outVals)
-                    })
+                    "name": incr,
+                    "value": getAvg(outVals)
+                })
                 return acc
 
             }, [])
             const delta = averages.reduce((_acc, average, idx) => {
-                if (idx<averages.length-1) {
+                if (idx < averages.length - 1) {
                     _acc.push({
-                        'name': `${convert_format(in_fmt,average.name)} to ${convert_format(in_fmt,averages[idx + 1].name)}`,
-                        'value': averages[idx + 1].value-average.value
+                        'name': `${convert_format(in_fmt, average.name)} to ${convert_format(in_fmt, averages[idx + 1].name)}`,
+                        'value': averages[idx + 1].value - average.value
                     })
                 }
                 return _acc
-            },[])
+            }, [])
 
             return {[inAdd]: delta}
         })
@@ -311,7 +362,6 @@ export default function Output(props) {
                 avgData={avgData}
                 outAdd={outAdd}
                 outCat={outCat}
-                out_fmt={out_fmt}
                 inputLabelMap={inputLabelMap}
                 formats={props.formats}
                 outputs={props.outputs}
@@ -325,48 +375,40 @@ export default function Output(props) {
     // =========Final dispatcher=======
     const createCharts = () => {
 
+        const outCellData = getOutAdd()
+        const {outAdd, outCat} = outCellData
+        const out_fmt = props.formats[outAdd]
+
         if (props.type === 'summary') {
+
 
             //Get relevant data for summary charts
             const summaryChartData = addLiveChartMetaData(currSolution)
+            const distKeyStatsChart = distKeyStats(outAdd, out_fmt)
             const summaryCharts = summaryChartData.map((solutionSet, idx) => {
                 return createSummaryCharts(solutionSet, idx)
             })
             return (
                 <div className={classes.summaryContainer}>
                     {summaryCharts}
+                    {distKeyStatsChart}
                 </div>)
 
         } else if (props.type === 'sensitivity') {
 
             //Get relevant data for SA charts
-            const outCellData = getOutAdd()
             const saCombos = createSAData()
-
-            const outAdd = outCellData[0]
-            const outCat = outCellData[1]
-            const out_fmt = props.formats[outAdd]
             const lineData = createLines(saCombos, outAdd)
 
             return createSAcharts(lineData, outAdd, outCat, out_fmt)
 
         } else if (props.type === 'distributions') {
-            const outCellData = getOutAdd()
-
-            const outAdd = outCellData[0]
-            const outCat = outCellData[1]
-            const out_fmt = props.formats[outAdd]
-
 
             return createDistcharts(outAdd, outCat, out_fmt)
 
         } else if (props.type === 'inputimportance') {
 
             //Get relevant data for II charts
-            const outCellData = getOutAdd()
-            const outAdd = outCellData[0]
-            const outCat = outCellData[1]
-            const out_fmt = props.formats[outAdd]
             const avgData = createImpacts(outAdd)
 
             return createInputImptCharts(avgData, outAdd, outCat, out_fmt)

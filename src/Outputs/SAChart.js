@@ -222,8 +222,10 @@ export default function SAChart(props) {
     const generateCharts = () => {
         return props.data.map(chartData => {
 
-            let {lines, bounds1, bounds2, add1, add2, add2_fmt, add1_fmt} = chartData
-            let {out_fmt, outAdd, outCat} = props
+            const {lines, bounds1, bounds2, add1, add2, add2_fmt, add1_fmt} = chartData
+            const {outAdd, outCat} = props
+            const out_fmt=props.formats[outAdd]
+
             const lineChart = createLineChart(lines, outAdd, bounds1, bounds2, add1, add2, add2_fmt, add1_fmt, out_fmt)
             const tableChart = createTableChart(lines, outAdd, bounds1, bounds2, add1, add2, add2_fmt, add1_fmt, out_fmt)
 
