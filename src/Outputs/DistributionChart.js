@@ -125,6 +125,7 @@ export default function Distribution(props) {
     // Get address of outout label selected from dropdown
 
     const outAdd = props.outAdd
+
     const out_fmt = props.formats[outAdd]
     const outCat = props.outCat
     const probs = props.distributions.prob[outAdd]
@@ -248,13 +249,13 @@ export default function Distribution(props) {
         )
     }
 
-    const generateHistChart = (outAdd, caseVals, counts, bin_centers) => {
+    const generateHistChart = (outAdd, outCat, caseVals, counts, bin_centers) => {
         const hist_data = createHistogramData(bin_centers, counts)
         const referenceBars = createRefBars(caseVals, "count")
 
         return (
             <Paper className={classes.paper} elevation={2}>
-                <h3 className={classes.chartTitle}>Histogram for {props.outCat.category}, {outCat.labels[outAdd]}</h3>
+                <h3 className={classes.chartTitle}>Histogram for {outCat.category}, {outCat.labels[outAdd]}</h3>
                 <h3 className={classes.chartNote}><em>Represents relative frequency of values assuming a standrard bin
                     width</em></h3>
                 <ResponsiveContainer width="100%" height={300}>
@@ -282,11 +283,6 @@ export default function Distribution(props) {
                             // scale="linear"
                             domain={[props.distributions.min[outAdd], props.distributions.max[outAdd]]}
                         />
-                        <Label
-                            value={`${props.inputLabelMap[outAdd]}`}
-                            position="bottom"
-                            className={classes.xlabel}
-                        />
                         <YAxis
                             yAxisId="count"
                             hide={true}
@@ -310,7 +306,7 @@ export default function Distribution(props) {
         )
     }
 
-    const generateProbChart = (outAdd, caseVals, ticks) => {
+    const generateProbChart = (outAdd, outCat,caseVals, ticks) => {
         const prob_data = createProbData(probs)
         const referenceBars = createRefBars(caseVals, "pdf")
 
@@ -321,7 +317,7 @@ export default function Distribution(props) {
         return (
             <Paper className={classes.paper} elevation={2}>
                 <h3 className={classes.chartTitle}>Estimated Probability of Achievement
-                    for {outCat.labels[outAdd]}, {props.currCategory}</h3>
+                    for {outCat.category}, {outCat.labels[outAdd]}</h3>
                 <h3 className={classes.chartNote}><em>Represents probability that Case will be achieved or exceeded</em>
                 </h3>
                 <ResponsiveContainer width="100%" height={350}>
@@ -340,7 +336,7 @@ export default function Distribution(props) {
                         <XAxis
                             dataKey="value"
                             type="number"
-                            tick={<CustomizedXAxisTick fmt={out_fmt}/>}
+                            tick={(tickData) => CustomizedXAxisTick(tickData, out_fmt)}
                             ticks={ticks}
                             tickLine={false}
                             interval={0}
@@ -348,11 +344,6 @@ export default function Distribution(props) {
                             stroke='#768C9B'
                             // scale="linear"
                             domain={[props.distributions.min[outAdd], props.distributions.max[outAdd]]}
-                        />
-                        <Label
-                            value={`${props.inputLabelMap[outAdd]}`}
-                            position="bottom"
-                            className={classes.xlabel}
                         />
                         <YAxis yAxisId="pdf"
                                orientation='right'
@@ -414,8 +405,8 @@ export default function Distribution(props) {
     const caseVals = processCases()
     const counts = props.distributions.count[outAdd]
     const bin_centers = createBinCenters(counts)
-    const histChart = generateHistChart(outAdd, caseVals, counts, bin_centers)
-    const probChart = generateProbChart(outAdd, caseVals, bin_centers)
+    const histChart = generateHistChart(outAdd, outCat, caseVals, counts, bin_centers)
+    const probChart = generateProbChart(outAdd,outCat, caseVals, bin_centers)
     const keyStats = generateKeyStats(outAdd)
 
     return (

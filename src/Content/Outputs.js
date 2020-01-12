@@ -94,7 +94,8 @@ export default function Output(props) {
 
         let outAdd
         if (currOutputCell === '') {
-            outAdd = Object.keys(outCat.labels).slice(-1)[0]
+            // outAdd = Object.keys(outCat.labels).slice(-1)[0]
+            outAdd = Object.keys(outCat.labels)[0]
         } else {
             outAdd = currOutputCell
         }
@@ -238,12 +239,16 @@ export default function Output(props) {
     }
 
     //Summary chart creator
-    const createSummaryCharts = (solutionSet, idx) => {
+    const createSummaryCharts = (solutionSet, idx,outAdd,outCat,inputLabelMap) => {
+
         return (
             <SummaryChart
                 key={"summary_" + solutionSet.category}
                 category={solutionSet.category}
                 currSolution={solutionSet.values}
+                outAdd={outAdd}
+                outCat={outCat}
+                inputLabelMap={inputLabelMap}
                 fill={chartColors[idx]}
                 domain={solutionSet.domains}
                 summaryPrefs={summaryPrefs}
@@ -386,7 +391,7 @@ export default function Output(props) {
             const summaryChartData = addLiveChartMetaData(currSolution)
             const distKeyStatsChart = distKeyStats(outAdd, out_fmt)
             const summaryCharts = summaryChartData.map((solutionSet, idx) => {
-                return createSummaryCharts(solutionSet, idx)
+                return createSummaryCharts(solutionSet, idx, outAdd,outCat,inputLabelMap)
             })
             return (
                 <div className={classes.summaryContainer}>

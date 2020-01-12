@@ -1,5 +1,5 @@
 import React from 'react'
-import {BarChart, Bar, XAxis, YAxis, LabelList, Tooltip, ResponsiveContainer, ReferenceLine} from 'recharts'
+import {BarChart, Bar, XAxis, YAxis, LabelList, Tooltip, ResponsiveContainer, ReferenceLine, Cell} from 'recharts'
 import {Card, makeStyles} from "@material-ui/core"
 import {convert_format} from "../utils/utils"
 import CardSettings from "./CardSettings";
@@ -59,6 +59,7 @@ export default function SummaryChart(props) {
     const color_url = "url(#" + props.fill + ")"
 
     // Defined functions
+    // Defined functions
     const process_formats = () => {
         return props.currSolution.map(output => {
                 return (
@@ -94,11 +95,14 @@ export default function SummaryChart(props) {
     }
 
     function CustomizedXAxisTick(props) {
-        const {x, y, payload} = props
+        const {x, y, payload, fill} = props
 
-        console.log(props)
-
-        // if(props.name==="Investor IRRs" && props.payload.)
+        // let _fill=props.fill
+        let _fontWeight = '500'
+        if (props.name === props.outCat.category && props.payload.value === props.outCat.labels[props.outAdd]) {
+            // _fill='#006E9F'
+            _fontWeight = '700'
+        }
 
         return (
             <g transform={`translate(${x},${y})`}>
@@ -107,11 +111,14 @@ export default function SummaryChart(props) {
                     y={0}
                     dy={16}
                     textAnchor="middle"
-                    fill={props.fill}
+                    fill={fill}
                     transform="rotate(-0)"
                     fontSize='1.0em'
                     fontFamily="Questrial"
                     fontWeight='500'
+                    cursor='pointer'
+                    style={{fontWeight: _fontWeight}}
+
                 >
                     {payload.value}
                 </text>
@@ -123,7 +130,7 @@ export default function SummaryChart(props) {
     const processedData = process_formats()
 
     //Handlers
-
+    console.log(processedData)
     return (
         <Card className={classes.outputCards} key={"summary" + props.category} elevation={3}>
             <div className={classes.cardHeaderContainer}>
@@ -154,7 +161,7 @@ export default function SummaryChart(props) {
                         tickLine={false}
                         minTickGap={2}
                         interval={0}
-                        tick={<CustomizedXAxisTick/>}
+                        tick={<CustomizedXAxisTick outAdd={props.outAdd} outCat={props.outCat}/>}
                         padding={{top: 30, bottom: 30}}
                         onMouseDown={(e) => props.handleSummaryTickMouseClick(e, props.category)}
                     />
@@ -184,11 +191,16 @@ export default function SummaryChart(props) {
                         className={classes.bar}
                         dataKey={title}
                         name={title}
-                        isAnimationActive={true}
+                        isAnimationActive={false}
                         fill={color_url}
                         animationDuration={200}
-                        onMouseDown={(e) => props.handleSummaryBarMouseClick(e,props.category)}
+                        onMouseDown={(e) => props.handleSummaryBarMouseClick(e, props.category)}
+                        style={{cursor: 'pointer'}}
                     >
+                        {processedData.map((entry, index) => (
+                            <Cell fill = {entry['x'] === props.outCat.labels[props.outAdd] && Object.keys(entry)[1]===props.outCat.category ? '#006E9F' : color_url}/>
+                            ))}
+
                         <LabelList
                             dataKey="label"
                             position="top"
