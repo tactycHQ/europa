@@ -69,7 +69,7 @@ export default function Output(props) {
     }
 
     ///======== Utility Functions========
-    //Returns outout address and category of dropdown
+    //Returns output address and category name of dropdown
     const getOutAdd = () => {
 
         const outCat = props.outputs.find(output => (output.category === currCategory))
