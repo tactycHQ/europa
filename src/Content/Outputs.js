@@ -76,7 +76,7 @@ export default function Output(props) {
 
         let outAdd
         if (currOutputCell === '') {
-            outAdd = Object.keys(outCat.labels)[0]
+            outAdd = Object.keys(outCat.labels).slice(-1)[0]
         } else {
             outAdd = currOutputCell
         }
@@ -246,7 +246,7 @@ export default function Output(props) {
 
 
     // =========Distributions=======
-    const createDistcharts = (currCategory, currOutputCell) => {
+    const createDistcharts = (outAdd, outCat, out_fmt) => {
         return (
             <DistributionChart
                 distributions={props.distributions}
@@ -255,8 +255,9 @@ export default function Output(props) {
                 inputLabelMap={inputLabelMap}
                 formats={props.formats}
                 outputs={props.outputs}
-                currCategory={currCategory}
-                currOutputCell={currOutputCell}
+                outCat={outCat}
+                outAdd={outAdd}
+                out_fmt={out_fmt}
                 handleOutputLabelChange={handleOutputLabelChange}
                 handleOutputCategoryChange={handleOutputCategoryChange}
                 cases={props.cases}
@@ -350,7 +351,14 @@ export default function Output(props) {
             return createSAcharts(lineData, outAdd, outCat, out_fmt)
 
         } else if (props.type === 'distributions') {
-            return createDistcharts(currCategory, currOutputCell)
+            const outCellData = getOutAdd()
+
+            const outAdd = outCellData[0]
+            const outCat = outCellData[1]
+            const out_fmt = props.formats[outAdd]
+
+
+            return createDistcharts(outAdd, outCat, out_fmt)
 
         } else if (props.type === 'inputimportance') {
 

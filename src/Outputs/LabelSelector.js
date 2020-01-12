@@ -65,8 +65,6 @@ export function LabelSelector(props) {
 
     //Custom variables
     const currOutput = props.outputs.find(i => (i.category === props.currCategory))
-    const defaultLabelVal = Object.keys(currOutput.labels)[0]
-    const defaultCatVal = Object.keys(currOutput.category)[0]
     const outputLabels = Object.entries(currOutput.labels)
     const outputCats = props.outputs.map(output => output.category)
 
@@ -84,26 +82,6 @@ export function LabelSelector(props) {
     })
 
     //Custom Functions to get label and category to show
-    const getCurrLabelDisplay = () => {
-        let currLabelDisplay
-        if (props.currOutputCell === '') {
-            currLabelDisplay = defaultLabelVal
-        } else {
-            currLabelDisplay = props.currOutputCell
-        }
-        return currLabelDisplay
-    }
-
-    const getCurrCatDisplay = () => {
-        let currCatDisplay
-        if (props.currCategory === '') {
-            currCatDisplay = defaultCatVal
-        } else {
-            currCatDisplay = props.currCategory
-        }
-        return currCatDisplay
-    }
-
     const createLabelDropDowns = () => {
         if (props.type === 'withLabel') {
             return (
@@ -116,7 +94,7 @@ export function LabelSelector(props) {
                         >
                             <Select
                                 classes={{selectMenu: classes.caseSelect}}
-                                value={_currLabelDisplay}
+                                value={props.currOutputCell}
                                 onChange={props.handleOutputLabelChange}
                                 displayEmpty
                                 disableUnderline
@@ -134,8 +112,6 @@ export function LabelSelector(props) {
     }
 
         //Function Execution
-        const _currLabelDisplay = getCurrLabelDisplay()
-        const _currCatDisplay = getCurrCatDisplay()
         const categoryDropDown = createLabelDropDowns()
 
 
@@ -152,7 +128,7 @@ export function LabelSelector(props) {
                         >
                             <Select
                                 classes={{selectMenu: classes.caseSelect}}
-                                value={_currCatDisplay}
+                                value={props.currCategory}
                                 onChange={props.handleOutputCategoryChange}
                                 displayEmpty
                                 disableUnderline

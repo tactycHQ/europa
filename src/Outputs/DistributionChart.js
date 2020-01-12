@@ -123,32 +123,16 @@ export default function Distribution(props) {
 
 
     // Get address of outout label selected from dropdown
-    const outCat = props.outputs.find(output => (output.category === props.currCategory))
 
-    const getOutAdd = () => {
-        let outAdd
-        if (props.currOutputCell === '') {
-            outAdd = Object.keys(outCat.labels)[0]
-        } else {
-            outAdd = props.currOutputCell
-        }
-        return outAdd
-    }
-    const outAdd = getOutAdd()
-    const outAdd_fmt = props.formats[outAdd]
+    const outAdd = props.outAdd
+    const out_fmt = props.out_fmt
+    const outCat=props.outCat
     const probs = props.distributions.prob[outAdd]
-    // Object.keys(probs).forEach(function (el) {
-    //     probs[el] = parseFloat(probs[el])
-    // })
 
 
     const processCases = () => {
 
         const probKey = props.currSolution[outAdd].toFixed(3)
-        console.log(probKey)
-        console.log(probs)
-        console.log(probKey in probs)
-        console.log(probs[probKey])
         return Object.entries(props.cases[0]).reduce((acc, caseData) => {
             const caseName = caseData[0]
             const inputCombo = caseData[1]
@@ -185,7 +169,7 @@ export default function Distribution(props) {
             if (yAxisId === 'pdf') {
                 labelvalue = caseVal[0] + " " + convert_format("0.0%", caseVal[1][1])
             } else {
-                labelvalue = caseVal[0] + " " + convert_format(outAdd_fmt, caseVal[1][0])
+                labelvalue = caseVal[0] + " " + convert_format(out_fmt, caseVal[1][0])
             }
 
             return <ReferenceLine
@@ -241,11 +225,9 @@ export default function Distribution(props) {
         })
     }
 
-    const AxisFormatter = (fmt, value) => convert_format(fmt, value)
-
     //Tick formatter
-    const CustomizedXAxisTick = (props) => {
-        const {x, y, payload, fmt} = props
+    const CustomizedXAxisTick = (props, fmt) => {
+        const {x, y, payload} = props
 
         return (
             <g transform={`translate(${x},${y})`}>
@@ -260,7 +242,7 @@ export default function Distribution(props) {
                     fontFamily="Questrial"
                     fontWeight='500'
                 >
-                    {AxisFormatter(fmt, payload.value)}
+                    {convert_format(fmt, payload.value)}
                 </text>
             </g>
         )
@@ -291,7 +273,7 @@ export default function Distribution(props) {
                         <XAxis
                             dataKey="value"
                             type="number"
-                            tick={<CustomizedXAxisTick fmt={outAdd_fmt}/>}
+                            tick={(tickData) => CustomizedXAxisTick(tickData,out_fmt)}
                             ticks={bin_centers}
                             tickLine={false}
                             interval={0}
@@ -353,7 +335,7 @@ export default function Distribution(props) {
                         <XAxis
                             dataKey="value"
                             type="number"
-                            tick={<CustomizedXAxisTick fmt={outAdd_fmt}/>}
+                            tick={<CustomizedXAxisTick fmt={out_fmt}/>}
                             ticks={ticks}
                             tickLine={false}
                             interval={0}
@@ -399,20 +381,20 @@ export default function Distribution(props) {
                 <Paper className={classes.keyStatsPaper} elevation={3}>
                     <h2 className={classes.statsText}>{'Mean'}</h2>
                     <h3
-                        className={classes.statFigure}>{convert_format(outAdd_fmt, xmean)}
+                        className={classes.statFigure}>{convert_format(out_fmt, xmean)}
                     </h3>
                 </Paper>
                 <Paper className={classes.keyStatsPaper} elevation={3}>
                     <h2 className={classes.statsText}>{'Minimum'}</h2>
-                    <h3 className={classes.statFigure}>{convert_format(outAdd_fmt, xmin)}</h3>
+                    <h3 className={classes.statFigure}>{convert_format(out_fmt, xmin)}</h3>
                 </Paper>
                 <Paper className={classes.keyStatsPaper} elevation={3}>
                     <h2 className={classes.statsText}> {'Maximum'}</h2>
-                    <h3 className={classes.statFigure}>{convert_format(outAdd_fmt, xmax)}</h3>
+                    <h3 className={classes.statFigure}>{convert_format(out_fmt, xmax)}</h3>
                 </Paper>
                 <Paper className={classes.keyStatsPaper} elevation={3}>
                     <h2 className={classes.statsText}> {'Standard Deviation'}</h2>
-                    <h3 className={classes.statFigure}>{convert_format(outAdd_fmt, xstd)}</h3>
+                    <h3 className={classes.statFigure}>{convert_format(out_fmt, xstd)}</h3>
                 </Paper>
             </div>
         )
@@ -442,8 +424,8 @@ export default function Distribution(props) {
                 outputs={props.outputs}
                 handleOutputLabelChange={props.handleOutputLabelChange}
                 handleOutputCategoryChange={props.handleOutputCategoryChange}
-                currOutputCell={props.currOutputCell}
-                currCategory={props.currCategory}/>
+                currOutputCell={outAdd}
+                currCategory={outCat.category}/>
             <Fade in={true} timeout={1000}>
                 {keyStats}
             </Fade>

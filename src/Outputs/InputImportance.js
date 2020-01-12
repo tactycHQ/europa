@@ -146,7 +146,7 @@ export default function Distribution(props) {
 
 
     //Tick formatter
-    const CustomizedXAxisTick = (props) => {
+    const CustomizedCompXAxisTick = (props) => {
         const {x, y, payload} = props
 
         return (
@@ -157,7 +157,7 @@ export default function Distribution(props) {
                     dx={10}
                     dy={16}
                     textAnchor="middle"
-                    fill='#3C4148'
+                    fill={chartColors[payload.index]}
                     transform="rotate(-0)"
                     fontSize='0.9em'
                     fontFamily="Questrial"
@@ -169,8 +169,32 @@ export default function Distribution(props) {
         )
     }
 
-    const LabelFormatter = (props) => {
-        const {cx, x, y, payload, fmt} = props
+    const CustomizedDeltaXAxisTick = (props) => {
+        const {x, y, payload} = props
+
+        return (
+            <g transform={`translate(${x},${y})`}>
+                <text
+                    x={0}
+                    y={0}
+                    dx={10}
+                    dy={16}
+                    textAnchor="middle"
+                    fill='#006E9F'
+                    transform="rotate(-0)"
+                    fontSize='0.85em'
+                    fontFamily="Questrial"
+                    fontWeight='500'
+                >
+                    {payload.value}
+                </text>
+            </g>
+        )
+    }
+
+
+    const pieLabelFormatter = (props, fmt) => {
+        const {cx, x, y, payload} = props
 
         return (
             <g>
@@ -180,7 +204,7 @@ export default function Distribution(props) {
                     textAnchor={x > cx ? "start" : "end"}
                     fontSize='0.85em'
                     fontWeight={500}
-                    fill={props.fill}
+                    fill={chartColors}
                     fontFamily="Questrial"
                 >
                     {payload.name + ": " + convert_format(fmt, payload.value)}
@@ -239,12 +263,11 @@ export default function Distribution(props) {
                             <XAxis
                                 dataKey="name"
                                 type="category"
-                                tick={<CustomizedXAxisTick/>}
-                                // ticks={bin_centers}
+                                tick={(tickData) => CustomizedDeltaXAxisTick(tickData)}
                                 tickLine={false}
                                 interval={0}
-                                // padding={{top: 30, bottom: 30}}
                                 stroke='#004666'
+                                // padding={{top: 30, bottom: 30}}
                                 // scale="linear"
                                 // domain={[props.distributions.min[outAdd], props.distributions.max[outAdd]]}
                             />
@@ -298,9 +321,9 @@ export default function Distribution(props) {
         const inputCompChart = (
             <div className={classes.inputComparisonContainer}>
                 <h3 className={classes.chartTitle}>Impact Analysis
-                        on {props.outCat.category}, {props.outCat.labels[props.outAdd]}</h3>
-                    <h3 className={classes.chartNote}><em>Average change in output for 1 increment change in input</em>
-                    </h3>
+                    on {props.outCat.category}, {props.outCat.labels[props.outAdd]}</h3>
+                <h3 className={classes.chartNote}><em>Average change in output for 1 increment change in input</em>
+                </h3>
                 <ResponsiveContainer width="75%" height={300}>
                     <BarChart
                         data={inptCompData}
@@ -309,10 +332,7 @@ export default function Distribution(props) {
                     >
                         <XAxis
                             dataKey="name"
-                            tick={{
-                                fontFamily: 'Questrial',
-                                fontSize: '0.90em'
-                            }}
+                            tick={(tickData) => CustomizedCompXAxisTick(tickData)}
                             tickLine={false}
                             interval={0}
                             padding={{top: 30, bottom: 30}}
@@ -379,7 +399,7 @@ export default function Distribution(props) {
                             cx={"50%"}
                             cy={"50%"}
                             labelLine={true}
-                            label={<LabelFormatter fmt={out_fmt}/>}
+                            label={(labelData) => pieLabelFormatter(labelData, out_fmt)}
                             innerRadius={60}
                             outerRadius={100}
                             animationDuration={600}
@@ -410,7 +430,7 @@ export default function Distribution(props) {
     }
 
     const generateKeyStats = () => {
-        console.log(inptMagData)
+
         const mostSensitiveMag = inptMagData.reduce(function (prev, current) {
             return (prev.value > current.value) ? prev : current
         })
