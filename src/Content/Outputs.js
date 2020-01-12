@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {makeStyles} from '@material-ui/core/styles'
+import {Card, makeStyles} from '@material-ui/core'
 import SummaryChart from "../Outputs/SummaryChart"
 import SAChart from "../Outputs/SAChart"
 import DistributionChart from "../Outputs/DistributionChart";
@@ -45,8 +45,10 @@ export default function Output(props) {
         },
         summaryContainer: {
             display: 'flex',
+            flexWrap:'wrap',
             width: '100%',
-            flexWrap: 'wrap'
+            background: '#FEFEFD',
+            padding:'20px'
         }
 
     }))
@@ -389,15 +391,14 @@ export default function Output(props) {
 
             //Get relevant data for summary charts
             const summaryChartData = addLiveChartMetaData(currSolution)
-            const distKeyStatsChart = distKeyStats(outAdd, out_fmt)
+            // const miniKeyStatsChart = distKeyStats(outAdd, out_fmt)
             const summaryCharts = summaryChartData.map((solutionSet, idx) => {
                 return createSummaryCharts(solutionSet, idx, outAdd,outCat,inputLabelMap)
             })
             return (
-                <div className={classes.summaryContainer}>
+                <Card className={classes.summaryContainer}>
                     {summaryCharts}
-                    {distKeyStatsChart}
-                </div>)
+                </Card>)
 
         } else if (props.type === 'sensitivity') {
 
