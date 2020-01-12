@@ -11,11 +11,11 @@ import Paper from "@material-ui/core/Paper";
 
 
 const chartColors = [
-    '#004666',
+    '#006E9F',
     '#A5014B',
-    '#247308',
-    '#41C0EB',
-    '#EC7404',
+    '#3DA32D',
+    '#4B719C',
+    '#FE7F2D',
     '#00044E'
 ]
 

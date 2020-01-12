@@ -143,7 +143,7 @@ export default function SummaryChart(props) {
                 <BarChart
                     data={processedData}
                     margin={{top: 15, right: 10, left: 10, bottom: 0}}
-                    maxBarSize={30}
+                    barSize={20}
                     style={{background: 'linear-gradient(#FFFFFF 60%,#F4F4F4)'}}
 
                 >
@@ -198,7 +198,7 @@ export default function SummaryChart(props) {
                         style={{cursor: 'pointer'}}
                     >
                         {processedData.map((entry, index) => (
-                            <Cell fill = {entry['x'] === props.outCat.labels[props.outAdd] && Object.keys(entry)[1]===props.outCat.category ? '#006E9F' : color_url}/>
+                            <Cell fill = {entry['x'] === props.outCat.labels[props.outAdd] && Object.keys(entry)[1]===props.outCat.category ? '#FE7F2D' : color_url}/>
                             ))}
 
                         <LabelList
