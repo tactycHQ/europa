@@ -4,9 +4,8 @@ import SummaryChart from "../Outputs/SummaryChart"
 import SAChart from "../Outputs/SAChart"
 import DistributionChart from "../Outputs/DistributionChart";
 import InputImportance from "../Outputs/InputImportance";
-import {convert_format, getAvgfromKey, getDomains, getMaxfromKey, getMinfromKey} from "../utils/utils";
+import {getAvg, convert_format, getAvgfromKey, getDomains, getSumfromKey} from "../utils/utils";
 import isEqual from "lodash.isequal";
-import {getAvg} from "../utils/utils";
 
 
 export default function Output(props) {
@@ -182,7 +181,7 @@ export default function Output(props) {
                 return {
                     category: output.category,
                     values: reformatted,
-                    domains: [min_domain, max_domain]
+                    domains: getDomains(min_domain, max_domain)
                 }
             }
         )
@@ -192,32 +191,29 @@ export default function Output(props) {
 
 
     //Mini Charts
-    const distKeyStats = (outAdd, out_fmt, outCat) => {
+    const distKeyStats = (outAdd) => {
+        console.log(props)
         const xmin = props.distributions.min[outAdd]
         const xmax = props.distributions.max[outAdd]
         const xmean = props.distributions.mean[outAdd]
         const xstd = props.distributions.std[outAdd]
 
         return {
-            'xmean':xmean,
-            'xmax':xmax,
-            'xmin':xmin,
-            'xstd':xstd
+            'xmean': xmean,
+            'xmax': xmax,
+            'xmin': xmin,
+            'xstd': xstd
         }
     }
 
     //Summary chart creator
-    const createSummaryCharts = (summaryChartData, outAdd, outCat, out_fmt, inputLabelMap) => {
-
-        const miniData = distKeyStats(outAdd, out_fmt, outCat)
-        const avgData = createImpacts(outAdd)
-        const pieData = createInputPie(avgData)
+    const createSummaryCharts = (summaryChartData, outAdd, outCat, out_fmt, inputLabelMap, distSummaryData, iiSummaryData) => {
 
         return (
             <SummaryChart
                 summaryData={summaryChartData}
-                miniData={miniData}
-                pieData={pieData}
+                distSummaryData={distSummaryData}
+                iiSummaryData={iiSummaryData}
                 outAdd={outAdd}
                 outCat={outCat}
                 inputLabelMap={inputLabelMap}
@@ -330,12 +326,12 @@ export default function Output(props) {
 
     }
 
-
-    const createInputImptCharts = (avgData, outAdd, outCat, out_fmt) => {
+    const createInputImptCharts = (avgData, iiSummaryData, outAdd, outCat) => {
 
         return (
             <InputImportance
                 avgData={avgData}
+                iiSummaryData={iiSummaryData}
                 outAdd={outAdd}
                 outCat={outCat}
                 inputLabelMap={inputLabelMap}
@@ -347,32 +343,58 @@ export default function Output(props) {
         )
     }
 
-    const createInputPie = (avgData) => {
-            return avgData.reduce((acc, inptData, idx) => {
-                const inAdd = Object.keys(inptData)
-                const inputLabel = inputLabelMap[inAdd]
-                const inVal = Object.values(inptData)[0]
+    const createIISummary = (avgData) => {
+        const avgAcrossInput = avgData.reduce((acc, inptData) => {
+            const inAdd = Object.keys(inptData)
+            const inputLabel = inputLabelMap[inAdd]
+            const inVal = Object.values(inptData)[0]
 
-                acc.push({
-                    "name": inputLabel,
-                    "value": Math.abs(getAvgfromKey(inVal, "value")),
-                })
-                return acc
-            },[])}
+            acc.push({
+                "name": inputLabel,
+                "value": Math.abs(getAvgfromKey(inVal, "value")),
+            })
+            return acc
+        }, [])
+
+        const totals = getSumfromKey(avgAcrossInput, 'value')
+        const contributions = avgAcrossInput.map(averages => {
+            return ({
+                "name": averages.name,
+                "value": averages.value / totals
+            })
+        })
+
+        return contributions
+    }
 
     // =========Final dispatcher=======
     const createCharts = () => {
 
+
         const outCellData = getOutAdd()
         const {outAdd, outCat} = outCellData
         const out_fmt = props.formats[outAdd]
+
 
         if (props.type === 'summary') {
 
 
             //Get relevant data for summary charts
             const summaryChartData = addLiveChartMetaData(currSolution)
-            return createSummaryCharts(summaryChartData, outAdd, outCat, out_fmt, inputLabelMap)
+            const distSummaryData = distKeyStats(outAdd)
+            const avgData = createImpacts(outAdd)
+            const iiSummaryData = createIISummary(avgData)
+
+
+            return createSummaryCharts(
+                summaryChartData,
+                outAdd,
+                outCat,
+                out_fmt,
+                inputLabelMap,
+                distSummaryData,
+                iiSummaryData
+            )
 
 
         } else if (props.type === 'sensitivity') {
@@ -391,8 +413,10 @@ export default function Output(props) {
 
             //Get relevant data for II charts
             const avgData = createImpacts(outAdd)
+            const iiSummaryData = createIISummary(avgData)
 
-            return createInputImptCharts(avgData, outAdd, outCat, out_fmt)
+
+            return createInputImptCharts(avgData, iiSummaryData, outAdd, outCat)
         }
     }
 

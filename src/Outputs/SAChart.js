@@ -430,7 +430,7 @@ export default function SAChart(props) {
         <Card
             className={classes.saCard}
             key={"SA_" + props.outAdd}
-            elevation={3}
+            elevation={0}
         >
             <div className={classes.cardHeaderContainer}>
                 <h2 className={classes.cardTitleHeader}>Sensitivity Analysis</h2>

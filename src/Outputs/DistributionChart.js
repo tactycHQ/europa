@@ -299,6 +299,7 @@ export default function Distribution(props) {
                             yAxisId="count"
                             dataKey="count"
                             fill={color_url}
+                            radius={[3, 3, 0, 0]}
                             isAnimationActive={true}>
                         </Bar>
                     </BarChart>
@@ -416,7 +417,7 @@ export default function Distribution(props) {
             className={classes.distCard}
             key={"dist" + props.currOutputCell}
             // raised={true}
-            elevation={3}
+            elevation={0}
         >
             <div className={classes.cardHeaderContainer}>
                 <h2 className={classes.cardTitleHeader}>Output Distributions</h2>

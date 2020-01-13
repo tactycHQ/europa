@@ -43,7 +43,7 @@ export default function SummaryChart(props) {
             return defaultWidth
         }
     }
-    let stats_fill = '#1790C4'
+    let stats_fill = '#006E9F'
 
 
     // Defining hooks
@@ -53,7 +53,8 @@ export default function SummaryChart(props) {
             flexWrap: 'wrap',
             width: '100%',
             padding: '1.2%',
-            paddingTop: '1%'
+            paddingTop: '2px',
+            // background:'yellow'
         },
         SummaryPaper: {
             display: 'flex',
@@ -61,15 +62,10 @@ export default function SummaryChart(props) {
             justifyContent: 'flex-start',
             alignItems: 'center',
             margin: '1%',
+            marginTop:'0px',
             padding: '1%',
             background: 'linear-gradient(#F4F4F4 10%,#FEFEFD)',
             width: '48%'
-        },
-        paperHeaderContainer: {
-            display: 'flex',
-            // flexDirection:'column',
-            width: '100%',
-            justifyContent: 'space-between'
         },
         maxPaper: {
             display: 'flex',
@@ -78,24 +74,21 @@ export default function SummaryChart(props) {
             alignItems: 'center',
             margin: '1%',
             padding: '1%',
-            background: 'linear-gradient(#F4F4F4 10%,#EBEEF0)',
+            background: 'linear-gradient(#F4F4F4 10%,#FEFEFD)',
             width: '100%'
         },
-        contributionContainer: {
+        paperHeaderContainer: {
             display: 'flex',
+            // flexDirection:'column',
+            // marginTop:'0px',
             width: '100%',
-            // background: 'red'
-        },
-        contribStatsContainer: {
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center'
+            justifyContent: 'space-between'
         },
         chartTitle: {
             fontFamily: 'Questrial',
             // background: '#7C97B7',
-            fontSize: '1.2em',
-            fontWeight: '300',
+            fontSize: '1.3em',
+            fontWeight: '200',
             color: '#3C4148',
             marginTop: '0px',
             marginBottom: '0px'
@@ -107,7 +100,13 @@ export default function SummaryChart(props) {
             color: '#3C4148',
             marginTop: '0'
         },
-        statsContainer: {
+        bar: {
+            "&:hover": {
+                fill: '#A5014B',
+                // opacity:"100%"
+            }
+        },
+        distStatsContainer: {
             display: 'flex',
             flexDirection: 'row',
             flexWrap: 'wrap',
@@ -116,7 +115,16 @@ export default function SummaryChart(props) {
             padding: '10px',
             alignItems: 'center',
             margin: '5%',
+        },
+        contributionContainer: {
+            display: 'flex',
+            width: '100%',
             // background: 'red'
+        },
+        contribStatsContainer: {
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center'
         },
         keyStatsPaper: {
             display: 'flex',
@@ -126,14 +134,11 @@ export default function SummaryChart(props) {
             // height: '100%',
             margin: '10px',
             padding: '3%',
-            opacity: '80%'
-        },
-        headerText: {
-            color: '#3C4148',
-            fontFamily: 'Questrial',
-            margin: '5px',
-            fontWeight: '20',
-            fontSize: '1.2em'
+            opacity: '80%',
+            "&:hover": {
+                // background: '#A5014B',
+                opacity: "100%"
+            }
         },
         statsText: {
             color: '#F4F9E9',
@@ -141,7 +146,7 @@ export default function SummaryChart(props) {
             // textAlign:'center',
             margin: '0px',
             fontWeight: '10',
-            fontSize: '0.8em'
+            fontSize: '0.9em'
         },
         statFigure: {
             color: '#F4F9E9',
@@ -150,14 +155,8 @@ export default function SummaryChart(props) {
             marginBottom: '5%',
             fontFamily: 'Questrial',
             fontWeight: '10',
-            fontSize: '1.2em'
+            fontSize: '1.5em'
         },
-        bar: {
-            "&:hover": {
-                fill: '#A5014B',
-                // opacity:"100%"
-            }
-        }
     }))
     const classes = useStyles()
 
@@ -250,18 +249,20 @@ export default function SummaryChart(props) {
                     x={x}
                     y={y}
                     textAnchor={x > cx ? "start" : "end"}
-                    fontSize='0.85em'
-                    fontWeight={500}
+                    fontSize='0.9em'
+                    fontWeight={300}
                     fill={chartColors[index]}
                     fontFamily="Questrial"
                     // width="100"
                 >
-                    {payload.name + ": " + convert_format(fmt, payload.value)}
+                    {payload.name + ": " + convert_format('0.0%', payload.value)}
                 </text>
             </g>
 
         )
     }
+
+
 
 
     // Function executions
@@ -281,7 +282,7 @@ export default function SummaryChart(props) {
         return (
             <Paper className={container_paper} key={"summary" + category} elevation={3}>
                 <div className={classes.paperHeaderContainer}>
-                    <h1 className={classes.chartTitle}>{category}</h1>
+                    <h3 className={classes.chartTitle}>{category}</h3>
                     <CardSettings category={category}
                                   setSummaryPrefs={props.setSummaryPrefs}
                                   summaryPrefs={props.summaryPrefs}/>
@@ -361,6 +362,7 @@ export default function SummaryChart(props) {
                             isAnimationActive={true}
                             // fill={color_url(fill)}
                             animationDuration={200}
+                            radius={[3, 3, 0, 0]}
                             onMouseDown={(e) => props.handleSummaryBarMouseClick(e, category)}
                             style={{cursor: 'pointer'}}
                         >
@@ -387,20 +389,19 @@ export default function SummaryChart(props) {
         )
     }
 
-
     const createIISummary = () => {
 
         const outCat = props.outCat
         const outAdd = props.outAdd
         const out_fmt = props.formats[outAdd]
-        const keyStats = generateIIStats(props.pieData)
+        const keyStats = generateIIStats(props.iiSummaryData)
 
         return (
             <Paper className={classes.maxPaper} elevation={3}>
                 <div className={classes.paperHeaderContainer}>
                     <NavLink to="/inputimportance" style={{textDecoration: 'none'}}>
-                        <h1 className={classes.chartTitle}>Input Contribution Analysis</h1>
-                        <h2 className={classes.chartNote}>{outCat.category}, {outCat.labels[outAdd]} </h2>
+                        <h3 className={classes.chartTitle}>Input Contribution Analysis</h3>
+                        <h3 className={classes.chartNote}>{outCat.category}, {outCat.labels[outAdd]} </h3>
                     </NavLink>
                 </div>
                 <div className={classes.contributionContainer}>
@@ -412,7 +413,7 @@ export default function SummaryChart(props) {
                     >
                         <PieChart>
                             <Pie
-                                data={props.pieData}
+                                data={props.iiSummaryData}
                                 dataKey="value"
                                 cx={"50%"}
                                 cy={"50%"}
@@ -423,21 +424,19 @@ export default function SummaryChart(props) {
                                 animationDuration={600}
                             >
                                 {
-                                    props.pieData.map((entry, index) => <Cell key={"cell_" + index}
-                                                                              fill={chartColors[index]}/>)
+                                    props.iiSummaryData.map((entry, index) => <Cell key={"cell_" + index}
+                                                                                    fill={chartColors[index]}/>)
                                 }
                             </Pie>
                             <Tooltip
                                 wrapperStyle={{fontSize: '0.9em', fontFamily: 'Questrial'}}
                                 cursor={{fill: '#FEFEFD', fontFamily: 'Questrial', fontSize: '0.8em'}}
                                 // labelFormatter={value => `${value}`}
-                                formatter={(value, name) => [`${convert_format(out_fmt, value)}`, `${name}`]}/>
+                                formatter={(value, name) => [`${convert_format('0.0%', value)}`, `${name}`]}/>
                         </PieChart>
                     </ResponsiveContainer>
                 </div>
             </Paper>
-
-
         )
     }
 
@@ -455,7 +454,7 @@ export default function SummaryChart(props) {
 
         return (
             <div className={classes.contribStatsContainer}>
-                <NavLink to="/distributions" style={{textDecoration: 'none'}}>
+                <NavLink to="/inputimportance" style={{textDecoration: 'none'}}>
                     <Paper className={classes.keyStatsPaper} style={{background: stats_fill}}>
                         <h2 className={classes.statsText}>{'Most Sensitive Driver'}</h2>
                         <h3
@@ -463,7 +462,7 @@ export default function SummaryChart(props) {
                         </h3>
                     </Paper>
                 </NavLink>
-                <NavLink to="/distributions" style={{textDecoration: 'none'}}>
+                <NavLink to="/inputimportance" style={{textDecoration: 'none'}}>
                     <Paper className={classes.keyStatsPaper} style={{background: stats_fill}}>
                         <h2 className={classes.statsText}>{'Least Sensitive Driver'}</h2>
                         <h3
@@ -479,19 +478,19 @@ export default function SummaryChart(props) {
 
         const outCat = props.outCat
         const outAdd = props.outAdd
-        const {xmin, xmax, xmean, xstd} = props.miniData
+        const {xmin, xmax, xmean, xstd} = props.distSummaryData
         const out_fmt = props.formats[outAdd]
         stats_fill = chartColors[(props.summaryData.findIndex(output => output.category === props.outCat.category))]
 
         return (
             <Paper className={classes.SummaryPaper} elevation={3}>
                 <div className={classes.paperHeaderContainer}>
-                    <h1 className={classes.chartTitle}>{`Key Metrics for ${outCat.category}, ${outCat.labels[outAdd]}`}</h1>
-                    <CardSettings category={outCat.category}
-                                  setSummaryPrefs={props.setSummaryPrefs}
-                                  summaryPrefs={props.summaryPrefs}/>
+                    <NavLink to="/distributions" style={{textDecoration: 'none'}}>
+                        <h3 className={classes.chartTitle}>Key Metrics</h3>
+                        <h3 className={classes.chartNote}>{outCat.category}, {outCat.labels[outAdd]} </h3>
+                    </NavLink>
                 </div>
-                <div className={classes.statsContainer}>
+                <div className={classes.distStatsContainer}>
                     <Fade in={true} timeout={1000}>
                         <NavLink to="/distributions" style={{textDecoration: 'none'}}>
                             <Paper className={classes.keyStatsPaper} style={{background: stats_fill}}>
@@ -537,7 +536,8 @@ export default function SummaryChart(props) {
             return createSingleChart(solutionSet, idx)
         })
 
-        return (<div className={classes.summaryChartContainer}>
+        return (
+            <div className={classes.summaryChartContainer}>
                 {summaryCharts}
                 {miniCharts}
                 {iiSummary}
@@ -550,7 +550,7 @@ export default function SummaryChart(props) {
 
     //Handlers
     return (
-        <Card elevation={3}>
+        <Card elevation={0}>
             {charts}
         </Card>
     )

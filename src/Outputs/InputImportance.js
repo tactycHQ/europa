@@ -200,6 +200,8 @@ export default function Distribution(props) {
                 <text
                     x={x}
                     y={y}
+                    width="100"
+                    // textLength="100%"
                     textAnchor={x > cx ? "start" : "end"}
                     fontSize='0.85em'
                     fontWeight={500}
@@ -213,14 +215,11 @@ export default function Distribution(props) {
         )
     }
 
-
     //Chart Creators
     const generateCharts = () => {
-        const {avgData, outAdd} = props
+        const {avgData, iiSummaryData, outAdd} = props
         const out_fmt = props.formats[outAdd]
 
-
-        // const inptMagData = []
 
         const deltaCharts = avgData.map((inptData, idx) => {
             const inAdd = Object.keys(inptData)
@@ -234,12 +233,6 @@ export default function Distribution(props) {
             inptCompData.push({
                 "name": inputLabel,
                 "value": (getAvgfromKey(inVal, "value")),
-                "fill": color_url(chartColors[idx])
-            })
-
-            inptMagData.push({
-                "name": inputLabel,
-                "value": Math.abs(getAvgfromKey(inVal, "value")),
                 "fill": color_url(chartColors[idx])
             })
 
@@ -303,6 +296,7 @@ export default function Distribution(props) {
                                 dataKey="value"
                                 isAnimationActive={true}
                                 fill={color_url(chartColors[idx])}
+                                radius={[3, 3, 0, 0]}
                             >
                                 >
                                 <LabelList
@@ -322,6 +316,7 @@ export default function Distribution(props) {
                 </div>
             )
         })
+
 
         const inputCompChart = (
             <div className={classes.inputComparisonContainer}>
@@ -374,6 +369,7 @@ export default function Distribution(props) {
                             dataKey="value"
                             isAnimationActive={true}
                             barSize={30}
+                            radius={[3, 3, 0, 0]}
                         >
                             <LabelList
                                 dataKey="value"
@@ -404,18 +400,18 @@ export default function Distribution(props) {
                 >
                     <PieChart>
                         <Pie
-                            data={inptMagData}
+                            data={iiSummaryData}
                             dataKey="value"
                             cx={"50%"}
                             cy={"50%"}
                             labelLine={true}
-                            label={(labelData) => pieLabelFormatter(labelData, out_fmt)}
+                            label={(labelData) => pieLabelFormatter(labelData, '0.0%')}
                             innerRadius={60}
                             outerRadius={100}
                             animationDuration={600}
                         >
                             {
-                                inptMagData.map((entry, index) => <Cell key={"cell_" + index}
+                                iiSummaryData.map((entry, index) => <Cell key={"cell_" + index}
                                                                         fill={chartColors[index]}/>)
                             }
                         </Pie>
@@ -423,7 +419,7 @@ export default function Distribution(props) {
                             wrapperStyle={{fontSize: '0.9em', fontFamily: 'Questrial'}}
                             cursor={{fill: '#FEFEFD', fontFamily: 'Questrial', fontSize: '0.8em'}}
                             // labelFormatter={value => `${value}`}
-                            formatter={(value,name) => [`${convert_format(out_fmt, value)}`,`${name}`]}/>
+                            formatter={(value,name) => [`${convert_format('0.0%', value)}`,`${name}`]}/>
                     </PieChart>
                 </ResponsiveContainer>
             </div>
@@ -444,11 +440,11 @@ export default function Distribution(props) {
 
     const generateKeyStats = () => {
 
-        const mostSensitiveMag = inptMagData.reduce(function (prev, current) {
+        const mostSensitiveMag = props.iiSummaryData.reduce(function (prev, current) {
             return (prev.value > current.value) ? prev : current
         })
 
-        const leastSensitiveMag = inptMagData.reduce(function (prev, current) {
+        const leastSensitiveMag = props.iiSummaryData.reduce(function (prev, current) {
             return (prev.value < current.value) ? prev : current
         })
 
@@ -494,7 +490,6 @@ export default function Distribution(props) {
 
     //Execute Functions
     const inptCompData = []
-    const inptMagData = []
     const charts = generateCharts()
     const keyStats = generateKeyStats()
 
@@ -503,7 +498,7 @@ export default function Distribution(props) {
             className={classes.distCard}
             key={"ii_" + props.outAdd}
             // raised={true}
-            elevation={3}
+            elevation={0}
         >
             <div className={classes.cardHeaderContainer}>
                 <h2 className={classes.cardTitleHeader}>Input Importance</h2>
