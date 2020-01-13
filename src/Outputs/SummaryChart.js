@@ -360,7 +360,7 @@ export default function SummaryChart(props) {
         return (
             <Paper className={classes.keyStatsContainer} elevation={3}>
                 <div className={classes.keyStatsHeader}>
-                    <h2 className={classes.headerText}>{`Key Stats for ${outCat.category} ${outCat.labels[outAdd]}`}</h2>
+                    <h2 className={classes.headerText}>{`Key Metrics for ${outCat.category}, ${outCat.labels[outAdd]}`}</h2>
                 </div>
                 <Fade in={true} timeout={1000}>
                     <Paper className={classes.keyStatsPaper}>
