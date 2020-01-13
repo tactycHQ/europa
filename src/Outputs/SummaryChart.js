@@ -1,6 +1,6 @@
 import React from 'react'
 import {BarChart, Bar, XAxis, YAxis, LabelList, Tooltip, ResponsiveContainer, ReferenceLine, Cell} from 'recharts'
-import {Paper, makeStyles} from "@material-ui/core"
+import {Paper, makeStyles, Card} from "@material-ui/core"
 import {convert_format} from "../utils/utils"
 import CardSettings from "./CardSettings";
 
@@ -19,9 +19,9 @@ export default function SummaryChart(props) {
 
     // Initialization function to get width of chart based on user preferences
     const defaultWidth = '48%'
-    const getWidth = () => {
-        if (props.category in props.summaryPrefs && 'size' in props.summaryPrefs[props.category]) {
-            if (props.summaryPrefs[props.category].size === 'Maximize') {
+    const getWidth = (category) => {
+        if (category in props.summaryPrefs && 'size' in props.summaryPrefs[category]) {
+            if (props.summaryPrefs[category].size === 'Maximize') {
                 return '100%'
             } else {
                 return defaultWidth
@@ -30,11 +30,17 @@ export default function SummaryChart(props) {
             return defaultWidth
         }
     }
-    const chartWidth = getWidth(props)
 
 
     // Defining hooks
     const useStyles = makeStyles(theme => ({
+        summaryChartContainer: {
+            display: 'flex',
+            flexWrap: 'wrap',
+            width: '100%',
+            padding: '1.2%',
+            paddingTop:'1%'
+        },
         paper: {
             display: 'flex',
             flexDirection: 'column',
@@ -43,7 +49,17 @@ export default function SummaryChart(props) {
             margin: '1%',
             padding: '1%',
             background: 'linear-gradient(#F4F4F4 10%,#EBEEF0)',
-            width: chartWidth
+            width: '48%'
+        },
+        maxPaper: {
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            margin: '1%',
+            padding: '1%',
+            background: 'linear-gradient(#F4F4F4 10%,#EBEEF0)',
+            width: '100%'
         },
         cardHeaderContainer: {
             display: 'flex',
@@ -54,7 +70,7 @@ export default function SummaryChart(props) {
         chartTitle: {
             fontFamily: 'Questrial',
             // background: '#7C97B7',
-            fontSize: '1.2em',
+            fontSize: '1.4em',
             fontWeight: '300',
             color: '#3C4148',
             marginBottom: '0'
@@ -70,26 +86,33 @@ export default function SummaryChart(props) {
 
 
     // Defined variables
-    const title = Object.keys(props.currSolution[0])[1]
-    const master_fmt = Object.entries(props.currSolution[0])[2][1]
     const color_url = (color) => ("url(#" + color + ")")
 
     // Defined functions
     // Defined functions
-    const process_formats = () => {
-        return props.currSolution.map(output => {
+    const addFormats = (currSolution) => {
+        return currSolution.map(output => {
                 return (
                     {
                         ...output,
-                        label: convert_format(output.format, output[title])
+                        label: convert_format(output.format, output.value)
                     })
             }
         )
     }
 
-    const yAxisFormatter = value => convert_format(master_fmt, value)
+    const yAxisFormatter = (value) => {
+        // console.log(props)
+        return convert_format('0.0', value)
+    }
+
+    const tooltipFormatter = (value, name, props) => {
+        // console.log(props)
+        return props.payload.label
+    }
 
     function CustomizedYAxisTick(props) {
+        // console.log(props)
         const {x, y, payload} = props
 
         return (
@@ -141,112 +164,149 @@ export default function SummaryChart(props) {
         )
     }
 
+
     // Function executions
-    const processedData = process_formats()
+    const createSingleChart = (solutionSet, idx) => {
+
+        const category = solutionSet.category
+        const domains = solutionSet.domains
+        const fill = chartColors[idx]
+        const chartData = addFormats(solutionSet.values)
+        const _width = getWidth(category)
+        let container_paper = classes.paper
+        if (_width === '100%') {
+            container_paper = classes.maxPaper
+        }
+
+
+        return (
+            <Paper className={container_paper} key={"summary" + category} elevation={3}>
+                <div className={classes.cardHeaderContainer}>
+                    <h1 className={classes.chartTitle}>{category}</h1>
+                    <CardSettings category={category}
+                                  setSummaryPrefs={props.setSummaryPrefs}
+                                  summaryPrefs={props.summaryPrefs}/>
+                </div>
+                <ResponsiveContainer width="100%" height={310}>
+                    <BarChart
+                        data={chartData}
+                        margin={{top: 15, right: 15, left: 10, bottom: 0}}
+                        maxBarSize={20}
+                    >
+                        <defs>
+                            <linearGradient id={fill} x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="25%" stopColor={fill} stopOpacity={0.75}/>
+                                <stop offset="95%" stopColor={fill} stopOpacity={0.25}/>
+                            </linearGradient>
+                        </defs>
+                        <defs>
+                            <linearGradient id={'_active' + fill} x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="60%" stopColor={fill} stopOpacity={1.0}/>
+                                <stop offset="100%" stopColor={fill} stopOpacity={0.65}/>
+                            </linearGradient>
+                        </defs>
+                        <XAxis
+                            hide={false}
+                            stroke={fill}
+                            dataKey="x"
+                            name={category}
+                            tickLine={false}
+                            minTickGap={2}
+                            interval={0}
+                            tick={<CustomizedXAxisTick outAdd={props.outAdd} outCat={props.outCat}/>}
+                            padding={{top: 30, bottom: 30}}
+                            onMouseDown={(e) => props.handleSummaryTickMouseClick(e, props.category)}
+                        />
+
+                        <YAxis
+                            hide={true}
+                            dataKey="value"
+                            tick={<CustomizedYAxisTick/>}
+                            // ticks={[0,1000,2000,3000,4000,5000,6000,7000]}
+                            stroke={fill}
+                            type="number"
+                            allowDecimals={false}
+                            padding={{top: 30, bottom: 30}}
+                            interval={0}
+                            // domains={"auto"}
+                            domain={domains}
+                            // tickFormatter={(tick => yAxisFormatter(tick)}
+                        />
+
+                        <Tooltip
+                            wrapperStyle={{fontSize: '0.9em', fontFamily: 'Questrial', color: fill}}
+                            cursor={{fill: '#FEFEFD', fontFamily: 'Questrial', fontSize: '0.8em'}}
+                            formatter={(value, name, props) => {
+                                return [tooltipFormatter(value, name, props)]
+                            }}
+
+                        />
+                        <ReferenceLine
+                            y={0}
+                            label={{
+                                position: "right",
+                                value: '0',
+                                opacity: '60%',
+                                fontFamily: 'Questrial',
+                                fontSize: '0.8em',
+                                fill: '#767A7F',
+                                width: '10px'
+                            }}
+                            stroke='#B1B3B5'
+                            strokeDasharray="3 3"
+                        />
+
+                        <Bar
+                            className={classes.bar}
+                            dataKey="value"
+                            isAnimationActive={false}
+                            // fill={color_url(fill)}
+                            animationDuration={200}
+                            onMouseDown={(e) => props.handleSummaryBarMouseClick(e, category)}
+                            style={{cursor: 'pointer'}}
+                        >
+                            {chartData.map((entry, index) => (
+                                <Cell
+                                    key={"Cell_" + index}
+                                    fill={entry['x'] === props.outCat.labels[props.outAdd] && category === props.outCat.category ? color_url("_active" + fill) : color_url(fill)}
+                                />
+                            ))}
+                            <LabelList
+                                dataKey="label"
+                                position="top"
+                                style={{
+                                    fill: fill,
+                                    fontFamily: 'Questrial',
+                                    fontSize: '0.9em',
+                                    fontWeight: '500'
+                                }}
+                            />
+                        </Bar>
+                    </BarChart>
+                </ResponsiveContainer>
+                {/*{props.miniCharts}*/}
+            </Paper>
+        )
+    }
+
+    const createCharts = () => {
+        return props.summaryData.map((solutionSet, idx) => {
+            return createSingleChart(solutionSet, idx)
+        })
+    }
+
+
+    const summaryCharts = createCharts()
 
     //Handlers
-
     return (
-        <Paper className={classes.paper} key={"summary" + props.category} elevation={3}>
-            <div className={classes.cardHeaderContainer}>
-                <h2 className={classes.chartTitle}>{props.category}</h2>
-                <CardSettings category={props.category}
-                              setSummaryPrefs={props.setSummaryPrefs}
-                              summaryPrefs={props.summaryPrefs}/>
+        <Card>
+            <div>
+                {props.miniCharts}
             </div>
-            <ResponsiveContainer width="100%" height={310}>
-                <BarChart
-                    data={processedData}
-                    margin={{top: 15, right: 15, left: 10, bottom: 0}}
-                    maxBarSize={20}
-                >
-                    <defs>
-                        <linearGradient id={props.fill} x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="25%" stopColor={props.fill} stopOpacity={0.75}/>
-                            <stop offset="95%" stopColor={props.fill} stopOpacity={0.25}/>
-                        </linearGradient>
-                    </defs>
-                    <defs>
-                        <linearGradient id={'_active' + props.fill} x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="60%" stopColor={props.fill} stopOpacity={1.0}/>
-                            <stop offset="100%" stopColor={props.fill} stopOpacity={0.65}/>
-                        </linearGradient>
-                    </defs>
-                    <XAxis
-                        hide={false}
-                        stroke={props.fill}
-                        dataKey="x"
-                        name={title}
-                        tickLine={false}
-                        minTickGap={2}
-                        interval={0}
-                        tick={<CustomizedXAxisTick outAdd={props.outAdd} outCat={props.outCat}/>}
-                        padding={{top: 30, bottom: 30}}
-                        onMouseDown={(e) => props.handleSummaryTickMouseClick(e, props.category)}
-                    />
-
-                    <YAxis
-                        hide={true}
-                        tick={<CustomizedYAxisTick/>}
-                        // ticks={[0,1000,2000,3000,4000,5000,6000,7000]}
-                        stroke={props.fill}
-                        type="number"
-                        allowDecimals={false}
-                        padding={{top: 30, bottom: 30}}
-                        interval={0}
-                        domain={props.domain}
-                        // tickFormatter={tick => yAxisFormatter(tick)}
-                    />
-
-                    <Tooltip
-                        wrapperStyle={{fontSize: '0.9em', fontFamily: 'Questrial', color: props.fill}}
-                        cursor={{fill: '#FEFEFD', fontFamily: 'Questrial', fontSize: '0.8em'}}
-                        formatter={(value) => yAxisFormatter(value)
-                        }
-                    />
-                    <ReferenceLine
-                        y={0}
-                        label={{
-                            position: "right",
-                            value: '0',
-                            opacity: '60%',
-                            fontFamily: 'Questrial',
-                            fontSize: '0.8em',
-                            fill: '#767A7F',
-                            width: '10px'
-                            // fontWeight: labelWeight
-                        }}
-                        stroke='#B1B3B5'
-                        strokeDasharray="3 3"
-                    />
-
-                    <Bar
-                        className={classes.bar}
-                        dataKey={title}
-                        name={title}
-                        isAnimationActive={false}
-                        // fill={color_url(props.fill)}
-                        animationDuration={200}
-                        onMouseDown={(e) => props.handleSummaryBarMouseClick(e, props.category)}
-                        style={{cursor: 'pointer'}}
-                    >
-                        {processedData.map((entry, index) => (
-                            <Cell
-                                fill={entry['x'] === props.outCat.labels[props.outAdd] && Object.keys(entry)[1] === props.outCat.category ? color_url("_active" + props.fill) : color_url(props.fill)}/>
-                        ))}
-                        <LabelList
-                            dataKey="label"
-                            position="top"
-                            style={{
-                                fill: props.fill,
-                                fontFamily: 'Questrial',
-                                fontSize: '0.9em',
-                                fontWeight: '500'
-                            }}
-                        />
-                    </Bar>
-                </BarChart>
-            </ResponsiveContainer>
-        </Paper>
+            <div className={classes.summaryChartContainer}>
+                {summaryCharts}
+            </div>
+        </Card>
     )
 }

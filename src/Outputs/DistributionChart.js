@@ -10,7 +10,6 @@ import {
     Tooltip,
     ResponsiveContainer,
     ReferenceLine,
-    Label
 } from 'recharts'
 import Paper from '@material-ui/core/Paper'
 import {Card} from "@material-ui/core";
@@ -118,8 +117,8 @@ export default function Distribution(props) {
         }
     }))
     const classes = useStyles()
-    const color_url = "url(#" + '#006E9F' + ")"
-    const area_color_url = "url(#" + '#006E9F' + ")"
+    const color_url = "url(#" + '#006E9F'.toString() + ")"
+    const area_color_url = "url(#" + '#006E9F'.toString() + ")"
 
 
     // Get address of outout label selected from dropdown
@@ -212,6 +211,8 @@ export default function Distribution(props) {
         let bin_centers = bin_edges.map((edge, idx) => {
             if (idx < bin_edges.length - 1) {
                 return (edge + bin_edges[idx + 1]) / 2
+            } else {
+                return null
             }
         })
         return bin_centers.slice(0, bin_centers.length - 1)
@@ -267,8 +268,8 @@ export default function Distribution(props) {
                     >
                         <defs>
                             <linearGradient id={'#006E9F'} x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" stopColor={'#006E9F'} stopOpacity={0.5}/>
-                                <stop offset="75%" stopColor={'#006E9F'} stopOpacity={0.25}/>
+                                <stop offset="25%" stopColor={'#006E9F'} stopOpacity={0.75}/>
+                                <stop offset="95%" stopColor={'#006E9F'} stopOpacity={0.25}/>
                             </linearGradient>
                         </defs>
                         <XAxis
@@ -353,7 +354,8 @@ export default function Distribution(props) {
                         <Tooltip
                             wrapperStyle={{fontSize: '0.9em', fontFamily: 'Questrial'}}
                             cursor={{fill: '#FEFEFD', fontFamily: 'Questrial', fontSize: '0.8em'}}
-                            labelFormatter={value => `${convert_format(out_fmt, value)}`}
+                            // formatter={value => [`${value} solutions`]}
+                            labelFormatter={value => [`${convert_format(out_fmt, value)}`]}
                         />
                         {/*<Legend/>*/}
                         {referenceBars}

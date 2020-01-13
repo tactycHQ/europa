@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Card, makeStyles} from '@material-ui/core'
+import {makeStyles} from '@material-ui/core'
 import SummaryChart from "../Outputs/SummaryChart"
 import SAChart from "../Outputs/SAChart"
 import DistributionChart from "../Outputs/DistributionChart";
@@ -8,16 +8,9 @@ import {convert_format} from "../utils/utils";
 import isEqual from "lodash.isequal";
 import {getAvg} from "../utils/utils";
 import Paper from "@material-ui/core/Paper";
+import {NavLink} from "react-router-dom";
+import Fade from "@material-ui/core/Fade";
 
-
-const chartColors = [
-    '#006E9F',
-    '#A5014B',
-    '#3DA32D',
-    '#4B719C',
-    '#FE7F2D',
-    '#00044E'
-]
 
 export default function Output(props) {
 
@@ -43,14 +36,58 @@ export default function Output(props) {
             justifyContent: 'center',
             padding: '8px',
         },
-        summaryContainer: {
+        keyStatsContainer: {
             display: 'flex',
-            flexWrap:'wrap',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            maxwidth: '100%',
+            marginLeft: '2.5%',
+            marginRight: '2.5%',
+            marginTop: '1%',
+            marginBottom: '0%',
+            background: 'linear-gradient(#F4F4F4 10%,#EBEEF0)',
+        },
+        keyStatsHeader: {
+            display: 'flex',
             width: '100%',
-            background: '#FEFEFD',
-            padding:'20px'
-        }
-
+            justifyContent: 'center',
+            marginTop: '5px',
+            marginBottom: '0px',
+            color: 'red',
+            // background:'red'
+        },
+        keyStatsPaper: {
+            display: 'flex',
+            flexDirection: 'column',
+            minWidth: '20%',
+            margin: '1%',
+            padding: '1%',
+            background: '#4595B9'
+        },
+        headerText: {
+            color: '#3C4148',
+            fontFamily: 'Questrial',
+            margin: '5px',
+            fontWeight: '20',
+            fontSize: '1.2em'
+        },
+        statsText: {
+            color: '#F4F9E9',
+            fontFamily: 'Questrial',
+            // textAlign:'center',
+            margin: '0px',
+            fontWeight: '20',
+            fontSize: '1em'
+        },
+        statFigure: {
+            color: '#F4F9E9',
+            textAlign: 'center',
+            margin: '0px',
+            fontFamily: 'Questrial',
+            fontWeight: '10',
+            fontSize: '1.5em'
+        },
     }))
     const classes = useStyles()
 
@@ -178,7 +215,7 @@ export default function Output(props) {
 
                     return {
                         x: labelSet[1],
-                        [output.category]: solutionSet[labelSet[0]],
+                        value: solutionSet[labelSet[0]],
                         format: props.formats[labelSet[0]]
                     }
                 })
@@ -210,57 +247,75 @@ export default function Output(props) {
 
 
     //Mini Charts
-    const distKeyStats = (outAdd, out_fmt) => {
+    const distKeyStats = (outAdd, out_fmt, outCat) => {
         const xmin = props.distributions.min[outAdd]
         const xmax = props.distributions.max[outAdd]
         const xmean = props.distributions.mean[outAdd]
         const xstd = props.distributions.std[outAdd]
 
+
         return (
-            <div className={classes.keyStatsContainer}>
-                <Paper className={classes.keyStatsPaper} elevation={3}>
-                    <h2 className={classes.statsText}>{'Mean'}</h2>
-                    <h3
-                        className={classes.statFigure}>{convert_format(out_fmt, xmean)}
-                    </h3>
-                </Paper>
-                <Paper className={classes.keyStatsPaper} elevation={3}>
-                    <h2 className={classes.statsText}>{'Minimum'}</h2>
-                    <h3 className={classes.statFigure}>{convert_format(out_fmt, xmin)}</h3>
-                </Paper>
-                <Paper className={classes.keyStatsPaper} elevation={3}>
-                    <h2 className={classes.statsText}> {'Maximum'}</h2>
-                    <h3 className={classes.statFigure}>{convert_format(out_fmt, xmax)}</h3>
-                </Paper>
-                <Paper className={classes.keyStatsPaper} elevation={3}>
-                    <h2 className={classes.statsText}> {'Standard Deviation'}</h2>
-                    <h3 className={classes.statFigure}>{convert_format(out_fmt, xstd)}</h3>
-                </Paper>
-            </div>
+            <Paper className={classes.keyStatsContainer} elevation={3}>
+
+                <div className={classes.keyStatsHeader}>
+                    <h2 className={classes.headerText}>{`Key Stats for ${outCat.category} ${outCat.labels[outAdd]}`}</h2>
+                </div>
+                <Fade in={true} timeout={1000}>
+                    <Paper className={classes.keyStatsPaper}>
+                        <NavLink to="/distributions" style={{textDecoration: 'none'}}>
+                            <h2 className={classes.statsText}>{'Mean'}</h2>
+                            <h3 className={classes.statFigure}>{convert_format(out_fmt, xmean)}</h3>
+                        </NavLink>
+                    </Paper>
+                </Fade>
+                <Fade in={true} timeout={1000}>
+                    <Paper className={classes.keyStatsPaper}>
+                        <NavLink to="/distributions" style={{textDecoration: 'none'}}>
+                            <h2 className={classes.statsText}>{'Minimum'}</h2>
+                            <h3 className={classes.statFigure}>{convert_format(out_fmt, xmin)}</h3>
+                        </NavLink>
+                    </Paper>
+                </Fade>
+                <Fade in={true} timeout={1000}>
+                    <Paper className={classes.keyStatsPaper}>
+                        <NavLink to="/distributions" style={{textDecoration: 'none'}}>
+                            <h2 className={classes.statsText}> {'Maximum'}</h2>
+                            <h3 className={classes.statFigure}>{convert_format(out_fmt, xmax)}</h3>
+                        </NavLink>
+                    </Paper>
+                </Fade>
+                <Fade in={true} timeout={1000}>
+                    <Paper className={classes.keyStatsPaper}>
+                        <NavLink to="/distributions" style={{textDecoration: 'none'}}>
+                            <h2 className={classes.statsText}> {'Standard Deviation'}</h2>
+                            <h3 className={classes.statFigure}>{convert_format(out_fmt, xstd)}</h3>
+                        </NavLink>
+                    </Paper>
+                </Fade>
+
+            </Paper>
         )
     }
 
     //Summary chart creator
-    const createSummaryCharts = (summaryChartData,outAdd,outCat,inputLabelMap) => {
+    const createSummaryCharts = (summaryChartData, outAdd, outCat, out_fmt, inputLabelMap) => {
 
-        return summaryChartData.map((solutionSet, idx) => (
+        const miniCharts = distKeyStats(outAdd, out_fmt, outCat)
+
+        return (
             <SummaryChart
-
-                key={"summary_" + solutionSet.category}
-
-                category={solutionSet.category}
-                currSolution={solutionSet.values}
+                summaryData={summaryChartData}
+                miniCharts={miniCharts}
                 outAdd={outAdd}
                 outCat={outCat}
                 inputLabelMap={inputLabelMap}
-                fill={chartColors[idx]}
-                domain={solutionSet.domains}
+                formats={props.formats}
                 summaryPrefs={summaryPrefs}
                 setSummaryPrefs={setSummaryPrefs}
                 handleSummaryBarMouseClick={handleSummaryBarMouseClick}
                 handleSummaryTickMouseClick={handleSummaryTickMouseClick}
             />
-        ))
+        )
     }
 
 
@@ -393,13 +448,8 @@ export default function Output(props) {
 
             //Get relevant data for summary charts
             const summaryChartData = addLiveChartMetaData(currSolution)
-            const summaryCharts = createSummaryCharts(summaryChartData,outAdd,outCat,inputLabelMap)
-            // const miniKeyStatsChart = distKeyStats(outAdd, out_fmt)
+            return createSummaryCharts(summaryChartData, outAdd, outCat, out_fmt, inputLabelMap)
 
-            return (
-                <Card className={classes.summaryContainer}>
-                    {summaryCharts}
-                </Card>)
 
         } else if (props.type === 'sensitivity') {
 
@@ -423,7 +473,7 @@ export default function Output(props) {
     }
 
 
-//Function executions
+    //Function executions
     const currSolution = findSolution(props.currInputVal)
     const inputLabelMap = generateInputLabelMap()
     const final_charts = createCharts()

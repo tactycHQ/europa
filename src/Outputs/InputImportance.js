@@ -24,7 +24,7 @@ const chartColors = [
     '#A5014B',
     '#3DA32D',
     '#4B719C',
-    '#FE7F2D',
+    '#004346',
     '#00044E'
 ]
 
@@ -256,8 +256,8 @@ export default function Distribution(props) {
                         >
                             <defs>
                                 <linearGradient id={chartColors[idx]} x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stopColor={chartColors[idx]} stopOpacity={0.75}/>
-                                    <stop offset="75%" stopColor={chartColors[idx]} stopOpacity={0.25}/>
+                                    <stop offset="25%" stopColor={chartColors[idx]} stopOpacity={0.75}/>
+                                    <stop offset="95%" stopColor={chartColors[idx]} stopOpacity={0.25}/>
                                 </linearGradient>
                             </defs>
                             <XAxis

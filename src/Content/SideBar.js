@@ -13,7 +13,6 @@ import SettingsBackupRestoreSharpIcon from '@material-ui/icons/SettingsBackupRes
 import VerifiedUserSharpIcon from '@material-ui/icons/VerifiedUserSharp'
 import CloudDownloadSharpIcon from '@material-ui/icons/CloudDownloadSharp'
 import PieChartSharpIcon from '@material-ui/icons/PieChartSharp'
-import SignalCellular3BarSharpIcon from '@material-ui/icons/SignalCellular3BarSharp';
 import TimelineSharpIcon from '@material-ui/icons/TimelineSharp'
 import GraphicEqSharpIcon from '@material-ui/icons/GraphicEqSharp'
 import {NavLink} from 'react-router-dom'
