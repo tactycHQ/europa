@@ -11,7 +11,8 @@ import {
     PieChart,
     Pie,
     Cell,
-    ReferenceLine
+    ReferenceLine,
+    Text
 } from 'recharts'
 import Paper from '@material-ui/core/Paper'
 import {Card} from "@material-ui/core";
@@ -194,23 +195,25 @@ export default function Distribution(props) {
 
     const pieLabelFormatter = (props, fmt) => {
         const {cx, x, y, payload, index} = props
+        console.log(index)
+
+        // const rx = new RegExp(`.{1,${maxChars}}`, 'g');
+        // const chunks = payload.value.replace(/-/g, ' ').split(' ').map(s => s.match(rx)).flat();
+        // const tspans = chunks.map((s, i) => <tspan x={0} y={lineHeight} dy={(i * lineHeight)}>{s}</tspan>);
 
         return (
-            <g>
-                <text
-                    x={x}
-                    y={y}
-                    width="100"
-                    // textLength="100%"
-                    textAnchor={x > cx ? "start" : "end"}
-                    fontSize='0.85em'
-                    fontWeight={500}
-                    fill={chartColors[index]}
-                    fontFamily="Questrial"
-                >
-                    {payload.name + ": " + convert_format(fmt, payload.value)}
-                </text>
-            </g>
+            <Text
+                x={x}
+                y={y}
+                width={200}
+                textAnchor={x > cx ? "start" : "end"}
+                fontSize='0.9em'
+                fontWeight={300}
+                fill={chartColors[index]}
+                fontFamily="Questrial"
+            >
+                {payload.name + ": " + convert_format(fmt, payload.value)}
+            </Text>
 
         )
     }
@@ -412,14 +415,14 @@ export default function Distribution(props) {
                         >
                             {
                                 iiSummaryData.map((entry, index) => <Cell key={"cell_" + index}
-                                                                        fill={chartColors[index]}/>)
+                                                                          fill={chartColors[index]}/>)
                             }
                         </Pie>
                         <Tooltip
                             wrapperStyle={{fontSize: '0.9em', fontFamily: 'Questrial'}}
                             cursor={{fill: '#FEFEFD', fontFamily: 'Questrial', fontSize: '0.8em'}}
                             // labelFormatter={value => `${value}`}
-                            formatter={(value,name) => [`${convert_format('0.0%', value)}`,`${name}`]}/>
+                            formatter={(value, name) => [`${convert_format('0.0%', value)}`, `${name}`]}/>
                     </PieChart>
                 </ResponsiveContainer>
             </div>

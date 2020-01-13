@@ -9,7 +9,7 @@ import {
     ResponsiveContainer,
     ReferenceLine,
     Cell,
-    PieChart, Pie
+    PieChart, Pie, Text
 } from 'recharts'
 import {Paper, makeStyles, Card} from "@material-ui/core"
 import {convert_format} from "../utils/utils"
@@ -240,25 +240,22 @@ export default function SummaryChart(props) {
         )
     }
 
-    const pieLabelFormatter = (props, fmt) => {
+    const pieLabelFormatter = (props) => {
         const {cx, x, y, payload, index} = props
 
         return (
-            <g>
-                <text
-                    x={x}
-                    y={y}
-                    textAnchor={x > cx ? "start" : "end"}
-                    fontSize='0.9em'
-                    fontWeight={300}
-                    fill={chartColors[index]}
-                    fontFamily="Questrial"
-                    // width="100"
-                >
-                    {payload.name + ": " + convert_format('0.0%', payload.value)}
-                </text>
-            </g>
-
+            <Text
+                x={x}
+                y={y}
+                width={200}
+                textAnchor={x > cx ? "start" : "end"}
+                fontSize='0.9em'
+                fontWeight={300}
+                fill={chartColors[index]}
+                fontFamily="Questrial"
+            >
+                {payload.name + ": " + convert_format('0.0%', payload.value)}
+            </Text>
         )
     }
 
