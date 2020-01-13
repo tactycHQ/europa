@@ -7,9 +7,6 @@ import InputImportance from "../Outputs/InputImportance";
 import {convert_format} from "../utils/utils";
 import isEqual from "lodash.isequal";
 import {getAvg} from "../utils/utils";
-import Paper from "@material-ui/core/Paper";
-import {NavLink} from "react-router-dom";
-import Fade from "@material-ui/core/Fade";
 
 
 export default function Output(props) {
@@ -35,59 +32,7 @@ export default function Output(props) {
             flexWrap: 'wrap',
             justifyContent: 'center',
             padding: '8px',
-        },
-        keyStatsContainer: {
-            display: 'flex',
-            justifyContent: 'center',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            maxwidth: '100%',
-            marginLeft: '2.5%',
-            marginRight: '2.5%',
-            marginTop: '1%',
-            marginBottom: '0%',
-            background: 'linear-gradient(#F4F4F4 10%,#EBEEF0)',
-        },
-        keyStatsHeader: {
-            display: 'flex',
-            width: '100%',
-            justifyContent: 'center',
-            marginTop: '5px',
-            marginBottom: '0px',
-            color: 'red',
-            // background:'red'
-        },
-        keyStatsPaper: {
-            display: 'flex',
-            flexDirection: 'column',
-            minWidth: '20%',
-            margin: '1%',
-            padding: '1%',
-            background: '#4595B9'
-        },
-        headerText: {
-            color: '#3C4148',
-            fontFamily: 'Questrial',
-            margin: '5px',
-            fontWeight: '20',
-            fontSize: '1.2em'
-        },
-        statsText: {
-            color: '#F4F9E9',
-            fontFamily: 'Questrial',
-            // textAlign:'center',
-            margin: '0px',
-            fontWeight: '20',
-            fontSize: '1em'
-        },
-        statFigure: {
-            color: '#F4F9E9',
-            textAlign: 'center',
-            margin: '0px',
-            fontFamily: 'Questrial',
-            fontWeight: '10',
-            fontSize: '1.5em'
-        },
+        }
     }))
     const classes = useStyles()
 
@@ -253,59 +198,23 @@ export default function Output(props) {
         const xmean = props.distributions.mean[outAdd]
         const xstd = props.distributions.std[outAdd]
 
-
-        return (
-            <Paper className={classes.keyStatsContainer} elevation={3}>
-
-                <div className={classes.keyStatsHeader}>
-                    <h2 className={classes.headerText}>{`Key Stats for ${outCat.category} ${outCat.labels[outAdd]}`}</h2>
-                </div>
-                <Fade in={true} timeout={1000}>
-                    <Paper className={classes.keyStatsPaper}>
-                        <NavLink to="/distributions" style={{textDecoration: 'none'}}>
-                            <h2 className={classes.statsText}>{'Mean'}</h2>
-                            <h3 className={classes.statFigure}>{convert_format(out_fmt, xmean)}</h3>
-                        </NavLink>
-                    </Paper>
-                </Fade>
-                <Fade in={true} timeout={1000}>
-                    <Paper className={classes.keyStatsPaper}>
-                        <NavLink to="/distributions" style={{textDecoration: 'none'}}>
-                            <h2 className={classes.statsText}>{'Minimum'}</h2>
-                            <h3 className={classes.statFigure}>{convert_format(out_fmt, xmin)}</h3>
-                        </NavLink>
-                    </Paper>
-                </Fade>
-                <Fade in={true} timeout={1000}>
-                    <Paper className={classes.keyStatsPaper}>
-                        <NavLink to="/distributions" style={{textDecoration: 'none'}}>
-                            <h2 className={classes.statsText}> {'Maximum'}</h2>
-                            <h3 className={classes.statFigure}>{convert_format(out_fmt, xmax)}</h3>
-                        </NavLink>
-                    </Paper>
-                </Fade>
-                <Fade in={true} timeout={1000}>
-                    <Paper className={classes.keyStatsPaper}>
-                        <NavLink to="/distributions" style={{textDecoration: 'none'}}>
-                            <h2 className={classes.statsText}> {'Standard Deviation'}</h2>
-                            <h3 className={classes.statFigure}>{convert_format(out_fmt, xstd)}</h3>
-                        </NavLink>
-                    </Paper>
-                </Fade>
-
-            </Paper>
-        )
+        return {
+            'xmean':xmean,
+            'xmax':xmax,
+            'xmin':xmin,
+            'xstd':xstd
+        }
     }
 
     //Summary chart creator
     const createSummaryCharts = (summaryChartData, outAdd, outCat, out_fmt, inputLabelMap) => {
 
-        const miniCharts = distKeyStats(outAdd, out_fmt, outCat)
+        const miniData = distKeyStats(outAdd, out_fmt, outCat)
 
         return (
             <SummaryChart
                 summaryData={summaryChartData}
-                miniCharts={miniCharts}
+                miniData={miniData}
                 outAdd={outAdd}
                 outCat={outCat}
                 inputLabelMap={inputLabelMap}
