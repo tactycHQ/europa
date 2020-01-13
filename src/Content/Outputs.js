@@ -4,7 +4,7 @@ import SummaryChart from "../Outputs/SummaryChart"
 import SAChart from "../Outputs/SAChart"
 import DistributionChart from "../Outputs/DistributionChart";
 import InputImportance from "../Outputs/InputImportance";
-import {convert_format} from "../utils/utils";
+import {convert_format, getAvgfromKey, getDomains, getMaxfromKey, getMinfromKey} from "../utils/utils";
 import isEqual from "lodash.isequal";
 import {getAvg} from "../utils/utils";
 
@@ -210,11 +210,14 @@ export default function Output(props) {
     const createSummaryCharts = (summaryChartData, outAdd, outCat, out_fmt, inputLabelMap) => {
 
         const miniData = distKeyStats(outAdd, out_fmt, outCat)
+        const avgData = createImpacts(outAdd)
+        const pieData = createInputPie(avgData)
 
         return (
             <SummaryChart
                 summaryData={summaryChartData}
                 miniData={miniData}
+                pieData={pieData}
                 outAdd={outAdd}
                 outCat={outCat}
                 inputLabelMap={inputLabelMap}
@@ -254,7 +257,7 @@ export default function Output(props) {
         })
     }
 
-    const createSAcharts = (lineData, outAdd, outCat, out_fmt) => {
+    const createSAcharts = (lineData, outAdd, outCat) => {
         return (
             <SAChart
                 data={lineData}
@@ -271,7 +274,7 @@ export default function Output(props) {
 
 
     // =========Distributions=======
-    const createDistcharts = (outAdd, outCat, out_fmt) => {
+    const createDistcharts = (outAdd, outCat) => {
         return (
             <DistributionChart
                 distributions={props.distributions}
@@ -344,6 +347,18 @@ export default function Output(props) {
         )
     }
 
+    const createInputPie = (avgData) => {
+            return avgData.reduce((acc, inptData, idx) => {
+                const inAdd = Object.keys(inptData)
+                const inputLabel = inputLabelMap[inAdd]
+                const inVal = Object.values(inptData)[0]
+
+                acc.push({
+                    "name": inputLabel,
+                    "value": Math.abs(getAvgfromKey(inVal, "value")),
+                })
+                return acc
+            },[])}
 
     // =========Final dispatcher=======
     const createCharts = () => {
