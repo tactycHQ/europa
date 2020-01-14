@@ -21,10 +21,10 @@ import {NavLink} from "react-router-dom";
 const chartColors = [
     '#006E9F',
     '#A5014B',
-    '#2D7721',
-    '#4B719C',
-    '#FE7F2D',
-    '#00044E'
+    '#3DA32D',
+    '#6014BC',
+    '#C62525',
+    '#002247'
 ]
 
 export default function SummaryChart(props) {
@@ -61,8 +61,9 @@ export default function SummaryChart(props) {
             flexDirection: 'column',
             justifyContent: 'flex-start',
             alignItems: 'center',
-            margin: '1%',
-            marginTop:'0px',
+            margin: '10px',
+            marginTop: '0px',
+            marginBottom:'20px',
             padding: '1%',
             background: 'linear-gradient(#F4F4F4 10%,#FEFEFD)',
             width: '48%'
@@ -72,7 +73,9 @@ export default function SummaryChart(props) {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            margin: '1%',
+            margin: '10px',
+            marginTop: '0px',
+            marginBottom:'20px',
             padding: '1%',
             background: 'linear-gradient(#F4F4F4 10%,#FEFEFD)',
             width: '100%'
@@ -259,10 +262,70 @@ export default function SummaryChart(props) {
         )
     }
 
+//     const pieLabelFormatter2 = (props) => {
+//         const {cx, cy, midAngle, innerRadius, outerRadius, payload, index} = props
+//         console.log(props)
+//         const RADIAN = Math.PI / 180;
+//
+//         // eslint-disable-next-line
+//         let radius = 20 + innerRadius + (outerRadius - innerRadius);
+//         // eslint-disable-next-line
+//         let x = cx + radius * Math.cos(-midAngle * RADIAN);
+//         // eslint-disable-next-line
+//         let y = cy + radius * Math.sin(-midAngle * RADIAN);
+//
+//         if (payload.value < 0) {
+//             return null;
+//         }
+//
+//         console.log(x,y)
+//
+//         return (
+//             <text
+//                 x={x}
+//                 y={y}
+//                 fill="#000"
+//                 fontWeight="300"
+//                 fontSize="13px"
+//                 fontFamily="'Source Sans Pro', 'Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'"
+//                 textAnchor={x > cx ? "start" : "end"}
+//                 dominantBaseline="central"
+//             >
+//                 {payload.name} {payload.value}
+//             </text>
+//         )
+//     }
+//
+//
+// const labelLineFmt = (props) => {
+//     const {cx, cy, midAngle, innerRadius, outerRadius, value, index} = props
+//
+//     const RADIAN = Math.PI / 180
+//     // eslint-disable-next-line
+//     let radius1 = 20 + innerRadius + (outerRadius - innerRadius);
+//
+//     let radius2 = innerRadius + (outerRadius - innerRadius);
+//     // eslint-disable-next-line
+//     let x2 = cx + radius1 + index*10;
+//     // eslint-disable-next-line
+//     let y2 = cy + radius1 + index*10;
+//
+//     let x1 = cx + radius2 * index*10;
+//     // eslint-disable-next-line
+//     let y1 = cy + radius2 * index*10;
+//
+//     if (value < 0) {
+//         return null;
+//     }
+//
+//     return (
+//         <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="#ccc" strokeWidth={1}>
+//         </line>
+//     )
+// }
 
 
-
-    // Function executions
+// Function executions
     const createSingleChart = (solutionSet, idx) => {
 
         const category = solutionSet.category
@@ -415,7 +478,7 @@ export default function SummaryChart(props) {
                                 cx={"50%"}
                                 cy={"50%"}
                                 labelLine={true}
-                                label={(labelData) => pieLabelFormatter(labelData, out_fmt)}
+                                label={(labelData) => pieLabelFormatter(labelData)}
                                 innerRadius={60}
                                 outerRadius={100}
                                 animationDuration={600}
@@ -545,7 +608,7 @@ export default function SummaryChart(props) {
     const charts = createCharts()
 
 
-    //Handlers
+//Handlers
     return (
         <Card elevation={0}>
             {charts}

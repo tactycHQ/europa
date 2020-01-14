@@ -4,6 +4,7 @@ import {AreaChart, XAxis, YAxis, Tooltip, Legend, Area, Label, ResponsiveContain
 import Paper from '@material-ui/core/Paper'
 import {convert_format} from "../utils/utils"
 import {LabelSelector} from "./LabelSelector"
+import {InputSelector} from "./InputSelector";
 import {Card} from "@material-ui/core"
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -220,34 +221,33 @@ export default function SAChart(props) {
 
 
     const generateCharts = () => {
-        return props.data.map(chartData => {
 
-            const {lines, bounds1, bounds2, add1, add2, add2_fmt, add1_fmt} = chartData
-            const {outAdd, outCat} = props
-            const out_fmt=props.formats[outAdd]
 
-            const lineChart = createLineChart(lines, outAdd, bounds1, bounds2, add1, add2, add2_fmt, add1_fmt, out_fmt)
-            const tableChart = createTableChart(lines, outAdd, bounds1, bounds2, add1, add2, add2_fmt, add1_fmt, out_fmt)
+        const {lines, bounds1, bounds2, add1, add2, add2_fmt, add1_fmt} = props.data
+        const {outAdd, outCat} = props
+        const out_fmt = props.formats[outAdd]
 
-            return (
-                <Paper
-                    className={classes.paper}
-                    key={outAdd + add1 + add2 + '_combo'}
-                    elevation={2}
-                >
-                    <h3 className={classes.chartTitle}>{outCat.labels[outAdd]}, {outCat.category}</h3>
-                    <h3 className={classes.chartNote}><em>Sensitized
-                        Variables:</em> {props.inputLabelMap[add2]}, {props.inputLabelMap[add1]}</h3>
-                    {lineChart}
-                    {tableChart}
-                </Paper>
-            )
-        })
+        const lineChart = createLineChart(lines, outAdd, bounds1, bounds2, add1, add2, add2_fmt, add1_fmt, out_fmt)
+        const tableChart = createTableChart(lines, outAdd, bounds1, bounds2, add1, add2, add2_fmt, add1_fmt, out_fmt)
+
+        return (
+            <Paper
+                className={classes.paper}
+                key={outAdd + add1 + add2 + '_combo'}
+                elevation={2}
+            >
+                <h3 className={classes.chartTitle}>{outCat.labels[outAdd]}, {outCat.category}</h3>
+                <h3 className={classes.chartNote}><em>Sensitized
+                    Variables:</em> {props.inputLabelMap[add2]}, {props.inputLabelMap[add1]}</h3>
+                {lineChart}
+                {tableChart}
+            </Paper>
+        )
     }
 
     //Table chart creator
     const createTableChart = (lines, outAdd, bounds1, bounds2, add1, add2, add2_fmt, add1_fmt, out_fmt) => {
-        const body = lines.map((line,idx) => {
+        const body = lines.map((line, idx) => {
             const lineValues = Object.values(line)
             const leftCellValue = convert_format(add1_fmt, lineValues[0])
             const row = lineValues.map((value, idx) => {
@@ -268,7 +268,7 @@ export default function SAChart(props) {
             })
 
             return (
-                <TableRow className={classes.bodyRow} key={'tablerow_' + add1 + add2 + outAdd+idx} hover>
+                <TableRow className={classes.bodyRow} key={'tablerow_' + add1 + add2 + outAdd + idx} hover>
                     {row}
                 </TableRow>
             )
@@ -423,6 +423,8 @@ export default function SAChart(props) {
 
 
     //Execute Functions
+
+
     const charts = generateCharts()
 
 
@@ -442,6 +444,13 @@ export default function SAChart(props) {
                 handleOutputCategoryChange={props.handleOutputCategoryChange}
                 currOutputCell={props.outAdd}
                 currCategory={props.outCat.category}/>
+            <InputSelector
+                input1={props.input1}
+                input2={props.input2}
+                inputLabelMap={props.inputLabelMap}
+                handleInput1Change={props.handleInput1Change}
+                handleInput2Change={props.handleInput2Change}
+            />
             {charts}
         </Card>
     )

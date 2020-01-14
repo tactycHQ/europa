@@ -40,6 +40,8 @@ export default function Output(props) {
     const [currOutputCell, setCurrOutputCell] = useState('') //for output label selection from dropdown
     const [currCategory, setCurrCategory] = useState(props.outputs[0]['category']) //for category selection from dropdown
     const [summaryPrefs, setSummaryPrefs] = useState({}) //for chart preferences
+    const [saInput1, setSAInput1] = useState('') //for category selection from dropdown
+    const [saInput2, setSAInput2] = useState('') //for category selection from dropdown
 
 
     /// Handlers
@@ -50,6 +52,14 @@ export default function Output(props) {
     const handleOutputCategoryChange = (event) => {
         setCurrCategory(event.target.value)
         setCurrOutputCell('')
+    }
+
+    const handleInput1Change = (event) => {
+        setSAInput1(event.target.value)
+    }
+
+    const handleInput2Change = (event) => {
+        setSAInput2(event.target.value)
     }
 
     const handleSummaryTickMouseClick = (event, category) => {
@@ -105,11 +115,10 @@ export default function Output(props) {
     }
 
     //Creates rows and lines for SA charts i.e. range of output values over a bound
-    const createLines = (saCombos, outAdd) => {
+    const createLines = (saCombo, outAdd) => {
 
-        return saCombos.map(chartData => {
-            const flexInputs = chartData.inputs
-            const bounds = chartData.bounds
+            const flexInputs = saCombo.inputs
+            const bounds = saCombo.bounds
             const add1 = flexInputs[0]
             const add2 = flexInputs[1]
             const add1_fmt = props.formats[add1]
@@ -145,7 +154,22 @@ export default function Output(props) {
                 'add1_fmt': add1_fmt,
                 'add2_fmt': add2_fmt
             })
-        })
+        }
+
+    const getInput1 = () => {
+        if (saInput1 === '') {
+            return Object.keys(inputLabelMap)[0]
+        } else {
+            return saInput1
+        }
+    }
+
+    const getInput2 = () => {
+        if (saInput2 === '') {
+            return Object.keys(inputLabelMap)[1]
+        } else {
+            return saInput2
+        }
     }
 
     ///======== Summary Chart Functions========
@@ -234,26 +258,26 @@ export default function Output(props) {
             [])
     }
 
-    const createSAData = () => {
+    const createSAData = (input1, input2) => {
 
-        const saPairs = generateSAPairs()
+        // const saPairs = generateSAPairs()
 
-        return saPairs.map(address => {
+        // return saPairs.map(address => {
 
-            const add1 = address[0]
-            const add2 = address[1]
+        const add1 = input1
+        const add2 = input2
 
-            const in1bounds = props.inputs.find(i1 => (i1.address === add1))
-            const in2bounds = props.inputs.find(i2 => (i2.address === add2))
+        const in1bounds = props.inputs.find(i1 => (i1.address === add1))
+        const in2bounds = props.inputs.find(i2 => (i2.address === add2))
 
-            return {
-                inputs: [add1, add2],
-                bounds: [{[add1]: in1bounds.values}, {[add2]: in2bounds.values}]
-            }
-        })
+        return {
+            inputs: [add1, add2],
+            bounds: [{[add1]: in1bounds.values}, {[add2]: in2bounds.values}]
+        }
+
     }
 
-    const createSAcharts = (lineData, outAdd, outCat) => {
+    const createSAcharts = (lineData, outAdd, outCat, input1, input2) => {
         return (
             <SAChart
                 data={lineData}
@@ -262,8 +286,12 @@ export default function Output(props) {
                 formats={props.formats}
                 outputs={props.outputs}
                 inputLabelMap={inputLabelMap}
+                input1={input1}
+                input2={input2}
                 handleOutputLabelChange={handleOutputLabelChange}
                 handleOutputCategoryChange={handleOutputCategoryChange}
+                handleInput1Change={handleInput1Change}
+                handleInput2Change={handleInput2Change}
             />
         )
     }
@@ -400,10 +428,13 @@ export default function Output(props) {
         } else if (props.type === 'sensitivity') {
 
             //Get relevant data for SA charts
-            const saCombos = createSAData()
+            const input1 = getInput1()
+            const input2 = getInput2()
+            const saCombos = createSAData(input1, input2)
+
             const lineData = createLines(saCombos, outAdd)
 
-            return createSAcharts(lineData, outAdd, outCat, out_fmt)
+            return createSAcharts(lineData, outAdd, outCat, input1, input2)
 
         } else if (props.type === 'distributions') {
 

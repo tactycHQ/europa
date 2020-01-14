@@ -112,7 +112,7 @@ export function LabelSelector(props) {
     }
 
         //Function Execution
-        const categoryDropDown = createLabelDropDowns()
+        const menuLabItems = createLabelDropDowns()
 
 
         return (
@@ -140,7 +140,7 @@ export function LabelSelector(props) {
                             </Select>
                         </FormControl>
                     </div>
-                    {categoryDropDown}
+                    {menuLabItems}
                 </div>
             </div>
         )
