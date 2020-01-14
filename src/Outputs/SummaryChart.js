@@ -24,6 +24,12 @@ const chartColors = [
     '#3DA32D',
     '#6014BC',
     '#C62525',
+    '#002247',
+    '#006E9F',
+    '#A5014B',
+    '#3DA32D',
+    '#6014BC',
+    '#C62525',
     '#002247'
 ]
 
@@ -63,7 +69,7 @@ export default function SummaryChart(props) {
             alignItems: 'center',
             margin: '10px',
             marginTop: '0px',
-            marginBottom:'20px',
+            marginBottom: '20px',
             padding: '1%',
             background: 'linear-gradient(#F4F4F4 10%,#FEFEFD)',
             width: '48%'
@@ -75,7 +81,7 @@ export default function SummaryChart(props) {
             alignItems: 'center',
             margin: '10px',
             marginTop: '0px',
-            marginBottom:'20px',
+            marginBottom: '20px',
             padding: '1%',
             background: 'linear-gradient(#F4F4F4 10%,#FEFEFD)',
             width: '100%'

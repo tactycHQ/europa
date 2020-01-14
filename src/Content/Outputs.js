@@ -10,7 +10,6 @@ import isEqual from "lodash.isequal";
 
 export default function Output(props) {
 
-
     const getWidth = () => {
         if (['summary', 'distributions', 'sensitivity'].includes(props.type)) {
             return '72.5%'
@@ -216,7 +215,6 @@ export default function Output(props) {
 
     //Mini Charts
     const distKeyStats = (outAdd) => {
-        console.log(props)
         const xmin = props.distributions.min[outAdd]
         const xmax = props.distributions.max[outAdd]
         const xmean = props.distributions.mean[outAdd]
@@ -453,13 +451,14 @@ export default function Output(props) {
 
             return createInputImptCharts(avgData, iiSummaryData, outAdd, outCat)
 
-        } else if (props.type === 'scenarioanalysis') {
-
-            //Get relevant data for II charts
-            // const solutions = createScenario(outputRanges)
-
-            return createScenarioAnalysis(outputRanges, solutions)
         }
+        // else if (props.type === 'scenarioanalysis') {
+        //
+        //     //Get relevant data for II charts
+        //     // const solutions = createScenario(outputRanges)
+        //
+        //     return createScenarioAnalysis(outputRanges, solutions)
+        // }
     }
 
 
