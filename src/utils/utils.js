@@ -23,7 +23,7 @@ export const convert_format = (fmt, value) => {
 export const getAvg = arr => arr.reduce((a, b) => a + b, 0) / arr.length
 
 export const getDomains = (xmin, xmax) => {
-    const cushion = 1.2
+    const cushion = 1.1
 
     if (xmax < 0 && xmax < 0) {
         return [xmin * cushion, 0]

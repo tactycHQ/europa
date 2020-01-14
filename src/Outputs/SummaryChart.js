@@ -13,9 +13,9 @@ import {
 } from 'recharts'
 import {Paper, makeStyles, Card} from "@material-ui/core"
 import {convert_format} from "../utils/utils"
-import CardSettings from "./CardSettings";
-import Fade from "@material-ui/core/Fade";
-import {NavLink} from "react-router-dom";
+import CardSettings from "./CardSettings"
+import Fade from "@material-ui/core/Fade"
+import {NavLink} from "react-router-dom"
 
 
 const chartColors = [
@@ -353,7 +353,7 @@ export default function SummaryChart(props) {
                                   setSummaryPrefs={props.setSummaryPrefs}
                                   summaryPrefs={props.summaryPrefs}/>
                 </div>
-                <ResponsiveContainer width="100%" height={310}>
+                <ResponsiveContainer width="100%" height={210}>
                     <BarChart
                         data={chartData}
                         margin={{top: 15, right: 15, left: 10, bottom: 0}}

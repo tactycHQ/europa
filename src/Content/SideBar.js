@@ -134,7 +134,7 @@ export default function SideBar() {
                     <NavLink to="/inputimportance" style={{textDecoration: 'none'}}>
                         <ListItem className={classes.buttons} button={true}>
                             <PieChartSharpIcon className={classes.icon}/>
-                            <div className={classes.buttonLabel}>Input Importance</div>
+                            <div className={classes.buttonLabel}>Input Contribution</div>
                         </ListItem>
                     </NavLink>
                     <NavLink to="/sensitivity" style={{textDecoration: 'none'}}>
