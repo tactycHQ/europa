@@ -395,6 +395,11 @@ export default function Output(props) {
         return contributions
     }
 
+    // ========ScenarioAnalysis=====
+    const createScenarioAnalysis = (outRanges, solutions) => {
+        return
+    }
+
     // =========Final dispatcher=======
     const createCharts = () => {
 
@@ -446,8 +451,14 @@ export default function Output(props) {
             const avgData = createImpacts(outAdd)
             const iiSummaryData = createIISummary(avgData)
 
-
             return createInputImptCharts(avgData, iiSummaryData, outAdd, outCat)
+
+        } else if (props.type === 'scenarioanalysis') {
+
+            //Get relevant data for II charts
+            // const solutions = createScenario(outputRanges)
+
+            return createScenarioAnalysis(outputRanges, solutions)
         }
     }
 

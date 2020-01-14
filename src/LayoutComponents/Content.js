@@ -102,7 +102,13 @@ export default function Content(props) {
                         />
                     </Route>
                     <Route exact path="/scenario">
-                        <ScenarioAnalysis/>
+                        <ScenarioAnalysis
+                            type="scenarioanalysis"
+                            inputs={props.inputs}
+                            outputs={props.outputs}
+                            solutions={props.solutions}
+                            formats={props.formats}
+                        />
                     </Route>
                     <Route exact path="/dependency">
                         <DependencyGraph/>

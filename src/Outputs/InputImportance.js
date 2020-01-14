@@ -39,16 +39,18 @@ export default function Distribution(props) {
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            background: '#FEFEFD',
+            padding:'10px',
+            // background: '#FEFEFD',
         },
         paper: {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            // margin: '1%',
+            width:'100%',
+            margin: '1%',
             padding: '1%',
-            background: 'linear-gradient(#F4F4F4 10%,#EBEEF0)',
+            background: 'linear-gradient(#F4F4F4 10%,#FEFEFD)',
             // borderRadius:'64px'
         },
         deltaChartsContainer: {
@@ -241,8 +243,8 @@ export default function Distribution(props) {
 
             return (
                 <div className={classes.deltaChart} key={"Delta_" + out_fmt + inAdd}>
-                    <h3 className={classes.chartTitle}>Impact of {inputLabel}</h3>
-                    <h3 className={classes.chartNote}><em>Represents average change for one slider increment</em></h3>
+                    <h3 className={classes.chartTitle}>Impact of</h3><h3 className={classes.chartTitle} style={{color: chartColors[idx]}}>{inputLabel}</h3>
+                    <h3 className={classes.chartNote}>Represents average change for one slider increment</h3>
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart
                             data={inVal}
@@ -322,11 +324,10 @@ export default function Distribution(props) {
 
 
         const inputCompChart = (
-            <div className={classes.inputComparisonContainer}>
+            <Paper className={classes.paper} elevation={4}>
                 <h3 className={classes.chartTitle}>Impact Analysis
                     on {props.outCat.category}, {props.outCat.labels[props.outAdd]}</h3>
-                <h3 className={classes.chartNote}><em>Average change in output for 1 increment change in input</em>
-                </h3>
+                <h3 className={classes.chartNote}>Average change in output for 1 increment change in input</h3>
                 <ResponsiveContainer width="75%" height={300}>
                     <BarChart
                         data={inptCompData}
@@ -388,14 +389,14 @@ export default function Distribution(props) {
                         </Bar>
                     </BarChart>
                 </ResponsiveContainer>
-            </div>
+            </Paper>
         )
 
         const inputMagChart = (
-            <div className={classes.inputComparisonContainer}>
+            <Paper className={classes.paper} elevation={4}>
                 <h3 className={classes.chartTitle}>Contribution Analysis
                     on {props.outCat.category}, {props.outCat.labels[props.outAdd]} </h3>
-                <h3 className={classes.chartNote}><em>Average impact contribution of input</em></h3>
+                <h3 className={classes.chartNote}>Average impact contribution of input</h3>
                 <ResponsiveContainer
                     width="75%"
                     height={300}
@@ -425,20 +426,18 @@ export default function Distribution(props) {
                             formatter={(value, name) => [`${convert_format('0.0%', value)}`, `${name}`]}/>
                     </PieChart>
                 </ResponsiveContainer>
-            </div>
+            </Paper>
         )
 
         return (
-            <Paper className={classes.paper} elevation={2}>
+            <Paper className={classes.paper} style={{background:'#FEFEFD'}} elevation={0}>
                 {inputCompChart}
                 {inputMagChart}
                 <Paper className={classes.deltaChartsContainer} elevation={4}>
                     {deltaCharts}
                 </Paper>
             </Paper>
-
         )
-
     }
 
     const generateKeyStats = () => {
