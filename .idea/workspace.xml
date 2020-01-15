@@ -2,16 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Other/OutSliders.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Outputs/ScenarioAnalysis.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Content/Outputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/Outputs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Content.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/Content.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Layout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/Layout.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Outputs/InputImportance.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/InputImportance.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Outputs/SummaryChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/SummaryChart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Sidebar/ScenarioAnalysis.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Sidebar/Sensitivity.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Content/Inputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/Inputs.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Other/OutSliders.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Other/OutSliders.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Outputs/ScenarioAnalysis.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/ScenarioAnalysis.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -61,7 +55,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Front End Tests/sheet_test" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
@@ -154,13 +148,7 @@
       <workItem from="1578417943609" duration="25931000" />
       <workItem from="1578590534732" duration="1329000" />
       <workItem from="1578773736472" duration="62021000" />
-    </task>
-    <task id="LOCAL-00089" summary="First commit">
-      <created>1578161308087</created>
-      <option name="number" value="00089" />
-      <option name="presentableId" value="LOCAL-00089" />
-      <option name="project" value="LOCAL" />
-      <updated>1578161308087</updated>
+      <workItem from="1579064149417" duration="1541000" />
     </task>
     <task id="LOCAL-00090" summary="First commit">
       <created>1578167907507</created>
@@ -498,7 +486,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579047627840</updated>
     </task>
-    <option name="localTasksCounter" value="138" />
+    <task id="LOCAL-00138" summary="First commit">
+      <created>1579063722021</created>
+      <option name="number" value="00138" />
+      <option name="presentableId" value="LOCAL-00138" />
+      <option name="project" value="LOCAL" />
+      <updated>1579063722021</updated>
+    </task>
+    <option name="localTasksCounter" value="139" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

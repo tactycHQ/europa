@@ -21,93 +21,89 @@ export default function OutSliders(props) {
 
 
     const useStyles = makeStyles({
-            root: {
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                // backgroundColor: 'red',
-                marginBottom: '0px',
-                width:300
-            },
-            sliderContainer: {
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                padding: '20px',
-                // width:'100%',
-                // backgroundColor: 'green',
-                // margin: '5%'
-            },
-            label: {
-                display: 'flex',
-                fontWeight: '650',
+        root: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            // backgroundColor: 'red',
+            marginBottom: '0px',
+            width: 300
+        },
+        sliderContainer: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            padding: '20px',
+            // width:'100%',
+            // backgroundColor: 'green',
+            // margin: '5%'
+        },
+        label: {
+            display: 'flex',
+            fontWeight: '650',
+            fontSize: '0.9em',
+            fontFamily: 'Questrial',
+            marginTop: '0%',
+            marginBottom: '7%',
+            color: '#006E9F',
+            textAlign: 'center'
+        },
+        mark: {
+            backgroundColor: '#C4C6C8',
+            height: 0,
+            width: 0.8
+        },
+        markActive: {
+            backgroundColor: '#006E9F'
+        },
+        rail: {
+            backgroundColor: '#767A7F',
+        },
+        track: {
+            backgroundColor: '#006E9F',
+        },
+        active: {
+            backgroundColor: '#A5014B'
+        },
+        markLabel: {
+            borderStyle: 'solid',
+            borderColor: '#D8D9DA',
+            borderRadius: '10%',
+            borderWidth: '1px',
+            fontSize: '0.0em',
+            color: '#4F545A',
+            top:13,
+            fontFamily: 'Questrial',
+            "&:hover": {
                 fontSize: '0.9em',
-                fontFamily: 'Questrial',
-                marginTop: '0%',
-                marginBottom: '7%',
-                color: '#006E9F',
-                textAlign: 'center'
-            },
-            mark: {
-                backgroundColor: '#C4C6C8',
-                height: 0,
-                width: 0.8
-            },
-            markActive: {
-                backgroundColor: '#006E9F'
-            },
-            rail: {
-                backgroundColor: '#767A7F',
-            },
-            track: {
-                backgroundColor: '#006E9F',
-            },
-            active: {
-                backgroundColor: '#A5014B'
-            },
-            markLabel: {
-                borderStyle: 'solid',
-                borderColor: '#D8D9DA',
-                // opacity:'70%',
-                borderRadius: '100%',
-                // padding:'5px',
-                borderWidth: '4px',
-                fontSize: '0.0em',
-                color: '#4F545A',
-                top: 10,
-                // fontWeight:'700',
-                fontFamily: 'Questrial',
-                "&:hover": {
-                    fontSize: '0.9em',
-                    borderStyle: 'none',
-                    top: -17,
-                    // borderColor: '#4F545A',
-                }
-            },
-            markLabelActive: {
-                borderColor: '#006E9F',
-                color: '#006E9F',
-                fontFamily: 'Questrial',
-                // fontWeight:'600',
-            },
-            thumb: {
-                color: '#006E9F',
-                fontFamily: 'Questrial'
-            },
-            valueLabel: {
-                left: 'calc(-50%)',
-                top: -22,
-                '& *': {
-                    background: 'transparent',
-                    color: '#006E9F',
-                    fontFamily: 'Questrial',
-                },
-                color: '#006E9F',
-                fontFamily: 'Questrial',
-                fontSize: '0.9em',
-                // backgroundColor:'red'
+                borderStyle: 'none',
+                top: -17
             }
-        })
+        },
+        markLabelActive: {
+            borderColor: '#9DADB8',
+            color: '#006E9F',
+            fontFamily: 'Questrial',
+            // fontWeight:'600',
+        },
+        thumb: {
+            color: '#006E9F',
+            fontFamily: 'Questrial'
+        },
+        valueLabel: {
+            left: 'calc(-50%)',
+            top: -22,
+            '& *': {
+                background: 'transparent',
+                color: '#006E9F',
+                fontFamily: 'Questrial',
+            },
+            color: '#006E9F',
+            fontFamily: 'Questrial',
+            fontSize: '0.9em',
+            // backgroundColor:'red'
+        }
+    })
     const classes = useStyles()
 
     const [value, setValue] = React.useState([0, 1])
@@ -121,9 +117,19 @@ export default function OutSliders(props) {
     }
 
     const handleChange = (event, newValue) => {
-        console.log(newValue)
         setValue(newValue);
     }
+
+    function generateMarks(values) {
+        return values.map(v => (
+                {
+                    value: v,
+                    label: convert_format(props.format, v)
+                }
+            )
+        )
+    }
+
 
     useEffect(() => {
         setValue([props.min, props.max])
@@ -137,8 +143,11 @@ export default function OutSliders(props) {
                 <div key={'nochange_' + props.address}>No change</div>
             )
         } else {
+            let _key = 'slider_' + props.address.toString().replace(' ', '')
+            const marks = generateMarks(props.values)
+
             return (
-                <div key={'div_' + props.address} className={classes.root}>
+                <div key={'div_' + _key} className={classes.root}>
                     <Slider
                         classes={{
                             root: classes.root,
@@ -152,11 +161,11 @@ export default function OutSliders(props) {
                             track: classes.track,
                             rail: classes.rail
                         }}
-                        key={'slider_' + props.address}
+                        key={'slider_' + _key}
                         value={value}
                         onChange={handleChange}
                         valueLabelDisplay="on"
-                        marks={props.marks}
+                        marks={marks}
                         step={null}
                         min={props.min}
                         max={props.max}

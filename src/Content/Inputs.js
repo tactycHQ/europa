@@ -123,7 +123,6 @@ export default function Input(props) {
                     </div>
                     <div className={classes.sliderContainer}>
                         {sliders}
-                        {/*{sliders}*/}
                     </div>
                 </Card>
             </Slide>

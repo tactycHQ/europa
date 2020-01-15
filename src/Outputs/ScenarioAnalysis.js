@@ -33,6 +33,8 @@ export default function ScenarioAnalysis(props) {
     const classes = useStyles()
 
 
+
+
     const createSliders = () => {
         return props.outputs.map(output => {
             const addresses = Object.entries(output.labels)
@@ -47,7 +49,7 @@ export default function ScenarioAnalysis(props) {
                         label={label}
                         min={props.distributions.min[address]}
                         max={props.distributions.max[address]}
-                        marks={Object.keys(props.distributions.prob[address]).map(Number)}
+                        values={Object.keys(props.distributions.prob[address]).map(Number)}
                         format={props.formats[address]}
                     />
                 )
