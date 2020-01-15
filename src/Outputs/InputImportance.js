@@ -19,6 +19,7 @@ import {Card} from "@material-ui/core";
 import {LabelSelector} from "./LabelSelector";
 import {getAvgfromKey, getMaxfromKey, getMinfromKey, getDomains, convert_format} from "../utils/utils";
 import Fade from '@material-ui/core/Fade'
+import { useLocation} from "react-router"
 
 const chartColors = [
     '#006E9F',
@@ -30,7 +31,8 @@ const chartColors = [
 ]
 
 
-export default function Distribution(props) {
+export default function InputImportance(props) {
+
 
 
     //Styles
@@ -39,7 +41,7 @@ export default function Distribution(props) {
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            padding:'10px',
+            padding: '10px',
             // background: '#FEFEFD',
         },
         paper: {
@@ -47,7 +49,7 @@ export default function Distribution(props) {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            width:'100%',
+            width: '100%',
             margin: '1%',
             padding: '1%',
             background: 'linear-gradient(#F4F4F4 10%,#FEFEFD)',
@@ -147,6 +149,9 @@ export default function Distribution(props) {
     const classes = useStyles()
     const color_url = (color) => "url(#" + color + ")"
 
+    //Hooks
+    //let location = useLocation();
+
 
     //Formatters
     const CustomizedCompXAxisTick = (props) => {
@@ -197,7 +202,6 @@ export default function Distribution(props) {
 
     const pieLabelFormatter = (props, fmt) => {
         const {cx, x, y, payload, index} = props
-        console.log(index)
 
         // const rx = new RegExp(`.{1,${maxChars}}`, 'g');
         // const chunks = payload.value.replace(/-/g, ' ').split(' ').map(s => s.match(rx)).flat();
@@ -243,7 +247,8 @@ export default function Distribution(props) {
 
             return (
                 <div className={classes.deltaChart} key={"Delta_" + out_fmt + inAdd}>
-                    <h3 className={classes.chartTitle}>Impact of</h3><h3 className={classes.chartTitle} style={{color: chartColors[idx]}}>{inputLabel}</h3>
+                    <h3 className={classes.chartTitle}>Impact of</h3><h3 className={classes.chartTitle}
+                                                                         style={{color: chartColors[idx]}}>{inputLabel}</h3>
                     <h3 className={classes.chartNote}>Represents average change for one slider increment</h3>
                     <ResponsiveContainer width="100%" height={300}>
                         <BarChart
@@ -430,7 +435,7 @@ export default function Distribution(props) {
         )
 
         return (
-            <Paper className={classes.paper} style={{background:'#FEFEFD'}} elevation={0}>
+            <Paper className={classes.paper} style={{background: '#FEFEFD'}} elevation={0}>
                 {inputCompChart}
                 {inputMagChart}
                 <Paper className={classes.deltaChartsContainer} elevation={4}>

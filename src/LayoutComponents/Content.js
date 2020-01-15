@@ -3,7 +3,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import Output from "../Content/Outputs"
 import Input from "../Content/Inputs";
 import {Switch, Route} from 'react-router-dom'
-import ScenarioAnalysis from "../Sidebar/ScenarioAnalysis"
+import ScenarioAnalysis from "../Outputs/ScenarioAnalysis"
 import DependencyGraph from "../Sidebar/DependencyGraph"
 import SideBar from "../Content/SideBar";
 
@@ -102,8 +102,9 @@ export default function Content(props) {
                         />
                     </Route>
                     <Route exact path="/scenario">
-                        <ScenarioAnalysis
+                        <Output
                             type="scenarioanalysis"
+                            distributions={props.distributions}
                             inputs={props.inputs}
                             outputs={props.outputs}
                             solutions={props.solutions}

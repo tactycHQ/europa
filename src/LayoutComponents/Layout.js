@@ -4,7 +4,7 @@ import Content from "./Content"
 import TopBar from "./TopBar"
 import Spinner from "../Other/Spinner"
 import {getSolutions, getMetaData, getFormats} from "../api/api"
-import {convert_format} from "../utils/utils";
+//import {convert_format} from "../utils/utils";
 
 
 function extractDefaults(values) {

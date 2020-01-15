@@ -459,7 +459,6 @@ export default function SummaryChart(props) {
 
         const outCat = props.outCat
         const outAdd = props.outAdd
-        const out_fmt = props.formats[outAdd]
         const keyStats = generateIIStats(props.iiSummaryData)
 
         return (
@@ -520,7 +519,8 @@ export default function SummaryChart(props) {
 
         return (
             <div className={classes.contribStatsContainer}>
-                <NavLink to="/inputimportance" style={{textDecoration: 'none'}}>
+                <NavLink to={{pathname: "/inputimportance",state: {}}}
+                         style={{textDecoration: 'none'}}>
                     <Paper className={classes.keyStatsPaper} style={{background: stats_fill}}>
                         <h2 className={classes.statsText}>{'Most Sensitive Driver'}</h2>
                         <h3

@@ -4,6 +4,7 @@ import SummaryChart from "../Outputs/SummaryChart"
 import SAChart from "../Outputs/SAChart"
 import DistributionChart from "../Outputs/DistributionChart";
 import InputImportance from "../Outputs/InputImportance";
+import ScenarioAnalysis from "../Outputs/ScenarioAnalysis";
 import {getAvg, convert_format, getAvgfromKey, getDomains, getSumfromKey} from "../utils/utils";
 import isEqual from "lodash.isequal";
 
@@ -250,12 +251,6 @@ export default function Output(props) {
 
 
     ///======== SA Functions========
-    const generateSAPairs = () => {
-        return props.inputs.reduce((acc, v, i) =>
-                acc.concat(props.inputs.slice(i + 1).map(w => [v.address, w.address])),
-            [])
-    }
-
     const createSAData = (input1, input2) => {
 
         // const saPairs = generateSAPairs()
@@ -394,8 +389,13 @@ export default function Output(props) {
     }
 
     // ========ScenarioAnalysis=====
-    const createScenarioAnalysis = (outRanges, solutions) => {
-        return
+    const createScenarioAnalysis = () => {
+
+        return (
+            <ScenarioAnalysis
+                {...props}
+            />
+        )
     }
 
     // =========Final dispatcher=======
@@ -452,13 +452,13 @@ export default function Output(props) {
             return createInputImptCharts(avgData, iiSummaryData, outAdd, outCat)
 
         }
-        // else if (props.type === 'scenarioanalysis') {
-        //
-        //     //Get relevant data for II charts
-        //     // const solutions = createScenario(outputRanges)
-        //
-        //     return createScenarioAnalysis(outputRanges, solutions)
-        // }
+        else if (props.type === 'scenarioanalysis') {
+
+            //Get relevant data
+            // const solutions = createScenario(outputRanges)
+
+            return createScenarioAnalysis()
+        }
     }
 
 
