@@ -1,23 +1,23 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {makeStyles} from '@material-ui/core/styles'
 import {} from 'recharts'
-import Paper from '@material-ui/core/Paper'
-import {Card} from "@material-ui/core";
+// import Paper from '@material-ui/core/Paper'
+// import {Card} from "@material-ui/core";
 import Slider from '@material-ui/core/Slider'
 import {convert_format} from "../utils/utils";
 
 
-const chartColors = [
-    '#006E9F',
-    '#A5014B',
-    '#3DA32D',
-    '#6014BC',
-    '#C62525',
-    '#002247'
-]
+// const chartColors = [
+//     '#006E9F',
+//     '#A5014B',
+//     '#3DA32D',
+//     '#6014BC',
+//     '#C62525',
+//     '#002247'
+// ]
 
 
-export default function OutSliders(props) {
+export default function OutSlider(props) {
 
 
     const useStyles = makeStyles({
@@ -27,13 +27,14 @@ export default function OutSliders(props) {
             alignItems: 'center',
             // backgroundColor: 'red',
             marginBottom: '0px',
-            width: 300
+            width: 400
         },
         sliderContainer: {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            padding: '20px',
+            padding: '15px',
+            paddingBottom:'0px',
             // width:'100%',
             // backgroundColor: 'green',
             // margin: '5%'
@@ -45,7 +46,7 @@ export default function OutSliders(props) {
             fontFamily: 'Questrial',
             marginTop: '0%',
             marginBottom: '7%',
-            color: '#006E9F',
+            // color: '#006E9F',
             textAlign: 'center'
         },
         mark: {
@@ -62,6 +63,9 @@ export default function OutSliders(props) {
         track: {
             backgroundColor: '#006E9F',
         },
+        disabledtrack: {
+            backgroundColor: '#8A8D91',
+        },
         active: {
             backgroundColor: '#A5014B'
         },
@@ -72,7 +76,7 @@ export default function OutSliders(props) {
             borderWidth: '1px',
             fontSize: '0.0em',
             color: '#4F545A',
-            top:13,
+            top: 13,
             fontFamily: 'Questrial',
             "&:hover": {
                 fontSize: '0.9em',
@@ -102,11 +106,27 @@ export default function OutSliders(props) {
             fontFamily: 'Questrial',
             fontSize: '0.9em',
             // backgroundColor:'red'
+        },
+        valueLabelDisabled: {
+            left: 'calc(-50%)',
+            top: -22,
+            '& *': {
+                background: 'transparent',
+                color: '#8A8D91',
+                fontFamily: 'Questrial',
+            },
+            color: '#8A8D91',
+            fontFamily: 'Questrial',
+            fontSize: '0.9em',
+            // backgroundColor:'red'
+        },
+        disabled: {
+            color: '#8A8D91'
         }
     })
     const classes = useStyles()
 
-    const [value, setValue] = React.useState([0, 1])
+    // const [value, setValue] = React.useState([0, 1])
 
     function valueLabelFormat(value) {
         return convert_format(props.format, value)
@@ -117,7 +137,8 @@ export default function OutSliders(props) {
     }
 
     const handleChange = (event, newValue) => {
-        setValue(newValue);
+        props.handleChange(event, newValue, props.address)
+
     }
 
     function generateMarks(values) {
@@ -131,23 +152,50 @@ export default function OutSliders(props) {
     }
 
 
-    useEffect(() => {
-        setValue([props.min, props.max])
-    }, [props.min, props.max])
+    // useEffect(() => {
+    //     setValue([props.min, props.max])
+    // }, [props.min, props.max])
 
     const createOutputSlider = () => {
 
 
         if (props.min === props.max) {
             return (
-                <div key={'nochange_' + props.address}>No change</div>
+                <div key={'div_' + props.address} className={classes.root}>
+                    <Slider
+                        classes={{
+                            root: classes.root,
+                            active: classes.active,
+                            mark: classes.mark,
+                            markActive: classes.markActive,
+                            markLabel: classes.markLabel,
+                            markLabelActive: classes.markLabelActive,
+                            thumb: classes.thumb,
+                            valueLabel: classes.valueLabelDisabled,
+                            track: classes.disabledtrack,
+                            rail: classes.rail,
+                            disabled: classes.disabled
+                        }}
+                        key={'slider_' + props.address}
+                        defaultValue={props.min}
+                        onChangeCommitted={handleChange}
+                        valueLabelDisplay="on"
+                        disabled={true}
+                        step={null}
+                        aria-labelledby="range-slider"
+                        getAriaValueText={valuetext}
+                        valueLabelFormat={valueLabelFormat}
+                    >
+                    </Slider>
+                </div>
             )
-        } else {
-            let _key = 'slider_' + props.address.toString().replace(' ', '')
-            const marks = generateMarks(props.values)
+        }
 
+
+        if (props.type === 'checked') {
+            // const marks = generateMarks(props.values)
             return (
-                <div key={'div_' + _key} className={classes.root}>
+                <div key={'div_' + props.address} className={classes.root}>
                     <Slider
                         classes={{
                             root: classes.root,
@@ -159,13 +207,47 @@ export default function OutSliders(props) {
                             thumb: classes.thumb,
                             valueLabel: classes.valueLabel,
                             track: classes.track,
-                            rail: classes.rail
+                            rail: classes.rail,
+                            disabled: classes.disabled
                         }}
-                        key={'slider_' + _key}
-                        value={value}
-                        onChange={handleChange}
+                        key={'slider_' + props.address}
+                        value={props.displayVal}
+                        onChangeCommitted={handleChange}
                         valueLabelDisplay="on"
-                        marks={marks}
+                        // disabled={true}
+                        // marks={marks}
+                        step={(props.max-props.min)/100}
+                        min={props.min}
+                        max={props.max}
+                        aria-labelledby="range-slider"
+                        getAriaValueText={valuetext}
+                        valueLabelFormat={valueLabelFormat}
+                    >
+                    </Slider>
+                </div>
+            )
+        } else {
+            return (
+                <div key={'div_' + props.address} className={classes.root}>
+                    <Slider
+                        classes={{
+                            root: classes.root,
+                            active: classes.active,
+                            mark: classes.mark,
+                            markActive: classes.markActive,
+                            markLabel: classes.markLabel,
+                            markLabelActive: classes.markLabelActive,
+                            thumb: classes.thumb,
+                            valueLabel: classes.valueLabelDisabled,
+                            track: classes.disabledtrack,
+                            rail: classes.rail,
+                            disabled: classes.disabled
+                        }}
+                        key={'slider_' + props.address}
+                        value={[props.min, props.max]}
+                        onChangeCommitted={handleChange}
+                        valueLabelDisplay="on"
+                        disabled={true}
                         step={null}
                         min={props.min}
                         max={props.max}
@@ -175,6 +257,7 @@ export default function OutSliders(props) {
                     >
                     </Slider>
                 </div>
+
             )
         }
     }

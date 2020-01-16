@@ -394,6 +394,9 @@ export default function Output(props) {
         return (
             <ScenarioAnalysis
                 {...props}
+                handleOutputLabelChange={handleOutputLabelChange}
+                handleOutputCategoryChange={handleOutputCategoryChange}
+                inputLabelMap={inputLabelMap}
             />
         )
     }

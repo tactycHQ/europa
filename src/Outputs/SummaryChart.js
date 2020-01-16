@@ -519,7 +519,7 @@ export default function SummaryChart(props) {
 
         return (
             <div className={classes.contribStatsContainer}>
-                <NavLink to={{pathname: "/inputimportance",state: {}}}
+                <NavLink to={{pathname: "/inputimportance", state: {}}}
                          style={{textDecoration: 'none'}}>
                     <Paper className={classes.keyStatsPaper} style={{background: stats_fill}}>
                         <h2 className={classes.statsText}>{'Most Sensitive Driver'}</h2>
@@ -604,9 +604,9 @@ export default function SummaryChart(props) {
 
         return (
             <div className={classes.summaryChartContainer}>
+                {summaryCharts}
                 {miniCharts}
                 {iiSummary}
-                {summaryCharts}
             </div>
         )
     }
