@@ -36,12 +36,42 @@ export default function Output(props) {
     const classes = useStyles()
 
 
-    //Defining hooks
+    //=======Defining hooks=========
     const [currOutputCell, setCurrOutputCell] = useState('') //for output label selection from dropdown
     const [currCategory, setCurrCategory] = useState(props.outputs[0]['category']) //for category selection from dropdown
     const [summaryPrefs, setSummaryPrefs] = useState({}) //for chart preferences
     const [saInput1, setSAInput1] = useState('') //for category selection from dropdown
     const [saInput2, setSAInput2] = useState('') //for category selection from dropdown
+
+    // Scenario Analysis Hooks
+    const createDefaults = () => {
+
+        return props.outputs.reduce((acc, output) => {
+            const addresses = Object.entries(output.labels)
+
+            addresses.forEach((pair) => {
+                let address = pair[0]
+                const _min = props.distributions.min[address]
+                const _max = props.distributions.max[address]
+                acc[address] = [_min, _max]
+            })
+
+            return acc
+        }, {})
+    }
+    const createCheckDefaults = () => {
+        return props.outputs.reduce((acc, output) => {
+            const addresses = Object.entries(output.labels)
+
+            addresses.forEach((pair) => {
+                let address = pair[0]
+                acc[address] = false
+            })
+            return acc
+        }, {})
+    }
+    const [sa_value, setSAValue] = useState(() => createDefaults())
+    const [checked, setChecked] = useState(() => createCheckDefaults())
 
 
     /// Handlers
@@ -392,37 +422,7 @@ export default function Output(props) {
     }
 
     // ========ScenarioAnalysis=====
-    const createDefaults = () => {
 
-        return props.outputs.reduce((acc, output) => {
-            const addresses = Object.entries(output.labels)
-
-            addresses.forEach((pair) => {
-                let address = pair[0]
-                const _min = props.distributions.min[address]
-                const _max = props.distributions.max[address]
-                acc[address] = [_min, _max]
-            })
-
-            return acc
-        }, {})
-    }
-
-    const createCheckDefaults = () => {
-        return props.outputs.reduce((acc, output) => {
-            const addresses = Object.entries(output.labels)
-
-            addresses.forEach((pair) => {
-                let address = pair[0]
-                acc[address] = false
-            })
-            return acc
-        }, {})
-    }
-
-    // Scenario Analysis Hooks
-    const [sa_value, setSAValue] = useState(() => createDefaults())
-    const [checked, setChecked] = useState(() => createCheckDefaults())
 
     // Scenario Analysis Handlers
     const handleOutSliderChange = (event, newValue, address) => {
