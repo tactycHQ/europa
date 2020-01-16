@@ -126,7 +126,6 @@ export default function OutSlider(props) {
     })
     const classes = useStyles()
 
-    // const [value, setValue] = React.useState([0, 1])
 
     function valueLabelFormat(value) {
         return convert_format(props.format, value)
@@ -141,15 +140,15 @@ export default function OutSlider(props) {
 
     }
 
-    function generateMarks(values) {
-        return values.map(v => (
-                {
-                    value: v,
-                    label: convert_format(props.format, v)
-                }
-            )
-        )
-    }
+    // function generateMarks(values) {
+    //     return values.map(v => (
+    //             {
+    //                 value: v,
+    //                 label: convert_format(props.format, v)
+    //             }
+    //         )
+    //     )
+    // }
 
 
     // useEffect(() => {
