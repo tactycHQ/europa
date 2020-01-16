@@ -54,13 +54,6 @@ export default function Output(props) {
         setCurrOutputCell('')
     }
 
-    const handleInput1Change = (event) => {
-        setSAInput1(event.target.value)
-    }
-
-    const handleInput2Change = (event) => {
-        setSAInput2(event.target.value)
-    }
 
     const handleSummaryTickMouseClick = (event, category) => {
         setCurrCategory(category)
@@ -114,63 +107,6 @@ export default function Output(props) {
         }
     }
 
-    //Creates rows and lines for SA charts i.e. range of output values over a bound
-    const createLines = (saCombo, outAdd) => {
-
-            const flexInputs = saCombo.inputs
-            const bounds = saCombo.bounds
-            const add1 = flexInputs[0]
-            const add2 = flexInputs[1]
-            const add1_fmt = props.formats[add1]
-            const add2_fmt = props.formats[add2]
-            const bounds1 = bounds[0][add1]
-            const bounds2 = bounds[1][add2]
-
-            const lines = bounds1.map((value1) => {
-                const row = bounds2.reduce((acc, value2) => {
-                    const combo = {
-                        ...props.currInputVal,
-                        [add1]: value1,
-                        [add2]: value2
-                    }
-
-                    const answer = findSolution(combo)[outAdd]
-
-                    acc[convert_format(add2_fmt, value2)] = answer
-                    return acc
-                }, {})
-                return {
-                    [add1]: value1,
-                    ...row
-                }
-            })
-
-            return ({
-                'lines': lines,
-                'bounds1': bounds1,
-                'bounds2': bounds2,
-                'add1': add1,
-                'add2': add2,
-                'add1_fmt': add1_fmt,
-                'add2_fmt': add2_fmt
-            })
-        }
-
-    const getInput1 = () => {
-        if (saInput1 === '') {
-            return Object.keys(inputLabelMap)[0]
-        } else {
-            return saInput1
-        }
-    }
-
-    const getInput2 = () => {
-        if (saInput2 === '') {
-            return Object.keys(inputLabelMap)[1]
-        } else {
-            return saInput2
-        }
-    }
 
     ///======== Summary Chart Functions========
 
@@ -213,7 +149,6 @@ export default function Output(props) {
         return labelsInChart
     }
 
-
     //Mini Charts
     const distKeyStats = (outAdd) => {
         const xmin = props.distributions.min[outAdd]
@@ -251,6 +186,74 @@ export default function Output(props) {
 
 
     ///======== SA Functions========
+
+    // SA Handlers
+    const handleInput1Change = (event) => {
+        setSAInput1(event.target.value)
+    }
+
+    const handleInput2Change = (event) => {
+        setSAInput2(event.target.value)
+    }
+
+    //Creates rows and lines for SA charts i.e. range of output values over a bound
+    const createLines = (saCombo, outAdd) => {
+
+        const flexInputs = saCombo.inputs
+        const bounds = saCombo.bounds
+        const add1 = flexInputs[0]
+        const add2 = flexInputs[1]
+        const add1_fmt = props.formats[add1]
+        const add2_fmt = props.formats[add2]
+        const bounds1 = bounds[0][add1]
+        const bounds2 = bounds[1][add2]
+
+        const lines = bounds1.map((value1) => {
+            const row = bounds2.reduce((acc, value2) => {
+                const combo = {
+                    ...props.currInputVal,
+                    [add1]: value1,
+                    [add2]: value2
+                }
+
+                const answer = findSolution(combo)[outAdd]
+
+                acc[convert_format(add2_fmt, value2)] = answer
+                return acc
+            }, {})
+            return {
+                [add1]: value1,
+                ...row
+            }
+        })
+
+        return ({
+            'lines': lines,
+            'bounds1': bounds1,
+            'bounds2': bounds2,
+            'add1': add1,
+            'add2': add2,
+            'add1_fmt': add1_fmt,
+            'add2_fmt': add2_fmt
+        })
+    }
+
+    const getInput1 = () => {
+        if (saInput1 === '') {
+            return Object.keys(inputLabelMap)[0]
+        } else {
+            return saInput1
+        }
+    }
+
+    const getInput2 = () => {
+        if (saInput2 === '') {
+            return Object.keys(inputLabelMap)[1]
+        } else {
+            return saInput2
+        }
+    }
+
     const createSAData = (input1, input2) => {
 
         // const saPairs = generateSAPairs()
@@ -389,19 +392,69 @@ export default function Output(props) {
     }
 
     // ========ScenarioAnalysis=====
+    const createDefaults = () => {
+
+        return props.outputs.reduce((acc, output) => {
+            const addresses = Object.entries(output.labels)
+
+            addresses.forEach((pair) => {
+                let address = pair[0]
+                const _min = props.distributions.min[address]
+                const _max = props.distributions.max[address]
+                acc[address] = [_min, _max]
+            })
+
+            return acc
+        }, {})
+    }
+
+    const createCheckDefaults = () => {
+        return props.outputs.reduce((acc, output) => {
+            const addresses = Object.entries(output.labels)
+
+            addresses.forEach((pair) => {
+                let address = pair[0]
+                acc[address] = false
+            })
+            return acc
+        }, {})
+    }
+
+    // Scenario Analysis Hooks
+    const [sa_value, setSAValue] = useState(() => createDefaults())
+    const [checked, setChecked] = useState(() => createCheckDefaults())
+
+    // Scenario Analysis Handlers
+    const handleOutSliderChange = (event, newValue, address) => {
+        setSAValue(value => ({
+            ...value,
+            [address]: newValue
+        }))
+    }
+
+    const handleCheckChange = (event, address) => {
+        setChecked(checked => ({
+            ...checked,
+            [address]: event.target.checked
+        }))
+    }
+
     const createScenarioAnalysis = () => {
 
         return (
             <ScenarioAnalysis
                 {...props}
-                handleOutputLabelChange={handleOutputLabelChange}
-                handleOutputCategoryChange={handleOutputCategoryChange}
+                sa_value={sa_value}
+                checked={checked}
+                handleOutSliderChange={handleOutSliderChange}
+                handleCheckChange={handleCheckChange}
                 inputLabelMap={inputLabelMap}
             />
         )
     }
 
-    // =========Final dispatcher=======
+
+    ///// ===========Final dispatcher===========/////
     const createCharts = () => {
 
 
@@ -454,8 +507,7 @@ export default function Output(props) {
 
             return createInputImptCharts(avgData, iiSummaryData, outAdd, outCat)
 
-        }
-        else if (props.type === 'scenarioanalysis') {
+        } else if (props.type === 'scenarioanalysis') {
 
             //Get relevant data
             // const solutions = createScenario(outputRanges)

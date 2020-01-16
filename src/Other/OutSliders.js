@@ -34,7 +34,7 @@ export default function OutSlider(props) {
             flexDirection: 'column',
             alignItems: 'center',
             padding: '15px',
-            paddingBottom:'0px',
+            paddingBottom: '0px',
             // width:'100%',
             // backgroundColor: 'green',
             // margin: '5%'
@@ -157,7 +157,6 @@ export default function OutSlider(props) {
 
     const createOutputSlider = () => {
 
-
         if (props.min === props.max) {
             return (
                 <div key={'div_' + props.address} className={classes.root}>
@@ -211,11 +210,10 @@ export default function OutSlider(props) {
                         }}
                         key={'slider_' + props.address}
                         value={props.displayVal}
-                        onChangeCommitted={handleChange}
+                        onChange={handleChange}
                         valueLabelDisplay="on"
-                        // disabled={true}
                         // marks={marks}
-                        step={(props.max-props.min)/100}
+                        step={(props.max - props.min) / 100}
                         min={props.min}
                         max={props.max}
                         aria-labelledby="range-slider"
@@ -256,16 +254,13 @@ export default function OutSlider(props) {
                     >
                     </Slider>
                 </div>
-
             )
         }
     }
 
 
-    const outSlider = createOutputSlider()
-
-
     //Execute Functions
+    const outSlider = createOutputSlider()
 
 
     return (

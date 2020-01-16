@@ -37,77 +37,41 @@ export default function Content(props) {
                     <Route exact path={["/", "/dashboard"]}>
                         <Output
                             type="summary"
-                            distributions={props.distributions}
-                            solutions={props.solutions}
-                            currInputVal={props.currInputVal}
-                            formats={props.formats}
-                            outputs={props.outputs}
-                            inputs={props.inputs}
+                            {...props}
+
                         />
                         <Input
-                            handleSliderChange={props.handleSliderChange}
-                            handleCaseChange={props.handleCaseChange}
-                            currInputVal={props.currInputVal}
-                            inputs={props.inputs}
-                            cases={props.cases}
-                            formats={props.formats}
+                            {...props}
                         />
                     </Route>
                     <Route exact path="/distributions">
                         <Output
                             type="distributions"
-                            distributions={props.distributions}
-                            outputs={props.outputs}
-                            inputs={props.inputs}
-                            solutions={props.solutions}
-                            formats={props.formats}
-                            currInputVal={props.currInputVal}
-                            cases={props.cases}
+                            {...props}
                         />
                         <Input
-                            handleSliderChange={props.handleSliderChange}
-                            handleCaseChange={props.handleCaseChange}
-                            currInputVal={props.currInputVal}
-                            inputs={props.inputs}
-                            cases={props.cases}
-                            formats={props.formats}
+                            {...props}
                         />
                     </Route>
                     <Route exact path="/inputimportance">
                         <Output
                             type="inputimportance"
-                            inputs={props.inputs}
-                            outputs={props.outputs}
-                            solutions={props.solutions}
-                            formats={props.formats}
+                            {...props}
                         />
                     </Route>
                     <Route exact path="/sensitivity">
                         <Output
                             type="sensitivity"
-                            inputs={props.inputs}
-                            outputs={props.outputs}
-                            solutions={props.solutions}
-                            formats={props.formats}
-                            currInputVal={props.currInputVal}
+                            {...props}
                         />
                         <Input
-                            handleSliderChange={props.handleSliderChange}
-                            handleCaseChange={props.handleCaseChange}
-                            currInputVal={props.currInputVal}
-                            inputs={props.inputs}
-                            cases={props.cases}
-                            formats={props.formats}
+                            {...props}
                         />
                     </Route>
                     <Route exact path="/scenario">
                         <Output
                             type="scenarioanalysis"
-                            distributions={props.distributions}
-                            inputs={props.inputs}
-                            outputs={props.outputs}
-                            solutions={props.solutions}
-                            formats={props.formats}
+                            {...props}
                         />
                     </Route>
                     <Route exact path="/dependency">

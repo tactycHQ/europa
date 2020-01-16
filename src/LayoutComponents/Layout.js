@@ -109,7 +109,6 @@ export default function Layout() {
                             outputs={outputs}
                             charts={charts}
                             cases={cases}
-                            // variance={variance}
             />
         } else {
             return <Spinner className={classes.spinner}/>

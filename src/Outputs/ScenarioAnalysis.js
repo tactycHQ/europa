@@ -46,7 +46,7 @@ export default function ScenarioAnalysis(props) {
         solutionContainer: {
             display: 'flex',
             flexDirection: 'column',
-            alignItems:'flex-start',
+            alignItems: 'flex-start',
             width: '50%'
         },
         outputPaper: {
@@ -66,7 +66,7 @@ export default function ScenarioAnalysis(props) {
             display: 'flex',
             flexDirection: 'column',
             flexWrap: 'wrap',
-            maxHeight:'100%',
+            maxHeight: '100%',
             // width: '100%',
             margin: '1%',
             padding: '1%',
@@ -75,9 +75,9 @@ export default function ScenarioAnalysis(props) {
         solutionTextContainer: {
             display: 'flex',
             flexDirection: 'row',
-            justifyContent:'space-between',
-            background: '#D0E4ED',
-            margin:'1%'
+            justifyContent: 'space-between',
+            background: '#E7F1F6',
+            margin: '1%'
         },
         answerContainer: {
             display: 'flex',
@@ -89,7 +89,7 @@ export default function ScenarioAnalysis(props) {
         solutionText: {
             color: '#3C4148',
             fontFamily: 'Questrial',
-            // textAlign:'center',
+            textAlign: 'center',
             margin: '0px',
             fontWeight: '20',
             fontSize: '0.9em'
@@ -137,58 +137,21 @@ export default function ScenarioAnalysis(props) {
     })
     const classes = useStyles()
 
-
-    const createDefaults = () => {
-        return props.outputs.reduce((acc, output) => {
-            const addresses = Object.entries(output.labels)
-
-            addresses.forEach((pair) => {
-                let address = pair[0]
-                const _min = props.distributions.min[address]
-                const _max = props.distributions.max[address]
-                acc[address] = [_min, _max]
-            })
-
-            return acc
-        }, {})
+    //Utils
+    const isBetween = (x, bounds) => {
+        return x >= bounds[0] && x <= bounds[1];
     }
 
-    const createCheckDefaults = () => {
-        return props.outputs.reduce((acc, output) => {
-            const addresses = Object.entries(output.labels)
-
-            addresses.forEach((pair) => {
-                let address = pair[0]
-                acc[address] = false
-            })
-            return acc
-        }, {})
+    const comboCheck = (combo, checkedOutputs) => {
+        const checks = checkedOutputs.map(address => isBetween(combo.outputs[address], props.sa_value[address]))
+        if (checks.every(v => v === true)) {
+            return combo.inputs
+        } else {
+            return {}
+        }
     }
 
-
-    const [value, setValue] = useState(() => createDefaults())
-
-
-    const [checked, setChecked] = useState(() => createCheckDefaults())
-
-
-    const handleChange = (event, newValue, address) => {
-        setValue(value => ({
-            ...value,
-            [address]: newValue
-        }))
-    }
-
-    const handleCheckChange = (event, address) => {
-        setChecked(checked => ({
-            ...checked,
-            [address]: event.target.checked
-        }))
-    }
-
-    // console.log(value)
-
-
+    //Function Definitions
     const createSliders = () => {
         return props.outputs.map((output, idx) => {
             const addresses = Object.entries(output.labels)
@@ -197,8 +160,8 @@ export default function ScenarioAnalysis(props) {
                 const label = pair[1]
                 const _min = props.distributions.min[address]
                 const _max = props.distributions.max[address]
-                const displayVal = value[address]
-                const checkstate = checked[address]
+                const displayVal = props.sa_value[address]
+                const checkstate = props.checked[address]
                 let SliderEl
                 let checkEl
 
@@ -216,7 +179,7 @@ export default function ScenarioAnalysis(props) {
                             max={_max}
                             values={Object.keys(props.distributions.prob[address]).map(Number)}
                             format={props.formats[address]}
-                            handleChange={handleChange}
+                            handleChange={props.handleOutSliderChange}
                         />
                     )
                 } else {
@@ -230,7 +193,6 @@ export default function ScenarioAnalysis(props) {
                             min={_min}
                             max={_max}
                             format={props.formats[address]}
-                            handleChange={handleChange}
                         />
                     )
                 }
@@ -239,7 +201,7 @@ export default function ScenarioAnalysis(props) {
                     checkEl = (
                         <Checkbox
                             checked={checkstate}
-                            onChange={(event) => handleCheckChange(event, address)}
+                            onChange={(event) => props.handleCheckChange(event, address)}
                             value="primary"
                             disabled
                             inputProps={{'aria-label': 'primary-checkbox'}}
@@ -252,7 +214,7 @@ export default function ScenarioAnalysis(props) {
                     checkEl = (
                         <Checkbox
                             checked={checkstate}
-                            onChange={(event) => handleCheckChange(event, address)}
+                            onChange={(event) => props.handleCheckChange(event, address)}
                             value="primary"
                             inputProps={{'aria-label': 'primary-checkbox'}}
                             size="small"
@@ -281,21 +243,8 @@ export default function ScenarioAnalysis(props) {
         })
     }
 
-    const isBetween = (x, bounds) => {
-        return x >= bounds[0] && x <= bounds[1];
-    }
-
-    const comboCheck = (combo, checkedOutputs) => {
-        const checks = checkedOutputs.map(address => isBetween(combo.outputs[address], value[address]))
-        if (checks.every(v => v === true)) {
-            return combo.inputs
-        } else {
-            return {}
-        }
-    }
-
     const createSolutions = () => {
-        const checkedOutputs = Object.keys(checked).filter(address => checked[address] === true)
+        const checkedOutputs = Object.keys(props.checked).filter(address => props.checked[address] === true)
         const foundSolutions = props.solutions.filter(combo => Object.keys(comboCheck(combo, checkedOutputs)).length >= 1)
         return foundSolutions
     }
@@ -314,7 +263,8 @@ export default function ScenarioAnalysis(props) {
 
                 return (
                     <div key={"solution_" + idx} className={classes.answerContainer}>
-                        <h2 className={classes.solutionText} style={{fontWeight:'550', color:'#005174'}}>{props.inputLabelMap[address]}</h2>
+                        <h2 className={classes.solutionText}
+                            style={{fontWeight: '550', color: '#005174'}}>{props.inputLabelMap[address]}</h2>
                         <h2 className={classes.solutionText}>{val_text}</h2>
                     </div>
                 )
@@ -341,7 +291,7 @@ export default function ScenarioAnalysis(props) {
         if (numSol >= maxSol) {
             return (
                 <Paper className={classes.solutionPaper} elevation={4}>
-                    <h2 className={classes.solutionText} style={{color:'#F4F9E9', fontSize:'1em'}}>
+                    <h2 className={classes.solutionText} style={{color: '#F4F9E9', fontSize: '1em'}}>
                         {numSol} solutions found. In order to view the results, please filter for less than 100
                         solutions
                     </h2>
@@ -353,7 +303,7 @@ export default function ScenarioAnalysis(props) {
 
             return (
                 <Paper className={classes.solutionPaper}>
-                    <h2 className={classes.solutionText} style={{color:'#F4F9E9', fontSize:'1em'}}>
+                    <h2 className={classes.solutionText} style={{color: '#F4F9E9', fontSize: '1em'}}>
                         {numSol} solutions found.
                     </h2>
                     {shownSol}
@@ -362,6 +312,7 @@ export default function ScenarioAnalysis(props) {
         }
     }
 
+    //Function Executions
     const outSliders = createSliders()
 
     const foundSolutions = createSolutions()
@@ -369,7 +320,7 @@ export default function ScenarioAnalysis(props) {
     const solutionsEl = createSolutionEl(foundSolutions)
 
 
-//Execute Functions
+    //Return
     return (
         <Card className={classes.topCard} elevation={0}>
             {/*<h3 className={classes.chartNote}>Select Desired Output Value Range</h3>*/}
