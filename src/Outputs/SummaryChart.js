@@ -160,7 +160,6 @@ export default function SummaryChart(props) {
     }))
     const classes = useStyles()
 
-
     // Defined variables
     const color_url = (color) => ("url(#" + color + ")")
 
@@ -558,7 +557,6 @@ export default function SummaryChart(props) {
 
 
     const createCharts = () => {
-
         // const miniCharts = createDistSummary()
         const iiSummary = createIISummary()
         const summaryCharts = props.summaryData.map((solutionSet, idx) => {

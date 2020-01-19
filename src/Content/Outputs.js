@@ -142,11 +142,11 @@ export default function Output(props) {
 
     //Adds labels and formats to solutions
     const addLiveChartMetaData = (solutionSet) => {
+
         const labelsInChart = props.outputs.map(output => {
 
                 // Applying labels and formats
                 const reformatted = Object.entries(output.labels).map(labelSet => {
-
                     return {
                         x: labelSet[1],
                         value: solutionSet[labelSet[0]],

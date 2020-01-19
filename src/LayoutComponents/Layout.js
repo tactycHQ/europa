@@ -117,7 +117,7 @@ export default function Layout() {
 
     // Executing functions
     const content = createContent()
-    // console.log(formats)
+
     // console.log(convert_format('_("$"#,##0_)_%;_(("$"#,##0)_%;_("–"_)_%;@_(_%', 4828))
     // console.log(convert_format('"$"#,##0_);("$"#,##0);"-"', 25))
 
