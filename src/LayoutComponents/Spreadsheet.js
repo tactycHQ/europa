@@ -2,12 +2,15 @@ import React, {useRef, useEffect, useState} from "react";
 import {read, utils} from "@sheet/core";
 import {makeStyles} from '@material-ui/core/styles'
 import {convert_format} from "../utils/utils";
-import ssf from "../utils/fixformats"
+// import ssf from "../utils/fixformats"
 
 export default function Spreadsheet() {
     const useStyles = makeStyles(theme => ({
         spreadsheet: {
-            border: 'solid',
+            // border: 'solid',
+            background:'#F8F8F7',
+            cursor:'cell',
+            margin:'5px'
             // borderColor: 'red'
         }
     }))
@@ -64,7 +67,7 @@ export default function Spreadsheet() {
         Object.keys(ws).map(address => {
             if (ws[address].hasOwnProperty('z') && ws[address].hasOwnProperty('v')) {
                 // ws[address].w = convert_format(ws[address].z, ws[address].v)
-                ws[address].w = ssf.format(ws[address].z, ws[address].v)
+                ws[address].w = convert_format(ws[address].z, ws[address].v)
             }
         })
         return ws

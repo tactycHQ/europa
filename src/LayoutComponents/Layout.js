@@ -36,7 +36,7 @@ export default function Layout(props) {
         },
         middle: {
             display: 'flex',
-            marginTop: '5vh'
+            marginTop: '5vh',
         },
         spinner: {
             display: 'flex'
@@ -126,21 +126,18 @@ export default function Layout(props) {
     const content = createContent()
     const home = createHome()
 
-    // console.log(convert_format('_("$"#,##0_)_%;_(("$"#,##0)_%;_("–"_)_%;@_(_%', 4828))
-    // console.log(convert_format('"$"#,##0_);("$"#,##0);"-"', 25))
-
     return (
         <div className={classes.root}>
             <div className={classes.top}>
                 <TopBar dashName={dashName}/>
             </div>
             <Switch>
-                <Route exact path={["/", "/home"]}>
+                <Route exact path={["/","/home"]}>
                     <div className={classes.middle}>
                         {home}
                     </div>
                 </Route>
-                <Route exact path="/(dashboard|distributions|inputimportance|sensitivity|scenario|dependency)">
+                <Route exact path="/(dashboard|distributions|inputimportance|sensitivity|scenario|dependency|spreadsheet)">
                     <div className={classes.middle}>
                         {content}
                     </div>

@@ -5,6 +5,7 @@ import Input from "../Content/Inputs";
 import {Switch, Route} from 'react-router-dom'
 import DependencyGraph from "../Sidebar/DependencyGraph"
 import SideBar from "../Content/SideBar";
+import Spreadsheet from "./Spreadsheet";
 
 
 export default function Content(props) {
@@ -75,8 +76,8 @@ export default function Content(props) {
                             {...props}
                         />
                     </Route>
-                    <Route exact path="/dependency">
-                        <DependencyGraph/>
+                    <Route exact path="/spreadsheet">
+                        <Spreadsheet/>
                     </Route>
                 </Switch>
             </div>
