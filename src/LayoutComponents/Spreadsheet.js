@@ -24,6 +24,7 @@ export default function Spreadsheet() {
         }
 
     }
+    console.log("spreadsheet")
 
     const onMouseClick = (e) => {
         e.persist()
@@ -116,9 +117,6 @@ export default function Spreadsheet() {
                 }
             }
         }
-
-        console.log(clickedCells)
-
         sheetEl.current.innerHTML = createHTML(worksheet)
     }, [worksheet, clickedCells])
 
