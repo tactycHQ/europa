@@ -1,9 +1,12 @@
 import React, {useEffect, useState} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Content from "./Content"
+import Home from "./Home";
 import TopBar from "./TopBar"
 import Spinner from "../Other/Spinner"
 import {getSolutions, getMetaData, getFormats} from "../api/api"
+import {Switch, Route} from 'react-router-dom'
+
 //import {convert_format} from "../utils/utils";
 
 
@@ -13,7 +16,7 @@ function extractDefaults(values) {
     }
 }
 
-export default function Layout() {
+export default function Layout(props) {
 
     // Defining hooks
     const useStyles = makeStyles(theme => ({
@@ -115,8 +118,13 @@ export default function Layout() {
         }
     }
 
+    const createHome = () => {
+        return <Home/>
+    }
+
     // Executing functions
     const content = createContent()
+    const home = createHome()
 
     // console.log(convert_format('_("$"#,##0_)_%;_(("$"#,##0)_%;_("–"_)_%;@_(_%', 4828))
     // console.log(convert_format('"$"#,##0_);("$"#,##0);"-"', 25))
@@ -126,9 +134,18 @@ export default function Layout() {
             <div className={classes.top}>
                 <TopBar dashName={dashName}/>
             </div>
-            <div className={classes.middle}>
-                {content}
-            </div>
+            <Switch>
+                <Route exact path={["/", "/home"]}>
+                    <div className={classes.middle}>
+                        {home}
+                    </div>
+                </Route>
+                <Route exact path="/(dashboard|distributions|inputimportance|sensitivity|scenario|dependency)">
+                    <div className={classes.middle}>
+                        {content}
+                    </div>
+                </Route>
+            </Switch>
         </div>
-    );
+);
 }

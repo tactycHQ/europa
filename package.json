@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.8.2",
     "@material-ui/icons": "^4.5.1",
+    "@sheet/core": "^1.20191230.1",
     "excel-style-dataformatter": "^2.0.1",
     "lodash.isequal": "^4.5.0",
     "react": "^16.12.0",

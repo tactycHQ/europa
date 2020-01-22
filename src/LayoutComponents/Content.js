@@ -9,6 +9,7 @@ import SideBar from "../Content/SideBar";
 
 export default function Content(props) {
 
+
     // Defining Hooks
     const useStyles = makeStyles(theme => ({
         root: {
@@ -34,7 +35,7 @@ export default function Content(props) {
             <div className={classes.content}>
                 <SideBar className={classes.sidebar} outputs={props.outputs}/>
                 <Switch>
-                    <Route exact path={["/", "/dashboard"]}>
+                    <Route exact path={"/dashboard"}>
                         <Output
                             type="summary"
                             {...props}
@@ -76,9 +77,6 @@ export default function Content(props) {
                     </Route>
                     <Route exact path="/dependency">
                         <DependencyGraph/>
-                    </Route>
-                    <Route exact path="/home">
-                        <div>This is home</div>
                     </Route>
                 </Switch>
             </div>
