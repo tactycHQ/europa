@@ -1,23 +1,27 @@
 import DataFormatter from "excel-style-dataformatter";
+import ssf from "../utils/fixformats"
 
 const dataFormatter = new DataFormatter()
 
 export const convert_format = (fmt, value) => {
-    // let temp_format = dataFormatter.format(value, 'Number', fmt).value.replace(' ', ',')
-    let temp_format = dataFormatter.format(value, 'Number', fmt).value
 
-    // Fixing SSF formatter
-    if (temp_format.substr(-1) === ',') {
-        temp_format = temp_format.slice(0, -1)
-    }
+    //--------DATA FORAMTTER
+    // let temp_format = dataFormatter.format(value, 'Number', fmt).value
+
+    // Fixing data formatter
+    // if (temp_format.substr(-1) === ',') {
+    //     temp_format = temp_format.slice(0, -1)
+    // }
 
     //Remove trailing and leading white space
-    temp_format = temp_format.trim()
+    // temp_format = temp_format.trim()
 
     //Remove any white space in the middle
-    temp_format = temp_format.replace(' ',',')
+    // temp_format = temp_format.replace(' ',',')
+    // return temp_format
 
-    return temp_format
+    //USING FIXED SSF INSTEAD
+    return ssf.format(fmt,value).trim()
 }
 
 export const getAvg = arr => arr.reduce((a, b) => a + b, 0) / arr.length

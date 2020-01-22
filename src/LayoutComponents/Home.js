@@ -28,7 +28,7 @@ export default function Home(props) {
 
 
    const onChange = e => {
-    console.log(e.target.files[0])
+    // console.log(e.target.files[0])
     // this.setState({
     //   uploadedFile: e.target.files[0]
     // });
