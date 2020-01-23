@@ -12,6 +12,7 @@ export default function Spreadsheet() {
             width:'100%',
             height:'95vh',
             justifyContent:'flex-start',
+            background:'yellow'
             // alignItems:'center'
         },
         ioselect: {
@@ -30,8 +31,8 @@ export default function Spreadsheet() {
             borderColor: '#D0D3D6',
             background: '#F8F8F7',
             cursor: 'cell',
-            margin: '5px',
-            width:'100%',
+            // margin: '5px',
+            // width:'100%',
             marginLeft:'20%'
             // height:'100%',
             // marginBottom:'50vh'
