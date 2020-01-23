@@ -45,35 +45,32 @@ export default function Home(props) {
     }))
     const classes = useStyles()
 
-
-    const onChange = e => {
-        // console.log(e.target.files[0])
-        // this.setState({
-        //   uploadedFile: e.target.files[0]
-        // });
+    const openDash = (dash_id) => {
+        props.setDashid(dash_id)
+        props.setMode('existing')
     }
-    console.log("home")
+
 
     return (
         <div className={classes.root}>
             <Paper className={classes.paper}>
                 <div className={classes.paperHeaderContainer}>
                     <NavLink to="/spreadsheet" style={{textDecoration: 'none'}}>
-                        <h1 className={classes.chartTitle}>Create New Dashboard</h1>
+                        <h1 className={classes.chartTitle} onClick={() => props.setMode('new')}>Create New Dashboard</h1>
                     </NavLink>
                 </div>
             </Paper>
             <Paper className={classes.paper}>
                 <div className={classes.paperHeaderContainer}>
                     <NavLink to="/dashboard" style={{textDecoration: 'none'}}>
-                        <h1 className={classes.chartTitle}>Dashboard 1</h1>
+                        <h1 className={classes.chartTitle} onClick={() => openDash(7)}>LPI Dashboard</h1>
                     </NavLink>
                 </div>
             </Paper>
             <Paper className={classes.paper}>
                 <div className={classes.paperHeaderContainer}>
                     <NavLink to="/dashboard" style={{textDecoration: 'none'}}>
-                        <h1 className={classes.chartTitle}>Dashboard 2</h1>
+                        <h1 className={classes.chartTitle} onClick={() => openDash(9)}>VC Returns</h1>
                     </NavLink>
                 </div>
             </Paper>

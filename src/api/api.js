@@ -1,7 +1,7 @@
 //API Functions
-const dash_id=9
 
-export const getSolutions = async () => {
+
+export const getSolutions = async (dash_id) => {
     console.log("Getting Solutions...");
     const api_url = "http://localhost:5000/getSolutions"
 
@@ -25,7 +25,7 @@ export const getSolutions = async () => {
     return result
 }
 
-export const getMetaData = async () => {
+export const getMetaData = async (dash_id) => {
     console.log("Getting Metadata...");
     const api_url = "http://localhost:5000/getMetaData"
 
@@ -48,7 +48,7 @@ export const getMetaData = async () => {
     return result
 }
 
-export const getFormats = async () => {
+export const getFormats = async (dash_id) => {
     console.log("Getting formats...");
     const api_url = "http://localhost:5000/getFormats"
     let result

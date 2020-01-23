@@ -43,6 +43,7 @@ export default function Layout(props) {
         }
     }));
     const classes = useStyles()
+    const [dashid, setDashid] = useState(null)
     const [solutions, setSolutions] = useState(null)
     const [distributions, setDistributions] = useState(null)
     const [formats, setFormats] = useState("0.0")
@@ -52,15 +53,15 @@ export default function Layout(props) {
     const [cases, setCases] = useState(null)
     const [charts, setCharts] = useState(null)
     const [dashName, setDashName] = useState('')
-    const [isLoaded, setisLoaded] = useState(false)
+    const [mode, setMode] = useState('')
 
 
     // At initial load
     useEffect(() => {
-        const runEffect = async () => {
-            const metadata = await getMetaData()
-            const _solutions = await getSolutions()
-            const _formats = await getFormats()
+        const executeAPIcalls = async () => {
+            const metadata = await getMetaData(dashid)
+            const _solutions = await getSolutions(dashid)
+            const _formats = await getFormats(dashid)
             // const _variance = await getVarianceAnalysis()
             setSolutions(_solutions.solutions)
             setDistributions(_solutions.distributions)
@@ -81,11 +82,13 @@ export default function Layout(props) {
             setcurrInputVal(defaults[0])
             setOutputs(metadata.outputs)
             setCharts(metadata.charts)
-
-            setisLoaded(isLoaded => !isLoaded)
+            setMode('loaded')
         }
-        runEffect()
-    }, [])
+
+        if (mode==='existing') {
+            executeAPIcalls()
+        }
+    }, [mode,dashid])
 
 
     // Defining functions
@@ -101,7 +104,7 @@ export default function Layout(props) {
     }
 
     const createContent = () => {
-        if (isLoaded) {
+        if (mode === 'loaded') {
             return <Content handleSliderChange={handleSliderChange}
                             handleCaseChange={handleCaseChange}
                             solutions={solutions}
@@ -113,14 +116,24 @@ export default function Layout(props) {
                             charts={charts}
                             cases={cases}
             />
-        } else {
+        } else if (mode=== 'new' && dashid==null) {
+            return <div>New Dash board. Upload Excel File</div>
+        } else if (mode==='new' &&  dashid) {
+               return <div>New Dash board with Data</div>
+        }
+        else {
             return <Spinner className={classes.spinner}/>
         }
+
     }
 
     const createHome = () => {
-        return <Home/>
+        return <Home
+            setMode={setMode}
+            setDashid={setDashid}
+        />
     }
+
 
     // Executing functions
     const content = createContent()
@@ -132,17 +145,18 @@ export default function Layout(props) {
                 <TopBar dashName={dashName}/>
             </div>
             <Switch>
-                <Route exact path={["/","/home"]}>
+                <Route exact path={["/", "/home"]}>
                     <div className={classes.middle}>
                         {home}
                     </div>
                 </Route>
-                <Route exact path="/(dashboard|distributions|inputimportance|sensitivity|scenario|dependency|spreadsheet)">
+                <Route exact
+                       path="/(dashboard|distributions|inputimportance|sensitivity|scenario|dependency|spreadsheet)">
                     <div className={classes.middle}>
                         {content}
                     </div>
                 </Route>
             </Switch>
         </div>
-);
+    );
 }

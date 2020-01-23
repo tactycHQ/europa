@@ -101,7 +101,7 @@ function parse_date_code(v,opts,b2) {
 	if(opts && opts.date1904) date += 1462;
 	if(out.u > 0.9999) {
 		out.u = 0;
-		if(++time == 86400) { out.T = time = 0; ++date; ++out.D; }
+		if(++time === 86400) { out.T = time = 0; ++date; ++out.D; }
 	}
 	if(date === 60) {dout = b2 ? [1317,10,29] : [1900,2,29]; dow=3;}
 	else if(date === 0) {dout = b2 ? [1317,8,29] : [1900,1,0]; dow=6;}
@@ -148,7 +148,7 @@ function gfn3(v) {
 	return o;
 }
 function gfn4(o) {
-	for(var i = 0; i != o.length; ++i) if((o.charCodeAt(i) | 0x20) === 101) return o.replace(gnr4,".$1").replace(gnr5,"E").replace("e","E").replace(gnr6,"$10$2");
+	for(var i = 0; i !== o.length; ++i) if((o.charCodeAt(i) | 0x20) === 101) return o.replace(gnr4,".$1").replace(gnr5,"E").replace("e","E").replace(gnr6,"$10$2");
 	return o;
 }
 function gfn5(o) {
@@ -218,8 +218,8 @@ function write_date(type, fmt, val, ss0) {
 			default: throw 'bad minute format: ' + fmt;
 		} break;
 		case 115: /* 's' seconds */
-			if(fmt != 's' && fmt != 'ss' && fmt != '.0' && fmt != '.00' && fmt != '.000') throw 'bad second format: ' + fmt;
-			if(val.u === 0 && (fmt == "s" || fmt == "ss")) return pad0(val.S, fmt.length);
+			if(fmt !== 's' && fmt !== 'ss' && fmt !== '.0' && fmt !== '.00' && fmt !== '.000') throw 'bad second format: ' + fmt;
+			if(val.u === 0 && (fmt === "s" || fmt === "ss")) return pad0(val.S, fmt.length);
 if(ss0 >= 2) tt = ss0 === 3 ? 1000 : 100;
 			else tt = ss0 === 1 ? 10 : 1;
 			ss = Math.round((tt)*(val.S + val.u));
