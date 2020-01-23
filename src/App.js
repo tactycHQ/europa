@@ -1,5 +1,5 @@
 import React from 'react'
-import Layout from "./LayoutComponents/Layout"
+import Main from "./LayoutComponents/Main"
 import {BrowserRouter} from 'react-router-dom'
 import ScrollToTop from 'react-router-scroll-top'
 import ContextProvider from "./Context"
@@ -19,7 +19,7 @@ export default function App() {
             <BrowserRouter>
                 <ScrollToTop>
                     <div className={classes.app}>
-                        <Layout/>
+                        <Main/>
                     </div>
                 </ScrollToTop>
             </BrowserRouter>

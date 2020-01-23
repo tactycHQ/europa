@@ -158,10 +158,12 @@ export default function SideBar() {
 
                     <Divider variant="middle" className={classes.divider}/>
 
-                    <ListItem className={classes.buttons} button={true}>
-                        <TuneIcon className={classes.icon}/>
-                        <div className={classes.buttonLabel}>Change Inputs/Outputs</div>
-                    </ListItem>
+                    <NavLink to="/spreadsheet" style={{textDecoration: 'none'}}>
+                        <ListItem className={classes.buttons} button={true}>
+                            <TuneIcon className={classes.icon}/>
+                            <div className={classes.buttonLabel}>Change Inputs/Outputs</div>
+                        </ListItem>
+                    </NavLink>
                     <ListItem className={classes.buttons} button={true}>
                         <VerifiedUserSharpIcon className={classes.icon}/>
                         <div className={classes.buttonLabel}>Audit Model</div>

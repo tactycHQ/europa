@@ -4,12 +4,11 @@ import Output from "../Content/Outputs"
 import Input from "../Content/Inputs";
 import {Switch, Route} from 'react-router-dom'
 import SideBar from "../Content/SideBar";
-import Spreadsheet from "./Spreadsheet";
+import Spreadsheet from "../Outputs/Spreadsheet";
 
 
 export default function Content(props) {
 
-    console.disableYellowBox = true
 
     // Defining Hooks
     const useStyles = makeStyles(theme => ({
@@ -29,10 +28,10 @@ export default function Content(props) {
         }
     }))
     const classes = useStyles()
+    let contentEl
 
-
-    return (
-        <div className={classes.root}>
+    if (props.mode === 'existing') {
+        contentEl = (
             <div className={classes.content}>
                 <SideBar className={classes.sidebar} outputs={props.outputs}/>
                 <Switch>
@@ -76,10 +75,36 @@ export default function Content(props) {
                         />
                     </Route>
                     <Route exact path="/spreadsheet">
-                        <Spreadsheet/>
+                        <Spreadsheet
+                            type="spreadsheet"
+                            mode={props.mode}
+                            worksheet={props.worksheet}
+                        />
                     </Route>
                 </Switch>
             </div>
+        )
+    } else {
+        contentEl = (
+            <div className={classes.content}>
+                <SideBar className={classes.sidebar} outputs={props.outputs}/>
+                <Switch>
+                    <Route exact path="/spreadsheet">
+                        <Spreadsheet
+                            type="spreadsheet"
+                            mode={props.mode}
+                            worksheet={props.worksheet}
+                        />
+                    </Route>
+                </Switch>
+            </div>
+        )
+    }
+
+
+    return (
+        <div className={classes.root}>
+            {contentEl}
         </div>
     )
 }

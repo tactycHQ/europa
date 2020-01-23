@@ -1,6 +1,8 @@
 //API Functions
 
 
+import {read} from "@sheet/core";
+
 export const getSolutions = async (dash_id) => {
     console.log("Getting Solutions...");
     const api_url = "http://localhost:5000/getSolutions"
@@ -96,3 +98,43 @@ export const getVarianceAnalysis = async () => {
     console.log("Variance analysis results recieved")
     return result
 }
+
+export const loadFile = async () => {
+
+    const api_url = "http://localhost:5000/downloadFile"
+    const headers = {
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify({
+            filename: "lpi.xlsx"
+        })
+    }
+    let ws
+
+    try {
+
+        const ab = await fetch(api_url, headers)
+            .then(res => res.arrayBuffer())
+
+         const wb = read(ab, {
+                        type: "array",
+                        raw: true,
+                        cellStyles: true,
+                        cellNF: false,
+                        cellText: false,
+                        showGridLines: false
+                    }
+                )
+
+        ws = wb.Sheets[wb.SheetNames[0]]
+        ws["!gridlines"] = false;
+        return ws
+    }
+    catch (error) {
+        return "Unable to load file"
+    }
+}
+

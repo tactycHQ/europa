@@ -4,11 +4,10 @@ import Content from "./Content"
 import Home from "./Home";
 import TopBar from "./TopBar"
 import Spinner from "../Other/Spinner"
-import {getSolutions, getMetaData, getFormats} from "../api/api"
+import {getSolutions, getMetaData, getFormats, loadFile} from "../api/api"
 import {Switch, Route} from 'react-router-dom'
-import Spreadsheet from "./Spreadsheet";
-
-//import {convert_format} from "../utils/utils";
+import Spreadsheet from "../Outputs/Spreadsheet";
+import {fixformats} from "../utils/utils";
 
 
 function extractDefaults(values) {
@@ -17,7 +16,7 @@ function extractDefaults(values) {
     }
 }
 
-export default function Layout(props) {
+export default function Main(props) {
 
 
     // Defining hooks
@@ -56,15 +55,22 @@ export default function Layout(props) {
     const [charts, setCharts] = useState(null)
     const [dashName, setDashName] = useState('')
     const [mode, setMode] = useState('')
+    const [apiData, setAPIData] = useState(false)
+    const [worksheet, setWorksheet] = useState(false)
+
+    //2 modes
+    //New - a new dashboard is to be created. Dash id and filename have been provided
+    //Existing - load an existing dashboard from dash id
 
     // console.log(mode)
     // console.log(dashid)
+    // console.log(apiData)
     // console.log(dashName)
 
 
     // At initial load
     useEffect(() => {
-        const executeAPIcalls = async () => {
+        const executeExistingAPIcalls = async (dashid) => {
             const metadata = await getMetaData(dashid)
             const _solutions = await getSolutions(dashid)
             const _formats = await getFormats(dashid)
@@ -88,15 +94,24 @@ export default function Layout(props) {
             setcurrInputVal(defaults[0])
             setOutputs(metadata.outputs)
             setCharts(metadata.charts)
-            setMode('loaded')
+            setAPIData(true)
         }
 
-            if (mode === 'existing') {
-                console.log("Executing API calls...")
-                executeAPIcalls()
-            }
+        const executeNewAPIcalls = async () => {
+            const ws_data = await loadFile()
+            setWorksheet(ws_data)
+            setAPIData(true)
+        }
 
-    }, [mode, dashid])
+        if (mode === 'existing' && !apiData) {
+            executeExistingAPIcalls(dashid)
+        }
+
+        if (mode === 'new') {
+            executeNewAPIcalls()
+        }
+
+    }, [mode, dashid, apiData])
     //
 
 
@@ -132,22 +147,27 @@ export default function Layout(props) {
     }
 
     const createContent = () => {
-        if (mode === 'loaded') {
-            return <Content handleSliderChange={handleSliderChange}
-                            handleCaseChange={handleCaseChange}
-                            solutions={solutions}
-                            currInputVal={currInputVal}
-                            distributions={distributions}
-                            formats={formats}
-                            inputs={inputs}
-                            outputs={outputs}
-                            charts={charts}
-                            cases={cases}
+        if (apiData && mode === 'existing') {
+            return <Content
+                mode={mode}
+                handleSliderChange={handleSliderChange}
+                handleCaseChange={handleCaseChange}
+                solutions={solutions}
+                currInputVal={currInputVal}
+                distributions={distributions}
+                formats={formats}
+                inputs={inputs}
+                outputs={outputs}
+                charts={charts}
+                cases={cases}
+                worksheet={worksheet}
             />
-        } else if (mode === 'new' && dashid == null) {
-            return <Spreadsheet/>
-        } else if (mode === 'new' && dashid) {
-            return <div>New Dash board with Data</div>
+        } else if (apiData && mode === 'new') {
+            return <Content
+                mode={mode}
+                worksheet={worksheet}
+            />
+
         } else {
             return <Spinner className={classes.spinner}/>
         }
@@ -158,6 +178,8 @@ export default function Layout(props) {
         return <Home
             setMode={setMode}
             setDashid={setDashid}
+            setAPIdata={setAPIData}
+            setDashName={setDashName}
         />
     }
 

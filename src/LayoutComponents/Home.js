@@ -45,9 +45,19 @@ export default function Home(props) {
     }))
     const classes = useStyles()
 
+    const newDash = () => {
+        props.setDashid(20)
+        props.setMode('new')
+        props.setAPIdata(false)
+        props.setDashName('')
+
+    }
+
     const openDash = (dash_id) => {
         props.setDashid(dash_id)
         props.setMode('existing')
+        props.setAPIdata(false)
+        props.setDashName('')
     }
 
 
@@ -56,7 +66,8 @@ export default function Home(props) {
             <Paper className={classes.paper}>
                 <div className={classes.paperHeaderContainer}>
                     <NavLink to="/spreadsheet" style={{textDecoration: 'none'}}>
-                        <h1 className={classes.chartTitle} onClick={() => props.setMode('new')}>Create New Dashboard</h1>
+                        <h1 className={classes.chartTitle} onClick={() => newDash()}>Create New
+                            Dashboard</h1>
                     </NavLink>
                 </div>
             </Paper>

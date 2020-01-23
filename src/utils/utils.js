@@ -3,7 +3,6 @@
 import SSF from "ssf/ssf"
 
 
-
 export const convert_format = (fmt, value) => {
 
     //--------DATA FORAMTTER
@@ -22,7 +21,17 @@ export const convert_format = (fmt, value) => {
     // return temp_format
 
     //USING FIXED SSF INSTEAD
-    return SSF.format(fmt,value)
+    return SSF.format(fmt, value)
+}
+
+const fixFormat = (ws) => {
+    Object.keys(ws).forEach(function (address) {
+        if (ws[address].hasOwnProperty('z') && ws[address].hasOwnProperty('v')) {
+            // ws[address].w = convert_format(ws[address].z, ws[address].v)
+            ws[address].w = convert_format(ws[address].z, ws[address].v)
+        }
+    })
+    return ws
 }
 
 export const getAvg = arr => arr.reduce((a, b) => a + b, 0) / arr.length
@@ -45,7 +54,7 @@ export const getAvgfromKey = (list, key) => {
 }
 
 export const getSumfromKey = (list, key) => {
-    const sums = list.reduce((acc, data) => data[key]+acc,0)
+    const sums = list.reduce((acc, data) => data[key] + acc, 0)
     return sums
 }
 

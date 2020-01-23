@@ -518,9 +518,11 @@ export default function Output(props) {
 
 
     //Function executions
+
     const currSolution = findSolution(props.currInputVal)
     const inputLabelMap = generateInputLabelMap()
     const final_charts = createCharts()
+
 
     return (
         <div className={classes.root}>
