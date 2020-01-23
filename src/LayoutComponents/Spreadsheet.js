@@ -1,16 +1,41 @@
 import React, {useRef, useEffect, useState} from "react";
 import {read, utils} from "@sheet/core";
 import {makeStyles} from '@material-ui/core/styles'
+import Card from "@material-ui/core/Card";
 import {convert_format} from "../utils/utils";
 // import ssf from "../utils/fixformats"
 
 export default function Spreadsheet() {
     const useStyles = makeStyles(theme => ({
+        sheetContainer: {
+            display: 'flex',
+            width:'100%',
+            height:'95vh',
+            justifyContent:'flex-start',
+            // alignItems:'center'
+        },
+        ioselect: {
+            display: 'flex',
+            position:'fixed',
+            // top:25,
+            left:0,
+            background:'pink',
+            minWidth:'20%',
+            minHeight:'90vh'
+        },
         spreadsheet: {
-            // border: 'solid',
-            background:'#F8F8F7',
-            cursor:'cell',
-            margin:'5px'
+            display:'flex',
+            border: 'solid',
+            borderWidth: '1px',
+            borderColor: '#D0D3D6',
+            background: '#F8F8F7',
+            cursor: 'cell',
+            margin: '5px',
+            width:'100%',
+            marginLeft:'20%'
+            // height:'100%',
+            // marginBottom:'50vh'
+            // overflowX:'scroll',
             // borderColor: 'red'
         }
     }))
@@ -63,8 +88,7 @@ export default function Spreadsheet() {
     }
 
     const fixFormat = (ws) => {
-
-        Object.keys(ws).forEach(function(address) {
+        Object.keys(ws).forEach(function (address) {
             if (ws[address].hasOwnProperty('z') && ws[address].hasOwnProperty('v')) {
                 // ws[address].w = convert_format(ws[address].z, ws[address].v)
                 ws[address].w = convert_format(ws[address].z, ws[address].v)
@@ -125,15 +149,12 @@ export default function Spreadsheet() {
 
 
     return (
-        <div className="App">
+        <div className={classes.sheetContainer}>
+            <Card className={classes.ioselect}>Input Selections</Card>
             <div
                 className={classes.spreadsheet}
                 ref={sheetEl}
                 onMouseUp={(evt) => onMouseClick(evt)}
-                // onMouseEnter={(e) => console.log(e.target.id.replace("sjs-", ""))}
-                // onMouseLeave={(e) => console.log(e.target.id.replace("sjs-", ""))}
-                // onDragStart={(e) => onMouseClick(e)}
-
             />
         </div>
     )

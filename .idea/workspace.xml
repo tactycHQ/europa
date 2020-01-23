@@ -3,14 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Content.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/Content.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/Home.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Layout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/Layout.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Spreadsheet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/Spreadsheet.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Outputs/InputImportance.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/InputImportance.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Outputs/ScenarioAnalysis.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/ScenarioAnalysis.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Outputs/SummaryChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/SummaryChart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/utils.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -158,14 +152,7 @@
       <workItem from="1579407351973" duration="603000" />
       <workItem from="1579418421888" duration="15000" />
       <workItem from="1579467367713" duration="3943000" />
-      <workItem from="1579549438409" duration="47708000" />
-    </task>
-    <task id="LOCAL-00098" summary="First commit">
-      <created>1578359817260</created>
-      <option name="number" value="00098" />
-      <option name="presentableId" value="LOCAL-00098" />
-      <option name="project" value="LOCAL" />
-      <updated>1578359817261</updated>
+      <workItem from="1579549438409" duration="51200000" />
     </task>
     <task id="LOCAL-00099" summary="First commit">
       <created>1578371221319</created>
@@ -503,7 +490,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579751171772</updated>
     </task>
-    <option name="localTasksCounter" value="147" />
+    <task id="LOCAL-00147" summary="First commit">
+      <created>1579757610344</created>
+      <option name="number" value="00147" />
+      <option name="presentableId" value="LOCAL-00147" />
+      <option name="project" value="LOCAL" />
+      <updated>1579757610344</updated>
+    </task>
+    <option name="localTasksCounter" value="148" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

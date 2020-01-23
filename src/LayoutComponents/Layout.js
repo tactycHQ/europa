@@ -45,7 +45,7 @@ export default function Layout(props) {
         }
     }));
     const classes = useStyles()
-    const [dashid, setDashid] = useState(0)
+    const [dashid, setDashid] = useState(null)
     const [solutions, setSolutions] = useState(null)
     const [distributions, setDistributions] = useState(null)
     const [formats, setFormats] = useState('General')
@@ -133,7 +133,6 @@ export default function Layout(props) {
 
     const createContent = () => {
         if (mode === 'loaded') {
-            console.log("Loading.....")
             return <Content handleSliderChange={handleSliderChange}
                             handleCaseChange={handleCaseChange}
                             solutions={solutions}
