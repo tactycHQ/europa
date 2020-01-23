@@ -1,6 +1,6 @@
 // import DataFormatter from "excel-style-dataformatter";
 // const dataFormatter = new DataFormatter()
-import ssf from "../utils/fixformats"
+import SSF from "ssf/ssf"
 
 
 
@@ -22,7 +22,7 @@ export const convert_format = (fmt, value) => {
     // return temp_format
 
     //USING FIXED SSF INSTEAD
-    return ssf.format(fmt,value).trim()
+    return SSF.format(fmt,value)
 }
 
 export const getAvg = arr => arr.reduce((a, b) => a + b, 0) / arr.length

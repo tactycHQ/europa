@@ -3,13 +3,13 @@ import {makeStyles} from '@material-ui/core/styles'
 import Output from "../Content/Outputs"
 import Input from "../Content/Inputs";
 import {Switch, Route} from 'react-router-dom'
-import DependencyGraph from "../Sidebar/DependencyGraph"
 import SideBar from "../Content/SideBar";
 import Spreadsheet from "./Spreadsheet";
 
 
 export default function Content(props) {
 
+    console.disableYellowBox = true
 
     // Defining Hooks
     const useStyles = makeStyles(theme => ({
@@ -40,7 +40,6 @@ export default function Content(props) {
                         <Output
                             type="summary"
                             {...props}
-
                         />
                         <Input
                             {...props}

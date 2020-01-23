@@ -6,6 +6,7 @@ import TopBar from "./TopBar"
 import Spinner from "../Other/Spinner"
 import {getSolutions, getMetaData, getFormats} from "../api/api"
 import {Switch, Route} from 'react-router-dom'
+import Spreadsheet from "./Spreadsheet";
 
 //import {convert_format} from "../utils/utils";
 
@@ -17,6 +18,7 @@ function extractDefaults(values) {
 }
 
 export default function Layout(props) {
+
 
     // Defining hooks
     const useStyles = makeStyles(theme => ({
@@ -43,10 +45,10 @@ export default function Layout(props) {
         }
     }));
     const classes = useStyles()
-    const [dashid, setDashid] = useState(null)
+    const [dashid, setDashid] = useState(0)
     const [solutions, setSolutions] = useState(null)
     const [distributions, setDistributions] = useState(null)
-    const [formats, setFormats] = useState("0.0")
+    const [formats, setFormats] = useState('General')
     const [currInputVal, setcurrInputVal] = useState(null)
     const [inputs, setInputs] = useState(null)
     const [outputs, setOutputs] = useState(null)
@@ -54,6 +56,10 @@ export default function Layout(props) {
     const [charts, setCharts] = useState(null)
     const [dashName, setDashName] = useState('')
     const [mode, setMode] = useState('')
+
+    // console.log(mode)
+    // console.log(dashid)
+    // console.log(dashName)
 
 
     // At initial load
@@ -85,10 +91,32 @@ export default function Layout(props) {
             setMode('loaded')
         }
 
-        if (mode==='existing') {
-            executeAPIcalls()
-        }
-    }, [mode,dashid])
+            if (mode === 'existing') {
+                console.log("Executing API calls...")
+                executeAPIcalls()
+            }
+
+    }, [mode, dashid])
+    //
+
+
+    // useEffect(() => {
+    //     sessionStorage.setItem('mode', JSON.stringify(JSON.stringify(mode)))
+    //     sessionStorage.setItem('dashid', JSON.stringify(JSON.stringify(dashid)))
+    //     sessionStorage.setItem('dashname', JSON.stringify(JSON.stringify(dashName)))
+    //     sessionStorage.setItem('solutions', JSON.stringify(JSON.stringify(solutions)))
+    //     sessionStorage.setItem('currInputVal', JSON.stringify(JSON.stringify(currInputVal)))
+    //     sessionStorage.setItem('distributions', JSON.stringify(JSON.stringify(distributions)))
+    //     sessionStorage.setItem('formats', JSON.stringify(JSON.stringify(formats)))
+    //     sessionStorage.setItem('inputs', JSON.stringify(JSON.stringify(inputs)))
+    //     sessionStorage.setItem('outputs', JSON.stringify(JSON.stringify(outputs)))
+    //     sessionStorage.setItem('charts', JSON.stringify(JSON.stringify(charts)))
+    //     sessionStorage.setItem('cases', JSON.stringify(JSON.stringify(cases)))
+    //     console.log("Local Storage Saved")
+    //     console.log(dashName)
+    //     console.log(sessionStorage.getItem("dashName"))
+    //     // console.log(JSON.parse(sessionStorage.getItem("dashName")) || 'nothing')
+    // }, [mode, dashid, dashName, solutions, currInputVal, distributions, formats, inputs, charts, cases, outputs])
 
 
     // Defining functions
@@ -105,6 +133,7 @@ export default function Layout(props) {
 
     const createContent = () => {
         if (mode === 'loaded') {
+            console.log("Loading.....")
             return <Content handleSliderChange={handleSliderChange}
                             handleCaseChange={handleCaseChange}
                             solutions={solutions}
@@ -116,12 +145,11 @@ export default function Layout(props) {
                             charts={charts}
                             cases={cases}
             />
-        } else if (mode=== 'new' && dashid==null) {
-            return <div>New Dash board. Upload Excel File</div>
-        } else if (mode==='new' &&  dashid) {
-               return <div>New Dash board with Data</div>
-        }
-        else {
+        } else if (mode === 'new' && dashid == null) {
+            return <Spreadsheet/>
+        } else if (mode === 'new' && dashid) {
+            return <div>New Dash board with Data</div>
+        } else {
             return <Spinner className={classes.spinner}/>
         }
 

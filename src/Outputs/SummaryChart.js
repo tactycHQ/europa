@@ -14,7 +14,6 @@ import {
 import {Paper, makeStyles, Card} from "@material-ui/core"
 import {convert_format} from "../utils/utils"
 import CardSettings from "./CardSettings"
-import Fade from "@material-ui/core/Fade"
 import {NavLink} from "react-router-dom"
 
 

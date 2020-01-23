@@ -19,7 +19,7 @@ import {Card} from "@material-ui/core";
 import {LabelSelector} from "./LabelSelector";
 import {getAvgfromKey, getMaxfromKey, getMinfromKey, getDomains, convert_format} from "../utils/utils";
 import Fade from '@material-ui/core/Fade'
-import { useLocation} from "react-router"
+// import { useLocation} from "react-router"
 
 const chartColors = [
     '#006E9F',

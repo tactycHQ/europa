@@ -64,7 +64,7 @@ export default function Spreadsheet() {
 
     const fixFormat = (ws) => {
 
-        Object.keys(ws).map(address => {
+        Object.keys(ws).forEach(function(address) {
             if (ws[address].hasOwnProperty('z') && ws[address].hasOwnProperty('v')) {
                 // ws[address].w = convert_format(ws[address].z, ws[address].v)
                 ws[address].w = convert_format(ws[address].z, ws[address].v)
