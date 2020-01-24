@@ -73,13 +73,17 @@ export const getMinfromKey = (list, key) => {
 }
 
 export function between(x, min, max) {
-    console.log(x, min)
     return x >= min && x <= max;
 }
 
 export function myRound(value) {
     const dp = 5
-    return parseFloat(value.toFixed(dp))
+    try {
+        return parseFloat(value.toFixed(dp))
+    } catch {
+        return value
+    }
+
 }
 
 export function range(start, end) {
