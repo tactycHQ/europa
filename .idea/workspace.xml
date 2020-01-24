@@ -2,14 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Content/IOSelection.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Content/Outputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/Outputs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Content/SideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/SideBar.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Content.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/Content.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Layout.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/Main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Spreadsheet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/Spreadsheet.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/Main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Outputs/Spreadsheet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/Spreadsheet.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/api/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/api.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utils/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/utils.js" afterDir="false" />
     </list>
@@ -91,11 +88,11 @@
       <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\scenario_analysis" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\Outputs" />
       <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\Outputs" />
       <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\Other" />
       <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\Inputs" />
       <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\Content" />
-      <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\SideBarComponents" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -159,14 +156,7 @@
       <workItem from="1579407351973" duration="603000" />
       <workItem from="1579418421888" duration="15000" />
       <workItem from="1579467367713" duration="3943000" />
-      <workItem from="1579549438409" duration="59439000" />
-    </task>
-    <task id="LOCAL-00102" summary="First commit">
-      <created>1578377659511</created>
-      <option name="number" value="00102" />
-      <option name="presentableId" value="LOCAL-00102" />
-      <option name="project" value="LOCAL" />
-      <updated>1578377659511</updated>
+      <workItem from="1579549438409" duration="80391000" />
     </task>
     <task id="LOCAL-00103" summary="First commit">
       <created>1578377791665</created>
@@ -504,7 +494,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579762367572</updated>
     </task>
-    <option name="localTasksCounter" value="151" />
+    <task id="LOCAL-00151" summary="First commit">
+      <created>1579805645208</created>
+      <option name="number" value="00151" />
+      <option name="presentableId" value="LOCAL-00151" />
+      <option name="project" value="LOCAL" />
+      <updated>1579805645209</updated>
+    </task>
+    <option name="localTasksCounter" value="152" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

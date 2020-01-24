@@ -99,7 +99,7 @@ export const getVarianceAnalysis = async () => {
     return result
 }
 
-export const loadFile = async () => {
+export const loadFile = async (sheetName) => {
 
     const api_url = "http://localhost:5000/downloadFile"
     const headers = {
@@ -129,7 +129,7 @@ export const loadFile = async () => {
                     }
                 )
 
-        ws = wb.Sheets[wb.SheetNames[0]]
+        ws = wb.Sheets[sheetName]
         ws["!gridlines"] = false;
         return ws
     }

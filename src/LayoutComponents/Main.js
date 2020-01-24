@@ -57,6 +57,8 @@ export default function Main(props) {
     const [mode, setMode] = useState('')
     const [apiData, setAPIData] = useState(false)
     const [worksheet, setWorksheet] = useState(false)
+    const [sheetName, setSheetName] = useState("Quarterly")
+    const [clickedCells, setClickedCell] = useState({})
 
     //2 modes
     //New - a new dashboard is to be created. Dash id and filename have been provided
@@ -98,7 +100,7 @@ export default function Main(props) {
         }
 
         const executeNewAPIcalls = async () => {
-            const ws_data = await loadFile()
+            const ws_data = await loadFile(sheetName)
             setWorksheet(ws_data)
             setAPIData(true)
         }
@@ -111,7 +113,7 @@ export default function Main(props) {
             executeNewAPIcalls()
         }
 
-    }, [mode, dashid, apiData])
+    }, [mode, dashid, apiData, sheetName])
     //
 
 
@@ -132,6 +134,18 @@ export default function Main(props) {
     //     console.log(sessionStorage.getItem("dashName"))
     //     // console.log(JSON.parse(sessionStorage.getItem("dashName")) || 'nothing')
     // }, [mode, dashid, dashName, solutions, currInputVal, distributions, formats, inputs, charts, cases, outputs])
+
+    const addClickedCell = (newCell, oldColor, to_add, value) => {
+        setClickedCell({
+                ...clickedCells,
+                [newCell]: {
+                    to_add: to_add,
+                    old_color: oldColor,
+                    value: value
+                }
+            })
+    }
+
 
 
     // Defining functions
@@ -166,6 +180,9 @@ export default function Main(props) {
             return <Content
                 mode={mode}
                 worksheet={worksheet}
+                sheetName={sheetName}
+                clickedCells={clickedCells}
+                addClickedCell={addClickedCell}
             />
 
         } else {

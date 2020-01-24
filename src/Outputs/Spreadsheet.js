@@ -11,7 +11,7 @@ export default function Spreadsheet(props) {
             display: 'flex',
             width: '100%',
             height: '95vh',
-            marginLeft: '12%',
+            marginLeft: '15%',
             justifyContent: 'flex-start',
             background: 'yellow'
             // alignItems:'center'
@@ -34,7 +34,6 @@ export default function Spreadsheet(props) {
     }))
     const classes = useStyles()
     const sheetEl = useRef(null)
-    const [clickedCells, setClickedCell] = useState({})
     const worksheet = props.worksheet
 
     const getOldColor = (newCell) => {
@@ -46,29 +45,27 @@ export default function Spreadsheet(props) {
 
     }
 
+
     const onMouseClick = (e) => {
         e.persist()
 
         let oldColor
         let to_add
+        let v
         let newCell = e.target.id.replace("sjs-", "")
 
-        if (newCell in clickedCells) {
-            to_add = !clickedCells[newCell].to_add
-            oldColor = clickedCells[newCell].old_color
+        if (newCell in props.clickedCells) {
+            to_add = !props.clickedCells[newCell].to_add
+            oldColor = props.clickedCells[newCell].old_color
+            v = worksheet[newCell].v
         } else {
             to_add = true
             oldColor = getOldColor(newCell)
+            v = worksheet[newCell].v
         }
 
         if (worksheet.hasOwnProperty(newCell)) {
-            setClickedCell({
-                ...clickedCells,
-                [newCell]: {
-                    to_add: to_add,
-                    old_color: oldColor
-                }
-            })
+            props.addClickedCell(newCell,oldColor,to_add, v)
         }
     }
 
@@ -81,18 +78,17 @@ export default function Spreadsheet(props) {
             return html
         }
 
-
-        if (clickedCells && Object.keys(clickedCells).every(cell => worksheet.hasOwnProperty(cell))) {
-            for (const cell in clickedCells) {
-                if (clickedCells[cell].to_add === true) {
+        if (props.clickedCells && Object.keys(props.clickedCells).every(cell => worksheet.hasOwnProperty(cell))) {
+            for (const cell in props.clickedCells) {
+                if (props.clickedCells[cell].to_add === true) {
                     worksheet[cell].s.fgColor = {rgb: "FCCA46"}
                 } else {
-                    worksheet[cell].s.fgColor = {rgb: clickedCells[cell].old_color}
+                    worksheet[cell].s.fgColor = {rgb: props.clickedCells[cell].old_color}
                 }
             }
         }
         sheetEl.current.innerHTML = createHTML(worksheet)
-    }, [worksheet, clickedCells])
+    }, [worksheet, props.clickedCells])
 
 
     return (

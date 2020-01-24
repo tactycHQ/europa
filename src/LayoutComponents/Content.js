@@ -4,6 +4,7 @@ import Output from "../Content/Outputs"
 import Input from "../Content/Inputs";
 import {Switch, Route} from 'react-router-dom'
 import SideBar from "../Content/SideBar";
+import IOSelection from "../Content/IOSelection";
 import Spreadsheet from "../Outputs/Spreadsheet";
 
 
@@ -25,7 +26,7 @@ export default function Content(props) {
             display: 'flex',
             justifyContent: 'center',
             marginTop: '6px',
-        }
+        },
     }))
     const classes = useStyles()
     let contentEl
@@ -87,13 +88,19 @@ export default function Content(props) {
     } else {
         contentEl = (
             <div className={classes.content}>
-                <SideBar className={classes.sidebar} outputs={props.outputs}/>
+                <IOSelection
+                    outputs={props.outputs}
+                    sheetName={props.sheetName}
+                    clickedCells={props.clickedCells}
+                />
                 <Switch>
                     <Route exact path="/spreadsheet">
                         <Spreadsheet
                             type="spreadsheet"
                             mode={props.mode}
                             worksheet={props.worksheet}
+                            clickedCells={props.clickedCells}
+                            addClickedCell={props.addClickedCell}
                         />
                     </Route>
                 </Switch>

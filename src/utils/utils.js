@@ -68,3 +68,8 @@ export const getMinfromKey = (list, key) => {
     const values = list.map(data => data[key])
     return Math.min(...values)
 }
+
+export function between(x, min, max) {
+    return x >= min && x <= max;
+}
+
