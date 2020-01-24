@@ -7,7 +7,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Paper from "@material-ui/core/Paper"
 import InputLabel from "@material-ui/core/InputLabel";
-import {between, convert_format, myRound} from "../utils/utils";
+import {between, convert_format, myRound, addAndSort, range} from "../utils/utils";
 
 
 export default function IOSelection(props) {
@@ -176,14 +176,14 @@ export default function IOSelection(props) {
     const [numSteps, setNumSteps] = useState(5)
     const [bounds, setBounds] = useState({lb: 0.9, ub: 1.1})
 
-
+    //Hooks
     useEffect(() => {
         setNumSteps(5)
         setBounds({lb: 0.9, ub: 1.1})
     }, [props.clickedCells])
 
-
-    const renderClickedcells = () => {
+    //Functions
+    const createIOPanel = () => {
 
         const address = props.clickedCells.address
         const value = props.clickedCells.value
@@ -214,19 +214,6 @@ export default function IOSelection(props) {
                 {incrementEl}
             </div>
         )
-    }
-
-    const boundHandler = (e, type, value) => {
-        const perChange = e.target.value / value
-        if (type === 'lb') {
-            setBounds(prevBound => {
-                return {...prevBound, lb: [perChange]}
-            })
-        } else {
-            setBounds(prevBound => {
-                return {...prevBound, ub: [perChange]}
-            })
-        }
     }
 
     const createBoundSelector = (lb, ub, value, format) => {
@@ -301,10 +288,6 @@ export default function IOSelection(props) {
             </FormControl>
         )
 
-    }
-
-    const stepChangeHandler = (e) => {
-        setNumSteps(e.target.value)
     }
 
     const createIncrementEl = (value, lb, ub, format) => {
@@ -396,10 +379,6 @@ export default function IOSelection(props) {
 
     }
 
-    const LabelInput = (e) => {
-        return e.target.value
-    }
-
     const computeSteps = (value, lb, ub) => {
 
         if (numSteps === 1) {
@@ -421,24 +400,33 @@ export default function IOSelection(props) {
         }
     }
 
-    function range(start, end) {
-        return Array(end - start + 1).fill().map((_, idx) => start + idx)
-    }
-
-    function addAndSort(arr, val) {
-        arr.push(val);
-        for (let i = arr.length - 1; i > 0 && arr[i] < arr[i - 1]; i--) {
-            var tmp = arr[i];
-            arr[i] = arr[i - 1];
-            arr[i - 1] = tmp;
+    //Event Handlers
+    const boundHandler = (e, type, value) => {
+        const perChange = e.target.value / value
+        if (type === 'lb') {
+            setBounds(prevBound => {
+                return {...prevBound, lb: [perChange]}
+            })
+        } else {
+            setBounds(prevBound => {
+                return {...prevBound, ub: [perChange]}
+            })
         }
-        return arr;
     }
 
+    const LabelInput = (e) => {
+        return e.target.value
+    }
+
+    const stepChangeHandler = (e) => {
+        setNumSteps(e.target.value)
+    }
+
+    //Function Executions
     let selectedCells
     let instructions
     if (props.clickedCells.hasOwnProperty("address")) {
-        selectedCells = renderClickedcells()
+        selectedCells = createIOPanel()
         instructions = null
     } else {
         instructions = (

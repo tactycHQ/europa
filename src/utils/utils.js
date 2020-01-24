@@ -81,3 +81,17 @@ export function myRound(value) {
     return parseFloat(value.toFixed(dp))
 }
 
+export function range(start, end) {
+    return Array(end - start + 1).fill().map((_, idx) => start + idx)
+}
+
+export function addAndSort(arr, val) {
+    arr.push(val);
+    for (let i = arr.length - 1; i > 0 && arr[i] < arr[i - 1]; i--) {
+        var tmp = arr[i];
+        arr[i] = arr[i - 1];
+        arr[i - 1] = tmp;
+    }
+    return arr;
+}
+
