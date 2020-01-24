@@ -119,7 +119,7 @@ export default function IOSelection(props) {
             margin: '10px'
         },
         categoryContainer: {
-            margin: '10px',
+            margin: '5px',
             background: '#D7DEE2',
             padding: '8px',
             // width: '100%'
@@ -140,30 +140,25 @@ export default function IOSelection(props) {
             width: '100%'
         },
         textField: {
-            fontSize: '0.85em',
+            fontSize: '0.75em',
             fontWeight: '100',
             fontFamily: 'Questrial',
-
+            // marginBottom:'0px',
+            paddingTop: '5px',
+            paddingBottom: '0px',
         },
         labelField: {
             fontSize: '1.0em',
             fontWeight: '100',
             fontFamily: 'Questrial',
-            marginTop: '5px',
+            marginTop: '7px',
             width: '100%',
             // background:'yellow'
         },
         formControl: {
             // margin: theme.spacing(1),
             width: "100%",
-            marginTop: '10px'
-        },
-        stepSelect: {
-            marginTop: '5px',
-            fontFamily: 'Questrial',
-            fontSize: '0.85em',
-            background: '#D7DEE2',
-            padding: '2px',
+            marginTop: '5px'
         },
         stepItem: {
             fontFamily: 'Questrial',
@@ -274,7 +269,7 @@ export default function IOSelection(props) {
                 </InputLabel>
                 <Select
                     value={numSteps}
-                    classes={{selectMenu: classes.stepSelect}}
+                    classes={{selectMenu: classes.textField}}
                     onChange={(e) => stepChangeHandler(e)}
                 >
                     <MenuItem classes={{root: classes.stepItem}} value={1}>1</MenuItem>
@@ -302,6 +297,7 @@ export default function IOSelection(props) {
                         // id="incr"
                         className={classes.rootTextContainer}
                         key={v + idx.toString()}
+                        disabled
                         label={"Model: " + convert_format(format, v)}
                         value={v}
                         size="small"
@@ -319,8 +315,9 @@ export default function IOSelection(props) {
                             style: {
                                 color: '#006E9F',
                                 fontSize: '0.85em',
-                                fontWeight: '200',
+                                fontWeight: '100',
                                 fontFamily: 'Questrial',
+                                paddingBottom: '0px',
                             }
                         }}
                     />
