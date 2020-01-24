@@ -21,7 +21,11 @@ export const convert_format = (fmt, value) => {
     // return temp_format
 
     //USING FIXED SSF INSTEAD
-    return SSF.format(fmt, value).trim()
+    try {
+        return SSF.format(fmt, value).trim()
+    } catch {
+        return SSF.format('General', value).trim()
+    }
 }
 
 export const fixFormat = (ws) => {
@@ -70,5 +74,10 @@ export const getMinfromKey = (list, key) => {
 
 export function between(x, min, max) {
     return x >= min && x <= max;
+}
+
+export function myRound(value) {
+    const dp = 5
+    return parseFloat(value.toFixed(dp))
 }
 

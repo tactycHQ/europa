@@ -1,11 +1,5 @@
 import React, {useState, useEffect} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import SaveAltIcon from '@material-ui/icons/SaveAlt'
-import CloudUploadIcon from '@material-ui/icons/CloudUpload'
-import CloudDownloadSharpIcon from '@material-ui/icons/CloudDownloadSharp'
-import Divider from "@material-ui/core/Divider";
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Select from "@material-ui/core/Select"
@@ -13,7 +7,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Paper from "@material-ui/core/Paper"
 import InputLabel from "@material-ui/core/InputLabel";
-import {between, convert_format} from "../utils/utils";
+import {between, convert_format, myRound} from "../utils/utils";
 
 
 export default function IOSelection(props) {
@@ -21,29 +15,28 @@ export default function IOSelection(props) {
         root: {
             display: 'flex',
             position: 'fixed',
-            height: '94vh',
+            height: '93vh',
             flexDirection: 'column',
-            alignContent: 'flex-start',
+            alignContent: 'center',
+            justifyContent: 'flex-start',
             backgroundColor: '#FEFEFD',
-            maxWidth: '15.0%',
-            minWidth: '15.0%',
+            width: '20.0%',
             overflowY: 'auto',
+            padding: '10px'
         },
-        content: {
+        selectionContainer: {
             display: 'flex',
             flexDirection: 'column',
             height: '100%',
-            justifyContent: 'space-between',
-            padding: '5px'
-            // paddingBottom:'10px'
-
+            width: '100%',
+            alignContent: 'center'
         },
         IOContainer: {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            // background: 'red',
-            height: '100%'
+            height: '100%',
+            // background:'blue'
         },
         divider: {
             backgroundColor: '#D7DEE2',
@@ -129,7 +122,7 @@ export default function IOSelection(props) {
             margin: '10px',
             background: '#D7DEE2',
             padding: '8px',
-            maxWidth: '100%'
+            // width: '100%'
         },
         selectButton: {
             fontSize: '0.8em',
@@ -139,22 +132,30 @@ export default function IOSelection(props) {
             background: '#006E9F',
             color: '#FEFEFD',
             margin: '5px',
-            width: '200px'
+            width: '100%'
+        },
+        rootTextContainer: {
+            display: 'flex',
+            // background:'green',
+            width: '100%'
         },
         textField: {
             fontSize: '0.85em',
             fontWeight: '100',
             fontFamily: 'Questrial',
+
         },
         labelField: {
-            fontSize: '1.2em',
+            fontSize: '1.0em',
             fontWeight: '100',
             fontFamily: 'Questrial',
             marginTop: '5px',
+            width: '100%',
+            // background:'yellow'
         },
         formControl: {
             // margin: theme.spacing(1),
-            width: 135,
+            width: "100%",
             marginTop: '10px'
         },
         stepSelect: {
@@ -191,10 +192,10 @@ export default function IOSelection(props) {
         const ub = bounds.ub * value
 
 
-        let incrementEl = createIncrementEl(value, lb, ub, numSteps)
         const labelSelector = createLabelSelector(address)
         const boundSelector = createBoundSelector(lb, ub, value, format)
         const stepSelector = createStepSelector()
+        let incrementEl = createIncrementEl(value, lb, ub, format)
 
         if (!between(value, lb, ub)) {
             incrementEl =
@@ -204,7 +205,7 @@ export default function IOSelection(props) {
 
 
         return (
-            <div key={address}>
+            <div className={classes.selectionContainer} key={address}>
                 {labelSelector}
                 <Paper className={classes.categoryContainer}>
                     {boundSelector}
@@ -230,11 +231,11 @@ export default function IOSelection(props) {
 
     const createBoundSelector = (lb, ub, value, format) => {
 
-        if (isNaN(lb)){
+        if (isNaN(lb)) {
             lb = '-'
         }
 
-        if (isNaN(ub)){
+        if (isNaN(ub)) {
             ub = '-'
         }
 
@@ -242,8 +243,8 @@ export default function IOSelection(props) {
             <>
                 <TextField
                     id="lb"
-                    className={classes.textField}
-                    label="Lower Bound"
+                    className={classes.rootTextContainer}
+                    label={"Lower Bound: " + convert_format(format, lb)}
                     size="small"
                     InputLabelProps={{
                         className: classes.labelField
@@ -253,12 +254,13 @@ export default function IOSelection(props) {
                             input: classes.textField
                         }
                     }}
-                    defaultValue={lb}
+                    defaultValue={myRound(lb)}
                     onChange={e => boundHandler(e, "lb", value)}
                 />
                 <TextField
-                    className={classes.textField}
-                    label="Upper Bound"
+                    id="ub"
+                    className={classes.rootTextContainer}
+                    label={"Upper Bound: " + convert_format(format, ub)}
                     size="small"
                     InputLabelProps={{
                         className: classes.labelField
@@ -268,7 +270,7 @@ export default function IOSelection(props) {
                             input: classes.textField
                         }
                     }}
-                    defaultValue={ub}
+                    defaultValue={myRound(ub)}
                     onChange={e => boundHandler(e, "ub", value)}
                 />
             </>
@@ -292,12 +294,9 @@ export default function IOSelection(props) {
                     <MenuItem classes={{root: classes.stepItem}} value={2}>2</MenuItem>
                     <MenuItem classes={{root: classes.stepItem}} value={3}>3</MenuItem>
                     <MenuItem classes={{root: classes.stepItem}} value={4}>4</MenuItem>
-                    <MenuItem classes={{root: classes.stepItem}} value={5}>5</MenuItem>
+                    <MenuItem classes={{root: classes.stepItem}} value={5}>5 (default)</MenuItem>
                     <MenuItem classes={{root: classes.stepItem}} value={6}>6</MenuItem>
                     <MenuItem classes={{root: classes.stepItem}} value={7}>7</MenuItem>
-                    <MenuItem classes={{root: classes.stepItem}} value={8}>8</MenuItem>
-                    <MenuItem classes={{root: classes.stepItem}} value={9}>9</MenuItem>
-                    <MenuItem classes={{root: classes.stepItem}} value={10}>10</MenuItem>
                 </Select>
             </FormControl>
         )
@@ -308,23 +307,62 @@ export default function IOSelection(props) {
         setNumSteps(e.target.value)
     }
 
-    const createIncrementEl = (value, lb, ub) => {
+    const createIncrementEl = (value, lb, ub, format) => {
+
         const increments = computeSteps(value, lb, ub)
+
         const incrEls = increments.map((v, idx) => {
-            return (
-                <TextField
-                    key={v + idx.toString()}
-                    defaultValue={v}
-                    InputLabelProps={{
-                        className: classes.labelField
-                    }}
-                    InputProps={{
-                        classes: {
-                            input: classes.textField
-                        }
-                    }}
-                />
-            )
+
+            if (v === value) {
+                return (
+                    <TextField
+                        // id="incr"
+                        className={classes.rootTextContainer}
+                        key={v + idx.toString()}
+                        label={"Model: " + convert_format(format, v)}
+                        value={v}
+                        size="small"
+                        InputLabelProps={{
+                            style: {
+                                color: '#006E9F',
+                                fontSize: '1.0em',
+                                fontWeight: '200',
+                                fontFamily: 'Questrial',
+                                marginTop: '5px',
+                                width: '100%',
+                            }
+                        }}
+                        InputProps={{
+                            style: {
+                                color: '#006E9F',
+                                fontSize: '0.85em',
+                                fontWeight: '200',
+                                fontFamily: 'Questrial',
+                            }
+                        }}
+                    />
+                )
+            } else {
+
+                return (
+                    <TextField
+                        // id="incr"
+                        className={classes.rootTextContainer}
+                        key={v + idx.toString()}
+                        label={convert_format(format, v)}
+                        defaultValue={v}
+                        size="small"
+                        InputLabelProps={{
+                            className: classes.labelField
+                        }}
+                        InputProps={{
+                            classes: {
+                                input: classes.textField
+                            }
+                        }}
+                    />
+                )
+            }
         })
 
         return (
@@ -338,8 +376,8 @@ export default function IOSelection(props) {
         return (
             <Paper className={classes.categoryContainer}>
                 <TextField
-                    className={classes.textField}
                     required id="standard-required"
+                    className={classes.rootTextContainer}
                     label="Input Name"
                     size="small"
                     InputLabelProps={{
@@ -372,12 +410,12 @@ export default function IOSelection(props) {
         const index = range(0, numSteps - 1)
 
         const incr = index.map((i) => {
-                return parseFloat((lb + steps * i).toFixed(5))
+                return myRound(lb + steps * i)
             }
         )
 
         if (incr.includes(value)) {
-            return incr.sort()
+            return incr
         } else {
             return addAndSort(incr, value)
         }
@@ -408,11 +446,16 @@ export default function IOSelection(props) {
                 Select an input cell in the spreadsheet. <br/><br/>
 
                 These are hardcoded cells that
-                are typically key model assumptions that drive the rest of the model.<br/><br/>
+                are typically key model assumptions that drive the rest of the model. For e.g., <em>Annual Growth
+                Rate</em> or <em>Profit Margin</em><br/><br/>
 
-                For e.g., <em>Annual Growth Rate</em> or <em>Profit Margin</em><br/><br/>
+                Please note that the input cell <strong>must</strong> be a number and cannot be a text or date
+                cell.<br/><br/>
 
-                Please note that the input cell <em>must</em> be a number and cannot be a text or date cell.
+                After selecting each input, click <em>Next Input</em> to define another input. A maximum of 5
+                inputs can be selected in total.<br/><br/>
+
+                Click <em>Done with Inputs</em> to start selecting outputs.
             </h3>
         )
         selectedCells = null
@@ -420,36 +463,17 @@ export default function IOSelection(props) {
 
     return (
         <div className={classes.root}>
-            <div className={classes.content}>
-                <div className={classes.IOContainer}>
-                    <div className={classes.selectHeader}>
-                        <h3 className={classes.selectText}>Define Model Inputs</h3>
-                        {instructions}
-                    </div>
-                    <div>{selectedCells}</div>
-                    <Button className={classes.selectButton} variant="contained" color="secondary" size="small">
-                        Next Input
-                    </Button>
-                    <Button className={classes.selectButton} variant="contained" color="secondary" size="small">
-                        Done with all inputs
-                    </Button>
-                </div>
-                <List component="nav" aria-label="main mailbox folders">
-                    <Divider variant="middle" className={classes.divider}/>
-                    <ListItem className={classes.buttons} button={true}>
-                        <CloudUploadIcon className={classes.icon}/>
-                        <div className={classes.buttonLabel}>Upload New Model Excel</div>
-                    </ListItem>
-                    <ListItem className={classes.buttons} button={true}>
-                        <CloudDownloadSharpIcon className={classes.icon}/>
-                        <div className={classes.buttonLabel}>Download Model Excel</div>
-                    </ListItem>
-                    <ListItem className={classes.saveButton} button={true}>
-                        <SaveAltIcon className={classes.icon}/>
-                        <div className={classes.buttonLabel}>Save Dashboard</div>
-                    </ListItem>
-                </List>
+            <div className={classes.selectHeader}>
+                <h3 className={classes.selectText}>Define Model Inputs</h3>
+                {instructions}
             </div>
+            {selectedCells}
+            <Button className={classes.selectButton} variant="contained" color="secondary" size="small">
+                Next Input
+            </Button>
+            <Button className={classes.selectButton} variant="contained" color="secondary" size="small">
+                Done with all inputs
+            </Button>
         </div>
     )
 }
