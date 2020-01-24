@@ -22,26 +22,28 @@ export default function Spreadsheet(props) {
             position: 'fixed',
             top: 35,
             padding: '2px',
+            paddingBottom:'0px',
             backgroundColor: '#FEFEFD',
             // backgroundColor: 'red',
             width: '100%'
         },
         sheet: {
             display: 'flex',
-            background: '#3DA32D',
+            background: '#4F545A',
             margin: '2px',
             marginBottom: '0px',
             padding: '8px',
             paddingTop:'2px',
             paddingBottom:'0px',
-            fontSize: '0.85em',
+            fontSize: '0.7em',
             fontFamily: 'Questrial',
-            color: '#F4F9E9'
+            color: '#F4F9E9',
+            borderRadius: "5px 5px 0px 0px"
         },
         spreadsheet: {
             display: 'flex',
             border: 'solid',
-            marginTop:'26px',
+            marginTop:'22px',
             borderWidth: '1px',
             borderColor: '#D0D3D6',
             background: '#F8F8F7',
