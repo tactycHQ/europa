@@ -90,7 +90,7 @@ export default function Content(props) {
             <div className={classes.content}>
                 <IOSelection
                     outputs={props.outputs}
-                    sheetName={props.sheetName}
+                    currSheet={props.currSheet}
                     clickedCells={props.clickedCells}
                 />
                 <Switch>
@@ -101,6 +101,8 @@ export default function Content(props) {
                             worksheet={props.worksheet}
                             clickedCells={props.clickedCells}
                             addClickedCell={props.addClickedCell}
+                            sheets={props.sheets}
+                            handleSheetChange={props.handleSheetChange}
                         />
                     </Route>
                 </Switch>

@@ -99,7 +99,7 @@ export const getVarianceAnalysis = async () => {
     return result
 }
 
-export const loadFile = async (sheetName) => {
+export const loadFile = async (sheetName,setSheets) => {
 
     const api_url = "http://localhost:5000/downloadFile"
     const headers = {
@@ -112,28 +112,24 @@ export const loadFile = async (sheetName) => {
             filename: "lpi.xlsx"
         })
     }
-    let ws
 
     try {
 
         const ab = await fetch(api_url, headers)
             .then(res => res.arrayBuffer())
 
-         const wb = read(ab, {
-                        type: "array",
-                        raw: true,
-                        cellStyles: true,
-                        cellNF: false,
-                        cellText: false,
-                        showGridLines: false
-                    }
-                )
+        const wb = read(ab, {
+                type: "array",
+                raw: true,
+                cellStyles: true,
+                cellNF: false,
+                cellText: false,
+                showGridLines: false
+            }
+        )
 
-        ws = wb.Sheets[sheetName]
-        ws["!gridlines"] = false;
-        return ws
-    }
-    catch (error) {
+        return wb
+    } catch (error) {
         return "Unable to load file"
     }
 }

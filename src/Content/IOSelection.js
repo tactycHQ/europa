@@ -182,10 +182,10 @@ export default function IOSelection(props) {
         setBounds({lb: 0.9, ub: 1.1})
     }, [props.clickedCells])
 
+
     const renderClickedcells = () => {
 
-
-        const address = props.sheetName + '!' + props.clickedCells.address
+        const address = props.clickedCells.address
         const value = props.clickedCells.value
         const format = props.clickedCells.format
         const lb = bounds.lb * value

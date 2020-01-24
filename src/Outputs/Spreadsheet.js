@@ -2,34 +2,50 @@ import React, {useRef, useEffect} from "react";
 import {utils} from "@sheet/core";
 import {makeStyles} from '@material-ui/core/styles'
 import {myRound} from "../utils/utils";
+import {Card, Button} from "@material-ui/core";
 
 // import ssf from "../utils/fixformats"
 
 export default function Spreadsheet(props) {
     const useStyles = makeStyles(theme => ({
-        sheetContainer: {
+        topContainer: {
             display: 'flex',
             width: '100%',
             height: '95vh',
             marginLeft: '20%',
             justifyContent: 'flex-start',
-            background: 'yellow'
+            background: '#FEFEFD'
             // alignItems:'center'
+        },
+        sheetContainer: {
+            display: 'flex',
+            position: 'fixed',
+            top: 35,
+            padding: '2px',
+            backgroundColor: '#FEFEFD',
+            // backgroundColor: 'red',
+            width: '100%'
+        },
+        sheet: {
+            display: 'flex',
+            background: '#3DA32D',
+            margin: '2px',
+            marginBottom: '0px',
+            padding: '8px',
+            paddingTop:'2px',
+            paddingBottom:'0px',
+            fontSize: '0.85em',
+            fontFamily: 'Questrial',
+            color: '#F4F9E9'
         },
         spreadsheet: {
             display: 'flex',
             border: 'solid',
+            marginTop:'26px',
             borderWidth: '1px',
             borderColor: '#D0D3D6',
             background: '#F8F8F7',
             cursor: 'cell',
-            // margin: '5px',
-            // width:'100%',
-            // marginLeft: '20%'
-            // height:'100%',
-            // marginBottom:'50vh'
-            // overflowX:'scroll',
-            // borderColor: 'red'
         }
     }))
     const classes = useStyles()
@@ -48,7 +64,7 @@ export default function Spreadsheet(props) {
 
     const getValue = (newCell) => {
         if (worksheet.hasOwnProperty(newCell) && worksheet[newCell].hasOwnProperty('v')) {
-            return  myRound(worksheet[newCell].v)
+            return myRound(worksheet[newCell].v)
         } else {
             return 0
         }
@@ -68,10 +84,6 @@ export default function Spreadsheet(props) {
 
         let newCell = e.target.id.replace("sjs-", "")
 
-        if (props.clickedCells.hasOwnProperty('address')) {
-            worksheet[props.clickedCells.address].s.fgColor.rgb = props.clickedCells.oldColor
-        }
-
         if (worksheet.hasOwnProperty(newCell)) {
             let oldColor = getOldColor(newCell)
             let v = getValue(newCell)
@@ -79,14 +91,13 @@ export default function Spreadsheet(props) {
             props.addClickedCell(newCell, oldColor, v, format)
             worksheet[newCell].s.fgColor = {rgb: "FCCA46"}
         }
-
-
     }
 
+    const onSheetClick = (e, sheet) => {
+        props.handleSheetChange(sheet)
+    }
 
     useEffect(() => {
-
-
         const createHTML = () => {
             let html = utils.sheet_to_html(worksheet); // first worksheet HTML
             html = html.replace("border-color:black", "border-color:#F1F2EF")
@@ -98,13 +109,25 @@ export default function Spreadsheet(props) {
     }, [worksheet, props.clickedCells])
 
 
+    const createSheets = () => {
+        return props.sheets.map(sheet => {
+            return (<Button key={sheet} className={classes.sheet} onClick={e => onSheetClick(e, sheet)}>{sheet}</Button>)
+        })
+    }
+
+    const sheets = createSheets()
+
+
     return (
-        <div className={classes.sheetContainer}>
+        <div className={classes.topContainer}>
             <div
                 className={classes.spreadsheet}
                 ref={sheetEl}
                 onClick={(evt) => onMouseClick(evt)}
             />
+            <Card className={classes.sheetContainer} elevation={0} square={true}>
+                {sheets}
+            </Card>
         </div>
     )
 }

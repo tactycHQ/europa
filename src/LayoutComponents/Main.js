@@ -54,8 +54,10 @@ export default function Main(props) {
     const [charts, setCharts] = useState(null)
     const [dashName, setDashName] = useState('')
     const [mode, setMode] = useState('')
+    const [wb, setwb] = useState(null)
+    const [sheets, setSheets] = useState([])
     const [worksheet, setWorksheet] = useState(false)
-    const [sheetName, setSheetName] = useState("Quarterly")
+    const [currSheet, setCurrSheet] = useState(null)
     const [clickedCells, setClickedCell] = useState({})
 
     //----------------Modes-------------------
@@ -64,7 +66,6 @@ export default function Main(props) {
     //3  Calc - I/O selection complete. Generate calcs. When complete auto-save and set mode to Loaded
     //4  Existing - This is an existing dashboard that needs loading. Pending API call to get solutions
     //5  Loaded - All data is complete. Entire dashboard can be loaded
-
 
 
     // console.log(mode)
@@ -103,8 +104,10 @@ export default function Main(props) {
         }
 
         const executeNewAPIcalls = async () => {
-            const ws_data = await loadFile(sheetName)
-            setWorksheet(fixFormat(ws_data))
+            const wb = await loadFile(setSheets)
+            setwb(wb)
+            setSheets(Object.keys(wb.Sheets))
+            setCurrSheet(Object.keys(wb.Sheets)[0])
             setMode('ready')
         }
 
@@ -116,8 +119,17 @@ export default function Main(props) {
             executeNewAPIcalls()
         }
 
-    }, [mode, dashid, sheetName])
+    }, [mode, dashid])
     //
+
+    useEffect(() => {
+        if (wb && currSheet) {
+            const currws = wb.Sheets[currSheet]
+            currws["!gridlines"] = false
+            setWorksheet(fixFormat(currws))
+        }
+
+    }, [wb, currSheet])
 
 
     // useEffect(() => {
@@ -138,13 +150,25 @@ export default function Main(props) {
     //     // console.log(JSON.parse(sessionStorage.getItem("dashName")) || 'nothing')
     // }, [mode, dashid, dashName, solutions, currInputVal, distributions, formats, inputs, charts, cases, outputs])
 
-    const addClickedCell = (newCell, oldColor, value,format) => {
+    const addClickedCell = (newCell, oldColor, value, format) => {
+
+
+        //Remove prior clicked cell and rest to old color
+        if (clickedCells.hasOwnProperty('address')) {
+            wb.Sheets[clickedCells.sheet][clickedCells.raw].s.fgColor.rgb = clickedCells.oldColor
+        }
+
+        //Set new clicked cell
         setClickedCell({
-                    address: newCell,
-                    oldColor: oldColor,
-                    value: value,
-                    format:format
-            })
+            address: currSheet + '!' + newCell,
+            sheet: currSheet,
+            raw: newCell,
+            oldColor: oldColor,
+            value: value,
+            format: format
+        })
+
+
     }
 
     // Defining functions
@@ -157,6 +181,10 @@ export default function Main(props) {
 
     const handleCaseChange = event => {
         setcurrInputVal(cases[0][event.target.value])
+    }
+
+    const handleSheetChange = (sheet) => {
+        setCurrSheet(sheet)
     }
 
     const createContent = () => {
@@ -174,12 +202,15 @@ export default function Main(props) {
                 charts={charts}
                 cases={cases}
                 worksheet={worksheet}
+                sheets={sheets}
             />
         } else if (mode === 'ready') {
             return <Content
                 mode={mode}
                 worksheet={worksheet}
-                sheetName={sheetName}
+                sheets={sheets}
+                currSheet={currSheet}
+                handleSheetChange={handleSheetChange}
                 clickedCells={clickedCells}
                 addClickedCell={addClickedCell}
             />
