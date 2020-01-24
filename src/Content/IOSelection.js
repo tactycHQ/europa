@@ -1,5 +1,4 @@
-import React, {useState, useEffect} from 'react'
-import {makeStyles} from '@material-ui/core/styles'
+between()import {makeStyles} from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import SaveAltIcon from '@material-ui/icons/SaveAlt'
@@ -177,6 +176,7 @@ export default function IOSelection(props) {
 
     useEffect(() => {
         setNumSteps(5)
+        setBounds({lb: 0.9, ub: 1.1})
     },[props.clickedCells])
 
     const renderClickedcells = () => {
