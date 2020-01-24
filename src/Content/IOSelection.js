@@ -13,7 +13,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Paper from "@material-ui/core/Paper"
 import InputLabel from "@material-ui/core/InputLabel";
-import {between} from "../utils/utils";
+import {between, convert_format} from "../utils/utils";
 
 
 export default function IOSelection(props) {
@@ -175,62 +175,48 @@ export default function IOSelection(props) {
     const [numSteps, setNumSteps] = useState(5)
     const [bounds, setBounds] = useState({lb: 0.9, ub: 1.1})
 
+
     useEffect(() => {
         setNumSteps(5)
         setBounds({lb: 0.9, ub: 1.1})
-    },[props.clickedCells])
+    }, [props.clickedCells])
 
     const renderClickedcells = () => {
 
-        const selectedCells = Object.keys(props.clickedCells).reduce((acc, cell) => {
-            if (props.clickedCells[cell].to_add === true) {
-                acc.push({[props.sheetName + '!' + cell]: props.clickedCells[cell].value})
-            }
-            return acc
-        }, [])
 
-        if (selectedCells.length > 1) {
-            return (
-                <h3 className={classes.selectNote} style={{color: 'red', margin: '10px'}}>Please select 1 cell only. You
-                    can select another input cell after
-                    completing definition for this input</h3>
-            )
-        } else {
-
-            return selectedCells.map((cell, idx) => {
-                const cellData = Object.entries(cell)
-                const address = cellData[0][0]
-                const value = cellData[0][1]
-                const lb = bounds.lb * value
-                const ub = bounds.ub * value
-
-                let incrementEl = createIncrementEl(value, lb, ub, numSteps)
-                const labelSelector = createLabelSelector(address)
-                const boundSelector = createBoundSelector(lb, ub, value)
-                const stepSelector = createStepSelector()
-
-                if (!between(value, lb, ub)) {
-                    incrementEl =
-                        <h3 className={classes.selectNote} style={{color: 'red', margin: '10px'}}>Bounds must include current cell value</h3>
-                }
+        const address = props.sheetName + '!' + props.clickedCells.address
+        const value = props.clickedCells.value
+        const format = props.clickedCells.format
+        const lb = bounds.lb * value
+        const ub = bounds.ub * value
 
 
-                return (
-                    <div key={props.sheetName + cellData[0] + idx}>
-                        <div className={classes.selectHeader}>
-                            <h3 className={classes.selectNote}>Cell: {address}</h3>
-                            <h3 className={classes.selectNote}>Current Model Value: {value}</h3>
-                        </div>
-                        {labelSelector}
-                        <Paper className={classes.categoryContainer}>
-                            {boundSelector}
-                            {stepSelector}
-                        </Paper>
-                        {incrementEl}
-                    </div>
-                )
-            })
+        let incrementEl = createIncrementEl(value, lb, ub, numSteps)
+        const labelSelector = createLabelSelector(address)
+        const boundSelector = createBoundSelector(lb, ub, value, format)
+        const stepSelector = createStepSelector()
+
+        if (!between(value, lb, ub)) {
+            incrementEl =
+                <h3 className={classes.selectNote} style={{color: 'red', margin: '10px'}}>Bounds must include current
+                    cell value</h3>
         }
+
+
+        return (
+            <div key={address}>
+                <div className={classes.selectHeader}>
+                    <h3 className={classes.selectNote}>Cell: {address}</h3>
+                    <h3 className={classes.selectNote}>Current Model Value: {convert_format(format, value)}</h3>
+                </div>
+                {labelSelector}
+                <Paper className={classes.categoryContainer}>
+                    {boundSelector}
+                    {stepSelector}
+                </Paper>
+                {incrementEl}
+            </div>
+        )
     }
 
     const boundHandler = (e, type, value) => {
@@ -246,7 +232,7 @@ export default function IOSelection(props) {
         }
     }
 
-    const createBoundSelector = (lb, ub, value) => {
+    const createBoundSelector = (lb, ub, value, format) => {
         return (
             <>
                 <TextField
@@ -373,7 +359,7 @@ export default function IOSelection(props) {
 
     const computeSteps = (value, lb, ub) => {
 
-        if (numSteps===1) {
+        if (numSteps === 1) {
             return [value]
         }
 
@@ -406,8 +392,12 @@ export default function IOSelection(props) {
         return arr;
     }
 
-
-    const selectedCells = renderClickedcells()
+    let selectedCells
+    if (props.clickedCells.hasOwnProperty("address")) {
+        selectedCells = renderClickedcells()
+    } else {
+        selectedCells = null
+    }
 
     return (
         <div className={classes.root}>

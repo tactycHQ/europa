@@ -134,14 +134,12 @@ export default function Main(props) {
     //     // console.log(JSON.parse(sessionStorage.getItem("dashName")) || 'nothing')
     // }, [mode, dashid, dashName, solutions, currInputVal, distributions, formats, inputs, charts, cases, outputs])
 
-    const addClickedCell = (newCell, oldColor, to_add, value) => {
+    const addClickedCell = (newCell, oldColor, value,format) => {
         setClickedCell({
-                ...clickedCells,
-                [newCell]: {
-                    to_add: to_add,
-                    old_color: oldColor,
-                    value: value
-                }
+                    address: newCell,
+                    oldColor: oldColor,
+                    value: value,
+                    format:format
             })
     }
 

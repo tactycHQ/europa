@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from "react";
+import React, {useRef, useEffect, useState} from "react";
 import {read, utils} from "@sheet/core";
 import {makeStyles} from '@material-ui/core/styles'
 
@@ -34,7 +34,6 @@ export default function Spreadsheet(props) {
     const classes = useStyles()
     const sheetEl = useRef(null)
     const worksheet = props.worksheet
-    console.log(props.clickedCells)
 
 
     const getOldColor = (newCell) => {
@@ -54,28 +53,33 @@ export default function Spreadsheet(props) {
         }
     }
 
-
+    const getFormat = (newCell) => {
+        if (worksheet.hasOwnProperty(newCell) && worksheet[newCell].hasOwnProperty('z')) {
+            return worksheet[newCell].z
+        } else {
+            return 'General'
+        }
+    }
 
     const onMouseClick = (e) => {
         e.persist()
 
-        let oldColor
-        let to_add
-        let v
-        let newCell = e.target.id.replace("sjs-", "")
 
-        if (newCell in props.clickedCells) {
-            to_add = !props.clickedCells[newCell].to_add
-            oldColor = props.clickedCells[newCell].old_color
-            v = getValue(newCell)
-        } else {
-            to_add = true
-            oldColor = getOldColor(newCell)
-            v = getValue(newCell)
+        let newCell = e.target.id.replace("sjs-", "")
+        let oldColor = getOldColor(newCell)
+        let v = getValue(newCell)
+        let format = getFormat(newCell)
+
+        // if (props.clickedCells !== {} && props.clickedCells.address === newCell) {
+        //     setToFixColor(props.clickedCells)
+
+        if (props.clickedCells.hasOwnProperty('address')) {
+            worksheet[props.clickedCells.address].s.fgColor.rgb = props.clickedCells.oldColor
         }
 
         if (worksheet.hasOwnProperty(newCell)) {
-            props.addClickedCell(newCell,oldColor,to_add, v)
+            props.addClickedCell(newCell, oldColor, v, format)
+            worksheet[newCell].s.fgColor = {rgb: "FCCA46"}
         }
     }
 
@@ -86,16 +90,6 @@ export default function Spreadsheet(props) {
             html = html.replace("border-color:black", "border-color:#F1F2EF")
             html = html.replace("border:1px", "border:1px")
             return html
-        }
-
-        if (props.clickedCells && Object.keys(props.clickedCells).every(cell => worksheet.hasOwnProperty(cell))) {
-            for (const cell in props.clickedCells) {
-                if (props.clickedCells[cell].to_add === true) {
-                    worksheet[cell].s.fgColor = {rgb: "FCCA46"}
-                } else {
-                    worksheet[cell].s.fgColor = {rgb: props.clickedCells[cell].old_color}
-                }
-            }
         }
 
         sheetEl.current.innerHTML = createHTML(worksheet)
