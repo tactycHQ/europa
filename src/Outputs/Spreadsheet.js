@@ -97,6 +97,7 @@ export default function Spreadsheet(props) {
                 }
             }
         }
+
         sheetEl.current.innerHTML = createHTML(worksheet)
     }, [worksheet, props.clickedCells])
 
