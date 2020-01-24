@@ -6,8 +6,7 @@ import TopBar from "./TopBar"
 import Spinner from "../Other/Spinner"
 import {getSolutions, getMetaData, getFormats, loadFile} from "../api/api"
 import {Switch, Route} from 'react-router-dom'
-import Spreadsheet from "../Outputs/Spreadsheet";
-import {fixformats} from "../utils/utils";
+import {fixFormat} from "../utils/utils";
 
 
 function extractDefaults(values) {
@@ -101,7 +100,7 @@ export default function Main(props) {
 
         const executeNewAPIcalls = async () => {
             const ws_data = await loadFile(sheetName)
-            setWorksheet(ws_data)
+            setWorksheet(fixFormat(ws_data))
             setAPIData(true)
         }
 

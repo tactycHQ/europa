@@ -1,8 +1,7 @@
-import React, {useRef, useEffect, useState} from "react";
+import React, {useRef, useEffect} from "react";
 import {read, utils} from "@sheet/core";
 import {makeStyles} from '@material-ui/core/styles'
-import Card from "@material-ui/core/Card";
-import {convert_format} from "../utils/utils";
+
 // import ssf from "../utils/fixformats"
 
 export default function Spreadsheet(props) {
@@ -35,6 +34,8 @@ export default function Spreadsheet(props) {
     const classes = useStyles()
     const sheetEl = useRef(null)
     const worksheet = props.worksheet
+    console.log(props.clickedCells)
+
 
     const getOldColor = (newCell) => {
         if (worksheet.hasOwnProperty(newCell) && worksheet[newCell].hasOwnProperty('s') && worksheet[newCell]['s'].hasOwnProperty('fgColor')) {
@@ -44,6 +45,15 @@ export default function Spreadsheet(props) {
         }
 
     }
+
+    const getValue = (newCell) => {
+        if (worksheet.hasOwnProperty(newCell) && worksheet[newCell].hasOwnProperty('v')) {
+            return worksheet[newCell].v
+        } else {
+            return 0
+        }
+    }
+
 
 
     const onMouseClick = (e) => {
@@ -57,11 +67,11 @@ export default function Spreadsheet(props) {
         if (newCell in props.clickedCells) {
             to_add = !props.clickedCells[newCell].to_add
             oldColor = props.clickedCells[newCell].old_color
-            v = worksheet[newCell].v
+            v = getValue(newCell)
         } else {
             to_add = true
             oldColor = getOldColor(newCell)
-            v = worksheet[newCell].v
+            v = getValue(newCell)
         }
 
         if (worksheet.hasOwnProperty(newCell)) {

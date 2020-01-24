@@ -24,10 +24,9 @@ export const convert_format = (fmt, value) => {
     return SSF.format(fmt, value)
 }
 
-const fixFormat = (ws) => {
+export const fixFormat = (ws) => {
     Object.keys(ws).forEach(function (address) {
         if (ws[address].hasOwnProperty('z') && ws[address].hasOwnProperty('v')) {
-            // ws[address].w = convert_format(ws[address].z, ws[address].v)
             ws[address].w = convert_format(ws[address].z, ws[address].v)
         }
     })
