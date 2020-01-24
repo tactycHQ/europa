@@ -31,7 +31,7 @@ export default function Content(props) {
     const classes = useStyles()
     let contentEl
 
-    if (props.mode === 'existing') {
+    if (props.mode === 'loaded') {
         contentEl = (
             <div className={classes.content}>
                 <SideBar className={classes.sidebar} outputs={props.outputs}/>

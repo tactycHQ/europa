@@ -54,14 +54,18 @@ export default function Main(props) {
     const [charts, setCharts] = useState(null)
     const [dashName, setDashName] = useState('')
     const [mode, setMode] = useState('')
-    const [apiData, setAPIData] = useState(false)
     const [worksheet, setWorksheet] = useState(false)
     const [sheetName, setSheetName] = useState("Quarterly")
     const [clickedCells, setClickedCell] = useState({})
 
-    //2 modes
-    //New - a new dashboard is to be created. Dash id and filename have been provided
-    //Existing - load an existing dashboard from dash id
+    //----------------Modes-------------------
+    //1. New - a new dashboard is to be created. Dash id and filename have been provided
+    //2. Ready - file has been loaded. Pending user I/O selection
+    //3  Calc - I/O selection complete. Generate calcs. When complete auto-save and set mode to Loaded
+    //4  Existing - This is an existing dashboard that needs loading. Pending API call to get solutions
+    //5  Loaded - All data is complete. Entire dashboard can be loaded
+
+
 
     // console.log(mode)
     // console.log(dashid)
@@ -95,16 +99,16 @@ export default function Main(props) {
             setcurrInputVal(defaults[0])
             setOutputs(metadata.outputs)
             setCharts(metadata.charts)
-            setAPIData(true)
+            setMode('loaded')
         }
 
         const executeNewAPIcalls = async () => {
             const ws_data = await loadFile(sheetName)
             setWorksheet(fixFormat(ws_data))
-            setAPIData(true)
+            setMode('ready')
         }
 
-        if (mode === 'existing' && !apiData) {
+        if (mode === 'existing') {
             executeExistingAPIcalls(dashid)
         }
 
@@ -112,7 +116,7 @@ export default function Main(props) {
             executeNewAPIcalls()
         }
 
-    }, [mode, dashid, apiData, sheetName])
+    }, [mode, dashid, sheetName])
     //
 
 
@@ -143,8 +147,6 @@ export default function Main(props) {
             })
     }
 
-
-
     // Defining functions
     const handleSliderChange = (event, newValue, setAddress) => {
         setcurrInputVal(prevState => ({
@@ -158,7 +160,7 @@ export default function Main(props) {
     }
 
     const createContent = () => {
-        if (apiData && mode === 'existing') {
+        if (mode === 'loaded') {
             return <Content
                 mode={mode}
                 handleSliderChange={handleSliderChange}
@@ -173,7 +175,7 @@ export default function Main(props) {
                 cases={cases}
                 worksheet={worksheet}
             />
-        } else if (apiData && mode === 'new') {
+        } else if (mode === 'ready') {
             return <Content
                 mode={mode}
                 worksheet={worksheet}
@@ -192,7 +194,6 @@ export default function Main(props) {
         return <Home
             setMode={setMode}
             setDashid={setDashid}
-            setAPIdata={setAPIData}
             setDashName={setDashName}
         />
     }

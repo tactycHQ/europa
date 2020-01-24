@@ -48,7 +48,6 @@ export default function Home(props) {
     const newDash = () => {
         props.setDashid(20)
         props.setMode('new')
-        props.setAPIdata(false)
         props.setDashName('')
 
     }
@@ -56,7 +55,6 @@ export default function Home(props) {
     const openDash = (dash_id) => {
         props.setDashid(dash_id)
         props.setMode('existing')
-        props.setAPIdata(false)
         props.setDashName('')
     }
 
