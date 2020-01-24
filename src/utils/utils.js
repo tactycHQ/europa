@@ -95,3 +95,20 @@ export function addAndSort(arr, val) {
     return arr;
 }
 
+export const createBounds  = (value, lb_ratio, ub_ratio) => {
+            let _lb
+            let _ub
+            if (value < 0) {
+                _lb = ub_ratio*value
+                _ub = lb_ratio*value
+            } else if (value === 0) {
+                _lb = 0
+                _ub = 1
+            }
+            else {
+                _lb = lb_ratio*value
+                _ub = ub_ratio*value
+            }
+            return [_lb, _ub]
+        }
+

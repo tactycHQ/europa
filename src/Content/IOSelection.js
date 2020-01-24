@@ -7,7 +7,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Paper from "@material-ui/core/Paper"
 import InputLabel from "@material-ui/core/InputLabel";
-import {between, convert_format, myRound, addAndSort, range} from "../utils/utils";
+import {between, convert_format, myRound, addAndSort, range, createBounds} from "../utils/utils";
 
 
 export default function IOSelection(props) {
@@ -170,12 +170,36 @@ export default function IOSelection(props) {
 
     const [numSteps, setNumSteps] = useState(5)
     const [bounds, setBounds] = useState({lb: 0.9, ub: 1.1})
+    const [incr, setIncr] = useState([])
 
     //Hooks
     useEffect(() => {
         setNumSteps(5)
-        setBounds({lb: 0.9, ub: 1.1})
+        setBounds({lb_ratio: 0.9, ub_ratio: 1.1})
+        const computeSteps = (value, lb, ub, n_steps) => {
+
+            if (n_steps === 1) {
+                return [value]
+            }
+
+            const steps = (ub - lb) / (n_steps - 1)
+            const index = range(0, n_steps - 1)
+
+            const incr = index.map((i) => {
+                    return myRound(lb + steps * i)
+                }
+            )
+
+            if (incr.includes(value)) {
+                return incr
+            } else {
+                return addAndSort(incr, value)
+            }
+        }
+        const default_bounds = createBounds(props.clickedCells.value, 0.9,1.1)
+        setIncr(() => computeSteps(props.clickedCells.value, default_bounds[0], default_bounds[1], 5))
     }, [props.clickedCells])
+
 
     //Functions
     const createIOPanel = () => {
@@ -183,8 +207,10 @@ export default function IOSelection(props) {
         const address = props.clickedCells.address
         const value = props.clickedCells.value
         const format = props.clickedCells.format
-        const lb = bounds.lb * value
-        const ub = bounds.ub * value
+
+        const default_bounds = createBounds(value,bounds.lb_ratio, bounds.ub_ratio)
+        const lb = default_bounds[0]
+        const ub = default_bounds[1]
 
 
         const labelSelector = createLabelSelector(address)
@@ -287,61 +313,64 @@ export default function IOSelection(props) {
 
     const createIncrementEl = (value, lb, ub, format) => {
 
-        const increments = computeSteps(value, lb, ub)
+        // const increments = computeSteps(value, lb, ub)
 
-        const incrEls = increments.map((v, idx) => {
+        const incrEls = incr.map((v, idx) => {
 
-            if (v === value) {
-                return (
-                    <TextField
-                        // id="incr"
-                        className={classes.rootTextContainer}
-                        key={v + idx.toString()}
-                        disabled
-                        label={"Model: " + convert_format(format, v)}
-                        value={v}
-                        size="small"
-                        InputLabelProps={{
-                            style: {
-                                color: '#006E9F',
-                                fontSize: '1.0em',
-                                fontWeight: '200',
-                                fontFamily: 'Questrial',
-                                marginTop: '5px',
-                                width: '100%',
-                            }
-                        }}
-                        InputProps={{
-                            style: {
-                                color: '#006E9F',
-                                fontSize: '0.85em',
-                                fontWeight: '100',
-                                fontFamily: 'Questrial',
-                                paddingBottom: '0px',
-                            }
-                        }}
-                    />
-                )
-            } else {
+            if (v) {
 
-                return (
-                    <TextField
-                        // id="incr"
-                        className={classes.rootTextContainer}
-                        key={v + idx.toString()}
-                        label={convert_format(format, v)}
-                        defaultValue={v}
-                        size="small"
-                        InputLabelProps={{
-                            className: classes.labelField
-                        }}
-                        InputProps={{
-                            classes: {
-                                input: classes.textField
-                            }
-                        }}
-                    />
-                )
+                if (v === value) {
+                    return (
+                        <TextField
+                            // id="incr"
+                            className={classes.rootTextContainer}
+                            key={v + idx.toString()}
+                            disabled
+                            label={"Model: " + convert_format(format, v)}
+                            value={v}
+                            size="small"
+                            InputLabelProps={{
+                                style: {
+                                    color: '#006E9F',
+                                    fontSize: '1.0em',
+                                    fontWeight: '200',
+                                    fontFamily: 'Questrial',
+                                    marginTop: '5px',
+                                    width: '100%',
+                                }
+                            }}
+                            InputProps={{
+                                style: {
+                                    color: '#006E9F',
+                                    fontSize: '0.85em',
+                                    fontWeight: '100',
+                                    fontFamily: 'Questrial',
+                                    paddingBottom: '0px',
+                                }
+                            }}
+                        />
+                    )
+                } else {
+
+                    return (
+                        <TextField
+                            // id="incr"
+                            className={classes.rootTextContainer}
+                            key={v + idx.toString()}
+                            label={convert_format(format, v)}
+                            defaultValue={v}
+                            size="small"
+                            InputLabelProps={{
+                                className: classes.labelField
+                            }}
+                            InputProps={{
+                                classes: {
+                                    input: classes.textField
+                                }
+                            }}
+                        />
+                    )
+                }
             }
         })
 
@@ -376,26 +405,6 @@ export default function IOSelection(props) {
 
     }
 
-    const computeSteps = (value, lb, ub) => {
-
-        if (numSteps === 1) {
-            return [value]
-        }
-
-        const steps = (ub - lb) / (numSteps - 1)
-        const index = range(0, numSteps - 1)
-
-        const incr = index.map((i) => {
-                return myRound(lb + steps * i)
-            }
-        )
-
-        if (incr.includes(value)) {
-            return incr
-        } else {
-            return addAndSort(incr, value)
-        }
-    }
 
     //Event Handlers
     const boundHandler = (e, type, value) => {
