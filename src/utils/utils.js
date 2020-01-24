@@ -21,7 +21,7 @@ export const convert_format = (fmt, value) => {
     // return temp_format
 
     //USING FIXED SSF INSTEAD
-    return SSF.format(fmt, value)
+    return SSF.format(fmt, value).trim()
 }
 
 export const fixFormat = (ws) => {

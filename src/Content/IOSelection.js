@@ -118,12 +118,12 @@ export default function IOSelection(props) {
             margin: '2px'
         },
         selectNote: {
-            fontSize: '0.8em',
+            fontSize: '0.9em',
             fontWeight: '100',
             paddingLeft: '5px',
             fontFamily: 'Questrial',
             color: '#292F36',
-            margin: '0px'
+            margin: '10px'
         },
         categoryContainer: {
             margin: '10px',
@@ -205,10 +205,6 @@ export default function IOSelection(props) {
 
         return (
             <div key={address}>
-                <div className={classes.selectHeader}>
-                    <h3 className={classes.selectNote}>Cell: {address}</h3>
-                    <h3 className={classes.selectNote}>Current Model Value: {convert_format(format, value)}</h3>
-                </div>
                 {labelSelector}
                 <Paper className={classes.categoryContainer}>
                     {boundSelector}
@@ -233,6 +229,15 @@ export default function IOSelection(props) {
     }
 
     const createBoundSelector = (lb, ub, value, format) => {
+
+        if (isNaN(lb)){
+            lb = '-'
+        }
+
+        if (isNaN(ub)){
+            ub = '-'
+        }
+
         return (
             <>
                 <TextField
@@ -335,7 +340,7 @@ export default function IOSelection(props) {
                 <TextField
                     className={classes.textField}
                     required id="standard-required"
-                    label="Label"
+                    label="Input Name"
                     size="small"
                     InputLabelProps={{
                         className: classes.labelField
@@ -393,9 +398,23 @@ export default function IOSelection(props) {
     }
 
     let selectedCells
+    let instructions
     if (props.clickedCells.hasOwnProperty("address")) {
         selectedCells = renderClickedcells()
+        instructions = null
     } else {
+        instructions = (
+            <h3 className={classes.selectNote}>
+                Select an input cell in the spreadsheet. <br/><br/>
+
+                These are hardcoded cells that
+                are typically key model assumptions that drive the rest of the model.<br/><br/>
+
+                For e.g., <em>Annual Growth Rate</em> or <em>Profit Margin</em><br/><br/>
+
+                Please note that the input cell <em>must</em> be a number and cannot be a text or date cell.
+            </h3>
+        )
         selectedCells = null
     }
 
@@ -404,8 +423,8 @@ export default function IOSelection(props) {
             <div className={classes.content}>
                 <div className={classes.IOContainer}>
                     <div className={classes.selectHeader}>
-                        <h3 className={classes.selectText}>Select Inputs</h3>
-                        <h3 className={classes.selectNote}>Click 1 cell at a time</h3>
+                        <h3 className={classes.selectText}>Define Model Inputs</h3>
+                        {instructions}
                     </div>
                     <div>{selectedCells}</div>
                     <Button className={classes.selectButton} variant="contained" color="secondary" size="small">
