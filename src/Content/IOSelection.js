@@ -7,7 +7,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Paper from "@material-ui/core/Paper"
 import InputLabel from "@material-ui/core/InputLabel";
-import {between, convert_format, myRound, addAndSort, range, createBounds} from "../utils/utils";
+import {between, convert_format, myRound, createBounds, computeSteps} from "../utils/utils";
 
 
 export default function IOSelection(props) {
@@ -168,62 +168,49 @@ export default function IOSelection(props) {
     }))
     const classes = useStyles()
 
+    const [address, setAddress] = useState('')
     const [numSteps, setNumSteps] = useState(5)
-    const [bounds, setBounds] = useState({lb: 0.9, ub: 1.1})
+    const [bounds, setBounds] = useState([])
     const [incr, setIncr] = useState([])
+    const [loaded, setLoaded] = useState(false)
+
 
     //Hooks
-    useEffect(() => {
-        setNumSteps(5)
-        setBounds({lb_ratio: 0.9, ub_ratio: 1.1})
-        const computeSteps = (value, lb, ub, n_steps) => {
-
-            if (n_steps === 1) {
-                return [value]
-            }
-
-            const steps = (ub - lb) / (n_steps - 1)
-            const index = range(0, n_steps - 1)
-
-            const incr = index.map((i) => {
-                    return myRound(lb + steps * i)
-                }
-            )
-
-            if (incr.includes(value)) {
-                return incr
-            } else {
-                return addAndSort(incr, value)
-            }
-        }
-        const default_bounds = createBounds(props.clickedCells.value, 0.9,1.1)
-        setIncr(() => computeSteps(props.clickedCells.value, default_bounds[0], default_bounds[1], 5))
-    }, [props.clickedCells])
 
 
     //Functions
+    useEffect(() => {
+
+        if (props.clickedCells.hasOwnProperty("address")) {
+
+            const default_value = props.clickedCells.value
+            const default_bounds = createBounds(default_value, 0.9, 1.1)
+            const default_increments = computeSteps(default_value, default_bounds[0], default_bounds[1], 5)
+
+            setAddress(props.clickedCells.address)
+            setNumSteps(5)
+            setBounds(default_bounds)
+            setIncr(default_increments)
+            setLoaded(true)
+        }
+
+    }, [props.clickedCells])
+
     const createIOPanel = () => {
 
-        const address = props.clickedCells.address
         const value = props.clickedCells.value
         const format = props.clickedCells.format
 
-        const default_bounds = createBounds(value,bounds.lb_ratio, bounds.ub_ratio)
-        const lb = default_bounds[0]
-        const ub = default_bounds[1]
-
-
-        const labelSelector = createLabelSelector(address)
-        const boundSelector = createBoundSelector(lb, ub, value, format)
+        const labelSelector = createLabelSelector()
+        const boundSelector = createBoundSelector(value, format)
         const stepSelector = createStepSelector()
-        let incrementEl = createIncrementEl(value, lb, ub, format)
+        let incrementEl = createIncrementEl(value, format)
 
-        if (!between(value, lb, ub)) {
+        if (!between(value, bounds[0], bounds[1])) {
             incrementEl =
                 <h3 className={classes.selectNote} style={{color: 'red', margin: '10px'}}>Bounds must include current
                     cell value</h3>
         }
-
 
         return (
             <div className={classes.selectionContainer} key={address}>
@@ -237,14 +224,13 @@ export default function IOSelection(props) {
         )
     }
 
-    const createBoundSelector = (lb, ub, value, format) => {
+    const createBoundSelector = (value, format) => {
 
-        if (isNaN(lb)) {
-            lb = '-'
+        if (isNaN(bounds[0])) {
+            bounds[0] = '-'
         }
-
-        if (isNaN(ub)) {
-            ub = '-'
+        if (isNaN(bounds[1])) {
+            bounds[1] = '-'
         }
 
         return (
@@ -252,7 +238,7 @@ export default function IOSelection(props) {
                 <TextField
                     id="lb"
                     className={classes.rootTextContainer}
-                    label={"Lower Bound: " + convert_format(format, lb)}
+                    label={"Lower Bound: " + convert_format(format, bounds[0])}
                     size="small"
                     InputLabelProps={{
                         className: classes.labelField
@@ -262,13 +248,13 @@ export default function IOSelection(props) {
                             input: classes.textField
                         }
                     }}
-                    defaultValue={myRound(lb)}
-                    onChange={e => boundHandler(e, "lb", value)}
+                    defaultValue={myRound(bounds[0])}
+                    onChange={e => boundHandler(e, "lb")}
                 />
                 <TextField
                     id="ub"
                     className={classes.rootTextContainer}
-                    label={"Upper Bound: " + convert_format(format, ub)}
+                    label={"Upper Bound: " + convert_format(format, bounds[1])}
                     size="small"
                     InputLabelProps={{
                         className: classes.labelField
@@ -278,8 +264,8 @@ export default function IOSelection(props) {
                             input: classes.textField
                         }
                     }}
-                    defaultValue={myRound(ub)}
-                    onChange={e => boundHandler(e, "ub", value)}
+                    defaultValue={myRound(bounds[1])}
+                    onChange={e => boundHandler(e, "ub")}
                 />
             </>
         )
@@ -311,9 +297,7 @@ export default function IOSelection(props) {
 
     }
 
-    const createIncrementEl = (value, lb, ub, format) => {
-
-        // const increments = computeSteps(value, lb, ub)
+    const createIncrementEl = (value, format) => {
 
         const incrEls = incr.map((v, idx) => {
 
@@ -335,7 +319,7 @@ export default function IOSelection(props) {
                                     fontSize: '1.0em',
                                     fontWeight: '200',
                                     fontFamily: 'Questrial',
-                                    marginTop: '5px',
+                                    marginTop: '7px',
                                     width: '100%',
                                 }
                             }}
@@ -346,6 +330,7 @@ export default function IOSelection(props) {
                                     fontWeight: '100',
                                     fontFamily: 'Questrial',
                                     paddingBottom: '0px',
+                                    marginBottom: '0px',
                                 }
                             }}
                         />
@@ -360,6 +345,7 @@ export default function IOSelection(props) {
                             label={convert_format(format, v)}
                             defaultValue={v}
                             size="small"
+                            onChange={(e) => incrementHandler(e, idx)}
                             InputLabelProps={{
                                 className: classes.labelField
                             }}
@@ -381,7 +367,7 @@ export default function IOSelection(props) {
         )
     }
 
-    const createLabelSelector = (address) => {
+    const createLabelSelector = () => {
         return (
             <Paper className={classes.categoryContainer}>
                 <TextField
@@ -407,17 +393,21 @@ export default function IOSelection(props) {
 
 
     //Event Handlers
-    const boundHandler = (e, type, value) => {
-        const perChange = e.target.value / value
+    const boundHandler = (e, type) => {
+        let newb
         if (type === 'lb') {
-            setBounds(prevBound => {
-                return {...prevBound, lb: [perChange]}
-            })
+            newb = [parseFloat(e.target.value), bounds[1]]
         } else {
-            setBounds(prevBound => {
-                return {...prevBound, ub: [perChange]}
-            })
+            newb = [bounds[0],parseFloat(e.target.value)]
         }
+        console.log(newb)
+        setBounds(newb)
+    }
+
+    const incrementHandler = (e, idx) => {
+        const new_incr = incr
+        new_incr[idx] = e.target.value
+        setIncr(new_incr)
     }
 
     const LabelInput = (e) => {
@@ -429,30 +419,26 @@ export default function IOSelection(props) {
     }
 
     //Function Executions
-    let selectedCells
-    let instructions
-    if (props.clickedCells.hasOwnProperty("address")) {
+    let instructions = (<h3 className={classes.selectNote}>
+        Select an input cell in the spreadsheet. <br/><br/>
+
+        These are hardcoded cells that
+        are typically key model assumptions that drive the rest of the model. For e.g., <em>Annual Growth
+        Rate</em> or <em>Profit Margin</em><br/><br/>
+
+        Please note that the input cell <strong>must</strong> be a number and cannot be a text or date
+        cell.<br/><br/>
+
+        After selecting each input, click <em>Next Input</em> to define another input. A maximum of 5
+        inputs can be selected in total.<br/><br/>
+
+        Click <em>Done with Inputs</em> to start selecting outputs.
+    </h3>)
+    let selectedCells = null
+
+    if (loaded) {
         selectedCells = createIOPanel()
         instructions = null
-    } else {
-        instructions = (
-            <h3 className={classes.selectNote}>
-                Select an input cell in the spreadsheet. <br/><br/>
-
-                These are hardcoded cells that
-                are typically key model assumptions that drive the rest of the model. For e.g., <em>Annual Growth
-                Rate</em> or <em>Profit Margin</em><br/><br/>
-
-                Please note that the input cell <strong>must</strong> be a number and cannot be a text or date
-                cell.<br/><br/>
-
-                After selecting each input, click <em>Next Input</em> to define another input. A maximum of 5
-                inputs can be selected in total.<br/><br/>
-
-                Click <em>Done with Inputs</em> to start selecting outputs.
-            </h3>
-        )
-        selectedCells = null
     }
 
     return (

@@ -73,6 +73,7 @@ export const getMinfromKey = (list, key) => {
 }
 
 export function between(x, min, max) {
+    console.log(x, min)
     return x >= min && x <= max;
 }
 
@@ -95,20 +96,36 @@ export function addAndSort(arr, val) {
     return arr;
 }
 
-export const createBounds  = (value, lb_ratio, ub_ratio) => {
-            let _lb
-            let _ub
-            if (value < 0) {
-                _lb = ub_ratio*value
-                _ub = lb_ratio*value
-            } else if (value === 0) {
-                _lb = 0
-                _ub = 1
-            }
-            else {
-                _lb = lb_ratio*value
-                _ub = ub_ratio*value
-            }
-            return [_lb, _ub]
+export const createBounds = (value, lb_ratio, ub_ratio) => {
+    let _lb
+    let _ub
+    if (value < 0) {
+        _lb = ub_ratio * value
+        _ub = lb_ratio * value
+    } else if (value === 0) {
+        _lb = 0
+        _ub = 1
+    } else {
+        _lb = lb_ratio * value
+        _ub = ub_ratio * value
+    }
+    return [_lb, _ub]
+}
+
+export const computeSteps = (value, lb, ub, n_steps) => {
+    if (n_steps === 1) {
+        return [value]
+    }
+    const steps = (ub - lb) / (n_steps - 1)
+    const index = range(0, n_steps - 1)
+    const incr = index.map((i) => {
+            return myRound(lb + steps * i)
         }
+    )
+    if (incr.includes(value)) {
+        return incr
+    } else {
+        return addAndSort(incr, value)
+    }
+}
 
