@@ -92,6 +92,8 @@ export default function Content(props) {
                     outputs={props.outputs}
                     currSheet={props.currSheet}
                     clickedCells={props.clickedCells}
+                    nextInputHandler={props.nextInputHandler}
+                    currInputsLength={props.currInputsLength}
                 />
                 <Switch>
                     <Route exact path="/spreadsheet">

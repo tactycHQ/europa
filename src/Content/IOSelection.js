@@ -6,7 +6,8 @@ import Select from "@material-ui/core/Select"
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Paper from "@material-ui/core/Paper"
-import InputLabel from "@material-ui/core/InputLabel";
+import InputLabel from "@material-ui/core/InputLabel"
+import Dialog from "@material-ui/core/Dialog";
 import {between, convert_format, myRound, createBounds, computeSteps} from "../utils/utils";
 
 
@@ -168,17 +169,18 @@ export default function IOSelection(props) {
     }))
     const classes = useStyles()
 
+
     const [address, setAddress] = useState('')
+    const [label, setLabel] = useState('')
     const [numSteps, setNumSteps] = useState(5)
     const [bounds, setBounds] = useState([])
     const [incr, setIncr] = useState([])
     const [loaded, setLoaded] = useState(false)
+    const [error, setError] = useState(null)
+    const [errorOpen, setErrorOpen] = useState(false)
 
 
     //Hooks
-
-
-    //Functions
     useEffect(() => {
 
         if (props.clickedCells.hasOwnProperty("address")) {
@@ -207,6 +209,7 @@ export default function IOSelection(props) {
         const stepSelector = createStepSelector()
         let incrementEl = createIncrementEl(value, format)
         let errorEl = null
+
 
         for (let i in incr) {
             if (!between(incr[i], bounds[0], bounds[1])) {
@@ -324,14 +327,14 @@ export default function IOSelection(props) {
                         label={"Model: " + convert_format(format, v)}
                         value={v}
                         size="small"
-                    InputLabelProps={{
-                        className: classes.labelField
-                    }}
-                    InputProps={{
-                        classes: {
-                            input: classes.textField
-                        }
-                    }}
+                        InputLabelProps={{
+                            className: classes.labelField
+                        }}
+                        InputProps={{
+                            classes: {
+                                input: classes.textField
+                            }
+                        }}
                     />
                 )
             } else {
@@ -381,7 +384,7 @@ export default function IOSelection(props) {
                         }
                     }}
                     defaultValue={address}
-                    onChange={(e) => LabelInput(e)}
+                    onChange={(e) => labelHandler(e)}
                 />
             </Paper>
         )
@@ -408,8 +411,8 @@ export default function IOSelection(props) {
         setIncr([...new_incr])
     }
 
-    const LabelInput = (e) => {
-        return e.target.value
+    const labelHandler = (e) => {
+        return setLabel(e.target.value)
     }
 
     const stepChangeHandler = (e) => {
@@ -418,28 +421,85 @@ export default function IOSelection(props) {
         setIncr([...new_increments])
     }
 
+    const handleErrorClose = () => {
+        setErrorOpen(false)
+    }
+
+
+    const nextHandler = () => {
+
+        if (label === "") {
+            setErrorOpen(true)
+            setError("Please give this input a name before proceeding. A name could be descriptions of the driver, such as Growth Rate or Profit Margin.")
+        } else {
+            const inputPayload = {"address": address, "label": label, "values": incr}
+            setAddress('')
+            setLabel('')
+            setNumSteps(5)
+            setBounds([])
+            setIncr([])
+            setLoaded(false)
+            setError(null)
+            props.nextInputHandler(inputPayload)
+        }
+    }
+
+    const createInstructions = () => {
+        if (props.currInputsLength === 0) {
+            return (
+                <h3 className={classes.selectNote}>
+                    Select an input cell in the spreadsheet. <br/><br/>
+
+                    These are hardcoded cells that
+                    are typically key model assumptions that drive the rest of the model. For e.g., <em>Annual
+                    Growth
+                    Rate</em> or <em>Profit Margin</em><br/><br/>
+
+                    Please note that the input cell <strong>must</strong> be a number and cannot be a text or date
+                    cell.<br/><br/>
+
+                    After selecting each input, click <em>Next Input</em> to define another input. A maximum of 5
+                    inputs can be selected in total.<br/><br/>
+
+                    Click <em>Done with Inputs</em> to start selecting outputs.
+                </h3>
+            )
+        } else if (props.currInputsLength > 0 && props.currInputsLength <5) {
+            return (
+                <h3 className={classes.selectNote}>
+                    Please select the next input. <br/><br/>
+                    You can select up to 5 inputs
+                </h3>
+            )
+        } else if (props.currInputsLength ===5) {
+            return (
+                <h3 className={classes.selectNote}>
+                    Select an output cell or range in the spreadsheet. <br/><br/>
+
+                    Output cells must be in the same <em>category</em> and have the same <em>units</em>. For
+                    example, Revenue (in dollars) or IRRs (in %).<br/><br/>
+
+                    Multiple cells within a category (for e.g. 2020 Profit, 2021 Profit, 2022 Profit) are called <em>labels</em>.<br/><br/>
+
+                    You can select upto 10 categories and 25 labels per category.<br/><br/>
+
+                    Click <em>Done with Outputs</em> to start calculations.
+                </h3>
+            )
+        }
+    }
+
+
 //Function Executions
-    let instructions = (<h3 className={classes.selectNote}>
-        Select an input cell in the spreadsheet. <br/><br/>
-
-        These are hardcoded cells that
-        are typically key model assumptions that drive the rest of the model. For e.g., <em>Annual Growth
-        Rate</em> or <em>Profit Margin</em><br/><br/>
-
-        Please note that the input cell <strong>must</strong> be a number and cannot be a text or date
-        cell.<br/><br/>
-
-        After selecting each input, click <em>Next Input</em> to define another input. A maximum of 5
-        inputs can be selected in total.<br/><br/>
-
-        Click <em>Done with Inputs</em> to start selecting outputs.
-    </h3>)
     let selectedCells = null
+    let instructions = createInstructions()
 
     if (loaded) {
+        instructions=null
         selectedCells = createIOPanel()
-        instructions = null
     }
+
+
 
     return (
 
@@ -449,12 +509,19 @@ export default function IOSelection(props) {
                 {instructions}
             </div>
             {selectedCells}
-            <Button className={classes.selectButton} variant="contained" color="secondary" size="small">
+            <Button className={classes.selectButton} variant="contained" color="secondary" size="small"
+                    onClick={() => nextHandler()}>
                 Next Input
             </Button>
             <Button className={classes.selectButton} variant="contained" color="secondary" size="small">
                 Done with all inputs
             </Button>
+            <Dialog open={errorOpen} onClose={handleErrorClose}>
+                <div>
+                    <h2 className={classes.selectNote}>{error}</h2>
+                </div>
+            </Dialog>
+
         </div>
     )
 }

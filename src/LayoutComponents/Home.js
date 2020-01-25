@@ -2,6 +2,7 @@ import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import {NavLink} from "react-router-dom";
+
 // import Button from "@material-ui/core/Button";
 // import {Switch, Route} from 'react-router-dom'
 // import Spreadsheet from "./Spreadsheet";
@@ -44,6 +45,7 @@ export default function Home(props) {
         },
     }))
     const classes = useStyles()
+    const [open, setOpen] = React.useState(false)
 
     const newDash = () => {
         props.setDashid(20)
@@ -57,6 +59,7 @@ export default function Home(props) {
         props.setMode('existing')
         props.setDashName('')
     }
+
 
 
     return (

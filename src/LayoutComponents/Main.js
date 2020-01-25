@@ -48,7 +48,7 @@ export default function Main(props) {
     const [distributions, setDistributions] = useState(null)
     const [formats, setFormats] = useState('General')
     const [currInputVal, setcurrInputVal] = useState(null)
-    const [inputs, setInputs] = useState(null)
+    const [inputs, setInputs] = useState([])
     const [outputs, setOutputs] = useState(null)
     const [cases, setCases] = useState(null)
     const [charts, setCharts] = useState(null)
@@ -59,6 +59,7 @@ export default function Main(props) {
     const [worksheet, setWorksheet] = useState(false)
     const [currSheet, setCurrSheet] = useState(null)
     const [clickedCells, setClickedCell] = useState({})
+
 
     //----------------Modes-------------------
     //1. New - a new dashboard is to be created. Dash id and filename have been provided
@@ -150,6 +151,8 @@ export default function Main(props) {
     //     // console.log(JSON.parse(sessionStorage.getItem("dashName")) || 'nothing')
     // }, [mode, dashid, dashName, solutions, currInputVal, distributions, formats, inputs, charts, cases, outputs])
 
+
+    // Defining functions
     const addClickedCell = (newCell, oldColor, value, format) => {
 
 
@@ -171,7 +174,10 @@ export default function Main(props) {
 
     }
 
-    // Defining functions
+    const nextInputHandler = (payload) => {
+        setInputs(inputs => [...inputs, payload])
+    }
+
     const handleSliderChange = (event, newValue, setAddress) => {
         setcurrInputVal(prevState => ({
             ...prevState,
@@ -213,6 +219,8 @@ export default function Main(props) {
                 handleSheetChange={handleSheetChange}
                 clickedCells={clickedCells}
                 addClickedCell={addClickedCell}
+                nextInputHandler={nextInputHandler}
+                currInputsLength={inputs.length}
             />
 
         } else {
