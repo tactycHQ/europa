@@ -196,6 +196,7 @@ export default function IOSelection(props) {
 
     }, [props.clickedCells])
 
+
     const createIOPanel = () => {
 
         const value = props.clickedCells.value
@@ -205,12 +206,24 @@ export default function IOSelection(props) {
         const boundSelector = createBoundSelector(value, format)
         const stepSelector = createStepSelector()
         let incrementEl = createIncrementEl(value, format)
+        let errorEl = null
+
+        for (let i in incr) {
+            if (!between(incr[i], bounds[0], bounds[1])) {
+                errorEl =
+                    <h3 className={classes.selectNote} style={{color: 'red', margin: '10px'}}>All increments must be
+                        between
+                        the lower and upper bounds</h3>
+            }
+        }
 
         if (!between(value, bounds[0], bounds[1])) {
             incrementEl =
                 <h3 className={classes.selectNote} style={{color: 'red', margin: '10px'}}>Bounds must include current
-                    cell value</h3>
+                    cell value of {convert_format(format, value)}</h3>
+            errorEl = null
         }
+
 
         return (
             <div className={classes.selectionContainer} key={address}>
@@ -220,6 +233,7 @@ export default function IOSelection(props) {
                     {stepSelector}
                 </Paper>
                 {incrementEl}
+                {errorEl}
             </div>
         )
     }
@@ -249,7 +263,7 @@ export default function IOSelection(props) {
                         }
                     }}
                     defaultValue={myRound(bounds[0])}
-                    onChange={e => boundHandler(e, "lb")}
+                    onBlur={e => boundHandler(e, "lb")}
                 />
                 <TextField
                     id="ub"
@@ -265,7 +279,7 @@ export default function IOSelection(props) {
                         }
                     }}
                     defaultValue={myRound(bounds[1])}
-                    onChange={e => boundHandler(e, "ub")}
+                    onBlur={e => boundHandler(e, "ub")}
                 />
             </>
         )
@@ -300,63 +314,46 @@ export default function IOSelection(props) {
     const createIncrementEl = (value, format) => {
 
         const incrEls = incr.map((v, idx) => {
-
-            if (v) {
-
-                if (v === value) {
-                    return (
-                        <TextField
-                            // id="incr"
-                            className={classes.rootTextContainer}
-                            key={v + idx.toString()}
-                            disabled
-                            label={"Model: " + convert_format(format, v)}
-                            value={v}
-                            size="small"
-                            InputLabelProps={{
-                                style: {
-                                    color: '#006E9F',
-                                    fontSize: '1.0em',
-                                    fontWeight: '200',
-                                    fontFamily: 'Questrial',
-                                    marginTop: '7px',
-                                    width: '100%',
-                                }
-                            }}
-                            InputProps={{
-                                style: {
-                                    color: '#006E9F',
-                                    fontSize: '0.85em',
-                                    fontWeight: '100',
-                                    fontFamily: 'Questrial',
-                                    paddingBottom: '0px',
-                                    marginBottom: '0px',
-                                }
-                            }}
-                        />
-                    )
-                } else {
-
-                    return (
-                        <TextField
-                            // id="incr"
-                            className={classes.rootTextContainer}
-                            key={v + idx.toString()}
-                            label={convert_format(format, v)}
-                            defaultValue={v}
-                            size="small"
-                            onChange={(e) => incrementHandler(e, idx)}
-                            InputLabelProps={{
-                                className: classes.labelField
-                            }}
-                            InputProps={{
-                                classes: {
-                                    input: classes.textField
-                                }
-                            }}
-                        />
-                    )
-                }
+            if (v === value) {
+                return (
+                    <TextField
+                        // id="incr"
+                        className={classes.rootTextContainer}
+                        key={v + idx.toString()}
+                        disabled
+                        label={"Model: " + convert_format(format, v)}
+                        value={v}
+                        size="small"
+                    InputLabelProps={{
+                        className: classes.labelField
+                    }}
+                    InputProps={{
+                        classes: {
+                            input: classes.textField
+                        }
+                    }}
+                    />
+                )
+            } else {
+                return (
+                    <TextField
+                        // id="incr"
+                        className={classes.rootTextContainer}
+                        key={v + idx.toString()}
+                        label={convert_format(format, v)}
+                        defaultValue={v}
+                        size="small"
+                        onBlur={(e) => incrementHandler(e, idx)}
+                        InputLabelProps={{
+                            className: classes.labelField
+                        }}
+                        InputProps={{
+                            classes: {
+                                input: classes.textField
+                            }
+                        }}
+                    />
+                )
             }
         })
 
@@ -392,22 +389,23 @@ export default function IOSelection(props) {
     }
 
 
-    //Event Handlers
+//Event Handlers
     const boundHandler = (e, type) => {
         let newb
         if (type === 'lb') {
-            newb = [parseFloat(e.target.value), bounds[1]]
+            console.log(typeof (e.target.value))
+            newb = [myRound(parseFloat(e.target.value)), bounds[1]]
         } else {
-            newb = [bounds[0],parseFloat(e.target.value)]
+            newb = [bounds[0], myRound(parseFloat(e.target.value))]
         }
-        console.log(newb)
         setBounds(newb)
     }
 
     const incrementHandler = (e, idx) => {
+        // e.persist()
         const new_incr = incr
-        new_incr[idx] = e.target.value
-        setIncr(new_incr)
+        new_incr[idx] = parseFloat(e.target.value)
+        setIncr([...new_incr])
     }
 
     const LabelInput = (e) => {
@@ -416,9 +414,11 @@ export default function IOSelection(props) {
 
     const stepChangeHandler = (e) => {
         setNumSteps(e.target.value)
+        const new_increments = computeSteps(props.clickedCells.value, bounds[0], bounds[1], e.target.value)
+        setIncr([...new_increments])
     }
 
-    //Function Executions
+//Function Executions
     let instructions = (<h3 className={classes.selectNote}>
         Select an input cell in the spreadsheet. <br/><br/>
 
@@ -442,6 +442,7 @@ export default function IOSelection(props) {
     }
 
     return (
+
         <div className={classes.root}>
             <div className={classes.selectHeader}>
                 <h3 className={classes.selectText}>Define Model Inputs</h3>
