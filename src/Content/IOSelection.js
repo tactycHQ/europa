@@ -440,6 +440,7 @@ export default function IOSelection(props) {
             setIncr([])
             setLoaded(false)
             setError(null)
+            setErrorOpen(false)
             props.nextInputHandler(inputPayload)
         }
     }
