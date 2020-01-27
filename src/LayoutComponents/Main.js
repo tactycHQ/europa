@@ -159,7 +159,6 @@ export default function Main(props) {
         let v
         let format
 
-
         //if clicked a different cell, then reset color of unclicked cell
         if (clickedCells.raw && clickedCells.raw !== newCell) {
             refreshWorksheetColor()
@@ -170,6 +169,7 @@ export default function Main(props) {
         v = getValue(newCell)
         format = getFormat(newCell)
         worksheet[newCell].s.fgColor = {rgb: "FCCA46"}
+
 
         //Set new clicked cell
         setClickedCell({
@@ -214,8 +214,7 @@ export default function Main(props) {
             let foundInput = inputs.find(input => input.address === payload.address)
             foundInput.label = payload.label
             foundInput.values = payload.values
-        }
-        else {
+        } else {
             setInputs(inputs => [...inputs, payload])
         }
 
@@ -224,7 +223,15 @@ export default function Main(props) {
     }
 
     const refreshWorksheetColor = () => {
-        worksheet[clickedCells.raw].s.fgColor = {rgb: clickedCells.oldColor}
+
+        //If unclick is for current sheet...
+        if (clickedCells.sheet === currSheet) {
+            worksheet[clickedCells.raw].s.fgColor = {rgb: clickedCells.oldColor}
+
+        //If unclick is for another sheet...
+        } else {
+            wb.Sheets[clickedCells.sheet][clickedCells.raw].s.fgColor = {rgb: clickedCells.oldColor}
+        }
     }
 
     const handleSliderChange = (event, newValue, setAddress) => {

@@ -206,7 +206,6 @@ export default function IOSelection(props) {
 
     const [loaded, setLoaded] = useState(false)
 
-
     //Hooks
     // This is the default hook to load up initial input assumptions when a cell has been clicked
     useEffect(() => {
