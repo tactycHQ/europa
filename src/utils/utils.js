@@ -137,3 +137,7 @@ export function ascending(firstNumber, secondNumber) {
   return firstNumber - secondNumber;
 }
 
+export function hasNumber(myString) {
+  return !isNaN(myString);
+}
+

@@ -8,7 +8,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Paper from "@material-ui/core/Paper"
 import InputLabel from "@material-ui/core/InputLabel"
 import Dialog from "@material-ui/core/Dialog";
-import {between, convert_format, myRound, createBounds, computeSteps, ascending} from "../utils/utils";
+import {between, convert_format, myRound, createBounds, computeSteps, ascending, hasNumber} from "../utils/utils";
 
 
 export default function IOSelection(props) {
@@ -200,6 +200,7 @@ export default function IOSelection(props) {
     const [incr, setIncr] = useState([])
     const [value, setvalue] = useState(null)
     const [format, setFormat] = useState('General')
+
     const [error, setError] = useState(null)
     const [errorOpen, setErrorOpen] = useState(false)
 
@@ -221,6 +222,7 @@ export default function IOSelection(props) {
                 setNumSteps(foundInput.values.length)
                 setBounds([Math.min(...foundInput.values), Math.max(...foundInput.values)])
                 setIncr(foundInput.values)
+                setErrorOpen(false)
                 setLoaded(true)
 
             } else {
@@ -236,6 +238,8 @@ export default function IOSelection(props) {
                 setNumSteps(NUM_STEPS)
                 setBounds(default_bounds)
                 setIncr(default_increments)
+
+                setErrorOpen(false)
                 setLoaded(true)
             }
         }
@@ -248,24 +252,12 @@ export default function IOSelection(props) {
         const boundSelector = createBoundSelector()
         const stepSelector = createStepSelector()
         let incrementEl = createIncrementEl()
-        let errorEl = null
-
-        //Check whether all increments are in bounds
-        for (let i in incr) {
-            if (!between(incr[i], bounds[0], bounds[1])) {
-                errorEl =
-                    <h3 className={classes.selectNote} style={{color: 'red', margin: '10px'}}>All increments must be
-                        between
-                        the lower and upper bounds</h3>
-            }
-        }
+        let error_msg = null
 
         //Check whether cell value is within bounds
         if (!between(value, bounds[0], bounds[1])) {
-            incrementEl =
-                <h3 className={classes.selectNote} style={{color: 'red', margin: '10px'}}>Bounds must include current
-                    cell value of {convert_format(format, value)}</h3>
-            errorEl = null
+            error_msg = `Bounds must include current cell value of ${convert_format(format, value)}`
+            incrementEl = null
         }
 
 
@@ -277,14 +269,12 @@ export default function IOSelection(props) {
                     {stepSelector}
                 </Paper>
                 {incrementEl}
-                {errorEl}
+                <h3 className={classes.selectNote} style={{color: 'red', margin: '10px'}}>{error_msg}</h3>
             </div>
         )
     }
 
     const createBoundSelector = () => {
-
-        console.log(bounds)
 
         if (isNaN(bounds[0])) {
             bounds[0] = '-'
@@ -437,23 +427,33 @@ export default function IOSelection(props) {
     //Event Handlers
     const boundHandler = (e, type) => {
         let newb
-        if (type === 'lb') {
-            newb = [myRound(parseFloat(e.target.value)), bounds[1]]
+        if (!hasNumber(e.target.value)) {
+            setErrorOpen(true)
+            setError("Bound can only be a number")
         } else {
-            newb = [bounds[0], myRound(parseFloat(e.target.value))]
+            if (type === 'lb') {
+                newb = [myRound(parseFloat(e.target.value)), bounds[1]]
+            } else {
+                newb = [bounds[0], myRound(parseFloat(e.target.value))]
+            }
+            setBounds([...newb])
+            const new_increments = computeSteps(props.clickedCells.value, newb[0], newb[1], numSteps)
+            setIncr([...new_increments])
         }
-        setBounds([...newb])
-        const new_increments = computeSteps(props.clickedCells.value, newb[0], newb[1], numSteps)
-        setIncr([...new_increments])
     }
 
     const incrementHandler = (e, idx) => {
         // e.persist()
-        const new_incr = incr
-        new_incr[idx] = parseFloat(e.target.value)
-        const new_bounds = [Math.min(...new_incr),Math.max(...new_incr)]
-        setIncr([...new_incr])
-        setBounds([...new_bounds])
+        if (!hasNumber(e.target.value)) {
+            setErrorOpen(true)
+            setError("Increment can only be a number")
+        } else {
+            const new_incr = incr
+            new_incr[idx] = parseFloat(e.target.value)
+            const new_bounds = [Math.min(...new_incr), Math.max(...new_incr)]
+            setIncr([...new_incr])
+            setBounds([...new_bounds])
+        }
     }
 
     const labelHandler = (e) => {
@@ -465,6 +465,7 @@ export default function IOSelection(props) {
         const new_increments = computeSteps(props.clickedCells.value, bounds[0], bounds[1], e.target.value)
         setIncr([...new_increments])
     }
+
 
     const handleErrorClose = () => {
         setErrorOpen(false)
@@ -482,14 +483,22 @@ export default function IOSelection(props) {
             setErrorOpen(true)
             setError("Please give this input a name before proceeding. A name could be descriptions of the driver, such as Growth Rate or Profit Margin.")
 
-        //Check if label has already been assigned to another input
-        } else if (props.inputs.some(input => {return (input.label === label) && (input.address !== address)})) {
+            //Check if label has already been assigned to another input
+        } else if (props.inputs.some(input => {
+            return (input.label === label) && (input.address !== address)
+        })) {
             setErrorOpen(true)
             setError("Input name has already been assigned to another input. Please select a different name")
 
-        //Go for inserting into input array
+            //Go for inserting into input array
         } else {
-            const inputPayload = {"address": address, "value": value, "label": label, "values": incr.sort(ascending), "format": format,}
+            const inputPayload = {
+                "address": address,
+                "value": value,
+                "label": label,
+                "values": incr.sort(ascending),
+                "format": format,
+            }
             setAddress('')
             setvalue(null)
             setLabel('')
@@ -516,7 +525,6 @@ export default function IOSelection(props) {
                         onClick={() => nextHandler()}>
                     Next Input
                 </Button>)
-
 
         }
 
