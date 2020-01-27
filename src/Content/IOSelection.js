@@ -8,17 +8,24 @@ import FormControl from "@material-ui/core/FormControl";
 import Paper from "@material-ui/core/Paper"
 import InputLabel from "@material-ui/core/InputLabel"
 import Dialog from "@material-ui/core/Dialog";
-import {between, convert_format, myRound, createBounds, computeSteps} from "../utils/utils";
+import {between, convert_format, myRound, createBounds, computeSteps, ascending} from "../utils/utils";
 
 
 export default function IOSelection(props) {
+
+
+    const MAXINPUTS = 5
+    const LOWER_RATIO = 0.9
+    const UPPER_RATIO = 1.1
+    const NUM_STEPS = 5
+
     const useStyles = makeStyles(theme => ({
         root: {
             display: 'flex',
             position: 'fixed',
             height: '93vh',
             flexDirection: 'column',
-            alignContent: 'center',
+            alignItems: 'center',
             justifyContent: 'flex-start',
             backgroundColor: '#FEFEFD',
             width: '20.0%',
@@ -165,6 +172,22 @@ export default function IOSelection(props) {
             fontFamily: 'Questrial',
             fontSize: '1.0em',
             // background: '#D7DEE2'
+        },
+        selectedInputs: {
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor: '#A5014B',
+            padding: "2px",
+            marginBottom: '3px',
+            width: '100%'
+        },
+        selectedInputsText: {
+            fontFamily: 'Questrial',
+            fontSize: '0.85em',
+            fontWeight: '300',
+            color: '#FEFEFD',
+            margin: '0px'
+            // marginTop:'5px'
         }
     }))
     const classes = useStyles()
@@ -175,42 +198,59 @@ export default function IOSelection(props) {
     const [numSteps, setNumSteps] = useState(5)
     const [bounds, setBounds] = useState([])
     const [incr, setIncr] = useState([])
-    const [loaded, setLoaded] = useState(false)
+    const [value, setvalue] = useState(null)
+    const [format, setFormat] = useState('General')
     const [error, setError] = useState(null)
     const [errorOpen, setErrorOpen] = useState(false)
 
+    const [loaded, setLoaded] = useState(false)
+
 
     //Hooks
+    // This is the default hook to load up initial input assumptions when a cell has been clicked
     useEffect(() => {
 
         if (props.clickedCells.hasOwnProperty("address")) {
 
-            const default_value = props.clickedCells.value
-            const default_bounds = createBounds(default_value, 0.9, 1.1)
-            const default_increments = computeSteps(default_value, default_bounds[0], default_bounds[1], 5)
+            if (props.inputs.some(input => input.address === props.clickedCells.address)) {
+                let foundInput = props.inputs.find(input => input.address === props.clickedCells.address)
+                setAddress(foundInput.address)
+                setLabel(foundInput.label)
+                setvalue(foundInput.value)
+                setFormat(foundInput.format)
+                setNumSteps(foundInput.values.length)
+                setBounds([Math.min(...foundInput.values), Math.max(...foundInput.values)])
+                setIncr(foundInput.values)
+                setLoaded(true)
 
-            setAddress(props.clickedCells.address)
-            setNumSteps(5)
-            setBounds(default_bounds)
-            setIncr(default_increments)
-            setLoaded(true)
+            } else {
+
+                const default_value = props.clickedCells.value
+                const default_bounds = createBounds(default_value, LOWER_RATIO, UPPER_RATIO)
+                const default_increments = computeSteps(default_value, default_bounds[0], default_bounds[1], NUM_STEPS)
+
+                setAddress(props.clickedCells.address)
+                setLabel(props.clickedCells.address)
+                setvalue(props.clickedCells.value)
+                setFormat(props.clickedCells.format)
+                setNumSteps(NUM_STEPS)
+                setBounds(default_bounds)
+                setIncr(default_increments)
+                setLoaded(true)
+            }
         }
-
-    }, [props.clickedCells])
+    }, [props.inputs, props.clickedCells])
 
 
     const createIOPanel = () => {
 
-        const value = props.clickedCells.value
-        const format = props.clickedCells.format
-
         const labelSelector = createLabelSelector()
-        const boundSelector = createBoundSelector(value, format)
+        const boundSelector = createBoundSelector()
         const stepSelector = createStepSelector()
-        let incrementEl = createIncrementEl(value, format)
+        let incrementEl = createIncrementEl()
         let errorEl = null
 
-
+        //Check whether all increments are in bounds
         for (let i in incr) {
             if (!between(incr[i], bounds[0], bounds[1])) {
                 errorEl =
@@ -220,6 +260,7 @@ export default function IOSelection(props) {
             }
         }
 
+        //Check whether cell value is within bounds
         if (!between(value, bounds[0], bounds[1])) {
             incrementEl =
                 <h3 className={classes.selectNote} style={{color: 'red', margin: '10px'}}>Bounds must include current
@@ -241,7 +282,9 @@ export default function IOSelection(props) {
         )
     }
 
-    const createBoundSelector = (value, format) => {
+    const createBoundSelector = () => {
+
+        console.log(bounds)
 
         if (isNaN(bounds[0])) {
             bounds[0] = '-'
@@ -314,7 +357,7 @@ export default function IOSelection(props) {
 
     }
 
-    const createIncrementEl = (value, format) => {
+    const createIncrementEl = () => {
 
         const incrEls = incr.map((v, idx) => {
             if (v === value) {
@@ -383,32 +426,34 @@ export default function IOSelection(props) {
                             input: classes.textField
                         }
                     }}
-                    defaultValue={address}
+                    defaultValue={label}
                     onChange={(e) => labelHandler(e)}
                 />
             </Paper>
         )
-
     }
 
 
-//Event Handlers
+    //Event Handlers
     const boundHandler = (e, type) => {
         let newb
         if (type === 'lb') {
-            console.log(typeof (e.target.value))
             newb = [myRound(parseFloat(e.target.value)), bounds[1]]
         } else {
             newb = [bounds[0], myRound(parseFloat(e.target.value))]
         }
-        setBounds(newb)
+        setBounds([...newb])
+        const new_increments = computeSteps(props.clickedCells.value, newb[0], newb[1], numSteps)
+        setIncr([...new_increments])
     }
 
     const incrementHandler = (e, idx) => {
         // e.persist()
         const new_incr = incr
         new_incr[idx] = parseFloat(e.target.value)
+        const new_bounds = [Math.min(...new_incr),Math.max(...new_incr)]
         setIncr([...new_incr])
+        setBounds([...new_bounds])
     }
 
     const labelHandler = (e) => {
@@ -425,28 +470,87 @@ export default function IOSelection(props) {
         setErrorOpen(false)
     }
 
+    const prevHandler = () => {
+        let lastInput = props.inputs.slice(-1)[0]
+        props.addClickedCell(lastInput.address.split("!").pop())
+    }
 
     const nextHandler = () => {
 
-        if (label === "") {
+        //If label matches address, thow a dialog
+        if (label === address) {
             setErrorOpen(true)
             setError("Please give this input a name before proceeding. A name could be descriptions of the driver, such as Growth Rate or Profit Margin.")
+
+        //Check if label has already been assigned to another input
+        } else if (props.inputs.some(input => {return (input.label === label) && (input.address !== address)})) {
+            setErrorOpen(true)
+            setError("Input name has already been assigned to another input. Please select a different name")
+
+        //Go for inserting into input array
         } else {
-            const inputPayload = {"address": address, "label": label, "values": incr}
+            const inputPayload = {"address": address, "value": value, "label": label, "values": incr.sort(ascending), "format": format,}
             setAddress('')
+            setvalue(null)
             setLabel('')
-            setNumSteps(5)
+            setNumSteps([])
             setBounds([])
             setIncr([])
-            setLoaded(false)
+            setFormat('General')
             setError(null)
             setErrorOpen(false)
+            setLoaded(false)
             props.nextInputHandler(inputPayload)
         }
     }
 
+    const createButtons = () => {
+
+        let prevInputButton = null
+        let nextInputButton = null
+        let doneWithInputs = null
+
+        if (loaded) {
+            nextInputButton = (
+                <Button className={classes.selectButton} variant="contained" color="secondary" size="small"
+                        onClick={() => nextHandler()}>
+                    Next Input
+                </Button>)
+
+
+        }
+
+
+        if (props.inputs.length > 0) {
+            doneWithInputs = (
+                <Button className={classes.selectButton} variant="contained" color="secondary" size="small">
+                    Done with all inputs
+                </Button>)
+        }
+
+
+        if (props.inputs.length > 0) {
+            prevInputButton = (
+                <Button className={classes.selectButton} variant="contained" color="secondary" size="small"
+                        onClick={() => prevHandler()}>
+                    Previous Input
+                </Button>
+            )
+        }
+
+        return (
+            <>
+                {nextInputButton}
+                {prevInputButton}
+                {doneWithInputs}
+            </>
+        )
+    }
+
     const createInstructions = () => {
-        if (props.currInputsLength === 0) {
+
+        //If no inputs have been selected yet
+        if (props.inputs.length === 0) {
             return (
                 <h3 className={classes.selectNote}>
                     Select an input cell in the spreadsheet. <br/><br/>
@@ -465,14 +569,39 @@ export default function IOSelection(props) {
                     Click <em>Done with Inputs</em> to start selecting outputs.
                 </h3>
             )
-        } else if (props.currInputsLength > 0 && props.currInputsLength <5) {
+
+            //If user has selected at least one input
+        } else if (props.inputs.length > 0 && props.inputs.length < MAXINPUTS) {
+
+            let alreadySelected = props.inputs.map(input => {
+                return (
+                    <Paper key={input.address} className={classes.selectedInputs} elevation={0}>
+                        <h3 className={classes.selectedInputsText}>{input.label} : {input.address}</h3>
+                    </Paper>
+                )
+            })
+
+
             return (
-                <h3 className={classes.selectNote}>
-                    Please select the next input. <br/><br/>
-                    You can select up to 5 inputs
-                </h3>
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginBottom: '10px'
+                }}>
+                    <h3 className={classes.selectNote}>
+                        Please select the next input. You can select up to 5 inputs <br/><br/>
+                    </h3>
+                    <h3 className={classes.selectNote} style={{color: '#A5014B', marginBottom: '1px'}}>Selected Inputs
+                        Thus Far</h3>
+                    {alreadySelected}
+                </div>
+
             )
-        } else if (props.currInputsLength ===5) {
+
+            //All 5 inputs have been selected
+        } else if (props.inputs.length === MAXINPUTS) {
             return (
                 <h3 className={classes.selectNote}>
                     Select an output cell or range in the spreadsheet. <br/><br/>
@@ -480,7 +609,8 @@ export default function IOSelection(props) {
                     Output cells must be in the same <em>category</em> and have the same <em>units</em>. For
                     example, Revenue (in dollars) or IRRs (in %).<br/><br/>
 
-                    Multiple cells within a category (for e.g. 2020 Profit, 2021 Profit, 2022 Profit) are called <em>labels</em>.<br/><br/>
+                    Multiple cells within a category (for e.g. 2020 Profit, 2021 Profit, 2022 Profit) are
+                    called <em>labels</em>.<br/><br/>
 
                     You can select upto 10 categories and 25 labels per category.<br/><br/>
 
@@ -494,12 +624,12 @@ export default function IOSelection(props) {
 //Function Executions
     let selectedCells = null
     let instructions = createInstructions()
+    let buttons = createButtons()
 
     if (loaded) {
-        instructions=null
+        instructions = null
         selectedCells = createIOPanel()
     }
-
 
 
     return (
@@ -510,19 +640,12 @@ export default function IOSelection(props) {
                 {instructions}
             </div>
             {selectedCells}
-            <Button className={classes.selectButton} variant="contained" color="secondary" size="small"
-                    onClick={() => nextHandler()}>
-                Next Input
-            </Button>
-            <Button className={classes.selectButton} variant="contained" color="secondary" size="small">
-                Done with all inputs
-            </Button>
+            {buttons}
             <Dialog open={errorOpen} onClose={handleErrorClose}>
                 <div>
                     <h2 className={classes.selectNote}>{error}</h2>
                 </div>
             </Dialog>
-
         </div>
     )
 }

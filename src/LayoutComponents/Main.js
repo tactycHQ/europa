@@ -6,7 +6,7 @@ import TopBar from "./TopBar"
 import Spinner from "../Other/Spinner"
 import {getSolutions, getMetaData, getFormats, loadFile} from "../api/api"
 import {Switch, Route} from 'react-router-dom'
-import {fixFormat} from "../utils/utils";
+import {fixFormat, myRound} from "../utils/utils";
 
 
 function extractDefaults(values) {
@@ -153,13 +153,23 @@ export default function Main(props) {
 
 
     // Defining functions
-    const addClickedCell = (newCell, oldColor, value, format) => {
+    const addClickedCell = (newCell) => {
+
+        let oldColor
+        let v
+        let format
 
 
-        //Remove prior clicked cell and rest to old color
-        if (clickedCells.hasOwnProperty('address')) {
-            wb.Sheets[clickedCells.sheet][clickedCells.raw].s.fgColor.rgb = clickedCells.oldColor
+        //if clicked a different cell, then reset color of unclicked cell
+        if (clickedCells.raw && clickedCells.raw !== newCell) {
+            refreshWorksheetColor()
         }
+
+        // Get cell metadata on old color, value and format for ne cell
+        oldColor = getOldColor(newCell)
+        v = getValue(newCell)
+        format = getFormat(newCell)
+        worksheet[newCell].s.fgColor = {rgb: "FCCA46"}
 
         //Set new clicked cell
         setClickedCell({
@@ -167,15 +177,54 @@ export default function Main(props) {
             sheet: currSheet,
             raw: newCell,
             oldColor: oldColor,
-            value: value,
+            value: v,
             format: format
         })
+    }
 
 
+    const getOldColor = (newCell) => {
+        if (worksheet.hasOwnProperty(newCell) && worksheet[newCell].hasOwnProperty('s') && worksheet[newCell]['s'].hasOwnProperty('fgColor')) {
+            return worksheet[newCell].s.fgColor.rgb
+        } else {
+            return "FFFFFF"
+        }
+    }
+
+    const getValue = (newCell) => {
+        if (worksheet.hasOwnProperty(newCell) && worksheet[newCell].hasOwnProperty('v')) {
+            return myRound(worksheet[newCell].v)
+        } else {
+            return 0
+        }
+    }
+
+    const getFormat = (newCell) => {
+        if (worksheet.hasOwnProperty(newCell) && worksheet[newCell].hasOwnProperty('z')) {
+            return worksheet[newCell].z
+        } else {
+            return 'General'
+        }
     }
 
     const nextInputHandler = (payload) => {
-        setInputs(inputs => [...inputs, payload])
+
+        //If input already exists, update the label and values
+        if (inputs.some(input => input.address === payload.address)) {
+            let foundInput = inputs.find(input => input.address === payload.address)
+            foundInput.label = payload.label
+            foundInput.values = payload.values
+        }
+        else {
+            setInputs(inputs => [...inputs, payload])
+        }
+
+        setClickedCell({})
+        refreshWorksheetColor()
+    }
+
+    const refreshWorksheetColor = () => {
+        worksheet[clickedCells.raw].s.fgColor = {rgb: clickedCells.oldColor}
     }
 
     const handleSliderChange = (event, newValue, setAddress) => {
@@ -220,7 +269,7 @@ export default function Main(props) {
                 clickedCells={clickedCells}
                 addClickedCell={addClickedCell}
                 nextInputHandler={nextInputHandler}
-                currInputsLength={inputs.length}
+                inputs={inputs}
             />
 
         } else {
@@ -241,6 +290,7 @@ export default function Main(props) {
     // Executing functions
     const content = createContent()
     const home = createHome()
+
 
     return (
         <div className={classes.root}>

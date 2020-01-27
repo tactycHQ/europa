@@ -55,31 +55,6 @@ export default function Spreadsheet(props) {
     const worksheet = props.worksheet
 
 
-    const getOldColor = (newCell) => {
-        if (worksheet.hasOwnProperty(newCell) && worksheet[newCell].hasOwnProperty('s') && worksheet[newCell]['s'].hasOwnProperty('fgColor')) {
-            return worksheet[newCell].s.fgColor.rgb
-        } else {
-            return "FFFFFF"
-        }
-
-    }
-
-    const getValue = (newCell) => {
-        if (worksheet.hasOwnProperty(newCell) && worksheet[newCell].hasOwnProperty('v')) {
-            return myRound(worksheet[newCell].v)
-        } else {
-            return 0
-        }
-    }
-
-    const getFormat = (newCell) => {
-        if (worksheet.hasOwnProperty(newCell) && worksheet[newCell].hasOwnProperty('z')) {
-            return worksheet[newCell].z
-        } else {
-            return 'General'
-        }
-    }
-
     const onMouseClick = (e) => {
         e.stopPropagation();
         e.nativeEvent.stopImmediatePropagation()
@@ -87,11 +62,7 @@ export default function Spreadsheet(props) {
         let newCell = e.target.id.replace("sjs-", "")
 
         if (worksheet.hasOwnProperty(newCell)) {
-            let oldColor = getOldColor(newCell)
-            let v = getValue(newCell)
-            let format = getFormat(newCell)
-            props.addClickedCell(newCell, oldColor, v, format)
-            worksheet[newCell].s.fgColor = {rgb: "FCCA46"}
+            props.addClickedCell(newCell)
         }
     }
 

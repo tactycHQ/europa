@@ -133,3 +133,7 @@ export const computeSteps = (value, lb, ub, n_steps) => {
     }
 }
 
+export function ascending(firstNumber, secondNumber) {
+  return firstNumber - secondNumber;
+}
+

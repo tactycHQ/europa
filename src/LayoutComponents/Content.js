@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Output from "../Content/Outputs"
 import Input from "../Content/Inputs";
@@ -29,6 +29,9 @@ export default function Content(props) {
         },
     }))
     const classes = useStyles()
+    const [IOState, setIOState] = useState("inputs")
+
+
     let contentEl
 
     if (props.mode === 'loaded') {
@@ -93,7 +96,9 @@ export default function Content(props) {
                     currSheet={props.currSheet}
                     clickedCells={props.clickedCells}
                     nextInputHandler={props.nextInputHandler}
-                    currInputsLength={props.currInputsLength}
+                    addClickedCell={props.addClickedCell}
+                    inputs={props.inputs}
+                    IOState={IOState}
                 />
                 <Switch>
                     <Route exact path="/spreadsheet">
@@ -105,6 +110,7 @@ export default function Content(props) {
                             addClickedCell={props.addClickedCell}
                             sheets={props.sheets}
                             handleSheetChange={props.handleSheetChange}
+                            IOState={IOState}
                         />
                     </Route>
                 </Switch>

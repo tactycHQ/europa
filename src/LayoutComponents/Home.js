@@ -45,7 +45,6 @@ export default function Home(props) {
         },
     }))
     const classes = useStyles()
-    const [open, setOpen] = React.useState(false)
 
     const newDash = () => {
         props.setDashid(20)
