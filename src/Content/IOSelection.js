@@ -481,14 +481,14 @@ export default function IOSelection(props) {
             setErrorOpen(true)
             setError("Please give this input a name before proceeding. A name could be descriptions of the driver, such as Growth Rate or Profit Margin.")
 
-            //Check if label has already been assigned to another input
+        //Check if label has already been assigned to another input
         } else if (props.inputs.some(input => {
             return (input.label === label) && (input.address !== address)
         })) {
             setErrorOpen(true)
             setError("Input name has already been assigned to another input. Please select a different name")
 
-            //Go for inserting into input array
+        //Go for inserting into input array
         } else {
             const inputPayload = {
                 "address": address,

@@ -165,9 +165,9 @@ export default function Main(props) {
         }
 
         // Get cell metadata on old color, value and format for ne cell
-        oldColor = getOldColor(newCell)
-        v = getValue(newCell)
-        format = getFormat(newCell)
+        oldColor = getOldColor(newCell, sheetName)
+        v = getValue(newCell, sheetName)
+        format = getFormat(newCell, sheetName)
         wb.Sheets[sheetName][newCell].s.fgColor = {rgb: "FCCA46"}
 
 
@@ -183,33 +183,35 @@ export default function Main(props) {
     }
 
 
-    const getOldColor = (newCell) => {
-        if (worksheet.hasOwnProperty(newCell) && worksheet[newCell].hasOwnProperty('s') && worksheet[newCell]['s'].hasOwnProperty('fgColor')) {
-            return worksheet[newCell].s.fgColor.rgb
-        } else {
+    const getOldColor = (newCell, sheetName) => {
+        try {
+            return wb.Sheets[sheetName][newCell].s.fgColor.rgb
+        } catch {
             return "FFFFFF"
         }
     }
 
-    const getValue = (newCell) => {
-        if (worksheet.hasOwnProperty(newCell) && worksheet[newCell].hasOwnProperty('v')) {
-            return myRound(worksheet[newCell].v)
-        } else {
+    const getValue = (newCell, sheetName) => {
+        try {
+            return myRound(wb.Sheets[sheetName][newCell].v)
+        } catch {
             return 0
         }
     }
 
-    const getFormat = (newCell) => {
-        if (worksheet.hasOwnProperty(newCell) && worksheet[newCell].hasOwnProperty('z')) {
-            return worksheet[newCell].z
-        } else {
+    const getFormat = (newCell, sheetName) => {
+        try {
+            return wb.Sheets[sheetName][newCell].z
+        } catch {
             return 'General'
         }
     }
 
+
+
     const nextInputHandler = (payload) => {
 
-        //If input already exists, update the label and values
+        //If clicked cell already exists in input , update the label and values
         if (inputs.some(input => input.address === payload.address)) {
             let foundIndex = inputs.findIndex(input => input.address === payload.address)
             inputs[foundIndex].label = payload.label
@@ -217,28 +219,23 @@ export default function Main(props) {
 
             //If there are more inputs to show, user is cycling through inputs. So populate the next input
             if (inputs.length - 1 > foundIndex) {
-                const addressToShow = inputs[foundIndex + 1].address
-                const splits = addressToShow.split("!")
-                const sheetName = splits[0]
-                const rawAdd = splits[1]
-                if (sheetName !== currSheet) {
-                    handleSheetChange(sheetName)
-                }
-                addClickedCell(rawAdd, sheetName)
+                const nextAddress = inputs[foundIndex + 1].address
+                refreshWorksheetColor()
+                addAddresstoClickedCell(nextAddress)
             }
 
             //No more inputs to show, so default to null so we can go to loading screen
             else {
+                refreshWorksheetColor()
                 setClickedCell({})
             }
 
-            //New input being created
+        //New input being created
         } else {
             setInputs(inputs => [...inputs, payload])
+            refreshWorksheetColor()
             setClickedCell({})
         }
-
-        refreshWorksheetColor()
     }
 
     const prevInputHandler = (address) => {
@@ -251,8 +248,12 @@ export default function Main(props) {
         } else {
             prevAddress = inputs.slice(-1)[0].address
         }
+        addAddresstoClickedCell(prevAddress)
+    }
 
-        const splits = prevAddress.split("!")
+    const addAddresstoClickedCell = (address) => {
+
+        const splits = address.split("!")
         const sheetName = splits[0]
         if (sheetName !== currSheet) {
             handleSheetChange(sheetName)
@@ -263,15 +264,7 @@ export default function Main(props) {
 
 
     const refreshWorksheetColor = () => {
-
-        //If unclick is for current sheet...
-        if (clickedCells.sheet === currSheet) {
-            worksheet[clickedCells.raw].s.fgColor = {rgb: clickedCells.oldColor}
-
-            //If unclick is for another sheet...
-        } else {
-            wb.Sheets[clickedCells.sheet][clickedCells.raw].s.fgColor = {rgb: clickedCells.oldColor}
-        }
+        wb.Sheets[clickedCells.sheet][clickedCells.raw].s.fgColor = {rgb: clickedCells.oldColor}
     }
 
     const handleSliderChange = (event, newValue, setAddress) => {
