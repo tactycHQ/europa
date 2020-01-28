@@ -132,8 +132,8 @@ export default function IOSelection(props) {
         singleButtonContainer: {
             display: 'flex',
             width: '100%',
-            justifyContent:'center',
-            alignItems:'center'
+            justifyContent: 'center',
+            alignItems: 'center'
         },
         selectedInputs: {
             display: 'flex',
@@ -151,7 +151,7 @@ export default function IOSelection(props) {
             fontSize: '0.8em',
             fontWeight: '500',
             color: '#FEFEFD',
-            margin:'0px'
+            margin: '0px'
         }
     }))
     const classes = useStyles()
@@ -510,6 +510,23 @@ export default function IOSelection(props) {
 
     const createInstructions = () => {
 
+        let alreadySelected = props.inputs.map(input => {
+            return (
+                <div className={classes.singleButtonContainer}>
+                    <Button
+                        key={input.address}
+                        className={classes.selectedInputs}
+                        onClick={(e) => loadInputHandler(input.address)}
+                    >
+                        <h3 className={classes.selectedInputsText}>{input.label}</h3>
+                    </Button>
+                    <IconButton onClick={() => props.deleteInputHandler(input.address)} size="small">
+                        <RemoveCircleSharpIcon style={{color: '#BD467C'}} size="small"/>
+                    </IconButton>
+                </div>
+            )
+        })
+
         //If no inputs have been selected yet
         if (props.inputs.length === 0) {
             return (
@@ -533,24 +550,6 @@ export default function IOSelection(props) {
 
             //If user has selected at least one input
         } else if (props.inputs.length > 0 && props.inputs.length < MAXINPUTS) {
-
-            let alreadySelected = props.inputs.map(input => {
-                return (
-                    <div className={classes.singleButtonContainer}>
-                        <Button
-                            key={input.address}
-                            className={classes.selectedInputs}
-                            onClick={(e) => loadInputHandler(input.address)}
-                        >
-                            <h3 className={classes.selectedInputsText}>{input.label}</h3>
-                        </Button>
-                        <IconButton onClick={() => props.deleteInputHandler(input.address)} size="small">
-                            <RemoveCircleSharpIcon style={{color: '#BD467C'}} size="small"/>
-                        </IconButton>
-                    </div>
-                )
-            })
-
 
             return (
                 <div style={{
@@ -577,19 +576,22 @@ export default function IOSelection(props) {
             //All 5 inputs have been selected
         } else if (props.inputs.length === MAXINPUTS) {
             return (
-                <h3 className={classes.selectNote}>
-                    Select an output cell or range in the spreadsheet. <br/><br/>
+                <>
+                    <h3 className={classes.selectNote}>
+                        Select an output cell or range in the spreadsheet. <br/><br/>
 
-                    Output cells must be in the same <em>category</em> and have the same <em>units</em>. For
-                    example, Revenue (in dollars) or IRRs (in %).<br/><br/>
+                        Output cells must be in the same <em>category</em> and have the same <em>units</em>. For
+                        example, Revenue (in dollars) or IRRs (in %).<br/><br/>
 
-                    Multiple cells within a category (for e.g. 2020 Profit, 2021 Profit, 2022 Profit) are
-                    called <em>labels</em>.<br/><br/>
+                        Multiple cells within a category (for e.g. 2020 Profit, 2021 Profit, 2022 Profit) are
+                        called <em>labels</em>.<br/><br/>
 
-                    You can select upto 10 categories and 25 labels per category.<br/><br/>
+                        You can select upto 10 categories and 25 labels per category.<br/><br/>
 
-                    Click <em>Done with Outputs</em> to start calculations.
-                </h3>
+                        Click <em>Done with Outputs</em> to start calculations.
+                    </h3>
+                    {alreadySelected}
+                </>
             )
         }
     }
