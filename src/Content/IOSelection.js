@@ -520,7 +520,7 @@ export default function IOSelection(props) {
 
         let alreadySelected = props.inputs.map(input => {
             return (
-                <div className={classes.singleButtonContainer}>
+                <div className={classes.singleButtonContainer} key={input.address}>
                     <Button
                         key={input.address}
                         className={classes.selectedInputs}
