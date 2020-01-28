@@ -59,7 +59,6 @@ export default function Main(props) {
     const [worksheet, setWorksheet] = useState(false)
     const [currSheet, setCurrSheet] = useState(null)
     const [clickedCells, setClickedCell] = useState({})
-    const [visitMode, setVisitMode] = useState(false)
 
 
     //----------------Modes-------------------
@@ -209,7 +208,6 @@ export default function Main(props) {
     }
 
 
-
     const nextInputHandler = (payload) => {
 
         //If clicked cell already exists in input , update the label and values
@@ -221,31 +219,26 @@ export default function Main(props) {
             //If there are more inputs to show, user is cycling through inputs. So populate the next input
             if (inputs.length - 1 > foundIndex) {
                 const nextAddress = inputs[foundIndex + 1].address
-                setVisitMode(true)
+
                 refreshWorksheetColor()
                 addAddresstoClickedCell(nextAddress)
             }
 
             //No more inputs to show, so default to null so we can go to loading screen
             else {
-                setVisitMode(false)
                 refreshWorksheetColor()
                 setClickedCell({})
             }
 
-        //New input being created
+            //New input being created
         } else {
 
-            //Update current visit
-            if (visitMode) {
-
-            }
             //create new input
-            else {
-                setInputs(inputs => [...inputs, payload])
-                refreshWorksheetColor()
-                setClickedCell({})
-            }
+
+            setInputs(inputs => [...inputs, payload])
+            refreshWorksheetColor()
+            setClickedCell({})
+
         }
     }
 
@@ -255,13 +248,11 @@ export default function Main(props) {
 
         //If clicked cell already exists in inputs, we must be cycling through inputs
         if (inputs.some(input => input.address === address)) {
-            setVisitMode(true)
             const currIndex = inputs.findIndex(input => input.address === address)
             prevAddress = inputs[currIndex - 1].address
 
-        //This means we are entering previous for the first time, so just return the last element in inputs
+            //This means we are entering previous for the first time, so just return the last element in inputs
         } else {
-            setVisitMode(true)
             prevAddress = inputs.slice(-1)[0].address
         }
         addAddresstoClickedCell(prevAddress)
