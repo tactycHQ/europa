@@ -8,7 +8,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Paper from "@material-ui/core/Paper"
 import InputLabel from "@material-ui/core/InputLabel"
 import Dialog from "@material-ui/core/Dialog";
-import CancelSharpIcon from '@material-ui/icons/CancelSharp'
+import RemoveCircleSharpIcon from '@material-ui/icons/RemoveCircleSharp'
 import IconButton from "@material-ui/core/IconButton";
 import {
     between,
@@ -129,25 +129,29 @@ export default function IOSelection(props) {
             fontSize: '1.0em',
             // background: '#D7DEE2'
         },
-        singleButtonContainer:{
+        singleButtonContainer: {
             display: 'flex',
-            width: '100%'
+            width: '100%',
+            justifyContent:'center',
+            alignItems:'center'
         },
         selectedInputs: {
             display: 'flex',
             flexDirection: 'column',
-            backgroundColor: '#A5014B',
-            padding: "2px",
-            marginBottom: '3px',
-            width: '90%'
+            backgroundColor: '#BD467C',
+            padding: '2px',
+            marginBottom: '2px',
+            width: '90%',
+            "&:hover": {
+                backgroundColor: "#A5014B",
+            }
         },
         selectedInputsText: {
             fontFamily: 'Questrial',
-            fontSize: '0.85em',
-            fontWeight: '300',
+            fontSize: '0.8em',
+            fontWeight: '500',
             color: '#FEFEFD',
-            margin: '0px'
-            // marginTop:'5px'
+            margin:'0px'
         }
     }))
     const classes = useStyles()
@@ -541,7 +545,7 @@ export default function IOSelection(props) {
                             <h3 className={classes.selectedInputsText}>{input.label}</h3>
                         </Button>
                         <IconButton onClick={() => props.deleteInputHandler(input.address)} size="small">
-                            <CancelSharpIcon size="small"/>
+                            <RemoveCircleSharpIcon style={{color: '#BD467C'}} size="small"/>
                         </IconButton>
                     </div>
                 )
@@ -559,8 +563,12 @@ export default function IOSelection(props) {
                     <h3 className={classes.selectNote}>
                         Please select the next input. You can select up to 5 inputs <br/><br/>
                     </h3>
-                    <h3 className={classes.selectNote} style={{color: '#A5014B', marginBottom: '1px'}}>Selected Inputs
-                        Thus Far</h3>
+                    <h3 className={classes.selectNote} style={{
+                        fontSize: '0.9em',
+                        fontWeight: '800',
+                        color: '#A5014B',
+                        marginBottom: '1px'
+                    }}>Selected Inputs Thus Far</h3>
                     {alreadySelected}
                 </div>
 
