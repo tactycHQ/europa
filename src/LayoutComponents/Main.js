@@ -211,14 +211,28 @@ export default function Main(props) {
 
         //If input already exists, update the label and values
         if (inputs.some(input => input.address === payload.address)) {
-            let foundInput = inputs.find(input => input.address === payload.address)
-            foundInput.label = payload.label
-            foundInput.values = payload.values
+            let foundIndex = inputs.findIndex(input => input.address === payload.address)
+            inputs[foundIndex].label = payload.label
+            inputs[foundIndex].values = payload.values
+
+            //If there are more inputs to show, user is cycling through inputs. So populate the next input
+            if (inputs.length - 1 > foundIndex) {
+                const addressToShow = inputs[foundIndex + 1].address
+                const raw_add = addressToShow.split("!").pop()
+                addClickedCell(raw_add)
+            }
+
+            //No more inputs to show, so default to null so we can go to loading screen
+            else {
+                setClickedCell({})
+            }
+
+        //New input being created
         } else {
             setInputs(inputs => [...inputs, payload])
+            setClickedCell({})
         }
 
-        setClickedCell({})
         refreshWorksheetColor()
     }
 
@@ -228,7 +242,7 @@ export default function Main(props) {
         if (clickedCells.sheet === currSheet) {
             worksheet[clickedCells.raw].s.fgColor = {rgb: clickedCells.oldColor}
 
-        //If unclick is for another sheet...
+            //If unclick is for another sheet...
         } else {
             wb.Sheets[clickedCells.sheet][clickedCells.raw].s.fgColor = {rgb: clickedCells.oldColor}
         }
