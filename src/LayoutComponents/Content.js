@@ -100,6 +100,7 @@ export default function Content(props) {
                     deleteInputHandler={props.deleteInputHandler}
                     handleSheetChange={props.handleSheetChange}
                     addClickedCell={props.addClickedCell}
+                    enableClick={props.enableClick}
                     inputs={props.inputs}
                     IOState={IOState}
                 />
@@ -115,6 +116,7 @@ export default function Content(props) {
                             sheets={props.sheets}
                             handleSheetChange={props.handleSheetChange}
                             IOState={IOState}
+                            enableClick={props.enableClick}
                         />
                     </Route>
                 </Switch>

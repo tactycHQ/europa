@@ -59,6 +59,7 @@ export default function Main(props) {
     const [worksheet, setWorksheet] = useState(false)
     const [currSheet, setCurrSheet] = useState(null)
     const [clickedCells, setClickedCell] = useState({})
+    const [enableClick, setEnableClick] = useState(true)
 
 
     //----------------Modes-------------------
@@ -218,6 +219,7 @@ export default function Main(props) {
         }
         refreshWorksheetColor()
         setClickedCell({})
+        setEnableClick(true)
     }
 
     const deleteInputHandler = (address) => {
@@ -228,6 +230,7 @@ export default function Main(props) {
 
     const loadInputHandler = (address) =>{
         addAddresstoClickedCell(address)
+        setEnableClick(false)
     }
 
     const addAddresstoClickedCell = (address) => {
@@ -291,6 +294,7 @@ export default function Main(props) {
                 loadInputHandler={loadInputHandler}
                 deleteInputHandler={deleteInputHandler}
                 inputs={inputs}
+                enableClick={enableClick}
             />
 
         } else {

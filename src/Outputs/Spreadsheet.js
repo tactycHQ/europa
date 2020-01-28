@@ -55,13 +55,15 @@ export default function Spreadsheet(props) {
 
 
     const onMouseClick = (e) => {
-        e.stopPropagation();
-        e.nativeEvent.stopImmediatePropagation()
+        if (props.enableClick) {
+            e.stopPropagation();
+            e.nativeEvent.stopImmediatePropagation()
 
-        let newCell = e.target.id.replace("sjs-", "")
+            let newCell = e.target.id.replace("sjs-", "")
 
-        if (worksheet.hasOwnProperty(newCell)) {
-            props.addClickedCell(newCell, props.currSheet)
+            if (worksheet.hasOwnProperty(newCell)) {
+                props.addClickedCell(newCell, props.currSheet)
+            }
         }
     }
 

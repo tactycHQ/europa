@@ -484,11 +484,18 @@ export default function IOSelection(props) {
 
         let setInputButton = null
         let doneWithInputs = null
+        let setText = null
+
+        if (props.enableClick) {
+            setText = "SET"
+        } else {
+            setText = "UPDATE"
+        }
 
         if (loaded) {
             setInputButton = (
                 <Button className={classes.selectButton} size="small" onClick={() => setInputHandler()}>
-                    <h3 className={classes.buttonText}>SET</h3>
+                    <h3 className={classes.buttonText}>{setText}</h3>
                 </Button>)
         }
 
