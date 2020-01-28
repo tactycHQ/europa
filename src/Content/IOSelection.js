@@ -561,14 +561,14 @@ export default function IOSelection(props) {
                     marginBottom: '10px'
                 }}>
                     <h3 className={classes.selectNote}>
-                        Please select the next input. You can select up to 5 inputs <br/><br/>
+                        Please select the next input from the spreadsheet. You can select up to 5 inputs <br/><br/>
                     </h3>
                     <h3 className={classes.selectNote} style={{
                         fontSize: '0.9em',
                         fontWeight: '800',
                         color: '#A5014B',
                         marginBottom: '1px'
-                    }}>Selected Inputs Thus Far</h3>
+                    }}>Selected Inputs</h3>
                     {alreadySelected}
                 </div>
 
