@@ -242,9 +242,12 @@ export default function Main(props) {
 
         let prevAddress
 
+        //If clicked cell already exists in inputs, we must be cycling through inputs
         if (inputs.some(input => input.address === address)) {
             const currIndex = inputs.findIndex(input => input.address === address)
             prevAddress = inputs[currIndex - 1].address
+
+        //This means we are entering previous for the first time, so just return the last element in inputs
         } else {
             prevAddress = inputs.slice(-1)[0].address
         }
