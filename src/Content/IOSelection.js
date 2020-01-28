@@ -471,17 +471,7 @@ export default function IOSelection(props) {
     }
 
     const prevHandler = () => {
-
-        if (props.inputs.some(input => input.address === address)) {
-            const currIndex = props.inputs.findIndex(input => input.address === address)
-            const addressToShow = props.inputs[currIndex - 1].address
-            const raw_add = addressToShow.split("!").pop()
-            console.log(props.inputs[currIndex-1])
-            props.addClickedCell(raw_add)
-        } else {
-            let lastInput = props.inputs.slice(-1)[0]
-            props.addClickedCell(lastInput.address.split("!").pop())
-        }
+        props.prevInputHandler(address)
     }
 
     const nextHandler = () => {
@@ -491,14 +481,14 @@ export default function IOSelection(props) {
             setErrorOpen(true)
             setError("Please give this input a name before proceeding. A name could be descriptions of the driver, such as Growth Rate or Profit Margin.")
 
-        //Check if label has already been assigned to another input
+            //Check if label has already been assigned to another input
         } else if (props.inputs.some(input => {
             return (input.label === label) && (input.address !== address)
         })) {
             setErrorOpen(true)
             setError("Input name has already been assigned to another input. Please select a different name")
 
-        //Go for inserting into input array
+            //Go for inserting into input array
         } else {
             const inputPayload = {
                 "address": address,

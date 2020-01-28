@@ -62,7 +62,7 @@ export default function Spreadsheet(props) {
         let newCell = e.target.id.replace("sjs-", "")
 
         if (worksheet.hasOwnProperty(newCell)) {
-            props.addClickedCell(newCell)
+            props.addClickedCell(newCell, props.currSheet)
         }
     }
 

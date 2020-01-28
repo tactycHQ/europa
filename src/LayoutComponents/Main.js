@@ -153,7 +153,7 @@ export default function Main(props) {
 
 
     // Defining functions
-    const addClickedCell = (newCell) => {
+    const addClickedCell = (newCell, sheetName) => {
 
         let oldColor
         let v
@@ -168,13 +168,13 @@ export default function Main(props) {
         oldColor = getOldColor(newCell)
         v = getValue(newCell)
         format = getFormat(newCell)
-        worksheet[newCell].s.fgColor = {rgb: "FCCA46"}
+        wb.Sheets[sheetName][newCell].s.fgColor = {rgb: "FCCA46"}
 
 
         //Set new clicked cell
         setClickedCell({
-            address: currSheet + '!' + newCell,
-            sheet: currSheet,
+            address: sheetName + '!' + newCell,
+            sheet: sheetName,
             raw: newCell,
             oldColor: oldColor,
             value: v,
@@ -218,8 +218,13 @@ export default function Main(props) {
             //If there are more inputs to show, user is cycling through inputs. So populate the next input
             if (inputs.length - 1 > foundIndex) {
                 const addressToShow = inputs[foundIndex + 1].address
-                const raw_add = addressToShow.split("!").pop()
-                addClickedCell(raw_add)
+                const splits = addressToShow.split("!")
+                const sheetName = splits[0]
+                const rawAdd = splits[1]
+                if (sheetName !== currSheet) {
+                    handleSheetChange(sheetName)
+                }
+                addClickedCell(rawAdd, sheetName)
             }
 
             //No more inputs to show, so default to null so we can go to loading screen
@@ -227,7 +232,7 @@ export default function Main(props) {
                 setClickedCell({})
             }
 
-        //New input being created
+            //New input being created
         } else {
             setInputs(inputs => [...inputs, payload])
             setClickedCell({})
@@ -235,6 +240,27 @@ export default function Main(props) {
 
         refreshWorksheetColor()
     }
+
+    const prevInputHandler = (address) => {
+
+        let prevAddress
+
+        if (inputs.some(input => input.address === address)) {
+            const currIndex = inputs.findIndex(input => input.address === address)
+            prevAddress = inputs[currIndex - 1].address
+        } else {
+            prevAddress = inputs.slice(-1)[0].address
+        }
+
+        const splits = prevAddress.split("!")
+        const sheetName = splits[0]
+        if (sheetName !== currSheet) {
+            handleSheetChange(sheetName)
+        }
+        const rawAdd = splits[1]
+        addClickedCell(rawAdd, sheetName)
+    }
+
 
     const refreshWorksheetColor = () => {
 
@@ -289,6 +315,7 @@ export default function Main(props) {
                 handleSheetChange={handleSheetChange}
                 clickedCells={clickedCells}
                 addClickedCell={addClickedCell}
+                prevInputHandler={prevInputHandler}
                 nextInputHandler={nextInputHandler}
                 inputs={inputs}
             />

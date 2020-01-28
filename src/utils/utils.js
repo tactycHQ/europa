@@ -141,3 +141,5 @@ export function hasNumber(myString) {
   return !isNaN(myString);
 }
 
+
+

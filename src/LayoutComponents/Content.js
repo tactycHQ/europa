@@ -95,7 +95,9 @@ export default function Content(props) {
                     outputs={props.outputs}
                     currSheet={props.currSheet}
                     clickedCells={props.clickedCells}
+                    prevInputHandler={props.prevInputHandler}
                     nextInputHandler={props.nextInputHandler}
+                    handleSheetChange={props.handleSheetChange}
                     addClickedCell={props.addClickedCell}
                     inputs={props.inputs}
                     IOState={IOState}
@@ -106,6 +108,7 @@ export default function Content(props) {
                             type="spreadsheet"
                             mode={props.mode}
                             worksheet={props.worksheet}
+                            currSheet={props.currSheet}
                             clickedCells={props.clickedCells}
                             addClickedCell={props.addClickedCell}
                             sheets={props.sheets}
