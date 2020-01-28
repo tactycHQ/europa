@@ -476,20 +476,22 @@ export default function IOSelection(props) {
 
     const nextHandler = () => {
 
-        //If label matches address, thow a dialog
-        if (label === address) {
+        //If label matches address, thow a dialog. TODO make this into matching address
+        if (label === '') {
             setErrorOpen(true)
             setError("Please give this input a name before proceeding. A name could be descriptions of the driver, such as Growth Rate or Profit Margin.")
+        }
 
-        //Check if label has already been assigned to another input
-        } else if (props.inputs.some(input => {
+        //Check if label has already been assigned to another input, throw a duplicate error
+        else if (props.inputs.some(input => {
             return (input.label === label) && (input.address !== address)
         })) {
             setErrorOpen(true)
             setError("Input name has already been assigned to another input. Please select a different name")
+        }
 
-        //Go for inserting into input array
-        } else {
+        //Otherwise we are go for inserting into input array
+        else {
             const inputPayload = {
                 "address": address,
                 "value": value,
@@ -497,18 +499,22 @@ export default function IOSelection(props) {
                 "values": incr.sort(ascending),
                 "format": format,
             }
-            setAddress('')
-            setvalue(null)
-            setLabel('')
-            setNumSteps([])
-            setBounds([])
-            setIncr([])
-            setFormat('General')
-            setError(null)
-            setErrorOpen(false)
-            setLoaded(false)
             props.nextInputHandler(inputPayload)
+            resetState()
         }
+    }
+
+    const resetState = () => {
+        setAddress('')
+        setvalue(null)
+        setLabel('')
+        setNumSteps([])
+        setBounds([])
+        setIncr([])
+        setFormat('General')
+        setError(null)
+        setErrorOpen(false)
+        setLoaded(false)
     }
 
     const createButtons = () => {

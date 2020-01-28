@@ -153,6 +153,31 @@ export default function Main(props) {
 
 
     // Defining functions
+
+    const getOldColor = (newCell, sheetName) => {
+        try {
+            return wb.Sheets[sheetName][newCell].s.fgColor.rgb
+        } catch {
+            return "FFFFFF"
+        }
+    }
+
+    const getValue = (newCell, sheetName) => {
+        try {
+            return myRound(wb.Sheets[sheetName][newCell].v)
+        } catch {
+            return 0
+        }
+    }
+
+    const getFormat = (newCell, sheetName) => {
+        try {
+            return wb.Sheets[sheetName][newCell].z
+        } catch {
+            return 'General'
+        }
+    }
+
     const addClickedCell = (newCell, sheetName) => {
 
         let oldColor
@@ -182,35 +207,9 @@ export default function Main(props) {
         })
     }
 
-
-    const getOldColor = (newCell, sheetName) => {
-        try {
-            return wb.Sheets[sheetName][newCell].s.fgColor.rgb
-        } catch {
-            return "FFFFFF"
-        }
-    }
-
-    const getValue = (newCell, sheetName) => {
-        try {
-            return myRound(wb.Sheets[sheetName][newCell].v)
-        } catch {
-            return 0
-        }
-    }
-
-    const getFormat = (newCell, sheetName) => {
-        try {
-            return wb.Sheets[sheetName][newCell].z
-        } catch {
-            return 'General'
-        }
-    }
-
-
     const nextInputHandler = (payload) => {
 
-        //If clicked cell already exists in input , update the label and values
+        //If payload cell already exists in input, update the label and values
         if (inputs.some(input => input.address === payload.address)) {
             let foundIndex = inputs.findIndex(input => input.address === payload.address)
             inputs[foundIndex].label = payload.label
@@ -219,7 +218,6 @@ export default function Main(props) {
             //If there are more inputs to show, user is cycling through inputs. So populate the next input
             if (inputs.length - 1 > foundIndex) {
                 const nextAddress = inputs[foundIndex + 1].address
-
                 refreshWorksheetColor()
                 addAddresstoClickedCell(nextAddress)
             }
@@ -229,16 +227,13 @@ export default function Main(props) {
                 refreshWorksheetColor()
                 setClickedCell({})
             }
+        }
 
-            //New input being created
-        } else {
-
-            //create new input
-
+        //Create new input
+        else {
             setInputs(inputs => [...inputs, payload])
             refreshWorksheetColor()
             setClickedCell({})
-
         }
     }
 
