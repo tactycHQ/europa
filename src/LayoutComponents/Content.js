@@ -95,8 +95,9 @@ export default function Content(props) {
                     outputs={props.outputs}
                     currSheet={props.currSheet}
                     clickedCells={props.clickedCells}
-                    prevInputHandler={props.prevInputHandler}
-                    nextInputHandler={props.nextInputHandler}
+                    setInputHandler={props.setInputHandler}
+                    loadInputHandler={props.loadInputHandler}
+                    deleteInputHandler={props.deleteInputHandler}
                     handleSheetChange={props.handleSheetChange}
                     addClickedCell={props.addClickedCell}
                     inputs={props.inputs}

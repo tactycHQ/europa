@@ -207,50 +207,27 @@ export default function Main(props) {
         })
     }
 
-    const nextInputHandler = (payload) => {
-
-        //If payload cell already exists in input, update the label and values
-        if (inputs.some(input => input.address === payload.address)) {
-            let foundIndex = inputs.findIndex(input => input.address === payload.address)
-            inputs[foundIndex].label = payload.label
-            inputs[foundIndex].values = payload.values
-
-            //If there are more inputs to show, user is cycling through inputs. So populate the next input
-            if (inputs.length - 1 > foundIndex) {
-                const nextAddress = inputs[foundIndex + 1].address
-                refreshWorksheetColor()
-                addAddresstoClickedCell(nextAddress)
-            }
-
-            //No more inputs to show, so default to null so we can go to loading screen
-            else {
-                refreshWorksheetColor()
-                setClickedCell({})
-            }
+    const setInputHandler = (payload) => {
+        let foundIndex = inputs.findIndex(input => input.address === payload.address)
+        if (foundIndex === -1) {
+            setInputs([...inputs, payload])
+        } else {
+            let newInputs = [...inputs]
+            newInputs[foundIndex] = payload
+            setInputs([...newInputs])
         }
-
-        //Create new input
-        else {
-            setInputs(inputs => [...inputs, payload])
-            refreshWorksheetColor()
-            setClickedCell({})
-        }
+        refreshWorksheetColor()
+        setClickedCell({})
     }
 
-    const prevInputHandler = (address) => {
+    const deleteInputHandler = (address) => {
+        const newInputs = inputs.filter(input => input.address !== address)
+        setInputs([...newInputs])
+        setClickedCell({})
+    }
 
-        let prevAddress
-
-        //If clicked cell already exists in inputs, we must be cycling through inputs
-        if (inputs.some(input => input.address === address)) {
-            const currIndex = inputs.findIndex(input => input.address === address)
-            prevAddress = inputs[currIndex - 1].address
-
-            //This means we are entering previous for the first time, so just return the last element in inputs
-        } else {
-            prevAddress = inputs.slice(-1)[0].address
-        }
-        addAddresstoClickedCell(prevAddress)
+    const loadInputHandler = (address) =>{
+        addAddresstoClickedCell(address)
     }
 
     const addAddresstoClickedCell = (address) => {
@@ -310,8 +287,9 @@ export default function Main(props) {
                 handleSheetChange={handleSheetChange}
                 clickedCells={clickedCells}
                 addClickedCell={addClickedCell}
-                prevInputHandler={prevInputHandler}
-                nextInputHandler={nextInputHandler}
+                setInputHandler={setInputHandler}
+                loadInputHandler={loadInputHandler}
+                deleteInputHandler={deleteInputHandler}
                 inputs={inputs}
             />
 
@@ -330,7 +308,7 @@ export default function Main(props) {
     }
 
 
-    // Executing functions
+// Executing functions
     const content = createContent()
     const home = createHome()
 

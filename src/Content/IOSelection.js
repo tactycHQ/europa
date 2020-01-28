@@ -8,7 +8,17 @@ import FormControl from "@material-ui/core/FormControl";
 import Paper from "@material-ui/core/Paper"
 import InputLabel from "@material-ui/core/InputLabel"
 import Dialog from "@material-ui/core/Dialog";
-import {between, convert_format, myRound, createBounds, computeSteps, ascending, hasNumber} from "../utils/utils";
+import CancelSharpIcon from '@material-ui/icons/CancelSharp'
+import IconButton from "@material-ui/core/IconButton";
+import {
+    between,
+    convert_format,
+    myRound,
+    createBounds,
+    computeSteps,
+    ascending,
+    hasNumber
+} from "../utils/utils";
 
 
 export default function IOSelection(props) {
@@ -39,71 +49,6 @@ export default function IOSelection(props) {
             width: '100%',
             alignContent: 'center'
         },
-        IOContainer: {
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            height: '100%',
-            // background:'blue'
-        },
-        divider: {
-            backgroundColor: '#D7DEE2',
-            // margin: '5px',
-            minHeight: '1px',
-            maxHeight: '1px',
-            // marginTop: '10%',
-            marginBottom: '1%'
-        },
-        buttons: {
-            display: 'flex',
-            margin: '3px',
-            color: '#006E9F',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            paddingLeft: '1px',
-            paddingRight: '1px',
-            paddingTop: '7px',
-            paddingBottom: '7px',
-            "&:hover": {
-                background: '#A2CADC'
-            }
-        },
-        saveButton: {
-            display: 'flex',
-            margin: '3px',
-            color: '#292F36',
-            backgroundColor: '#EBECEC',
-            // borderStyle: 'solid',
-            // borderColor: '#D8D9DA',
-            // borderWidth: 1,
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            paddingLeft: '1px',
-            paddingRight: '1px',
-            paddingTop: '7px',
-            paddingBottom: '7px',
-            marginBottom: '8%',
-            "&:hover": {
-                background: "#B9D7E4"
-            }
-        },
-        buttonLabel: {
-            fontSize: '0.9em',
-            paddingLeft: '5px',
-            fontFamily: 'Questrial',
-            color: '#292F36',
-            "&:hover": {
-                color: "#FEFEFD"
-            }
-        },
-        icon: {
-            color: '#006E9F',
-            "&:hover": {
-                color: "#3B9D7E4"
-            },
-            height: 15,
-            width: 15
-        },
         selectHeader: {
             display: 'flex',
             flexDirection: 'column',
@@ -132,15 +77,26 @@ export default function IOSelection(props) {
             padding: '8px',
             // width: '100%'
         },
+        buttonContainer: {
+            display: 'flex'
+        },
         selectButton: {
-            fontSize: '0.8em',
-            fontWeight: '100',
-            paddingLeft: '5px',
-            fontFamily: 'Questrial',
+            display: 'flex',
             background: '#006E9F',
+            justifyContent: 'center',
+            alignItems: 'center',
             color: '#FEFEFD',
+            padding: '5px',
             margin: '5px',
-            width: '100%'
+            width: '100%',
+            height: '40px',
+        },
+        buttonText: {
+            // backgroundColor:'yellow',
+            fontSize: '0.85em',
+            fontWeight: '100',
+            fontFamily: 'Questrial',
+            margin: '0px'
         },
         rootTextContainer: {
             display: 'flex',
@@ -173,13 +129,17 @@ export default function IOSelection(props) {
             fontSize: '1.0em',
             // background: '#D7DEE2'
         },
+        singleButtonContainer:{
+            display: 'flex',
+            width: '100%'
+        },
         selectedInputs: {
             display: 'flex',
             flexDirection: 'column',
             backgroundColor: '#A5014B',
             padding: "2px",
             marginBottom: '3px',
-            width: '100%'
+            width: '90%'
         },
         selectedInputsText: {
             fontFamily: 'Questrial',
@@ -465,16 +425,11 @@ export default function IOSelection(props) {
         setIncr([...new_increments])
     }
 
-
     const handleErrorClose = () => {
         setErrorOpen(false)
     }
 
-    const prevHandler = () => {
-        props.prevInputHandler(address)
-    }
-
-    const nextHandler = () => {
+    const setInputHandler = () => {
 
         //If label matches address, thow a dialog. TODO make this into matching address
         if (label === '') {
@@ -499,9 +454,13 @@ export default function IOSelection(props) {
                 "values": incr.sort(ascending),
                 "format": format,
             }
-            props.nextInputHandler(inputPayload)
+            props.setInputHandler(inputPayload)
             resetState()
         }
+    }
+
+    const loadInputHandler = (address) => {
+        props.loadInputHandler(address)
     }
 
     const resetState = () => {
@@ -519,42 +478,29 @@ export default function IOSelection(props) {
 
     const createButtons = () => {
 
-        let prevInputButton = null
-        let nextInputButton = null
+        let setInputButton = null
         let doneWithInputs = null
 
         if (loaded) {
-            nextInputButton = (
-                <Button className={classes.selectButton} variant="contained" color="secondary" size="small"
-                        onClick={() => nextHandler()}>
-                    Next Input
+            setInputButton = (
+                <Button className={classes.selectButton} size="small" onClick={() => setInputHandler()}>
+                    <h3 className={classes.buttonText}>SET</h3>
                 </Button>)
         }
 
 
-        if (props.inputs.length > 0) {
+        if (props.inputs.length >= 1 && !loaded) {
             doneWithInputs = (
-                <Button className={classes.selectButton} variant="contained" color="secondary" size="small">
-                    Done with all inputs
+                <Button className={classes.selectButton} size="small">
+                    <h3 className={classes.buttonText}>DONE WITH INPUTS</h3>
                 </Button>)
-        }
-
-
-        if (props.inputs.length > 0 && props.inputs[0].address !== address) {
-            prevInputButton = (
-                <Button className={classes.selectButton} variant="contained" color="secondary" size="small"
-                        onClick={() => prevHandler()}>
-                    Previous Input
-                </Button>
-            )
         }
 
         return (
-            <>
-                {nextInputButton}
-                {prevInputButton}
+            <div className={classes.buttonContainer}>
+                {setInputButton}
                 {doneWithInputs}
-            </>
+            </div>
         )
     }
 
@@ -586,9 +532,18 @@ export default function IOSelection(props) {
 
             let alreadySelected = props.inputs.map(input => {
                 return (
-                    <Paper key={input.address} className={classes.selectedInputs} elevation={0}>
-                        <h3 className={classes.selectedInputsText}>{input.label} : {input.address}</h3>
-                    </Paper>
+                    <div className={classes.singleButtonContainer}>
+                        <Button
+                            key={input.address}
+                            className={classes.selectedInputs}
+                            onClick={(e) => loadInputHandler(input.address)}
+                        >
+                            <h3 className={classes.selectedInputsText}>{input.label}</h3>
+                        </Button>
+                        <IconButton onClick={() => props.deleteInputHandler(input.address)} size="small">
+                            <CancelSharpIcon size="small"/>
+                        </IconButton>
+                    </div>
                 )
             })
 

@@ -141,5 +141,7 @@ export function hasNumber(myString) {
   return !isNaN(myString);
 }
 
-
+export function isEmpty(obj) {
+    return !obj || Object.keys(obj).length === 0;
+}
 
