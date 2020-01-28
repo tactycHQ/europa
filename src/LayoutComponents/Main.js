@@ -244,7 +244,6 @@ export default function Main(props) {
         addClickedCell(rawAdd, sheetName)
     }
 
-
     const refreshWorksheetColor = () => {
         wb.Sheets[clickedCells.sheet][clickedCells.raw].s.fgColor = {rgb: clickedCells.oldColor}
     }

@@ -467,6 +467,7 @@ export default function IOSelection(props) {
         props.loadInputHandler(address)
     }
 
+    //Other Functions
     const resetState = () => {
         setAddress('')
         setvalue(null)
