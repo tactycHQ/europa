@@ -2,6 +2,7 @@ import React, {useRef, useEffect, useState} from "react";
 import {utils} from "@sheet/core";
 import {makeStyles} from '@material-ui/core/styles'
 import {Card, Button} from "@material-ui/core";
+import "./sheetstyles.css"
 
 
 // import ssf from "../utils/fixformats"
@@ -44,6 +45,9 @@ export default function Spreadsheet(props) {
             display: 'flex',
             border: 'solid',
             marginTop: '22px',
+            height:'100%',
+            width:'100%',
+            marginBottom: '5px',
             borderWidth: '1px',
             borderColor: '#D0D3D6',
             background: '#F8F8F7',
@@ -64,10 +68,9 @@ export default function Spreadsheet(props) {
             let newCell = e.target.id.replace("sjs-", "")
 
             if (worksheet.hasOwnProperty(newCell)) {
-                if (props.IOState==='inputs') {
+                if (props.IOState === 'inputs') {
                     props.addClickedCell(newCell, props.currSheet)
-                }
-                else {
+                } else {
                     props.addSelectedCells(newCell, props.currSheet)
                 }
             }
@@ -106,7 +109,7 @@ export default function Spreadsheet(props) {
         const createHTML = () => {
             let html = utils.sheet_to_html(worksheet); // first worksheet HTML
             html = html.replace("border-color:black", "border-color:#F1F2EF")
-            html = html.replace("border:1px", "border:1px")
+            // html = html.replace("border:1px", "border:1px")
             return html
         }
 
@@ -126,10 +129,11 @@ export default function Spreadsheet(props) {
 
     return (
         <div className={classes.topContainer}>
-            <div
+            <Card
                 className={classes.spreadsheet}
                 ref={sheetEl}
                 onClick={(evt) => onMouseClick(evt)}
+                elevation={2}
             />
             <Card className={classes.sheetContainer} elevation={0} square={true}>
                 {sheets}

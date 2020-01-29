@@ -75,7 +75,7 @@ export default function Content(props) {
         oldColor = getOldColor(newCell, sheetName)
         v = getValue(newCell, sheetName)
         format = getFormat(newCell, sheetName)
-        props.wb.Sheets[sheetName][newCell].s.fgColor = {rgb: "FCCA46"}
+        props.wb.Sheets[sheetName][newCell].s.fgColor = {rgb: "FDE29A"}
 
 
         //Set new clicked cell
