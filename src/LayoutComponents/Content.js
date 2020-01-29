@@ -33,7 +33,7 @@ export default function Content(props) {
     const [clickedCells, setClickedCell] = useState({})
     const [selectedCells, setSelectedCells] = useState([])
     const [enableClick, setEnableClick] = useState(true)
-    const [IOState, setIOState] = useState("outputs")
+    const [IOState, setIOState] = useState("inputs")
 
     //INPUT SELECTIONS
     const getOldColor = (newCell, sheetName) => {
@@ -96,6 +96,7 @@ export default function Content(props) {
         let format
 
         //if clicked a different cell, then reset color of unclicked cell
+
 
         // Get cell metadata on old color, value and format for ne cell
         oldColor = getOldColor(newCell, sheetName)
