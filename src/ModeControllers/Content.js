@@ -35,7 +35,7 @@ export default function Content(props) {
     const [enableClick, setEnableClick] = useState(true)
     const [IOState, setIOState] = useState("inputs")
 
-    //INPUT SELECTIONS
+    //Input Selection Functions
     const getOldColor = (newCell, sheetName) => {
         try {
             return props.wb.Sheets[sheetName][newCell].s.fgColor.rgb
@@ -89,6 +89,12 @@ export default function Content(props) {
         })
     }
 
+    const refreshWorksheetColor = () => {
+        props.wb.Sheets[clickedCells.sheet][clickedCells.raw].s.fgColor = {rgb: clickedCells.oldColor}
+    }
+
+
+    //Output Selection Functions
     const addSelectedCells = (newCell, sheetName) => {
 
         let oldColor
@@ -117,6 +123,7 @@ export default function Content(props) {
         }])
     }
 
+    //Input Handlers
     const setInputHandler = (payload) => {
         let foundIndex = props.inputs.findIndex(input => input.address === payload.address)
         if (foundIndex === -1) {
@@ -153,14 +160,10 @@ export default function Content(props) {
         addClickedCell(rawAdd, sheetName)
     }
 
-    const refreshWorksheetColor = () => {
-        props.wb.Sheets[clickedCells.sheet][clickedCells.raw].s.fgColor = {rgb: clickedCells.oldColor}
-    }
-
+    //Global Functions
     const updateIOState = (type) => {
         setIOState(type)
     }
-
 
     let contentEl
 

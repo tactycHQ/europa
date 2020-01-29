@@ -6,7 +6,7 @@ import TopBar from "./TopBar"
 import Spinner from "../UtilityComponents/Spinner"
 import {getSolutions, getMetaData, getFormats, loadFile} from "./api"
 import {Switch, Route} from 'react-router-dom'
-import {fixFormat, myRound} from "../utils/utils";
+import {fixFormat} from "../utils/utils";
 
 
 function extractDefaults(values) {
@@ -147,9 +147,6 @@ export default function Main(props) {
 
 
     // Defining functions
-
-
-
     const handleSliderChange = (event, newValue, setAddress) => {
         setcurrInputVal(prevState => ({
             ...prevState,

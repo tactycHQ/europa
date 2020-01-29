@@ -2,33 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Charts/mixbar.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Charts/radial.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Charts/stackedbar.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Content/Dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/Dashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Content/InputsController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/InputsController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Inputs/CaseSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/CaseSelector.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Inputs/InputSlider.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/InputSlider.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Content.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Content.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/TopBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/TopBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Other/CardSettings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/UtilityComponents/CardSettings.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Other/InputDropdown.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/UtilityComponents/InputDropdown.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Other/OutSliders.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/UtilityComponents/OutSliders.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Other/OutputDropdown.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/UtilityComponents/OutputDropdown.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Other/Spinner.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/UtilityComponents/Spinner.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Other/ToggleInput.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/UtilityComponents/ToggleInput.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Outputs/DistributionChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Features/DistributionChart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Outputs/InputImportance.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Features/InputImportance.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Outputs/ScenarioAnalysis.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Features/ScenarioAnalysis.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Outputs/SensitivityAnalysis.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Features/SensitivityAnalysis.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Outputs/Spreadsheet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Features/Spreadsheet.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Outputs/SummaryChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Features/SummaryChart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Outputs/sheetstyles.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/Features/sheetstyles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Sidebar/DependencyGraph.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Features/DependencyGraph.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ModeControllers/Content.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Content.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ModeControllers/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Main.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -181,13 +157,6 @@
       <workItem from="1579549438409" duration="96800000" />
       <workItem from="1579884248250" duration="11431000" />
       <workItem from="1580144125934" duration="32973000" />
-    </task>
-    <task id="LOCAL-00144" summary="First commit">
-      <created>1579723741498</created>
-      <option name="number" value="00144" />
-      <option name="presentableId" value="LOCAL-00144" />
-      <option name="project" value="LOCAL" />
-      <updated>1579723741498</updated>
     </task>
     <task id="LOCAL-00145" summary="First commit">
       <created>1579734680357</created>
@@ -525,7 +494,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580326480846</updated>
     </task>
-    <option name="localTasksCounter" value="193" />
+    <task id="LOCAL-00193" summary="First commit">
+      <created>1580326762506</created>
+      <option name="number" value="00193" />
+      <option name="presentableId" value="LOCAL-00193" />
+      <option name="project" value="LOCAL" />
+      <updated>1580326762506</updated>
+    </task>
+    <option name="localTasksCounter" value="194" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
