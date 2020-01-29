@@ -31,8 +31,9 @@ export default function Content(props) {
     }))
     const classes = useStyles()
     const [clickedCells, setClickedCell] = useState({})
+    const [selectedCells, setSelectedCells] = useState({})
     const [enableClick, setEnableClick] = useState(true)
-    const [IOState, setIOState] = useState("outputs")
+    const [IOState, setIOState] = useState("inputs")
 
     //INPUT SELECTIONS
     const getOldColor = (newCell, sheetName) => {
@@ -88,6 +89,38 @@ export default function Content(props) {
         })
     }
 
+    const addSelectedCells = (newCells, sheetName) => {
+
+        const _selectedCells = newCells.map(newCell => {
+
+                let oldColor
+                let v
+                let format
+
+                //if clicked a different cell, then reset color of unclicked cell
+
+                // Get cell metadata on old color, value and format for ne cell
+                oldColor = getOldColor(newCell, sheetName)
+                v = getValue(newCell, sheetName)
+                format = getFormat(newCell, sheetName)
+                props.wb.Sheets[sheetName][newCell].s.fgColor = {rgb: "FCCA46"}
+
+                return {
+                    address: sheetName + '!' + newCell,
+                    sheet: sheetName,
+                    raw: newCell,
+                    oldColor: oldColor,
+                    value: v,
+                    format: format
+                }
+            }
+        )
+
+        //Set new clicked cell
+        setSelectedCells([..._selectedCells])
+    }
+
+
     const setInputHandler = (payload) => {
         let foundIndex = props.inputs.findIndex(input => input.address === payload.address)
         if (foundIndex === -1) {
@@ -128,7 +161,7 @@ export default function Content(props) {
         props.wb.Sheets[clickedCells.sheet][clickedCells.raw].s.fgColor = {rgb: clickedCells.oldColor}
     }
 
-    const updateIOState = (type) =>{
+    const updateIOState = (type) => {
         setIOState(type)
     }
 
@@ -214,7 +247,9 @@ export default function Content(props) {
                             worksheet={props.worksheet}
                             currSheet={props.currSheet}
                             clickedCells={clickedCells}
+                            selectedCells={selectedCells}
                             addClickedCell={addClickedCell}
+                            addSelectedCells={addSelectedCells}
                             sheets={props.sheets}
                             handleSheetChange={props.handleSheetChange}
                             IOState={IOState}

@@ -1,8 +1,8 @@
-import React, {useRef, useEffect} from "react";
+import React, {useRef, useEffect, useState} from "react";
 import {utils} from "@sheet/core";
 import {makeStyles} from '@material-ui/core/styles'
 import {Card, Button} from "@material-ui/core";
-import { SelectableGroup } from 'react-selectable-fast'
+
 
 // import ssf from "../utils/fixformats"
 
@@ -22,7 +22,7 @@ export default function Spreadsheet(props) {
             position: 'fixed',
             top: 35,
             padding: '2px',
-            paddingBottom:'0px',
+            paddingBottom: '0px',
             backgroundColor: '#FEFEFD',
             // backgroundColor: 'red',
             width: '100%'
@@ -33,8 +33,8 @@ export default function Spreadsheet(props) {
             margin: '2px',
             marginBottom: '0px',
             padding: '8px',
-            paddingTop:'2px',
-            paddingBottom:'0px',
+            paddingTop: '2px',
+            paddingBottom: '0px',
             fontSize: '0.7em',
             fontFamily: 'Questrial',
             color: '#F4F9E9',
@@ -43,20 +43,23 @@ export default function Spreadsheet(props) {
         spreadsheet: {
             display: 'flex',
             border: 'solid',
-            marginTop:'22px',
+            marginTop: '22px',
             borderWidth: '1px',
             borderColor: '#D0D3D6',
             background: '#F8F8F7',
             cursor: 'cell',
+            userSelect: 'none'
         }
     }))
     const classes = useStyles()
     const sheetEl = useRef(null)
     const worksheet = props.worksheet
+    const [listen, setListen] = useState(false)
+    const [selected, setSelected] = useState([])
 
 
     const onMouseClick = (e) => {
-        if(props.IOState==='inputs') {
+        if (props.IOState === 'inputs') {
             if (props.enableClick) {
                 e.stopPropagation();
                 e.nativeEvent.stopImmediatePropagation()
@@ -70,9 +73,27 @@ export default function Spreadsheet(props) {
         }
     }
 
-    const onMouseDownHandler = (e) => {
-        console.log(props.enableClick)
-        console.log(e)
+    const onDrag = (e) => {
+        if (props.IOState === 'outputs') {
+            if (listen) {
+                setSelected([...selected, e.target.id.replace("sjs-", "")])
+            } else {
+            }
+        }
+    }
+
+    const onDown = () => {
+        if (props.IOState === 'outputs') {
+            setListen(false)
+        }
+    }
+
+    const onUp = () => {
+        if (props.IOState === 'outputs') {
+            props.addSelectedCells([...new Set(selected)], props.currSheet)
+            setListen(false)
+            setSelected([])
+        }
     }
 
     const onSheetClick = (e, sheet) => {
@@ -88,12 +109,13 @@ export default function Spreadsheet(props) {
         }
 
         sheetEl.current.innerHTML = createHTML(worksheet)
-    }, [worksheet, props.clickedCells])
+    }, [worksheet, props.clickedCells, props.selectedCells])
 
 
     const createSheets = () => {
         return props.sheets.map(sheet => {
-            return (<Button key={sheet} className={classes.sheet} onClick={e => onSheetClick(e, sheet)}>{sheet}</Button>)
+            return (
+                <Button key={sheet} className={classes.sheet} onClick={e => onSheetClick(e, sheet)}>{sheet}</Button>)
         })
     }
 
@@ -102,15 +124,14 @@ export default function Spreadsheet(props) {
 
     return (
         <div className={classes.topContainer}>
-            <SelectableGroup
-                onSelectionFinish={(e) => onMouseDownHandler(e)}
-            >
             <div
                 className={classes.spreadsheet}
                 ref={sheetEl}
                 onClick={(evt) => onMouseClick(evt)}
+                onMouseMove={(e) => onDrag(e)}
+                onMouseDown={(e) => onDown(e)}
+                onMouseUp={(e) => onUp(e)}
             />
-            </SelectableGroup>
             <Card className={classes.sheetContainer} elevation={0} square={true}>
                 {sheets}
             </Card>
