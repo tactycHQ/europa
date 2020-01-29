@@ -32,7 +32,7 @@ export default function Content(props) {
     const classes = useStyles()
     const [clickedCells, setClickedCell] = useState({})
     const [enableClick, setEnableClick] = useState(true)
-    const [IOState, setIOState] = useState("inputs")
+    const [IOState, setIOState] = useState("outputs")
 
     //INPUT SELECTIONS
     const getOldColor = (newCell, sheetName) => {
@@ -128,6 +128,10 @@ export default function Content(props) {
         props.wb.Sheets[clickedCells.sheet][clickedCells.raw].s.fgColor = {rgb: clickedCells.oldColor}
     }
 
+    const updateIOState = (type) =>{
+        setIOState(type)
+    }
+
 
     let contentEl
 
@@ -200,6 +204,7 @@ export default function Content(props) {
                     enableClick={enableClick}
                     inputs={props.inputs}
                     IOState={IOState}
+                    updateIOState={updateIOState}
                 />
                 <Switch>
                     <Route exact path="/spreadsheet">

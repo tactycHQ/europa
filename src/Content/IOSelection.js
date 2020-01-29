@@ -29,6 +29,7 @@ export default function IOSelection(props) {
     const UPPER_RATIO = 1.1
     const NUM_STEPS = 5
 
+
     const useStyles = makeStyles(theme => ({
         root: {
             display: 'flex',
@@ -155,8 +156,6 @@ export default function IOSelection(props) {
         }
     }))
     const classes = useStyles()
-
-
     const [address, setAddress] = useState('')
     const [label, setLabel] = useState('')
     const [numSteps, setNumSteps] = useState(5)
@@ -164,10 +163,8 @@ export default function IOSelection(props) {
     const [incr, setIncr] = useState([])
     const [value, setvalue] = useState(null)
     const [format, setFormat] = useState('General')
-
     const [error, setError] = useState(null)
     const [errorOpen, setErrorOpen] = useState(false)
-
     const [loaded, setLoaded] = useState(false)
 
     //Hooks
@@ -503,7 +500,7 @@ export default function IOSelection(props) {
 
         if (props.inputs.length >= 1 && !loaded) {
             doneWithInputs = (
-                <Button className={classes.selectButton} size="small">
+                <Button className={classes.selectButton} size="small" onClick={() => props.updateIOState("outputs")}>
                     <h3 className={classes.buttonText}>DONE WITH INPUTS</h3>
                 </Button>)
         }

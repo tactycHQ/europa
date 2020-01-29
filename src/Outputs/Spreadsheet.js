@@ -2,6 +2,8 @@ import React, {useRef, useEffect} from "react";
 import {utils} from "@sheet/core";
 import {makeStyles} from '@material-ui/core/styles'
 import {Card, Button} from "@material-ui/core";
+import { SelectableGroup } from 'react-selectable-fast'
+import Parser from 'html-to-react'
 
 // import ssf from "../utils/fixformats"
 
@@ -55,16 +57,22 @@ export default function Spreadsheet(props) {
 
 
     const onMouseClick = (e) => {
-        if (props.enableClick) {
-            e.stopPropagation();
-            e.nativeEvent.stopImmediatePropagation()
+        if(props.IOState==='inputs') {
+            if (props.enableClick) {
+                e.stopPropagation();
+                e.nativeEvent.stopImmediatePropagation()
 
-            let newCell = e.target.id.replace("sjs-", "")
+                let newCell = e.target.id.replace("sjs-", "")
 
-            if (worksheet.hasOwnProperty(newCell)) {
-                props.addClickedCell(newCell, props.currSheet)
+                if (worksheet.hasOwnProperty(newCell)) {
+                    props.addClickedCell(newCell, props.currSheet)
+                }
             }
         }
+    }
+
+    const onMouseDownHandler = (e) => {
+        console.log(e)
     }
 
     const onSheetClick = (e, sheet) => {
@@ -94,11 +102,15 @@ export default function Spreadsheet(props) {
 
     return (
         <div className={classes.topContainer}>
+            <SelectableGroup
+                onSelectionFinish={(e) => onMouseDownHandler(e)}
+            >
             <div
                 className={classes.spreadsheet}
                 ref={sheetEl}
                 onClick={(evt) => onMouseClick(evt)}
             />
+            </SelectableGroup>
             <Card className={classes.sheetContainer} elevation={0} square={true}>
                 {sheets}
             </Card>
