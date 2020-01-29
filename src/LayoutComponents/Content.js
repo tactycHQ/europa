@@ -31,9 +31,9 @@ export default function Content(props) {
     }))
     const classes = useStyles()
     const [clickedCells, setClickedCell] = useState({})
-    const [selectedCells, setSelectedCells] = useState({})
+    const [selectedCells, setSelectedCells] = useState([])
     const [enableClick, setEnableClick] = useState(true)
-    const [IOState, setIOState] = useState("inputs")
+    const [IOState, setIOState] = useState("outputs")
 
     //INPUT SELECTIONS
     const getOldColor = (newCell, sheetName) => {
@@ -89,37 +89,32 @@ export default function Content(props) {
         })
     }
 
-    const addSelectedCells = (newCells, sheetName) => {
+    const addSelectedCells = (newCell, sheetName) => {
 
-        const _selectedCells = newCells.map(newCell => {
+        let oldColor
+        let v
+        let format
 
-                let oldColor
-                let v
-                let format
+        //if clicked a different cell, then reset color of unclicked cell
 
-                //if clicked a different cell, then reset color of unclicked cell
+        // Get cell metadata on old color, value and format for ne cell
+        oldColor = getOldColor(newCell, sheetName)
+        v = getValue(newCell, sheetName)
+        format = getFormat(newCell, sheetName)
+        props.wb.Sheets[sheetName][newCell].s.fgColor = {rgb: "FCCA46"}
 
-                // Get cell metadata on old color, value and format for ne cell
-                oldColor = getOldColor(newCell, sheetName)
-                v = getValue(newCell, sheetName)
-                format = getFormat(newCell, sheetName)
-                props.wb.Sheets[sheetName][newCell].s.fgColor = {rgb: "FCCA46"}
-
-                return {
-                    address: sheetName + '!' + newCell,
-                    sheet: sheetName,
-                    raw: newCell,
-                    oldColor: oldColor,
-                    value: v,
-                    format: format
-                }
-            }
-        )
 
         //Set new clicked cell
-        setSelectedCells([..._selectedCells])
+        setSelectedCells([...selectedCells,
+            {
+            address: sheetName + '!' + newCell,
+            sheet: sheetName,
+            raw: newCell,
+            oldColor: oldColor,
+            value: v,
+            format: format
+        }])
     }
-
 
     const setInputHandler = (payload) => {
         let foundIndex = props.inputs.findIndex(input => input.address === payload.address)

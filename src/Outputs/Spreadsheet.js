@@ -54,47 +54,49 @@ export default function Spreadsheet(props) {
     const classes = useStyles()
     const sheetEl = useRef(null)
     const worksheet = props.worksheet
-    const [listen, setListen] = useState(false)
-    const [selected, setSelected] = useState([])
 
 
     const onMouseClick = (e) => {
-        if (props.IOState === 'inputs') {
-            if (props.enableClick) {
-                e.stopPropagation();
-                e.nativeEvent.stopImmediatePropagation()
+        if (props.enableClick) {
+            e.stopPropagation();
+            e.nativeEvent.stopImmediatePropagation()
 
-                let newCell = e.target.id.replace("sjs-", "")
+            let newCell = e.target.id.replace("sjs-", "")
 
-                if (worksheet.hasOwnProperty(newCell)) {
+            if (worksheet.hasOwnProperty(newCell)) {
+                if (props.IOState==='inputs') {
                     props.addClickedCell(newCell, props.currSheet)
+                }
+                else {
+                    props.addSelectedCells(newCell, props.currSheet)
                 }
             }
         }
+
     }
 
-    const onDrag = (e) => {
-        if (props.IOState === 'outputs') {
-            if (listen) {
-                setSelected([...selected, e.target.id.replace("sjs-", "")])
-            } else {
-            }
-        }
-    }
-
-    const onDown = () => {
-        if (props.IOState === 'outputs') {
-            setListen(false)
-        }
-    }
-
-    const onUp = () => {
-        if (props.IOState === 'outputs') {
-            props.addSelectedCells([...new Set(selected)], props.currSheet)
-            setListen(false)
-            setSelected([])
-        }
-    }
+    // const onDrag = (e) => {
+    //     if (props.IOState === 'outputs') {
+    //         if (listen) {
+    //             setSelected([...selected, e.target.id.replace("sjs-", "")])
+    //         } else {
+    //         }
+    //     }
+    // }
+    //
+    // const onDown = () => {
+    //     if (props.IOState === 'outputs') {
+    //         setListen(false)
+    //     }
+    // }
+    //
+    // const onUp = () => {
+    //     if (props.IOState === 'outputs') {
+    //         props.addSelectedCells([...new Set(selected)], props.currSheet)
+    //         setListen(false)
+    //         setSelected([])
+    //     }
+    // }
 
     const onSheetClick = (e, sheet) => {
         props.handleSheetChange(sheet)
@@ -128,9 +130,6 @@ export default function Spreadsheet(props) {
                 className={classes.spreadsheet}
                 ref={sheetEl}
                 onClick={(evt) => onMouseClick(evt)}
-                onMouseMove={(e) => onDrag(e)}
-                onMouseDown={(e) => onDown(e)}
-                onMouseUp={(e) => onUp(e)}
             />
             <Card className={classes.sheetContainer} elevation={0} square={true}>
                 {sheets}
