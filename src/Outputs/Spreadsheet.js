@@ -3,7 +3,6 @@ import {utils} from "@sheet/core";
 import {makeStyles} from '@material-ui/core/styles'
 import {Card, Button} from "@material-ui/core";
 import { SelectableGroup } from 'react-selectable-fast'
-import Parser from 'html-to-react'
 
 // import ssf from "../utils/fixformats"
 
@@ -72,6 +71,7 @@ export default function Spreadsheet(props) {
     }
 
     const onMouseDownHandler = (e) => {
+        console.log(props.enableClick)
         console.log(e)
     }
 
