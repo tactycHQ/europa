@@ -5,7 +5,7 @@ import Input from "../Content/InputsController";
 import {Switch, Route} from 'react-router-dom'
 import SideBar from "../Content/SideBar";
 import IOSelection from "../IOSelections/IOSelection";
-import Spreadsheet from "../Outputs/Spreadsheet";
+import Spreadsheet from "../Features/Spreadsheet";
 import {myRound} from "../utils/utils";
 
 

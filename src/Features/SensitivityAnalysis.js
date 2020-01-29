@@ -3,8 +3,8 @@ import {makeStyles} from '@material-ui/core/styles'
 import {AreaChart, XAxis, YAxis, Tooltip, Legend, Area, Label, ResponsiveContainer} from "recharts"
 import Paper from '@material-ui/core/Paper'
 import {convert_format} from "../utils/utils"
-import {OutputDropdown} from "../Other/OutputDropdown"
-import {InputDropdown} from "../Other/InputDropdown";
+import {OutputDropdown} from "../UtilityComponents/OutputDropdown"
+import {InputDropdown} from "../UtilityComponents/InputDropdown";
 import {Card} from "@material-ui/core"
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';

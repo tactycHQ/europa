@@ -1,7 +1,7 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles'
 import {Card, Paper} from "@material-ui/core";
-import OutSlider from "../Other/OutSliders"
+import OutSlider from "../UtilityComponents/OutSliders"
 import Checkbox from '@material-ui/core/Checkbox'
 import {convert_format} from "../utils/utils";
 // import {convert_format} from "../utils/utils";

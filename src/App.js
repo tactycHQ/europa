@@ -1,5 +1,5 @@
 import React from 'react'
-import Main from "./LayoutComponents/Main"
+import Main from "./ModeControllers/Main"
 import {BrowserRouter} from 'react-router-dom'
 import ScrollToTop from 'react-router-scroll-top'
 import ContextProvider from "./Context"

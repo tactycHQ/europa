@@ -1,10 +1,10 @@
 import React, {useState} from 'react'
 import {makeStyles} from '@material-ui/core'
-import SummaryChart from "../Outputs/SummaryChart"
-import SensitivityAnalysis from "../Outputs/SensitivityAnalysis"
-import DistributionChart from "../Outputs/DistributionChart";
-import InputImportance from "../Outputs/InputImportance";
-import ScenarioAnalysis from "../Outputs/ScenarioAnalysis";
+import SummaryChart from "../Features/SummaryChart"
+import SensitivityAnalysis from "../Features/SensitivityAnalysis"
+import DistributionChart from "../Features/DistributionChart";
+import InputImportance from "../Features/InputImportance";
+import ScenarioAnalysis from "../Features/ScenarioAnalysis";
 import {getAvg, convert_format, getAvgfromKey, getDomains, getSumfromKey} from "../utils/utils";
 import isEqual from "lodash.isequal";
 

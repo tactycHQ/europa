@@ -3,8 +3,8 @@ import {makeStyles} from '@material-ui/core/styles'
 import Content from "./Content"
 import Home from "./Home";
 import TopBar from "./TopBar"
-import Spinner from "../Other/Spinner"
-import {getSolutions, getMetaData, getFormats, loadFile} from "../api/api"
+import Spinner from "../UtilityComponents/Spinner"
+import {getSolutions, getMetaData, getFormats, loadFile} from "./api"
 import {Switch, Route} from 'react-router-dom'
 import {fixFormat, myRound} from "../utils/utils";
 

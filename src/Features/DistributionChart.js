@@ -13,7 +13,7 @@ import {
 } from 'recharts'
 import Paper from '@material-ui/core/Paper'
 import {Card} from "@material-ui/core";
-import {OutputDropdown} from "../Other/OutputDropdown";
+import {OutputDropdown} from "../UtilityComponents/OutputDropdown";
 import {convert_format} from "../utils/utils"
 import Fade from '@material-ui/core/Fade'
 
