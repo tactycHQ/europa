@@ -516,7 +516,7 @@ export default function IOSelection(props) {
         )
     }
 
-    const createInstructions = () => {
+    const createInstructions = () =>  {
 
         let alreadySelected = props.inputs.map(input => {
             return (

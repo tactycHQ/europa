@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="" />
+    <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/Content/IOSelection.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/IOSelection.js" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,13 +153,6 @@
       <workItem from="1579549438409" duration="96800000" />
       <workItem from="1579884248250" duration="11431000" />
       <workItem from="1580144125934" duration="32973000" />
-    </task>
-    <task id="LOCAL-00134" summary="First commit">
-      <created>1578954778964</created>
-      <option name="number" value="00134" />
-      <option name="presentableId" value="LOCAL-00134" />
-      <option name="project" value="LOCAL" />
-      <updated>1578954778964</updated>
     </task>
     <task id="LOCAL-00135" summary="First commit">
       <created>1578978341837</created>
@@ -495,7 +490,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580254111848</updated>
     </task>
-    <option name="localTasksCounter" value="183" />
+    <task id="LOCAL-00183" summary="First commit">
+      <created>1580254310190</created>
+      <option name="number" value="00183" />
+      <option name="presentableId" value="LOCAL-00183" />
+      <option name="project" value="LOCAL" />
+      <updated>1580254310190</updated>
+    </task>
+    <option name="localTasksCounter" value="184" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
