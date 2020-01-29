@@ -58,8 +58,7 @@ export default function Main(props) {
     const [sheets, setSheets] = useState([])
     const [worksheet, setWorksheet] = useState(false)
     const [currSheet, setCurrSheet] = useState(null)
-    const [clickedCells, setClickedCell] = useState({})
-    const [enableClick, setEnableClick] = useState(true)
+
 
 
     //----------------Modes-------------------
@@ -68,12 +67,6 @@ export default function Main(props) {
     //3  Calc - I/O selection complete. Generate calcs. When complete auto-save and set mode to Loaded
     //4  Existing - This is an existing dashboard that needs loading. Pending API call to get solutions
     //5  Loaded - All data is complete. Entire dashboard can be loaded
-
-
-    // console.log(mode)
-    // console.log(dashid)
-    // console.log(apiData)
-    // console.log(dashName)
 
 
     // At initial load
@@ -155,98 +148,7 @@ export default function Main(props) {
 
     // Defining functions
 
-    const getOldColor = (newCell, sheetName) => {
-        try {
-            return wb.Sheets[sheetName][newCell].s.fgColor.rgb
-        } catch {
-            return "FFFFFF"
-        }
-    }
 
-    const getValue = (newCell, sheetName) => {
-        try {
-            return myRound(wb.Sheets[sheetName][newCell].v)
-        } catch {
-            return 0
-        }
-    }
-
-    const getFormat = (newCell, sheetName) => {
-        try {
-            return wb.Sheets[sheetName][newCell].z
-        } catch {
-            return 'General'
-        }
-    }
-
-    const addClickedCell = (newCell, sheetName) => {
-
-        let oldColor
-        let v
-        let format
-
-        //if clicked a different cell, then reset color of unclicked cell
-        if (clickedCells.raw && clickedCells.raw !== newCell) {
-            refreshWorksheetColor()
-        }
-
-        // Get cell metadata on old color, value and format for ne cell
-        oldColor = getOldColor(newCell, sheetName)
-        v = getValue(newCell, sheetName)
-        format = getFormat(newCell, sheetName)
-        wb.Sheets[sheetName][newCell].s.fgColor = {rgb: "FCCA46"}
-
-
-        //Set new clicked cell
-        setClickedCell({
-            address: sheetName + '!' + newCell,
-            sheet: sheetName,
-            raw: newCell,
-            oldColor: oldColor,
-            value: v,
-            format: format
-        })
-    }
-
-    const setInputHandler = (payload) => {
-        let foundIndex = inputs.findIndex(input => input.address === payload.address)
-        if (foundIndex === -1) {
-            setInputs([...inputs, payload])
-        } else {
-            let newInputs = [...inputs]
-            newInputs[foundIndex] = payload
-            setInputs([...newInputs])
-        }
-        refreshWorksheetColor()
-        setClickedCell({})
-        setEnableClick(true)
-    }
-
-    const deleteInputHandler = (address) => {
-        const newInputs = inputs.filter(input => input.address !== address)
-        setInputs([...newInputs])
-        setClickedCell({})
-    }
-
-    const loadInputHandler = (address) =>{
-        addAddresstoClickedCell(address)
-        setEnableClick(false)
-    }
-
-    const addAddresstoClickedCell = (address) => {
-
-        const splits = address.split("!")
-        const sheetName = splits[0]
-        if (sheetName !== currSheet) {
-            handleSheetChange(sheetName)
-        }
-        const rawAdd = splits[1]
-        addClickedCell(rawAdd, sheetName)
-    }
-
-    const refreshWorksheetColor = () => {
-        wb.Sheets[clickedCells.sheet][clickedCells.raw].s.fgColor = {rgb: clickedCells.oldColor}
-    }
 
     const handleSliderChange = (event, newValue, setAddress) => {
         setcurrInputVal(prevState => ({
@@ -261,6 +163,10 @@ export default function Main(props) {
 
     const handleSheetChange = (sheet) => {
         setCurrSheet(sheet)
+    }
+
+    const updateInputs = (inputs) => {
+        setInputs([...inputs])
     }
 
     const createContent = () => {
@@ -287,13 +193,10 @@ export default function Main(props) {
                 sheets={sheets}
                 currSheet={currSheet}
                 handleSheetChange={handleSheetChange}
-                clickedCells={clickedCells}
-                addClickedCell={addClickedCell}
-                setInputHandler={setInputHandler}
-                loadInputHandler={loadInputHandler}
-                deleteInputHandler={deleteInputHandler}
+                updateInputs={updateInputs}
+                wb={wb}
                 inputs={inputs}
-                enableClick={enableClick}
+
             />
 
         } else {
