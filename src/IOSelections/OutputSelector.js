@@ -2,23 +2,11 @@ import React, {useState, useEffect} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-import Select from "@material-ui/core/Select"
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
 import Paper from "@material-ui/core/Paper"
-import InputLabel from "@material-ui/core/InputLabel"
 import Dialog from "@material-ui/core/Dialog";
 import RemoveCircleSharpIcon from '@material-ui/icons/RemoveCircleSharp'
 import IconButton from "@material-ui/core/IconButton";
-import {
-    between,
-    convert_format,
-    myRound,
-    createBounds,
-    computeSteps,
-    ascending,
-    hasNumber
-} from "../utils/utils";
+
 
 
 export default function OutputSelector(props) {
@@ -253,11 +241,15 @@ export default function OutputSelector(props) {
         console.log("Label Handler")
     }
 
-    const labelHover = (e, address) => {
+    const labelEnter = (e, address) => {
         let raw = address.split('!')[1]
-        // document.getElementById('sjs-'+raw.toString()).style.backgroundColor = 'red'
-        document.getElementById('sjs-'+raw.toString()).scrollIntoView(false)
-        console.log("Label Hover")
+        document.getElementById('sjs-'+raw.toString()).style.backgroundColor = "#FE9653"
+
+    }
+
+    const labelExit = (e, address) => {
+        let raw = address.split('!')[1]
+        document.getElementById('sjs-'+raw.toString()).style.backgroundColor = "#FCCA46"
     }
 
     const createLabelSelector = (address) => {
@@ -279,7 +271,8 @@ export default function OutputSelector(props) {
                 }}
                 defaultValue=" "
                 onChange={(e) => labelHandler(e, address)}
-                onMouseOver={(e) => labelHover(e, address)}
+                onMouseEnter={(e) => labelEnter(e, address)}
+                onMouseLeave={(e) => labelExit(e, address)}
             />
 
         )
