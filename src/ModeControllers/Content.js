@@ -13,7 +13,6 @@ import {myRound} from "../utils/utils";
 export default function Content(props) {
 
 
-
     // Defining Hooks
     const useStyles = makeStyles(theme => ({
         root: {
@@ -103,26 +102,37 @@ export default function Content(props) {
         let v
         let format
 
-        //if clicked a different cell, then reset color of unclicked cell
+        //if clicked a cell that already exists then reset color of that cell
+        let foundIndex = selectedCells.findIndex(cell => (cell.raw === newCell && sheetName === cell.sheet))
+
+        if (foundIndex !== -1) {
+            props.wb.Sheets[sheetName][newCell].s.fgColor = {rgb: selectedCells[foundIndex].oldColor}
+            const newSelection = selectedCells.filter((cell, idx) => idx !== foundIndex)
+            setSelectedCells([...newSelection])
+
+        } else {
+
+            // Get cell metadata on old color, value and format for ne cell
+            oldColor = getOldColor(newCell, sheetName)
+            v = getValue(newCell, sheetName)
+            format = getFormat(newCell, sheetName)
+            props.wb.Sheets[sheetName][newCell].s.fgColor = {rgb: "FCCA46"}
+
+            // document.getElementById('sjs-D15').style.backgroundColor = "yellow"
+            // highlight.scrollIntoView()
 
 
-        // Get cell metadata on old color, value and format for ne cell
-        oldColor = getOldColor(newCell, sheetName)
-        v = getValue(newCell, sheetName)
-        format = getFormat(newCell, sheetName)
-        props.wb.Sheets[sheetName][newCell].s.fgColor = {rgb: "FCCA46"}
-
-
-        //Set new clicked cell
-        setSelectedCells([...selectedCells,
-            {
-                address: sheetName + '!' + newCell,
-                sheet: sheetName,
-                raw: newCell,
-                oldColor: oldColor,
-                value: v,
-                format: format
-            }])
+            //Set new clicked cell
+            setSelectedCells([...selectedCells,
+                {
+                    address: sheetName + '!' + newCell,
+                    sheet: sheetName,
+                    raw: newCell,
+                    oldColor: oldColor,
+                    value: v,
+                    format: format
+                }])
+        }
     }
 
     //Input Handlers

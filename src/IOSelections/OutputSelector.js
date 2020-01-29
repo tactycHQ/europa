@@ -153,24 +153,144 @@ export default function OutputSelector(props) {
         }
     }))
     const classes = useStyles()
-    const [address, setAddress] = useState('')
+    const [address, setAddress] = useState([])
     const [category, setCategory] = useState('')
-    const [label, setLabel] = useState('')
-    const [value, setvalue] = useState(null)
-    const [format, setFormat] = useState('General')
+    const [labels, setLabels] = useState([])
+    const [values, setValues] = useState([])
+    const [formats, setFormats] = useState([])
     const [error, setError] = useState(null)
     const [errorOpen, setErrorOpen] = useState(false)
     const [loaded, setLoaded] = useState(false)
 
+
     //Hooks
+    useEffect(() => {
+
+        // console.log(props.selectedCells)
+
+        if (props.selectedCells.length >= 1) {
+
+            let _addresses = []
+            let _labels = []
+            let _values = []
+            let _formats = []
+
+            props.selectedCells.forEach(c => {
+                _addresses.push(c.address)
+                _labels.push(c.address)
+                _values.push(c.value)
+                _formats.push(c.format)
+            })
+
+            setAddress(_addresses)
+            setLabels(_labels)
+            setValues(_values)
+            setFormats(_formats)
+            setCategory("Category")
+            setErrorOpen(false)
+            setLoaded(true)
+
+        } else {
+            setAddress([])
+            setLabels([])
+            setValues([])
+            setFormats([])
+            setCategory("Category")
+            setErrorOpen(false)
+            setLoaded(false)
+        }
+
+    }, [props.selectedCells])
+
+    const createIOPanel = () => {
+
+        const catSelector = createCatSelector()
+        const labelSelector = labels.map(label => {
+            return createLabelSelector(label)
+        })
+
+        let error_msg = null
+
+        return (
+            <div className={classes.selectionContainer} key={address}>
+                {catSelector}
+                <Paper className={classes.categoryContainer}>
+                    {labelSelector}
+                </Paper>
+                <h3 className={classes.selectNote} style={{color: 'red', margin: '10px'}}>{error_msg}</h3>
+            </div>
+        )
+    }
+
+    const createCatSelector = () => {
+        return (
+            <Paper className={classes.categoryContainer}>
+                <TextField
+                    required id="standard-required"
+                    className={classes.rootTextContainer}
+                    label="Output Category"
+                    size="small"
+                    InputLabelProps={{
+                        className: classes.labelField
+                    }}
+                    InputProps={{
+                        classes: {
+                            input: classes.textField
+                        }
+                    }}
+                    defaultValue={category}
+                    onChange={(e) => catHandler(e)}
+                />
+            </Paper>
+        )
+    }
+
+    const catHandler = (e) => {
+        console.log("Cat Handler")
+    }
+
+    const labelHandler = (e, address) => {
+        console.log("Label Handler")
+    }
+
+    const labelHover = (e, address) => {
+        let raw = address.split('!')[1]
+        // document.getElementById('sjs-'+raw.toString()).style.backgroundColor = 'red'
+        document.getElementById('sjs-'+raw.toString()).scrollIntoView(false)
+        console.log("Label Hover")
+    }
+
+    const createLabelSelector = (address) => {
+
+        return (
+            <TextField
+                key={address}
+                required
+                className={classes.rootTextContainer}
+                label={address}
+                size="small"
+                InputLabelProps={{
+                    className: classes.labelField
+                }}
+                InputProps={{
+                    classes: {
+                        input: classes.textField
+                    }
+                }}
+                defaultValue=" "
+                onChange={(e) => labelHandler(e, address)}
+                onMouseOver={(e) => labelHover(e, address)}
+            />
+
+        )
+    }
+
 
     const handleErrorClose = () => {
         setErrorOpen(false)
     }
 
-
     const setOutputHandler = () => {
-
         //If label matches address, thow a dialog. TODO make this into matching address
         if (category === '') {
             setErrorOpen(true)
@@ -189,9 +309,9 @@ export default function OutputSelector(props) {
         else {
             const outputPayload = {
                 "category": category,
-                "labels": label,
-                "values": value,
-                "format": format,
+                "labels": labels,
+                "values": values,
+                "format": formats,
             }
             props.setOutputHandler(outputPayload)
             // resetState() //TODO
@@ -201,7 +321,6 @@ export default function OutputSelector(props) {
     const loadOutputHandler = (category) => {
         props.loadOutputHandler(category)
     }
-
 
     const createButtons = () => {
         let setOutputButton = null
@@ -256,6 +375,7 @@ export default function OutputSelector(props) {
 
         //If no outputs have been selected yet
         if (props.outputs.length === 0) {
+
             return (
                 <h3 className={classes.selectNote}>
                     Select an output cell or range in the spreadsheet. <br/><br/>
@@ -314,15 +434,16 @@ export default function OutputSelector(props) {
     }
 
 
-    // This is the default hook to load up initial input assumptions when a cell has been clicked
     let selectedCells = null
     let instructions = createInstructions()
+
     let buttons = createButtons()
 
     if (loaded) {
         instructions = null
-        // selectedCells = createIOPanel()
+        selectedCells = createIOPanel()
     }
+
 
     return (
 
@@ -331,6 +452,7 @@ export default function OutputSelector(props) {
                 <h3 className={classes.selectText}>Define Model Outputs</h3>
                 {instructions}
             </div>
+            {selectedCells}
             <Dialog open={errorOpen} onClose={handleErrorClose}>
                 <div>
                     <h2 className={classes.selectNote}>{error}</h2>

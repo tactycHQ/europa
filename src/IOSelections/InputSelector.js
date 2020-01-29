@@ -170,8 +170,10 @@ export default function InputSelector(props) {
     //Hooks
     // This is the default hook to load up initial input assumptions when a cell has been clicked
     useEffect(() => {
+
         if (props.clickedCells.hasOwnProperty("address")) {
 
+            //If user has clicked on a cell that already exists in input array, load up the input data
             if (props.inputs.some(input => input.address === props.clickedCells.address)) {
                 let foundInput = props.inputs.find(input => input.address === props.clickedCells.address)
                 setAddress(foundInput.address)
@@ -184,6 +186,7 @@ export default function InputSelector(props) {
                 setErrorOpen(false)
                 setLoaded(true)
 
+            //User has clicked on a new call, so load up defaults
             } else {
 
                 const default_value = props.clickedCells.value
