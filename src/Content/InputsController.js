@@ -1,6 +1,6 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import InputSlider from "../Inputs/Sliders"
+import InputSlider from "../Inputs/InputSlider"
 import Slide from "@material-ui/core/Slide"
 import {Card, CardHeader} from "@material-ui/core"
 import CaseSelector from "../Inputs/CaseSelector";

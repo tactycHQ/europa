@@ -2,24 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/IOSelections/InputSelector.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Content/IOSelection.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/IOSelections/IOSelection.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Content/Outputs.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/Outputs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Content.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/Content.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/LayoutComponents/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/LayoutComponents/Main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Outputs/CardSettings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Other/CardSettings.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Outputs/DistributionChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/DistributionChart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Outputs/InputImportance.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/InputImportance.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Outputs/InputSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Other/InputDropdown.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Outputs/LabelSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Other/OutputDropdown.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Outputs/SAChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/SensitivityAnalysis.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Outputs/Spreadsheet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/Spreadsheet.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Outputs/SummaryChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Outputs/SummaryChart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Outputs/test.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Content/InputsController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/InputsController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Inputs/Sliders.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Inputs/InputSlider.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -172,13 +156,6 @@
       <workItem from="1579549438409" duration="96800000" />
       <workItem from="1579884248250" duration="11431000" />
       <workItem from="1580144125934" duration="32973000" />
-    </task>
-    <task id="LOCAL-00142" summary="First commit">
-      <created>1579668962122</created>
-      <option name="number" value="00142" />
-      <option name="presentableId" value="LOCAL-00142" />
-      <option name="project" value="LOCAL" />
-      <updated>1579668962122</updated>
     </task>
     <task id="LOCAL-00143" summary="First commit">
       <created>1579670293987</created>
@@ -516,7 +493,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580323602929</updated>
     </task>
-    <option name="localTasksCounter" value="191" />
+    <task id="LOCAL-00191" summary="First commit">
+      <created>1580326431877</created>
+      <option name="number" value="00191" />
+      <option name="presentableId" value="LOCAL-00191" />
+      <option name="project" value="LOCAL" />
+      <updated>1580326431877</updated>
+    </task>
+    <option name="localTasksCounter" value="192" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
