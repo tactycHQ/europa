@@ -49,7 +49,7 @@ export default function Main(props) {
     const [formats, setFormats] = useState('General')
     const [currInputVal, setcurrInputVal] = useState(null)
     const [inputs, setInputs] = useState([])
-    const [outputs, setOutputs] = useState(null)
+    const [outputs, setOutputs] = useState([])
     const [cases, setCases] = useState(null)
     const [charts, setCharts] = useState(null)
     const [dashName, setDashName] = useState('')
@@ -58,6 +58,7 @@ export default function Main(props) {
     const [sheets, setSheets] = useState([])
     const [worksheet, setWorksheet] = useState(false)
     const [currSheet, setCurrSheet] = useState(null)
+
 
 
 
@@ -193,6 +194,7 @@ export default function Main(props) {
                 updateInputs={updateInputs}
                 wb={wb}
                 inputs={inputs}
+                outputs={outputs}
 
             />
 

@@ -1,6 +1,6 @@
 td:hover {
 
-    background-color: #FDE29A;
+    background-color: #FDE29A !important;
     /*font-weight:900;*/
     /*text-shadow: white 0px 0px 10px*/
     /*border-width: 1px;*/

@@ -4,12 +4,14 @@ import Output from "../Content/Dashboard"
 import Input from "../Content/InputsController";
 import {Switch, Route} from 'react-router-dom'
 import SideBar from "../Content/SideBar";
-import IOSelection from "../IOSelections/IOSelection";
+import InputSelector from "../IOSelections/InputSelector"
+import OutputSelector from "../IOSelections/OutputSelector";
 import Spreadsheet from "../Features/Spreadsheet";
 import {myRound} from "../utils/utils";
 
 
 export default function Content(props) {
+
 
 
     // Defining Hooks
@@ -33,7 +35,7 @@ export default function Content(props) {
     const [clickedCells, setClickedCell] = useState({})
     const [selectedCells, setSelectedCells] = useState([])
     const [enableClick, setEnableClick] = useState(true)
-    const [IOState, setIOState] = useState("inputs")
+    const [IOState, setIOState] = useState("outputs")
 
     //Input Selection Functions
     const getOldColor = (newCell, sheetName) => {
@@ -114,13 +116,13 @@ export default function Content(props) {
         //Set new clicked cell
         setSelectedCells([...selectedCells,
             {
-            address: sheetName + '!' + newCell,
-            sheet: sheetName,
-            raw: newCell,
-            oldColor: oldColor,
-            value: v,
-            format: format
-        }])
+                address: sheetName + '!' + newCell,
+                sheet: sheetName,
+                raw: newCell,
+                oldColor: oldColor,
+                value: v,
+                format: format
+            }])
     }
 
     //Input Handlers
@@ -160,72 +162,24 @@ export default function Content(props) {
         addClickedCell(rawAdd, sheetName)
     }
 
+    //Output Handlers
+    const loadOutputHandler = (category) => {
+        console.log("to come")
+    }
+
     //Global Functions
     const updateIOState = (type) => {
         setIOState(type)
     }
 
-    let contentEl
-
-    if (props.mode === 'loaded') {
-        contentEl = (
-            <div className={classes.content}>
-                <SideBar className={classes.sidebar} outputs={props.outputs}/>
-                <Switch>
-                    <Route exact path={"/dashboard"}>
-                        <Output
-                            type="summary"
-                            {...props}
-                        />
-                        <Input
-                            {...props}
-                        />
-                    </Route>
-                    <Route exact path="/distributions">
-                        <Output
-                            type="distributions"
-                            {...props}
-                        />
-                        <Input
-                            {...props}
-                        />
-                    </Route>
-                    <Route exact path="/inputimportance">
-                        <Output
-                            type="inputimportance"
-                            {...props}
-                        />
-                    </Route>
-                    <Route exact path="/sensitivity">
-                        <Output
-                            type="sensitivity"
-                            {...props}
-                        />
-                        <Input
-                            {...props}
-                        />
-                    </Route>
-                    <Route exact path="/scenario">
-                        <Output
-                            type="scenarioanalysis"
-                            {...props}
-                        />
-                    </Route>
-                    <Route exact path="/spreadsheet">
-                        <Spreadsheet
-                            type="spreadsheet"
-                            mode={props.mode}
-                            worksheet={props.worksheet}
-                        />
-                    </Route>
-                </Switch>
-            </div>
-        )
-    } else {
-        contentEl = (
-            <div className={classes.content}>
-                <IOSelection
+    const generateIOSelector = () => {
+        if (IOState === "inputs") {
+            return (
+                <InputSelector
                     outputs={props.outputs}
+                    inputs={props.inputs}
+                    IOState={IOState}
+                    updateIOState={updateIOState}
                     currSheet={props.currSheet}
                     clickedCells={clickedCells}
                     setInputHandler={setInputHandler}
@@ -234,32 +188,110 @@ export default function Content(props) {
                     handleSheetChange={props.handleSheetChange}
                     addClickedCell={addClickedCell}
                     enableClick={enableClick}
+                />
+            )
+        } else {
+            return (
+                <OutputSelector
+                    outputs={props.outputs}
                     inputs={props.inputs}
                     IOState={IOState}
                     updateIOState={updateIOState}
+                    loadOutputHandler={loadOutputHandler}
+                    currSheet={props.currSheet}
+                    selectedCells={selectedCells}
+                    handleSheetChange={props.handleSheetChange}
+                    enableClick={enableClick}
                 />
-                <Switch>
-                    <Route exact path="/spreadsheet">
-                        <Spreadsheet
-                            type="spreadsheet"
-                            mode={props.mode}
-                            worksheet={props.worksheet}
-                            currSheet={props.currSheet}
-                            clickedCells={clickedCells}
-                            selectedCells={selectedCells}
-                            addClickedCell={addClickedCell}
-                            addSelectedCells={addSelectedCells}
-                            sheets={props.sheets}
-                            handleSheetChange={props.handleSheetChange}
-                            IOState={IOState}
-                            enableClick={enableClick}
-                        />
-                    </Route>
-                </Switch>
-            </div>
-        )
+            )
+        }
     }
 
+    const generateContent = () => {
+
+        if (props.mode === 'loaded') {
+            return (
+                <div className={classes.content}>
+                    <SideBar className={classes.sidebar} outputs={props.outputs}/>
+                    <Switch>
+                        <Route exact path={"/dashboard"}>
+                            <Output
+                                type="summary"
+                                {...props}
+                            />
+                            <Input
+                                {...props}
+                            />
+                        </Route>
+                        <Route exact path="/distributions">
+                            <Output
+                                type="distributions"
+                                {...props}
+                            />
+                            <Input
+                                {...props}
+                            />
+                        </Route>
+                        <Route exact path="/inputimportance">
+                            <Output
+                                type="inputimportance"
+                                {...props}
+                            />
+                        </Route>
+                        <Route exact path="/sensitivity">
+                            <Output
+                                type="sensitivity"
+                                {...props}
+                            />
+                            <Input
+                                {...props}
+                            />
+                        </Route>
+                        <Route exact path="/scenario">
+                            <Output
+                                type="scenarioanalysis"
+                                {...props}
+                            />
+                        </Route>
+                        <Route exact path="/spreadsheet">
+                            <Spreadsheet
+                                type="spreadsheet"
+                                mode={props.mode}
+                                worksheet={props.worksheet}
+                            />
+                        </Route>
+                    </Switch>
+                </div>
+            )
+        } else {
+            const ioEl = generateIOSelector()
+            return (
+                <div className={classes.content}>
+                    {ioEl}
+                    <Switch>
+                        <Route exact path="/spreadsheet">
+                            <Spreadsheet
+                                type="spreadsheet"
+                                mode={props.mode}
+                                worksheet={props.worksheet}
+                                currSheet={props.currSheet}
+                                clickedCells={clickedCells}
+                                selectedCells={selectedCells}
+                                addClickedCell={addClickedCell}
+                                addSelectedCells={addSelectedCells}
+                                sheets={props.sheets}
+                                handleSheetChange={props.handleSheetChange}
+                                IOState={IOState}
+                                enableClick={enableClick}
+                            />
+                        </Route>
+                    </Switch>
+                </div>
+            )
+        }
+    }
+
+    const contentEl = generateContent()
 
     return (
         <div className={classes.root}>
