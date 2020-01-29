@@ -190,6 +190,6 @@ export default function SideBar() {
                     </ListItem>
                 </List>
             </div>
-            < /div>
-                )
-                }
+        </div>
+    )
+}

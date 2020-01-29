@@ -55,7 +55,7 @@ export default function Home(props) {
 
     const openDash = (dash_id) => {
         props.setDashid(dash_id)
-        props.setMode('existing')
+        props.setMode('processed')
         props.setDashName('')
     }
 

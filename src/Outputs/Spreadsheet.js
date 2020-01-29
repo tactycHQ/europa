@@ -78,43 +78,13 @@ export default function Spreadsheet(props) {
 
     }
 
-    // const onDrag = (e) => {
-    //     if (props.IOState === 'outputs') {
-    //         if (listen) {
-    //             setSelected([...selected, e.target.id.replace("sjs-", "")])
-    //         } else {
-    //         }
-    //     }
-    // }
-    //
-    // const onDown = () => {
-    //     if (props.IOState === 'outputs') {
-    //         setListen(false)
-    //     }
-    // }
-    //
-    // const onUp = () => {
-    //     if (props.IOState === 'outputs') {
-    //         props.addSelectedCells([...new Set(selected)], props.currSheet)
-    //         setListen(false)
-    //         setSelected([])
-    //     }
-    // }
-
     const onSheetClick = (e, sheet) => {
         props.handleSheetChange(sheet)
     }
 
     useEffect(() => {
-        const createHTML = () => {
-            let html = utils.sheet_to_html(worksheet); // first worksheet HTML
-            html = html.replace("border-color:black", "border-color:#F1F2EF")
-            // html = html.replace("border:1px", "border:1px")
-            return html
-        }
-
-        sheetEl.current.innerHTML = createHTML(worksheet)
-    }, [worksheet, props.clickedCells, props.selectedCells])
+        sheetEl.current.innerHTML = utils.sheet_to_html(worksheet)
+    }, [worksheet, props])
 
 
     const createSheets = () => {

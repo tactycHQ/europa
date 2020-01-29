@@ -4,7 +4,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import React from "react";
 import {makeStyles} from "@material-ui/core";
 
-export function LabelSelector(props) {
+export function OutputDropdown(props) {
 
     //Styles
     const useStyles = makeStyles(theme => ({

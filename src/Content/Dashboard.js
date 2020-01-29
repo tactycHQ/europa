@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {makeStyles} from '@material-ui/core'
 import SummaryChart from "../Outputs/SummaryChart"
-import SAChart from "../Outputs/SAChart"
+import SensitivityAnalysis from "../Outputs/SensitivityAnalysis"
 import DistributionChart from "../Outputs/DistributionChart";
 import InputImportance from "../Outputs/InputImportance";
 import ScenarioAnalysis from "../Outputs/ScenarioAnalysis";
@@ -9,7 +9,7 @@ import {getAvg, convert_format, getAvgfromKey, getDomains, getSumfromKey} from "
 import isEqual from "lodash.isequal";
 
 
-export default function Output(props) {
+export default function Dashboard(props) {
 
     const getWidth = () => {
         if (['summary', 'distributions', 'sensitivity'].includes(props.type)) {
@@ -305,7 +305,7 @@ export default function Output(props) {
 
     const createSAcharts = (lineData, outAdd, outCat, input1, input2) => {
         return (
-            <SAChart
+            <SensitivityAnalysis
                 data={lineData}
                 outAdd={outAdd}
                 outCat={outCat}

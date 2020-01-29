@@ -16,7 +16,7 @@ import {
 } from 'recharts'
 import Paper from '@material-ui/core/Paper'
 import {Card} from "@material-ui/core";
-import {LabelSelector} from "./LabelSelector";
+import {OutputDropdown} from "../Other/OutputDropdown";
 import {getAvgfromKey, getMaxfromKey, getMinfromKey, getDomains, convert_format} from "../utils/utils";
 import Fade from '@material-ui/core/Fade'
 // import { useLocation} from "react-router"
@@ -510,7 +510,7 @@ export default function InputImportance(props) {
             <div className={classes.cardHeaderContainer}>
                 <h2 className={classes.cardTitleHeader}>Input Importance</h2>
             </div>
-            <LabelSelector
+            <OutputDropdown
                 type="withLabel"
                 outputs={props.outputs}
                 handleOutputLabelChange={props.handleOutputLabelChange}

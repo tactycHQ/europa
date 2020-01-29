@@ -3,8 +3,8 @@ import {makeStyles} from '@material-ui/core/styles'
 import {AreaChart, XAxis, YAxis, Tooltip, Legend, Area, Label, ResponsiveContainer} from "recharts"
 import Paper from '@material-ui/core/Paper'
 import {convert_format} from "../utils/utils"
-import {LabelSelector} from "./LabelSelector"
-import {InputSelector} from "./InputSelector";
+import {OutputDropdown} from "../Other/OutputDropdown"
+import {InputDropdown} from "../Other/InputDropdown";
 import {Card} from "@material-ui/core"
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -28,7 +28,7 @@ const chartColors = [
 ]
 
 
-export default function SAChart(props) {
+export default function SensitivityAnalysis(props) {
 
     //Styles
     const useStyles = makeStyles(theme => ({
@@ -443,14 +443,14 @@ export default function SAChart(props) {
             <div className={classes.cardHeaderContainer}>
                 <h2 className={classes.cardTitleHeader}>Sensitivity Analysis</h2>
             </div>
-            <LabelSelector
+            <OutputDropdown
                 type="withLabel"
                 outputs={props.outputs}
                 handleOutputLabelChange={props.handleOutputLabelChange}
                 handleOutputCategoryChange={props.handleOutputCategoryChange}
                 currOutputCell={props.outAdd}
                 currCategory={props.outCat.category}/>
-            <InputSelector
+            <InputDropdown
                 input1={props.input1}
                 input2={props.input2}
                 inputLabelMap={props.inputLabelMap}

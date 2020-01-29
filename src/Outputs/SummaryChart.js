@@ -13,7 +13,7 @@ import {
 } from 'recharts'
 import {Paper, makeStyles, Card} from "@material-ui/core"
 import {convert_format} from "../utils/utils"
-import CardSettings from "./CardSettings"
+import CardSettings from "../Other/CardSettings"
 import {NavLink} from "react-router-dom"
 
 

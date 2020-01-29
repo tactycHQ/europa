@@ -13,7 +13,7 @@ import {
 } from 'recharts'
 import Paper from '@material-ui/core/Paper'
 import {Card} from "@material-ui/core";
-import {LabelSelector} from "./LabelSelector";
+import {OutputDropdown} from "../Other/OutputDropdown";
 import {convert_format} from "../utils/utils"
 import Fade from '@material-ui/core/Fade'
 
@@ -422,7 +422,7 @@ export default function Distribution(props) {
             <div className={classes.cardHeaderContainer}>
                 <h2 className={classes.cardTitleHeader}>Output Distributions</h2>
             </div>
-            <LabelSelector
+            <OutputDropdown
                 type="withLabel"
                 outputs={props.outputs}
                 handleOutputLabelChange={props.handleOutputLabelChange}

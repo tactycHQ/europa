@@ -63,10 +63,10 @@ export default function Main(props) {
 
     //----------------Modes-------------------
     //1. New - a new dashboard is to be created. Dash id and filename have been provided
-    //2. Ready - file has been loaded. Pending user I/O selection
-    //3  Calc - I/O selection complete. Generate calcs. When complete auto-save and set mode to Loaded
-    //4  Existing - This is an existing dashboard that needs loading. Pending API call to get solutions
-    //5  Loaded - All data is complete. Entire dashboard can be loaded
+    //2. PendingIO - file has been loaded. Pending user I/O selection
+    //3  PendingCalc - I/O selection complete. Generate calcs. When complete auto-save and set mode to Loaded
+    //4  Processed - This is an existing dashboard that needs loading. Pending API call to get solutions
+    //5  Loaded - All data is complete. Entire dashboard can be generated
 
 
     // At initial load
@@ -103,10 +103,10 @@ export default function Main(props) {
             setwb(wb)
             setSheets(Object.keys(wb.Sheets))
             setCurrSheet(Object.keys(wb.Sheets)[0])
-            setMode('ready')
+            setMode('pendingIO')
         }
 
-        if (mode === 'existing') {
+        if (mode === 'processed') {
             executeExistingAPIcalls(dashid)
         }
 
@@ -186,7 +186,7 @@ export default function Main(props) {
                 worksheet={worksheet}
                 sheets={sheets}
             />
-        } else if (mode === 'ready') {
+        } else if (mode === 'pendingIO') {
             return <Content
                 mode={mode}
                 worksheet={worksheet}
