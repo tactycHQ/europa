@@ -242,14 +242,26 @@ export default function OutputSelector(props) {
     }
 
     const labelEnter = (e, address) => {
-        let raw = address.split('!')[1]
-        document.getElementById('sjs-'+raw.toString()).style.backgroundColor = "#FE9653"
-
+        const splits = address.split("!")
+        const sheetName = splits[0]
+        let raw = splits[1]
+        if(props.currSheet === sheetName) {
+            document.getElementById('sjs-' + raw.toString()).style.backgroundColor = "#FE9653"
+            document.getElementById('sjs-' + raw.toString()).scrollIntoView({behavior:"smooth",block:"center", inline:"center"})
+        }
+        else {
+            props.handleSheetChange(sheetName)
+        }
     }
 
     const labelExit = (e, address) => {
-        let raw = address.split('!')[1]
-        document.getElementById('sjs-'+raw.toString()).style.backgroundColor = "#FCCA46"
+        const splits = address.split("!")
+        const sheetName = splits[0]
+        let raw = splits[1]
+        if(props.currSheet === sheetName) {
+            document.getElementById('sjs-' + raw.toString()).style.backgroundColor = "#FCCA46"
+        }
+        document.getElementById('sjs-A1').scrollIntoView({behavior:"smooth",block:"center"})
     }
 
     const createLabelSelector = (address) => {

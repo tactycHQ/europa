@@ -45,19 +45,17 @@ export default function Spreadsheet(props) {
             display: 'flex',
             border: 'solid',
             marginTop: '22px',
-            height:'100%',
-            width:'100%',
-            marginBottom: '5px',
+            marginBottom: '8px',
             borderWidth: '1px',
+            boxShadow:'5px 10px',
             borderColor: '#D0D3D6',
-            background: '#F8F8F7',
+            background: 'green',
             cursor: 'cell',
             userSelect: 'none'
         }
     }))
     const classes = useStyles()
     const sheetEl = useRef(null)
-    const worksheet = props.worksheet
 
 
     const onMouseClick = (e) => {
@@ -67,7 +65,7 @@ export default function Spreadsheet(props) {
 
             let newCell = e.target.id.replace("sjs-", "")
 
-            if (worksheet.hasOwnProperty(newCell)) {
+            if (props.worksheet.hasOwnProperty(newCell)) {
                 if (props.IOState === 'inputs') {
                     props.addClickedCell(newCell, props.currSheet)
                 } else {
@@ -83,8 +81,8 @@ export default function Spreadsheet(props) {
     }
 
     useEffect(() => {
-        sheetEl.current.innerHTML = utils.sheet_to_html(worksheet)
-    }, [worksheet, props])
+        sheetEl.current.innerHTML = utils.sheet_to_html(props.worksheet)
+    }, [props.worksheet, props.selectedCells, props.clickedCells])
 
 
     const createSheets = () => {
@@ -99,11 +97,10 @@ export default function Spreadsheet(props) {
 
     return (
         <div className={classes.topContainer}>
-            <Card
+            <div
                 className={classes.spreadsheet}
                 ref={sheetEl}
                 onClick={(evt) => onMouseClick(evt)}
-                elevation={2}
             />
             <Card className={classes.sheetContainer} elevation={0} square={true}>
                 {sheets}
