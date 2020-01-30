@@ -167,6 +167,10 @@ export default function Main(props) {
         setInputs([...inputs])
     }
 
+    const updateOutputs = (outputs) => {
+        setOutputs([...outputs])
+    }
+
     const createContent = () => {
         if (mode === 'loaded') {
             return <Content
@@ -192,6 +196,7 @@ export default function Main(props) {
                 currSheet={currSheet}
                 handleSheetChange={handleSheetChange}
                 updateInputs={updateInputs}
+                updateOutputs={updateOutputs}
                 wb={wb}
                 inputs={inputs}
                 outputs={outputs}

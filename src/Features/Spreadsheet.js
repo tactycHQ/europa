@@ -67,7 +67,7 @@ export default function Spreadsheet(props) {
 
 
             if (props.labelSelectMode) {
-                props.updateSelectedLabels(e.target.id.replace("sjs-", ""), e.target.innerText, props.currSheet)
+                props.addSelectedLabels(e.target.id.replace("sjs-", ""), e.target.innerText, props.currSheet)
 
             } else {
                 let newCell = e.target.id.replace("sjs-", "")

@@ -143,7 +143,6 @@ export default function OutputSelector(props) {
     const [address, setAddress] = useState([])
     const [category, setCategory] = useState('')
     const [labels, setLabels] = useState({})
-    const [values, setValues] = useState([])
     const [formats, setFormats] = useState([])
     const [error, setError] = useState(null)
     const [errorOpen, setErrorOpen] = useState(false)
@@ -157,7 +156,6 @@ export default function OutputSelector(props) {
 
             let _addresses = []
             let _labels = {}
-            let _values = []
             let _formats = []
 
             props.selectedCells.forEach((c, idx) => {
@@ -168,28 +166,15 @@ export default function OutputSelector(props) {
                 } else {
                     _labels[c.address] = props.selectedLabels[idx].value
                 }
-                _values.push(c.value)
                 _formats.push(c.format)
             })
-
             setAddress(_addresses)
             setLabels(_labels)
-            setValues(_values)
             setFormats(_formats)
             setCategory("Category")
             setErrorOpen(false)
             setLoaded(true)
-
-        } else {
-            setAddress([])
-            setLabels({})
-            setValues([])
-            setFormats([])
-            setCategory("Category")
-            setErrorOpen(false)
-            setLoaded(false)
         }
-
 
     }, [props.selectedCells, props.selectedLabels])
 
@@ -250,7 +235,7 @@ export default function OutputSelector(props) {
 
         if (!props.labelSelectMode) {
             return (
-                <div>{address}</div>
+                <div key={address}>{address}</div>
             )
         } else {
             return (
@@ -327,13 +312,15 @@ export default function OutputSelector(props) {
     }
 
     const setOutputHandler = () => {
-        //If label matches address, thow a dialog. TODO make this into matching address
-        if (category === '') {
+
+        //Validations Start
+        //If category is not set
+        if (category === 'Category') {
             setErrorOpen(true)
             setError("Please give this ouput a category name before proceeding. A name could be descriptions of the output category, such as Net Income, or Enterprise Value, or IRR.")
         }
 
-        //Check if label has already been assigned to another input, throw a duplicate error
+        //If category is a duplicate
         else if (props.outputs.some(output => {
             return (output.category === category)
         })) {
@@ -346,16 +333,29 @@ export default function OutputSelector(props) {
             const outputPayload = {
                 "category": category,
                 "labels": labels,
-                "values": values,
                 "format": formats,
             }
             props.setOutputHandler(outputPayload)
-            // resetState() //TODO
+            resetState()
         }
+    }
+
+    const resetState = () => {
+        setAddress([])
+        setLabels({})
+        setCategory("Caetgory")
+        setFormats([])
+        setError(null)
+        setErrorOpen(false)
+        setLoaded(false)
     }
 
     const loadOutputHandler = (category) => {
         props.loadOutputHandler(category)
+    }
+
+    const labelCheck = (label) => {
+        return label !== ' ';
     }
 
     const createButtons = () => {
@@ -370,10 +370,8 @@ export default function OutputSelector(props) {
         //             <h3 className={classes.buttonText}>OK</h3>
         //         </Button>)
         // }
-        console.log(props.selectedLabels)
-        console.log(labels)
-        //TODO Fix this to check for validated labels instead
-        if (props.labelSelectMode && props.selectedLabels.length === Object.keys(labels).length) {
+
+        if (props.labelSelectMode && Object.values(labels).every(labelCheck)) {
             setOutputButton = (
                 <Button className={classes.selectButton} size="small" onClick={() => setOutputHandler()}>
                     <h3 className={classes.buttonText}>OK</h3>
@@ -487,16 +485,16 @@ export default function OutputSelector(props) {
     }
 
 
-    let selectedCells = null
+    let outputCells = null
     let instructions = createInstructions()
 
     let buttons = createButtons()
 
     if (loaded) {
         instructions = null
-        selectedCells = createIOPanel()
-    }
+        outputCells = createIOPanel()
 
+    }
 
     return (
 
@@ -505,7 +503,7 @@ export default function OutputSelector(props) {
                 <h3 className={classes.selectText}>Define Model Outputs</h3>
                 {instructions}
             </div>
-            {selectedCells}
+            {outputCells}
             {buttons}
             <Dialog open={errorOpen} onClose={handleErrorClose}>
                 <div>
