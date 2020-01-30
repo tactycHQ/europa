@@ -182,6 +182,10 @@ export default function Content(props) {
         setIOState(type)
     }
 
+    const updateEnableClick = (update) => {
+        setEnableClick(update)
+    }
+
     const generateIOSelector = () => {
         if (IOState === "inputs") {
             return (
@@ -211,7 +215,7 @@ export default function Content(props) {
                     currSheet={props.currSheet}
                     selectedCells={selectedCells}
                     handleSheetChange={props.handleSheetChange}
-                    enableClick={enableClick}
+                    updateEnableClick={updateEnableClick}
                 />
             )
         }

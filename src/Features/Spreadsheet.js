@@ -11,11 +11,10 @@ export default function Spreadsheet(props) {
     const useStyles = makeStyles(theme => ({
         topContainer: {
             display: 'flex',
-            width: '100%',
-            height: '95vh',
+            height: '100',
             marginLeft: '20%',
             justifyContent: 'flex-start',
-            background: '#FEFEFD'
+            background: '#FEFEFD',
             // alignItems:'center'
         },
         sheetContainer: {
@@ -45,11 +44,11 @@ export default function Spreadsheet(props) {
             display: 'flex',
             border: 'solid',
             marginTop: '22px',
-            marginBottom: '8px',
+            marginBottom: '22px',
             borderWidth: '1px',
             boxShadow:'5px 10px',
             borderColor: '#D0D3D6',
-            background: 'green',
+            // background: 'yellow',
             cursor: 'cell',
             userSelect: 'none'
         }
@@ -97,7 +96,7 @@ export default function Spreadsheet(props) {
 
     return (
         <div className={classes.topContainer}>
-            <div
+            <Card
                 className={classes.spreadsheet}
                 ref={sheetEl}
                 onClick={(evt) => onMouseClick(evt)}

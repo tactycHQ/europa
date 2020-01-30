@@ -8,12 +8,11 @@ import RemoveCircleSharpIcon from '@material-ui/icons/RemoveCircleSharp'
 import IconButton from "@material-ui/core/IconButton";
 
 
-
 export default function OutputSelector(props) {
 
 
     const MAXCAT = 10
-    const MAXLABEL = 20
+    const MAXLABEL = 10
 
     const useStyles = makeStyles(theme => ({
         root: {
@@ -143,7 +142,7 @@ export default function OutputSelector(props) {
     const classes = useStyles()
     const [address, setAddress] = useState([])
     const [category, setCategory] = useState('')
-    const [labels, setLabels] = useState([])
+    const [labels, setLabels] = useState({})
     const [values, setValues] = useState([])
     const [formats, setFormats] = useState([])
     const [error, setError] = useState(null)
@@ -154,8 +153,6 @@ export default function OutputSelector(props) {
     //Hooks
     useEffect(() => {
 
-        // console.log(props.selectedCells)
-
         if (props.selectedCells.length >= 1) {
 
             let _addresses = []
@@ -165,7 +162,7 @@ export default function OutputSelector(props) {
 
             props.selectedCells.forEach(c => {
                 _addresses.push(c.address)
-                _labels.push(c.address)
+                _labels[c.address] = ''
                 _values.push(c.value)
                 _formats.push(c.format)
             })
@@ -180,7 +177,7 @@ export default function OutputSelector(props) {
 
         } else {
             setAddress([])
-            setLabels([])
+            setLabels({})
             setValues([])
             setFormats([])
             setCategory("Category")
@@ -192,12 +189,22 @@ export default function OutputSelector(props) {
 
     const createIOPanel = () => {
 
-        const catSelector = createCatSelector()
-        const labelSelector = labels.map(label => {
-            return createLabelSelector(label)
-        })
-
         let error_msg = null
+        let labelSelector = null
+        const catSelector = createCatSelector()
+
+        if (Object.keys(labels).length <= MAXLABEL) {
+            labelSelector = Object.keys(labels).map(label => {
+                return createLabelSelector(label)
+            })
+        } else {
+            error_msg = "Maximum of 10 labels for this output category has been reached. Only the first 10 labels" +
+                "will be considered."
+            labelSelector = Object.keys(labels).splice(0, MAXLABEL - 1).map(label => {
+                return createLabelSelector(label)
+            })
+        }
+
 
         return (
             <div className={classes.selectionContainer} key={address}>
@@ -227,29 +234,35 @@ export default function OutputSelector(props) {
                         }
                     }}
                     defaultValue={category}
-                    onChange={(e) => catHandler(e)}
+                    onBlur={(e) => catHandler(e)}
                 />
             </Paper>
         )
     }
 
     const catHandler = (e) => {
-        console.log("Cat Handler")
+        setCategory(e.target.value)
     }
 
     const labelHandler = (e, address) => {
-        console.log("Label Handler")
+        setLabels({
+            ...labels,
+            [address]: e.target.value
+        })
     }
 
     const labelEnter = (e, address) => {
         const splits = address.split("!")
         const sheetName = splits[0]
         let raw = splits[1]
-        if(props.currSheet === sheetName) {
+        if (props.currSheet === sheetName) {
             document.getElementById('sjs-' + raw.toString()).style.backgroundColor = "#FE9653"
-            document.getElementById('sjs-' + raw.toString()).scrollIntoView({behavior:"smooth",block:"center", inline:"center"})
-        }
-        else {
+            document.getElementById('sjs-' + raw.toString()).scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+                inline: "center"
+            })
+        } else {
             props.handleSheetChange(sheetName)
         }
     }
@@ -258,10 +271,10 @@ export default function OutputSelector(props) {
         const splits = address.split("!")
         const sheetName = splits[0]
         let raw = splits[1]
-        if(props.currSheet === sheetName) {
+        if (props.currSheet === sheetName) {
             document.getElementById('sjs-' + raw.toString()).style.backgroundColor = "#FCCA46"
         }
-        document.getElementById('sjs-A1').scrollIntoView({behavior:"smooth",block:"center"})
+        window.scrollTo({left: 0, top: 0, behavior: 'smooth'})
     }
 
     const createLabelSelector = (address) => {
@@ -282,14 +295,13 @@ export default function OutputSelector(props) {
                     }
                 }}
                 defaultValue=" "
-                onChange={(e) => labelHandler(e, address)}
+                onBlur={(e) => labelHandler(e, address)}
                 onMouseEnter={(e) => labelEnter(e, address)}
                 onMouseLeave={(e) => labelExit(e, address)}
             />
 
         )
     }
-
 
     const handleErrorClose = () => {
         setErrorOpen(false)
@@ -458,6 +470,7 @@ export default function OutputSelector(props) {
                 {instructions}
             </div>
             {selectedCells}
+            {buttons}
             <Dialog open={errorOpen} onClose={handleErrorClose}>
                 <div>
                     <h2 className={classes.selectNote}>{error}</h2>
