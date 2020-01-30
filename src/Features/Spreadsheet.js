@@ -1,4 +1,4 @@
-import React, {useRef, useEffect, useState} from "react";
+import React, {useRef, useEffect} from "react";
 import {utils} from "@sheet/core";
 import {makeStyles} from '@material-ui/core/styles'
 import {Card, Button} from "@material-ui/core";
@@ -46,7 +46,7 @@ export default function Spreadsheet(props) {
             marginTop: '22px',
             marginBottom: '22px',
             borderWidth: '1px',
-            boxShadow:'5px 10px',
+            boxShadow: '5px 10px',
             borderColor: '#D0D3D6',
             // background: 'yellow',
             cursor: 'cell',
@@ -55,6 +55,9 @@ export default function Spreadsheet(props) {
     }))
     const classes = useStyles()
     const sheetEl = useRef(null)
+    useEffect(() => {
+        sheetEl.current.innerHTML = utils.sheet_to_html(props.worksheet)
+    }, [props.worksheet, props.selectedCells, props.clickedCells, props.selectedLabels])
 
 
     const onMouseClick = (e) => {
@@ -62,13 +65,18 @@ export default function Spreadsheet(props) {
             e.stopPropagation();
             e.nativeEvent.stopImmediatePropagation()
 
-            let newCell = e.target.id.replace("sjs-", "")
 
-            if (props.worksheet.hasOwnProperty(newCell)) {
-                if (props.IOState === 'inputs') {
-                    props.addClickedCell(newCell, props.currSheet)
-                } else {
-                    props.addSelectedCells(newCell, props.currSheet)
+            if (props.labelSelectMode) {
+                props.updateSelectedLabels(e.target.id.replace("sjs-", ""), e.target.innerText, props.currSheet)
+
+            } else {
+                let newCell = e.target.id.replace("sjs-", "")
+                if (props.worksheet.hasOwnProperty(newCell)) {
+                    if (props.IOState === 'inputs') {
+                        props.addClickedCell(newCell, props.currSheet)
+                    } else {
+                        props.addSelectedCells(newCell, props.currSheet)
+                    }
                 }
             }
         }
@@ -78,11 +86,6 @@ export default function Spreadsheet(props) {
     const onSheetClick = (e, sheet) => {
         props.handleSheetChange(sheet)
     }
-
-    useEffect(() => {
-        sheetEl.current.innerHTML = utils.sheet_to_html(props.worksheet)
-    }, [props.worksheet, props.selectedCells, props.clickedCells])
-
 
     const createSheets = () => {
         return props.sheets.map(sheet => {

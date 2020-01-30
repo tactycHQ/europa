@@ -156,13 +156,18 @@ export default function OutputSelector(props) {
         if (props.selectedCells.length >= 1) {
 
             let _addresses = []
-            let _labels = []
+            let _labels = {}
             let _values = []
             let _formats = []
 
-            props.selectedCells.forEach(c => {
+            props.selectedCells.forEach((c, idx) => {
                 _addresses.push(c.address)
-                _labels[c.address] = ''
+
+                if (typeof (props.selectedLabels[idx]) === 'undefined') {
+                    _labels[c.address] = " "
+                } else {
+                    _labels[c.address] = props.selectedLabels[idx].value
+                }
                 _values.push(c.value)
                 _formats.push(c.format)
             })
@@ -185,7 +190,9 @@ export default function OutputSelector(props) {
             setLoaded(false)
         }
 
-    }, [props.selectedCells])
+
+    }, [props.selectedCells, props.selectedLabels])
+
 
     const createIOPanel = () => {
 
@@ -194,8 +201,8 @@ export default function OutputSelector(props) {
         const catSelector = createCatSelector()
 
         if (Object.keys(labels).length <= MAXLABEL) {
-            labelSelector = Object.keys(labels).map(label => {
-                return createLabelSelector(label)
+            labelSelector = Object.keys(labels).map((address) => {
+                return createLabelSelector(address)
             })
         } else {
             error_msg = "Maximum of 10 labels for this output category has been reached. Only the first 10 labels" +
@@ -204,7 +211,6 @@ export default function OutputSelector(props) {
                 return createLabelSelector(label)
             })
         }
-
 
         return (
             <div className={classes.selectionContainer} key={address}>
@@ -238,6 +244,44 @@ export default function OutputSelector(props) {
                 />
             </Paper>
         )
+    }
+
+    const createLabelSelector = (address) => {
+
+        if (!props.labelSelectMode) {
+            return (
+                <div>{address}</div>
+            )
+        } else {
+            return (
+                <TextField
+                    key={address}
+                    required
+                    className={classes.rootTextContainer}
+                    label={address}
+                    size="small"
+                    InputLabelProps={{
+                        className: classes.labelField
+                    }}
+                    InputProps={{
+                        classes: {
+                            input: classes.textField
+                        },
+                    }}
+                    value={labels[address]}
+                    onChange={(e) => labelHandler(e, address)}
+                    onMouseEnter={(e) => labelEnter(e, address)}
+                    onMouseLeave={(e) => labelExit(e, address)}
+                />
+            )
+        }
+    }
+
+
+    //Handles text input into label field
+
+    const updateLabelMode = () => {
+        props.updateLabelSelectMode(true)
     }
 
     const catHandler = (e) => {
@@ -277,31 +321,6 @@ export default function OutputSelector(props) {
         window.scrollTo({left: 0, top: 0, behavior: 'smooth'})
     }
 
-    const createLabelSelector = (address) => {
-
-        return (
-            <TextField
-                key={address}
-                required
-                className={classes.rootTextContainer}
-                label={address}
-                size="small"
-                InputLabelProps={{
-                    className: classes.labelField
-                }}
-                InputProps={{
-                    classes: {
-                        input: classes.textField
-                    }
-                }}
-                defaultValue=" "
-                onBlur={(e) => labelHandler(e, address)}
-                onMouseEnter={(e) => labelEnter(e, address)}
-                onMouseLeave={(e) => labelExit(e, address)}
-            />
-
-        )
-    }
 
     const handleErrorClose = () => {
         setErrorOpen(false)
@@ -343,10 +362,26 @@ export default function OutputSelector(props) {
         let setOutputButton = null
         let doneWithOutputs = null
 
+
         //Sidebar is populated with input data
-        if (loaded) {
+        // if (loaded) {
+        //     setOutputButton = (
+        //         <Button className={classes.selectButton} size="small" onClick={() => setOutputHandler()}>
+        //             <h3 className={classes.buttonText}>OK</h3>
+        //         </Button>)
+        // }
+        console.log(props.selectedLabels)
+        console.log(labels)
+        if (props.labelSelectMode && props.selectedLabels.length === Object.keys(labels).length) {
             setOutputButton = (
                 <Button className={classes.selectButton} size="small" onClick={() => setOutputHandler()}>
+                    <h3 className={classes.buttonText}>OK</h3>
+                </Button>)
+        }
+
+        if (!props.labelSelectMode && Object.keys(labels).length >= 1) {
+            setOutputButton = (
+                <Button className={classes.selectButton} size="small" onClick={() => updateLabelMode()}>
                     <h3 className={classes.buttonText}>OK</h3>
                 </Button>)
         }
