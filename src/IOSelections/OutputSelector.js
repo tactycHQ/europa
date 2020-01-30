@@ -372,6 +372,7 @@ export default function OutputSelector(props) {
         // }
         console.log(props.selectedLabels)
         console.log(labels)
+        //TODO Fix this to check for validated labels instead
         if (props.labelSelectMode && props.selectedLabels.length === Object.keys(labels).length) {
             setOutputButton = (
                 <Button className={classes.selectButton} size="small" onClick={() => setOutputHandler()}>
