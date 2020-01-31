@@ -28,31 +28,14 @@ export default function OutputSelector(props) {
             overflowY: 'auto',
             padding: '10px'
         },
-        selectionContainer: {
-            display: 'flex',
-            flexDirection: 'column',
-            height: '100%',
-            width: '100%',
-            alignContent: 'center'
-        },
-        buttonContainer: {
-            display: 'flex',
-        },
-        selectHeader: {
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            alignItems: 'center',
-            justifyContent: 'flex-start'
-        },
-        selectText: {
+        title: {
             fontSize: '0.9em',
             paddingLeft: '5px',
             fontFamily: 'Questrial',
             color: '#292F36',
             margin: '2px'
         },
-        selectNote: {
+        instruction: {
             fontSize: '0.9em',
             fontWeight: '100',
             paddingLeft: '5px',
@@ -60,15 +43,47 @@ export default function OutputSelector(props) {
             color: '#292F36',
             margin: '10px'
         },
-        categoryContainer: {
-            display:'flex',
-            flexDirection:'column',
-            justifyContent:'center',
-            alignItems:'center',
+        loadButtonContainer: {
+            display: 'flex',
+            width: '100%',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+        },
+        loadedButton: {
+            display: 'flex',
+            flexDirection: 'column',
+            backgroundColor: '#BD467C',
+            padding: '2px',
+            marginBottom: '2px',
+            width: '90%',
+            "&:hover": {
+                backgroundColor: "#A5014B",
+            }
+        },
+        loadedText: {
+            fontFamily: 'Questrial',
+            fontSize: '0.8em',
+            fontWeight: '500',
+            color: '#FEFEFD',
+            margin: '0px'
+        },
+        selectionContainer: {
+            display: 'flex',
+            flexDirection: 'column',
+            height: '100%',
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'flex-start'
+        },
+        genericSelector: {
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
             margin: '5px',
             background: '#D7DEE2',
-            padding: '4px'
-            // width: '100%'
+            padding: '4px',
+            width: '100%'
         },
         rootTextContainer: {
             display: 'flex',
@@ -81,13 +96,21 @@ export default function OutputSelector(props) {
             fontFamily: 'Questrial',
             paddingTop: '5px',
             paddingBottom: '0px',
-            backgroundColor:'yellow'
         },
         labelAddress: {
-            fontSize: '0.9em',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            fontSize: '0.85em',
+            color: '#FEFEFD',
             fontWeight: '100',
             fontFamily: 'Questrial',
+            textAlign: 'center',
             width: '100%',
+            backgroundColor: '#004666',
+            padding: '2px',
+            margin: '2px',
+            borderRadius: '3px'
         },
         labelField: {
             fontSize: '1.1em',
@@ -95,57 +118,31 @@ export default function OutputSelector(props) {
             fontFamily: 'Questrial',
             width: '100%',
         },
-        selectButton: {
+        buttonContainer: {
             display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: '1px'
+        },
+        setButton: {
+            display: 'flex',
+            flexDirection: 'column',
             background: '#006E9F',
             justifyContent: 'center',
             alignItems: 'center',
             color: '#FEFEFD',
-            padding: '5px',
+            padding: '3px',
             margin: '5px',
-            width: '100%',
+            width: '100px',
             height: '40px',
         },
         buttonText: {
-            // backgroundColor:'yellow',
             fontSize: '0.85em',
             fontWeight: '100',
             fontFamily: 'Questrial',
-            margin: '0px'
+            margin: '0px',
         },
-        formControl: {
-            width: "100%",
-            marginTop: '5px'
-        },
-        stepItem: {
-            fontFamily: 'Questrial',
-            fontSize: '1.0em',
-            // background: '#D7DEE2'
-        },
-        singleButtonContainer: {
-            display: 'flex',
-            width: '100%',
-            justifyContent: 'center',
-            alignItems: 'center'
-        },
-        selectedInputs: {
-            display: 'flex',
-            flexDirection: 'column',
-            backgroundColor: '#BD467C',
-            padding: '2px',
-            marginBottom: '2px',
-            width: '90%',
-            "&:hover": {
-                backgroundColor: "#A5014B",
-            }
-        },
-        selectedInputsText: {
-            fontFamily: 'Questrial',
-            fontSize: '0.8em',
-            fontWeight: '500',
-            color: '#FEFEFD',
-            margin: '0px'
-        }
+
     }))
     const classes = useStyles()
     const [address, setAddress] = useState([])
@@ -155,6 +152,10 @@ export default function OutputSelector(props) {
     const [error, setError] = useState(null)
     const [errorOpen, setErrorOpen] = useState(false)
     const [loaded, setLoaded] = useState(false)
+
+    console.log(props.selectedCells)
+    console.log(props.outputs)
+
 
     //Hooks
     useEffect(() => {
@@ -197,16 +198,19 @@ export default function OutputSelector(props) {
                 setErrorOpen(false)
                 setLoaded(true)
             }
+        } else {
+            setLoaded(false)
         }
 
     }, [props.loadMode, props.loadLabels, props.loadCat, props.selectedCells, props.selectedLabels])
 
 
+    //Creators
     const createIOPanel = () => {
 
         let error_msg = null
         let labelSelector = null
-        const catSelector = createCatSelector()
+        const genericSelector = createCatSelector()
 
         if (Object.keys(labels).length <= MAXLABEL) {
             labelSelector = Object.keys(labels).map((address) => {
@@ -222,18 +226,18 @@ export default function OutputSelector(props) {
 
         return (
             <div className={classes.selectionContainer} key={address}>
-                {catSelector}
-                <Paper className={classes.categoryContainer}>
+                {genericSelector}
+                <Paper className={classes.genericSelector}>
                     {labelSelector}
                 </Paper>
-                <h3 className={classes.selectNote} style={{color: 'red', margin: '10px'}}>{error_msg}</h3>
+                <h3 className={classes.instructions} style={{color: 'red', margin: '10px'}}>{error_msg}</h3>
             </div>
         )
     }
 
     const createCatSelector = () => {
         return (
-            <Paper className={classes.categoryContainer}>
+            <Paper className={classes.genericSelector}>
                 <TextField
                     required id="standard-required"
                     className={classes.rootTextContainer}
@@ -254,42 +258,186 @@ export default function OutputSelector(props) {
         )
     }
 
+
     const createLabelSelector = (address) => {
 
         if (!props.labelSelectMode) {
             return (
-                <h3 className={classes.labelAddress} key={address}>{address}</h3>
+                <div key={address} style={{display: 'flex', width: '100%'}}>
+                    <h3 className={classes.labelAddress}>{address}</h3>
+                    <IconButton onClick={() => deleteLabelHandler(address)} size="small">
+                        <RemoveCircleSharpIcon style={{color: '#004666'}} size="small"/>
+                    </IconButton>
+                </div>
             )
         } else {
             return (
-                <TextField
-                    key={address}
-                    required
-                    className={classes.rootTextContainer}
-                    label={address}
-                    size="small"
-                    InputLabelProps={{
-                        className: classes.labelField
-                    }}
-                    InputProps={{
-                        classes: {
-                            input: classes.textField
-                        },
-                    }}
-                    value={labels[address]}
-                    onChange={(e) => labelHandler(e, address)}
-                    onMouseEnter={(e) => labelEnter(e, address)}
-                    onMouseLeave={(e) => labelExit(e, address)}
-                />
+                <div key={address} style={{display: 'flex', width: '100%'}}>
+                    <TextField
+                        key={address}
+                        required
+                        className={classes.rootTextContainer}
+                        label={address}
+                        size="small"
+                        InputLabelProps={{
+                            className: classes.labelField
+                        }}
+                        InputProps={{
+                            classes: {
+                                input: classes.textField
+                            },
+                        }}
+                        value={labels[address]}
+                        onChange={(e) => labelHandler(e, address)}
+                        onMouseEnter={(e) => labelEnter(e, address)}
+                        onMouseLeave={(e) => labelExit(e, address)}
+                    />
+                    <IconButton onClick={() => deleteLabelHandler(address)} size="small">
+                        <RemoveCircleSharpIcon style={{color: '#8BBDD3'}} size="small"/>
+                    </IconButton>
+                </div>
+            )
+        }
+    }
+
+    const createButtons = () => {
+        let setOutputButton = null
+        let backButton = null
+        let doneWithOutputs = null
+
+        if (!props.labelSelectMode && Object.keys(labels).length >= 1 && loaded) {
+            let selectText = "SELECT LABELS"
+
+            setOutputButton = (
+                <Button className={classes.setButton} size="small" onClick={() => updateLabelMode(true)}>
+                    <h3 className={classes.buttonText}>{selectText}</h3>
+                </Button>)
+        }
+
+
+        if (props.labelSelectMode && Object.values(labels).every(labelCheck) && loaded) {
+            let setText = "NEXT"
+            if (props.loadMode) {
+                setText = "UPDATE"
+            }
+            setOutputButton = (
+                <Button className={classes.setButton} size="small" onClick={() => setOutputHandler()}>
+                    <h3 className={classes.buttonText}>{setText}</h3>
+                </Button>)
+        }
+
+        if (props.labelSelectMode && loaded) {
+            backButton = (
+                <Button className={classes.setButton} size="small" onClick={() => updateLabelMode(false)}>
+                    <h3 className={classes.buttonText}>BACK TO CELL SELECTION</h3>
+                </Button>)
+        }
+
+
+        if (props.outputs.length >= 1 && !loaded) {
+            doneWithOutputs = (
+                <Button className={classes.setButton} size="small" onClick={() => props.updateIOState("outputs")}>
+                    <h3 className={classes.buttonText}>DONE WITH ALL OUTPUTS</h3>
+                </Button>)
+        }
+
+        return (
+            <div className={classes.buttonContainer}>
+                {backButton}
+                {setOutputButton}
+                {doneWithOutputs}
+            </div>
+        )
+    }
+
+    const createInstructions = () => {
+
+        let alreadySelected = null
+
+        if (props.outputs.length > 0) {
+            alreadySelected = props.outputs.map(output => {
+                return (
+                    <div className={classes.loadButtonContainer} key={output.category}>
+                        <Button
+                            key={output.address}
+                            className={classes.loadedButton}
+                            onClick={(e) => loadOutputHandler(output.category)}
+                        >
+                            <h3 className={classes.loadedText}>{output.category}</h3>
+                        </Button>
+                        <IconButton onClick={() => props.deleteOutputHandler(output.category)} size="small">
+                            <RemoveCircleSharpIcon style={{color: '#BD467C'}} size="small"/>
+                        </IconButton>
+                    </div>
+                )
+            })
+        }
+
+        //If no outputs have been selected yet
+        if (props.outputs.length === 0) {
+
+
+            return (
+                <h3 className={classes.instruction}>
+                    Select an output cell or range in the spreadsheet. <br/><br/>
+
+                    Output cells must be in the same <em>category</em> and have the same <em>units</em>. For
+                    example, Revenue (in dollars) or IRRs (in %).<br/><br/>
+
+                    Multiple cells within a category (for e.g. 2020 Profit, 2021 Profit, 2022 Profit) are
+                    called <em>labels</em>.<br/><br/>
+
+                    You can select upto 10 categories and 25 labels per category.<br/><br/>
+
+                    Click <em>Done with Outputs</em> to start calculations.
+                </h3>
+            )
+
+            //If user has selected at least one input
+        } else if (props.outputs.length > 0 && props.outputs.length < MAXCAT) {
+
+            return (
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginBottom: '10px'
+                }}>
+                    <h3 className={classes.instruction}>
+                        Please select the next output category from the spreadsheet.<br/><br/>
+                        You can select up to 10 output categories with 20 cells (labels) within each category.
+                    </h3>
+                    <h3 className={classes.instruction} style={{
+                        fontSize: '0.9em',
+                        fontWeight: '800',
+                        color: '#A5014B',
+                        marginBottom: '1px'
+                    }}>Selected Outputs</h3>
+                    {alreadySelected}
+                </div>
+
+            )
+
+            //All 5 inputs have been selected
+        } else if (props.outputs.length === MAXCAT) {
+            return (
+                <>
+                    <h3 className={classes.instruction}>
+                        Maximum of 10 outputs have been defined. Click on the outputs below to go back and change
+                        assumptions, or click on the to remove icon to delete this output
+                        <br/>
+                    </h3>
+                    {alreadySelected}
+                </>
             )
         }
     }
 
 
-    //Handles text input into label field
-
-    const updateLabelMode = () => {
-        props.updateLabelSelectMode(true)
+    //Handlers
+    const updateLabelMode = (update) => {
+        props.updateLabelSelectMode(update)
     }
 
     const catHandler = (e) => {
@@ -329,7 +477,6 @@ export default function OutputSelector(props) {
         window.scrollTo({left: 0, top: 0, behavior: 'smooth'})
     }
 
-
     const handleErrorClose = () => {
         setErrorOpen(false)
     }
@@ -364,6 +511,15 @@ export default function OutputSelector(props) {
         }
     }
 
+    const loadOutputHandler = (category) => {
+        props.loadOutputHandler(category)
+    }
+
+    const deleteLabelHandler = (address) => {
+        props.deleteOutLabHandler(address)
+    }
+
+    //Utility
     const resetState = () => {
         setAddress([])
         setLabels({})
@@ -374,145 +530,8 @@ export default function OutputSelector(props) {
         setLoaded(false)
     }
 
-    const loadOutputHandler = (category) => {
-        props.loadOutputHandler(category)
-    }
-
     const labelCheck = (label) => {
         return label !== ' ';
-    }
-
-    const createButtons = () => {
-        let setOutputButton = null
-        let doneWithOutputs = null
-
-
-        //Sidebar is populated with input data
-        // if (loaded) {
-        //     setOutputButton = (
-        //         <Button className={classes.selectButton} size="small" onClick={() => setOutputHandler()}>
-        //             <h3 className={classes.buttonText}>OK</h3>
-        //         </Button>)
-        // }
-
-        if (!props.labelSelectMode && Object.keys(labels).length >= 1) {
-            let selectText = "SELECT LABELS"
-
-            setOutputButton = (
-                <Button className={classes.selectButton} size="small" onClick={() => updateLabelMode()}>
-                    <h3 className={classes.buttonText}>{selectText}</h3>
-                </Button>)
-        }
-
-
-        if (props.labelSelectMode && Object.values(labels).every(labelCheck)) {
-            let setText = "OK"
-            if (props.loadMode) {
-                setText = "UPDATE"
-            }
-            setOutputButton = (
-                <Button className={classes.selectButton} size="small" onClick={() => setOutputHandler()}>
-                    <h3 className={classes.buttonText}>{setText}</h3>
-                </Button>)
-        }
-
-
-        if (props.outputs.length >= 1 && !loaded) {
-            doneWithOutputs = (
-                <Button className={classes.selectButton} size="small" onClick={() => props.updateIOState("outputs")}>
-                    <h3 className={classes.buttonText}>DONE WITH ALL OUTPUTS</h3>
-                </Button>)
-        }
-
-        return (
-            <div className={classes.buttonContainer}>
-                {setOutputButton}
-                {doneWithOutputs}
-            </div>
-        )
-    }
-
-    const createInstructions = () => {
-
-        let alreadySelected = null
-
-        if (props.outputs.length > 0) {
-            alreadySelected = props.outputs.map(output => {
-                return (
-                    <div className={classes.singleButtonContainer} key={output.category}>
-                        <Button
-                            key={output.address}
-                            className={classes.selectedInputs}
-                            onClick={(e) => loadOutputHandler(output.category)}
-                        >
-                            <h3 className={classes.selectedInputsText}>{output.category}</h3>
-                        </Button>
-                        <IconButton onClick={() => props.deleteOutputHandler(output.category)} size="small">
-                            <RemoveCircleSharpIcon style={{color: '#BD467C'}} size="small"/>
-                        </IconButton>
-                    </div>
-                )
-            })
-        }
-
-        //If no outputs have been selected yet
-        if (props.outputs.length === 0) {
-
-            return (
-                <h3 className={classes.selectNote}>
-                    Select an output cell or range in the spreadsheet. <br/><br/>
-
-                    Output cells must be in the same <em>category</em> and have the same <em>units</em>. For
-                    example, Revenue (in dollars) or IRRs (in %).<br/><br/>
-
-                    Multiple cells within a category (for e.g. 2020 Profit, 2021 Profit, 2022 Profit) are
-                    called <em>labels</em>.<br/><br/>
-
-                    You can select upto 10 categories and 25 labels per category.<br/><br/>
-
-                    Click <em>Done with Outputs</em> to start calculations.
-                </h3>
-            )
-
-            //If user has selected at least one input
-        } else if (props.outputs.length > 0 && props.outputs.length < MAXCAT) {
-
-            return (
-                <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginBottom: '10px'
-                }}>
-                    <h3 className={classes.selectNote}>
-                        Please select the next output category from the spreadsheet.<br/><br/>
-                        You can select up to 10 output categories with 20 cells (labels) within each category.
-                    </h3>
-                    <h3 className={classes.selectNote} style={{
-                        fontSize: '0.9em',
-                        fontWeight: '800',
-                        color: '#A5014B',
-                        marginBottom: '1px'
-                    }}>Selected Inputs</h3>
-                    {alreadySelected}
-                </div>
-
-            )
-
-            //All 5 inputs have been selected
-        } else if (props.outputs.length === MAXCAT) {
-            return (
-                <>
-                    <h3 className={classes.selectNote}>
-                        Maximum of 10 outputs have been defined. Click on the outputs below to go back and change
-                        assumptions, or click on the to remove icon to delete this output
-                        <br/>
-                    </h3>
-                    {alreadySelected}
-                </>
-            )
-        }
     }
 
 
@@ -524,21 +543,18 @@ export default function OutputSelector(props) {
     if (loaded) {
         instructions = null
         outputCells = createIOPanel()
-
     }
 
     return (
 
         <div className={classes.root}>
-            <div className={classes.selectHeader}>
-                <h3 className={classes.selectText}>Define Model Outputs</h3>
-                {instructions}
-            </div>
+            <h3 className={classes.title}>Define Model Outputs</h3>
+            {instructions}
             {outputCells}
             {buttons}
             <Dialog open={errorOpen} onClose={handleErrorClose}>
                 <div>
-                    <h2 className={classes.selectNote}>{error}</h2>
+                    <h2 className={classes.instruction}>{error}</h2>
                 </div>
             </Dialog>
         </div>

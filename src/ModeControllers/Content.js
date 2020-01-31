@@ -140,6 +140,7 @@ export default function Content(props) {
         setClickedCell({})
     }
 
+
     const loadInputHandler = (address) => {
         loadInput2ClickedCell(address)
         setEnableClick(false)
@@ -215,12 +216,11 @@ export default function Content(props) {
         }
     }
 
-
     const loadOutput2SelectedCells = (category) => {
         let foundOutput = props.outputs.find(output => output.category === category)
 
-        let newSelectedCells =[]
-        let newLabels =[]
+        let newSelectedCells = []
+        let newLabels = []
 
         //Have to do this to avoid setting state within loop. Ugh
         Object.entries(foundOutput.labels).forEach(entry => {
@@ -237,13 +237,13 @@ export default function Content(props) {
             props.wb.Sheets[sheetName][rawAdd].s.fgColor = {rgb: "FCCA46"}
 
             newSelectedCells.push({
-                    address: sheetName + '!' + rawAdd,
-                    sheet: sheetName,
-                    raw: rawAdd,
-                    oldColor: oldColor,
-                    value: v,
-                    format: format
-                })
+                address: sheetName + '!' + rawAdd,
+                sheet: sheetName,
+                raw: rawAdd,
+                oldColor: oldColor,
+                value: v,
+                format: format
+            })
             newLabels.push(entry[1])
         })
 
@@ -254,10 +254,6 @@ export default function Content(props) {
         setLoadMode(true)
         setLabelSelectMode(true)
     }
-
-    // }
-    // })
-    // }
 
 
     //Output Handlers
@@ -280,6 +276,14 @@ export default function Content(props) {
         setLabelSelectMode(false)
         setEnableClick(true)
         setLoadCat('')
+    }
+
+    const deleteOutLabHandler = (address) => {
+        const removeCell = selectedCells.find(output => output.address === address)
+        props.wb.Sheets[removeCell.sheet][removeCell.raw].s.fgColor = {rgb: removeCell.oldColor}
+
+        const newCells = selectedCells.filter(output => output.address !== address)
+        setSelectedCells([...newCells])
     }
 
     const loadOutputHandler = (category) => {
@@ -332,6 +336,7 @@ export default function Content(props) {
                     labelSelectMode={labelSelectMode}
                     selectedLabels={selectedLabels}
                     updateEnableClick={updateEnableClick}
+                    deleteOutLabHandler={deleteOutLabHandler}
                     updateIOState={updateIOState}
                     loadOutputHandler={loadOutputHandler}
                     updateLabelSelectMode={updateLabelSelectMode}
