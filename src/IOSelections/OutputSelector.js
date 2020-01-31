@@ -35,6 +35,9 @@ export default function OutputSelector(props) {
             width: '100%',
             alignContent: 'center'
         },
+        buttonContainer: {
+            display: 'flex',
+        },
         selectHeader: {
             display: 'flex',
             flexDirection: 'column',
@@ -58,13 +61,39 @@ export default function OutputSelector(props) {
             margin: '10px'
         },
         categoryContainer: {
+            display:'flex',
+            flexDirection:'column',
+            justifyContent:'center',
+            alignItems:'center',
             margin: '5px',
             background: '#D7DEE2',
-            padding: '8px',
+            padding: '4px'
             // width: '100%'
         },
-        buttonContainer: {
-            display: 'flex'
+        rootTextContainer: {
+            display: 'flex',
+            width: '100%',
+            margin: '2px'
+        },
+        textField: {
+            fontSize: '0.8em',
+            fontWeight: '100',
+            fontFamily: 'Questrial',
+            paddingTop: '5px',
+            paddingBottom: '0px',
+            backgroundColor:'yellow'
+        },
+        labelAddress: {
+            fontSize: '0.9em',
+            fontWeight: '100',
+            fontFamily: 'Questrial',
+            width: '100%',
+        },
+        labelField: {
+            fontSize: '1.1em',
+            fontWeight: '100',
+            fontFamily: 'Questrial',
+            width: '100%',
         },
         selectButton: {
             display: 'flex',
@@ -84,29 +113,7 @@ export default function OutputSelector(props) {
             fontFamily: 'Questrial',
             margin: '0px'
         },
-        rootTextContainer: {
-            display: 'flex',
-            // background:'green',
-            width: '100%'
-        },
-        textField: {
-            fontSize: '0.75em',
-            fontWeight: '100',
-            fontFamily: 'Questrial',
-            // marginBottom:'0px',
-            paddingTop: '5px',
-            paddingBottom: '0px',
-        },
-        labelField: {
-            fontSize: '1.0em',
-            fontWeight: '100',
-            fontFamily: 'Questrial',
-            marginTop: '7px',
-            width: '100%',
-            // background:'yellow'
-        },
         formControl: {
-            // margin: theme.spacing(1),
             width: "100%",
             marginTop: '5px'
         },
@@ -251,7 +258,7 @@ export default function OutputSelector(props) {
 
         if (!props.labelSelectMode) {
             return (
-                <h3 className={classes.labelField} key={address}>{address}</h3>
+                <h3 className={classes.labelAddress} key={address}>{address}</h3>
             )
         } else {
             return (
@@ -339,7 +346,7 @@ export default function OutputSelector(props) {
         //If category is a duplicate while the underlying addressed do not match, throw this error
         if (props.outputs.some(output => {
             let currSelectedAdds = props.selectedCells.map(label => label.address)
-            return (output.category === category && !(isEqual(Object.keys(output.labels),currSelectedAdds)))
+            return (output.category === category && !(isEqual(Object.keys(output.labels), currSelectedAdds)))
         })) {
             setErrorOpen(true)
             setError("Output category has already been assigned to other cells. Please select a different name")
