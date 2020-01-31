@@ -6,6 +6,7 @@ import Paper from "@material-ui/core/Paper"
 import Dialog from "@material-ui/core/Dialog";
 import RemoveCircleSharpIcon from '@material-ui/icons/RemoveCircleSharp'
 import IconButton from "@material-ui/core/IconButton";
+import isEqual from 'lodash.isequal'
 
 
 export default function OutputSelector(props) {
@@ -148,7 +149,6 @@ export default function OutputSelector(props) {
     const [errorOpen, setErrorOpen] = useState(false)
     const [loaded, setLoaded] = useState(false)
 
-
     //Hooks
     useEffect(() => {
 
@@ -159,10 +159,9 @@ export default function OutputSelector(props) {
             let _formats = []
 
             if (props.loadMode) {
-
                 props.selectedCells.forEach((c, idx) => {
                     _addresses.push(c.address)
-                    _labels[c.address]=props.loadLabels[idx]
+                    _labels[c.address] = props.loadLabels[idx]
                     _formats.push(c.format)
                 })
 
@@ -252,7 +251,7 @@ export default function OutputSelector(props) {
 
         if (!props.labelSelectMode) {
             return (
-                <div key={address}>{address}</div>
+                <h3 className={classes.labelField} key={address}>{address}</h3>
             )
         } else {
             return (
@@ -337,9 +336,10 @@ export default function OutputSelector(props) {
             setError("Please give this ouput a category name before proceeding. A name could be descriptions of the output category, such as Net Income, or Enterprise Value, or IRR.")
         }
 
-        //If category is a duplicate
-        else if (props.outputs.some(output => {
-            return (output.category === category)
+        //If category is a duplicate while the underlying addressed do not match, throw this error
+        if (props.outputs.some(output => {
+            let currSelectedAdds = props.selectedCells.map(label => label.address)
+            return (output.category === category && !(isEqual(Object.keys(output.labels),currSelectedAdds)))
         })) {
             setErrorOpen(true)
             setError("Output category has already been assigned to other cells. Please select a different name")
@@ -388,17 +388,24 @@ export default function OutputSelector(props) {
         //         </Button>)
         // }
 
-        if (props.labelSelectMode && Object.values(labels).every(labelCheck)) {
+        if (!props.labelSelectMode && Object.keys(labels).length >= 1) {
+            let selectText = "SELECT LABELS"
+
             setOutputButton = (
-                <Button className={classes.selectButton} size="small" onClick={() => setOutputHandler()}>
-                    <h3 className={classes.buttonText}>OK</h3>
+                <Button className={classes.selectButton} size="small" onClick={() => updateLabelMode()}>
+                    <h3 className={classes.buttonText}>{selectText}</h3>
                 </Button>)
         }
 
-        if (!props.labelSelectMode && Object.keys(labels).length >= 1) {
+
+        if (props.labelSelectMode && Object.values(labels).every(labelCheck)) {
+            let setText = "OK"
+            if (props.loadMode) {
+                setText = "UPDATE"
+            }
             setOutputButton = (
-                <Button className={classes.selectButton} size="small" onClick={() => updateLabelMode()}>
-                    <h3 className={classes.buttonText}>SELECT LABELS</h3>
+                <Button className={classes.selectButton} size="small" onClick={() => setOutputHandler()}>
+                    <h3 className={classes.buttonText}>{setText}</h3>
                 </Button>)
         }
 

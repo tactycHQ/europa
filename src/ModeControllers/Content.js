@@ -153,8 +153,7 @@ export default function Content(props) {
         let v
         let format
 
-        //if clicked a cell that already exists then reset color of that cell
-
+        //if clicked a cell that already exists then reset color of that cell and remove that cell from state
         let foundIndex = selectedCells.findIndex(cell => (cell.raw === newCell && sheetName === cell.sheet))
 
         if (foundIndex !== -1) {
@@ -172,7 +171,6 @@ export default function Content(props) {
 
             // document.getElementById('sjs-D15').style.backgroundColor = "yellow"
             // highlight.scrollIntoView()
-
 
             //Set new clicked cell
             setSelectedCells([...selectedCells,
@@ -217,9 +215,14 @@ export default function Content(props) {
         }
     }
 
+
     const loadOutput2SelectedCells = (category) => {
         let foundOutput = props.outputs.find(output => output.category === category)
 
+        let newSelectedCells =[]
+        let newLabels =[]
+
+        //Have to do this to avoid setting state within loop. Ugh
         Object.entries(foundOutput.labels).forEach(entry => {
             const splits = entry[0].split("!")
             const sheetName = splits[0]
@@ -227,13 +230,29 @@ export default function Content(props) {
                 props.handleSheetChange(sheetName)
             }
             const rawAdd = splits[1]
-            addSelectedCells(rawAdd, sheetName)
-            setLoadLabels([...loadLabels,entry[1]])
+
+            const oldColor = getOldColor(rawAdd, sheetName)
+            const v = getValue(rawAdd, sheetName)
+            const format = getFormat(rawAdd, sheetName)
+            props.wb.Sheets[sheetName][rawAdd].s.fgColor = {rgb: "FCCA46"}
+
+            newSelectedCells.push({
+                    address: sheetName + '!' + rawAdd,
+                    sheet: sheetName,
+                    raw: rawAdd,
+                    oldColor: oldColor,
+                    value: v,
+                    format: format
+                })
+            newLabels.push(entry[1])
         })
 
+        setSelectedCells([...newSelectedCells])
+        setLoadLabels([...newLabels])
         setLoadCat(category)
         setEnableClick(false)
         setLoadMode(true)
+        setLabelSelectMode(true)
     }
 
     // }

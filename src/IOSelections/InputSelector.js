@@ -186,7 +186,7 @@ export default function InputSelector(props) {
                 setErrorOpen(false)
                 setLoaded(true)
 
-            //User has clicked on a new call, so load up defaults
+                //User has clicked on a new call, so load up defaults
             } else {
 
                 const default_value = props.clickedCells.value
@@ -440,8 +440,9 @@ export default function InputSelector(props) {
             setError("Please give this input a name before proceeding. A name could be descriptions of the driver, such as Growth Rate or Profit Margin.")
         }
 
+
         //Check if label has already been assigned to another input, throw a duplicate error
-        else if (props.inputs.some(input => {
+        if (props.inputs.some(input => {
             return (input.label === label) && (input.address !== address)
         })) {
             setErrorOpen(true)
