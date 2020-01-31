@@ -37,6 +37,9 @@ export default function Content(props) {
     const [enableClick, setEnableClick] = useState(true)
     const [labelSelectMode, setLabelSelectMode] = useState(false)
     const [IOState, setIOState] = useState("outputs")
+    const [loadCat, setLoadCat] = useState('')
+    const [loadLabels, setLoadLabels] = useState([])
+    const [loadMode, setLoadMode] = useState(false)
 
     //Input Selection Functions
     const getOldColor = (newCell, sheetName) => {
@@ -217,10 +220,24 @@ export default function Content(props) {
     const loadOutput2SelectedCells = (category) => {
         let foundOutput = props.outputs.find(output => output.category === category)
 
-        // Object.foundOutput.labels
+        Object.entries(foundOutput.labels).forEach(entry => {
+            const splits = entry[0].split("!")
+            const sheetName = splits[0]
+            if (sheetName !== props.currSheet) {
+                props.handleSheetChange(sheetName)
+            }
+            const rawAdd = splits[1]
+            addSelectedCells(rawAdd, sheetName)
+            setLoadLabels([...loadLabels,entry[1]])
+        })
 
-            // }
-        // })
+        setLoadCat(category)
+        setEnableClick(false)
+        setLoadMode(true)
+    }
+
+    // }
+    // })
     // }
 
 
@@ -243,11 +260,13 @@ export default function Content(props) {
         setSelectedLabels([])
         setLabelSelectMode(false)
         setEnableClick(true)
+        setLoadCat('')
     }
 
     const loadOutputHandler = (category) => {
-        console.log("to come")
+        loadOutput2SelectedCells(category)
     }
+
 
     //Global Functions
     const updateLabelSelectMode = (update) => {
@@ -283,18 +302,20 @@ export default function Content(props) {
         } else {
             return (
                 <OutputSelector
+                    loadMode={loadMode}
+                    loadCat={loadCat}
+                    loadLabels={loadLabels}
                     outputs={props.outputs}
-                    inputs={props.inputs}
                     IOState={IOState}
-                    updateIOState={updateIOState}
-                    loadOutputHandler={loadOutputHandler}
                     currSheet={props.currSheet}
                     selectedCells={selectedCells}
                     handleSheetChange={props.handleSheetChange}
-                    updateEnableClick={updateEnableClick}
                     labelSelectMode={labelSelectMode}
-                    updateLabelSelectMode={updateLabelSelectMode}
                     selectedLabels={selectedLabels}
+                    updateEnableClick={updateEnableClick}
+                    updateIOState={updateIOState}
+                    loadOutputHandler={loadOutputHandler}
+                    updateLabelSelectMode={updateLabelSelectMode}
                     setOutputHandler={setOutputHandler}
                 />
             )

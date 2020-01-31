@@ -60,8 +60,6 @@ export default function Main(props) {
     const [currSheet, setCurrSheet] = useState(null)
 
 
-
-
     //----------------Modes-------------------
     //1. New - a new dashboard is to be created. Dash id and filename have been provided
     //2. PendingIO - file has been loaded. Pending user I/O selection

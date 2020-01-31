@@ -158,25 +158,42 @@ export default function OutputSelector(props) {
             let _labels = {}
             let _formats = []
 
-            props.selectedCells.forEach((c, idx) => {
-                _addresses.push(c.address)
+            if (props.loadMode) {
 
-                if (typeof (props.selectedLabels[idx]) === 'undefined') {
-                    _labels[c.address] = " "
-                } else {
-                    _labels[c.address] = props.selectedLabels[idx].value
-                }
-                _formats.push(c.format)
-            })
-            setAddress(_addresses)
-            setLabels(_labels)
-            setFormats(_formats)
-            setCategory("Category")
-            setErrorOpen(false)
-            setLoaded(true)
+                props.selectedCells.forEach((c, idx) => {
+                    _addresses.push(c.address)
+                    _labels[c.address]=props.loadLabels[idx]
+                    _formats.push(c.format)
+                })
+
+                setAddress(_addresses)
+                setLabels(_labels)
+                setFormats(_formats)
+                setCategory(props.loadCat)
+                setErrorOpen(false)
+                setLoaded(true)
+
+            } else {
+
+                props.selectedCells.forEach((c, idx) => {
+                    _addresses.push(c.address)
+                    if (typeof (props.selectedLabels[idx]) === 'undefined') {
+                        _labels[c.address] = " "
+                    } else {
+                        _labels[c.address] = props.selectedLabels[idx].value
+                    }
+                    _formats.push(c.format)
+                })
+                setAddress(_addresses)
+                setLabels(_labels)
+                setFormats(_formats)
+                setCategory("Category")
+                setErrorOpen(false)
+                setLoaded(true)
+            }
         }
 
-    }, [props.selectedCells, props.selectedLabels])
+    }, [props.loadMode, props.loadLabels, props.loadCat, props.selectedCells, props.selectedLabels])
 
 
     const createIOPanel = () => {
@@ -315,7 +332,7 @@ export default function OutputSelector(props) {
 
         //Validations Start
         //If category is not set
-        if (category === 'Category') {
+        if (category === ' ') {
             setErrorOpen(true)
             setError("Please give this ouput a category name before proceeding. A name could be descriptions of the output category, such as Net Income, or Enterprise Value, or IRR.")
         }
@@ -333,7 +350,7 @@ export default function OutputSelector(props) {
             const outputPayload = {
                 "category": category,
                 "labels": labels,
-                "format": formats,
+                "format": formats
             }
             props.setOutputHandler(outputPayload)
             resetState()
@@ -381,7 +398,7 @@ export default function OutputSelector(props) {
         if (!props.labelSelectMode && Object.keys(labels).length >= 1) {
             setOutputButton = (
                 <Button className={classes.selectButton} size="small" onClick={() => updateLabelMode()}>
-                    <h3 className={classes.buttonText}>OK</h3>
+                    <h3 className={classes.buttonText}>SELECT LABELS</h3>
                 </Button>)
         }
 
