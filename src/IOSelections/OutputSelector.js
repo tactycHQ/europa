@@ -151,40 +151,40 @@ export default function OutputSelector(props) {
     const [formats, setFormats] = useState([])
     const [error, setError] = useState(null)
     const [errorOpen, setErrorOpen] = useState(false)
-    const [loaded, setLoaded] = useState(false)
 
+    const {stage, updateStage, selectedCells, selectedLabels, loadMode, loadLabels, loadCat} = props
 
+    console.log(stage)
     //Hooks
     useEffect(() => {
 
-        if (props.selectedCells.length >= 1) {
+        if (selectedCells.length >= 1) {
 
             let _addresses = []
             let _labels = {}
             let _formats = []
 
-            if (props.loadMode) {
-                props.selectedCells.forEach((c, idx) => {
+            if (loadMode) {
+                selectedCells.forEach((c, idx) => {
                     _addresses.push(c.address)
-                    _labels[c.address] = props.loadLabels[idx]
+                    _labels[c.address] = loadLabels[idx]
                     _formats.push(c.format)
                 })
 
                 setAddress(_addresses)
                 setLabels(_labels)
                 setFormats(_formats)
-                setCategory(props.loadCat)
+                setCategory(loadCat)
                 setErrorOpen(false)
-                setLoaded(true)
+                updateStage("labelComplete")
 
             } else {
-
-                props.selectedCells.forEach((c, idx) => {
+                selectedCells.forEach((c, idx) => {
                     _addresses.push(c.address)
-                    if (typeof (props.selectedLabels[idx]) === 'undefined') {
+                    if (typeof (selectedLabels[idx]) === 'undefined') {
                         _labels[c.address] = " "
                     } else {
-                        _labels[c.address] = props.selectedLabels[idx].value
+                        _labels[c.address] = selectedLabels[idx].value
                     }
                     _formats.push(c.format)
                 })
@@ -193,43 +193,49 @@ export default function OutputSelector(props) {
                 setFormats(_formats)
                 setCategory("Category")
                 setErrorOpen(false)
-                setLoaded(true)
+                if (stage === 'empty') {
+                    updateStage("loaded")
+                }
             }
-        } else {
-            setLoaded(false)
         }
 
-    }, [props.loadMode, props.loadLabels, props.loadCat, props.selectedCells, props.selectedLabels])
+    }, [stage, updateStage, selectedCells, selectedLabels, loadMode, loadLabels, loadCat])
 
 
     //Creators
     const createIOPanel = () => {
 
-        let error_msg = null
-        let labelSelector = null
-        const genericSelector = createCatSelector()
-
-        if (Object.keys(labels).length <= MAXLABEL) {
-            labelSelector = Object.keys(labels).map((address) => {
-                return createLabelSelector(address)
-            })
+        if (stage === 'empty') {
+            return null
         } else {
-            error_msg = "Maximum of 10 labels for this output category has been reached. Only the first 10 labels" +
-                "will be considered."
-            labelSelector = Object.keys(labels).splice(0, MAXLABEL - 1).map(label => {
-                return createLabelSelector(label)
-            })
-        }
 
-        return (
-            <div className={classes.selectionContainer} key={address}>
-                {genericSelector}
-                <Paper className={classes.genericSelector}>
-                    {labelSelector}
-                </Paper>
-                <h3 className={classes.instructions} style={{color: 'red', margin: '10px'}}>{error_msg}</h3>
-            </div>
-        )
+
+            let error_msg = null
+            let labelSelector = null
+            const genericSelector = createCatSelector()
+
+            if (Object.keys(labels).length <= MAXLABEL) {
+                labelSelector = Object.keys(labels).map((address) => {
+                    return createLabelSelector(address)
+                })
+            } else {
+                error_msg = "Maximum of 10 labels for this output category has been reached. Only the first 10 labels" +
+                    "will be considered."
+                labelSelector = Object.keys(labels).splice(0, MAXLABEL - 1).map(label => {
+                    return createLabelSelector(label)
+                })
+            }
+
+            return (
+                <div className={classes.selectionContainer} key={address}>
+                    {genericSelector}
+                    <Paper className={classes.genericSelector}>
+                        {labelSelector}
+                    </Paper>
+                    <h3 className={classes.instructions} style={{color: 'red', margin: '10px'}}>{error_msg}</h3>
+                </div>
+            )
+        }
     }
 
     const createCatSelector = () => {
@@ -255,10 +261,9 @@ export default function OutputSelector(props) {
         )
     }
 
-
     const createLabelSelector = (address) => {
 
-        if (!props.labelSelectMode) {
+        if (stage==='loaded') {
             return (
                 <div key={address} style={{display: 'flex', width: '100%'}}>
                     <h3 className={classes.labelAddress}>{address}</h3>
@@ -297,23 +302,31 @@ export default function OutputSelector(props) {
         }
     }
 
+
     const createButtons = () => {
-        let setOutputButton = null
-        let backButton = null
-        let doneWithOutputs = null
 
-        if (!props.labelSelectMode && Object.keys(labels).length >= 1 && loaded) {
-            let selectText = "SELECT LABELS"
+        //Activates when status is empty
+        let setOutputButton
+        let backButton
+        let doneWithOutputs
 
+        if (stage === 'loaded') {
             setOutputButton = (
-                <Button className={classes.setButton} size="small" onClick={() => updateLabelMode(true)}>
-                    <h3 className={classes.buttonText}>{selectText}</h3>
+                <Button className={classes.setButton} size="small" onClick={() => updateStage("labelSelect")}>
+                    <h3 className={classes.buttonText}>SELECT LABELS</h3>
                 </Button>)
-        }
+        } else if (stage === 'labelSelect') {
+            backButton = (
+                <Button className={classes.setButton} size="small" onClick={() => updateStage("loaded")}>
+                    <h3 className={classes.buttonText}>BACK TO CELL SELECTION</h3>
+                </Button>)
 
+            if (Object.values(labels).every(labelCheck)) {
+                updateStage("labelComplete")
+            }
 
-        if (props.labelSelectMode && Object.values(labels).every(labelCheck) && loaded) {
-            let setText = "NEXT"
+        } else if (stage === 'labelComplete') {
+            let setText = "OK"
             if (props.loadMode) {
                 setText = "UPDATE"
             }
@@ -321,21 +334,16 @@ export default function OutputSelector(props) {
                 <Button className={classes.setButton} size="small" onClick={() => setOutputHandler()}>
                     <h3 className={classes.buttonText}>{setText}</h3>
                 </Button>)
-        }
 
-        if (props.labelSelectMode && loaded) {
-            backButton = (
-                <Button className={classes.setButton} size="small" onClick={() => updateLabelMode(false)}>
-                    <h3 className={classes.buttonText}>BACK TO CELL SELECTION</h3>
-                </Button>)
-        }
-
-
-        if (props.outputs.length >= 1 && !loaded) {
+        } else if (stage === 'summary') {
             doneWithOutputs = (
                 <Button className={classes.setButton} size="small" onClick={() => props.updateIOState("outputs")}>
                     <h3 className={classes.buttonText}>DONE WITH ALL OUTPUTS</h3>
                 </Button>)
+        } else {
+            setOutputButton = null
+            backButton = null
+            doneWithOutputs = null
         }
 
         return (
@@ -371,8 +379,7 @@ export default function OutputSelector(props) {
         }
 
         //If no outputs have been selected yet
-        if (props.outputs.length === 0) {
-
+        if (stage === 'empty') {
 
             return (
                 <h3 className={classes.instruction}>
@@ -391,7 +398,7 @@ export default function OutputSelector(props) {
             )
 
             //If user has selected at least one input
-        } else if (props.outputs.length > 0 && props.outputs.length < MAXCAT) {
+        } else if (stage === 'summary' && props.outputs.length < MAXCAT) {
 
             return (
                 <div style={{
@@ -428,14 +435,13 @@ export default function OutputSelector(props) {
                     {alreadySelected}
                 </>
             )
+        } else {
+            return null
         }
     }
 
 
-    //Handlers
-    const updateLabelMode = (update) => {
-        props.updateLabelSelectMode(update)
-    }
+    //Handlers    
 
     const catHandler = (e) => {
         setCategory(e.target.value)
@@ -506,6 +512,9 @@ export default function OutputSelector(props) {
             props.setOutputHandler(outputPayload)
             resetState()
         }
+
+        updateStage("summary")
+
     }
 
     const loadOutputHandler = (category) => {
@@ -520,11 +529,10 @@ export default function OutputSelector(props) {
     const resetState = () => {
         setAddress([])
         setLabels({})
-        setCategory("Caetgory")
+        setCategory("Category")
         setFormats([])
         setError(null)
         setErrorOpen(false)
-        setLoaded(false)
     }
 
     const labelCheck = (label) => {
@@ -532,15 +540,9 @@ export default function OutputSelector(props) {
     }
 
 
-    let outputCells = null
     let instructions = createInstructions()
-
     let buttons = createButtons()
-
-    if (loaded) {
-        instructions = null
-        outputCells = createIOPanel()
-    }
+    let outputCells = createIOPanel()
 
     return (
 

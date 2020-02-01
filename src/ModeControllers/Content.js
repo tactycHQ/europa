@@ -35,12 +35,11 @@ export default function Content(props) {
     const [selectedCells, setSelectedCells] = useState([])
     const [selectedLabels, setSelectedLabels] = useState([])
     const [enableClick, setEnableClick] = useState(true)
-    const [labelSelectMode, setLabelSelectMode] = useState(false)
     const [IOState, setIOState] = useState("outputs")
     const [loadCat, setLoadCat] = useState('')
     const [loadLabels, setLoadLabels] = useState([])
     const [loadMode, setLoadMode] = useState(false)
-    const [status, setStatus] = useState("empty")
+    const [stage, setStage] = useState("empty")
 
     //Input Selection Functions
     const getOldColor = (newCell, sheetName) => {
@@ -253,7 +252,7 @@ export default function Content(props) {
         setLoadCat(category)
         setEnableClick(false)
         setLoadMode(true)
-        setLabelSelectMode(true)
+        updateStage("labelSelect")
     }
 
 
@@ -274,9 +273,9 @@ export default function Content(props) {
         refreshWorksheetColor()
         setSelectedCells([])
         setSelectedLabels([])
-        setLabelSelectMode(false)
         setEnableClick(true)
         setLoadCat('')
+        updateStage("summary")
     }
 
     const deleteOutLabHandler = (address) => {
@@ -288,7 +287,7 @@ export default function Content(props) {
         setSelectedCells([...newCells])
 
 
-        if(labelSelectMode) {
+        if(stage==='labelSelect') {
             const labelToRemove = selectedLabels[indexToRemove]
             console.log(labelToRemove)
             props.wb.Sheets[labelToRemove.sheet][labelToRemove.raw].s.fgColor = {rgb: labelToRemove.oldColor}
@@ -311,14 +310,10 @@ export default function Content(props) {
 
 
     //Global Functions
-    const updateStatus = (update) => {
-        setStatus(update)
+    const updateStage = (update) => {
+        setStage(update)
     }
 
-
-    const updateLabelSelectMode = (update) => {
-        setLabelSelectMode(update)
-    }
 
     const updateIOState = (type) => {
         setIOState(type)
@@ -357,19 +352,19 @@ export default function Content(props) {
                     currSheet={props.currSheet}
                     selectedCells={selectedCells}
                     handleSheetChange={props.handleSheetChange}
-                    labelSelectMode={labelSelectMode}
                     selectedLabels={selectedLabels}
                     updateEnableClick={updateEnableClick}
                     deleteOutLabHandler={deleteOutLabHandler}
                     updateIOState={updateIOState}
                     loadOutputHandler={loadOutputHandler}
-                    updateLabelSelectMode={updateLabelSelectMode}
                     setOutputHandler={setOutputHandler}
-                    updateStatus = {updateStatus}
+                    stage={stage}
+                    updateStage = {updateStage}
                 />
             )
         }
     }
+
 
     const generateContent = () => {
 
@@ -447,7 +442,7 @@ export default function Content(props) {
                                 handleSheetChange={props.handleSheetChange}
                                 IOState={IOState}
                                 enableClick={enableClick}
-                                labelSelectMode={labelSelectMode}
+                                stage={stage}
                                 selectedLabels={selectedLabels}
                                 addSelectedLabels={addSelectedLabels}
                             />
