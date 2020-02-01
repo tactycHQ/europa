@@ -153,9 +153,6 @@ export default function OutputSelector(props) {
     const [errorOpen, setErrorOpen] = useState(false)
     const [loaded, setLoaded] = useState(false)
 
-    console.log(props.selectedCells)
-    console.log(props.outputs)
-
 
     //Hooks
     useEffect(() => {
