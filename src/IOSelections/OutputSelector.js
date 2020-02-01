@@ -152,9 +152,37 @@ export default function OutputSelector(props) {
     const [error, setError] = useState(null)
     const [errorOpen, setErrorOpen] = useState(false)
 
-    const {stage, updateStage, selectedCells, selectedLabels, loadMode, loadLabels, loadCat} = props
+    const {outputs, stage, updateStage, selectedCells, selectedLabels, loadMode, loadLabels, loadCat} = props
 
     console.log(stage)
+
+    // // if (stage === 'empty') {
+    // //
+    // if (selectedCells.length >= 1 && stage === 'empty') {
+    //     updateStage("loaded")
+    // }
+    //
+    // if (stage === 'loaded') {
+    //     let _addresses = []
+    //     let _labels = {}
+    //     let _formats = []
+    //     selectedCells.forEach((c, idx) => {
+    //         _addresses.push(c.address)
+    //         if (typeof (selectedLabels[idx]) === 'undefined') {
+    //             _labels[c.address] = " "
+    //         } else {
+    //             _labels[c.address] = selectedLabels[idx].value
+    //         }
+    //         _formats.push(c.format)
+    //         setAddress(_addresses)
+    //         setLabels(_labels)
+    //         setFormats(_formats)
+    //         setCategory("Category")
+    //         setErrorOpen(false)
+    //     })
+    // }
+
+
     //Hooks
     useEffect(() => {
 
@@ -193,13 +221,17 @@ export default function OutputSelector(props) {
                 setFormats(_formats)
                 setCategory("Category")
                 setErrorOpen(false)
-                if (stage === 'empty') {
+                if (stage === 'empty' || stage === 'summary') {
                     updateStage("loaded")
                 }
             }
+        } else if (selectedCells.length ===0 && outputs.length >=1) {
+            updateStage("summary")
+        } else {
+            updateStage("empty")
         }
 
-    }, [stage, updateStage, selectedCells, selectedLabels, loadMode, loadLabels, loadCat])
+    }, [outputs, stage, updateStage, selectedCells, selectedLabels, loadMode, loadLabels, loadCat])
 
 
     //Creators
@@ -208,8 +240,6 @@ export default function OutputSelector(props) {
         if (stage === 'empty') {
             return null
         } else {
-
-
             let error_msg = null
             let labelSelector = null
             const genericSelector = createCatSelector()
@@ -229,9 +259,7 @@ export default function OutputSelector(props) {
             return (
                 <div className={classes.selectionContainer} key={address}>
                     {genericSelector}
-                    <Paper className={classes.genericSelector}>
-                        {labelSelector}
-                    </Paper>
+                    {labelSelector}
                     <h3 className={classes.instructions} style={{color: 'red', margin: '10px'}}>{error_msg}</h3>
                 </div>
             )
@@ -239,31 +267,37 @@ export default function OutputSelector(props) {
     }
 
     const createCatSelector = () => {
-        return (
-            <Paper className={classes.genericSelector}>
-                <TextField
-                    required id="standard-required"
-                    className={classes.rootTextContainer}
-                    label="Output Category"
-                    size="small"
-                    InputLabelProps={{
-                        className: classes.labelField
-                    }}
-                    InputProps={{
-                        classes: {
-                            input: classes.textField
-                        }
-                    }}
-                    defaultValue={category}
-                    onBlur={(e) => catHandler(e)}
-                />
-            </Paper>
-        )
+
+        if (stage === 'loaded' || stage === 'labelSelect' || stage === 'labelComplete') {
+
+            return (
+                <Paper className={classes.genericSelector}>
+                    <TextField
+                        required id="standard-required"
+                        className={classes.rootTextContainer}
+                        label="Output Category"
+                        size="small"
+                        InputLabelProps={{
+                            className: classes.labelField
+                        }}
+                        InputProps={{
+                            classes: {
+                                input: classes.textField
+                            }
+                        }}
+                        defaultValue={category}
+                        onBlur={(e) => catHandler(e)}
+                    />
+                </Paper>
+            )
+        } else {
+            return null
+        }
     }
 
     const createLabelSelector = (address) => {
 
-        if (stage==='loaded') {
+        if (stage === 'loaded') {
             return (
                 <div key={address} style={{display: 'flex', width: '100%'}}>
                     <h3 className={classes.labelAddress}>{address}</h3>
@@ -272,7 +306,7 @@ export default function OutputSelector(props) {
                     </IconButton>
                 </div>
             )
-        } else {
+        } else if (stage === 'labelSelect' || stage === 'labelComplete') {
             return (
                 <div key={address} style={{display: 'flex', width: '100%'}}>
                     <TextField
@@ -299,9 +333,10 @@ export default function OutputSelector(props) {
                     </IconButton>
                 </div>
             )
+        } else {
+            return null
         }
     }
-
 
     const createButtons = () => {
 
@@ -441,7 +476,7 @@ export default function OutputSelector(props) {
     }
 
 
-    //Handlers    
+    //Handlers
 
     const catHandler = (e) => {
         setCategory(e.target.value)

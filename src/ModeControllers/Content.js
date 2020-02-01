@@ -287,7 +287,7 @@ export default function Content(props) {
         setSelectedCells([...newCells])
 
 
-        if(stage==='labelSelect') {
+        if((stage==='labelSelect' || stage === 'labelComplete') && typeof(selectedLabels[indexToRemove]) !== 'undefined') {
             const labelToRemove = selectedLabels[indexToRemove]
             console.log(labelToRemove)
             props.wb.Sheets[labelToRemove.sheet][labelToRemove.raw].s.fgColor = {rgb: labelToRemove.oldColor}
