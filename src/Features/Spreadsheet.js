@@ -67,7 +67,10 @@ export default function Spreadsheet(props) {
 
 
             if (props.labelSelectMode) {
-                props.addSelectedLabels(e.target.id.replace("sjs-", ""), e.target.innerText, props.currSheet)
+                let newCell = e.target.id.replace("sjs-", "")
+                if (props.worksheet.hasOwnProperty(newCell)) {
+                    props.addSelectedLabels(newCell, e.target.innerText, props.currSheet)
+                }
 
             } else {
                 let newCell = e.target.id.replace("sjs-", "")

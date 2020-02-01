@@ -286,11 +286,10 @@ export default function Content(props) {
         const newCells = selectedCells.filter(output => output.address !== address)
         setSelectedCells([...newCells])
 
-        console.log(labelSelectMode)
-        console.log(loadMode)
 
         if(labelSelectMode) {
             const labelToRemove = selectedLabels[indexToRemove]
+            console.log(labelToRemove)
             props.wb.Sheets[labelToRemove.sheet][labelToRemove.raw].s.fgColor = {rgb: labelToRemove.oldColor}
             const newLabels = selectedLabels.filter(label => selectedLabels.indexOf(label) !== indexToRemove)
             setSelectedLabels([...newLabels])
