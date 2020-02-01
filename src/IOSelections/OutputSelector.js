@@ -146,7 +146,7 @@ export default function OutputSelector(props) {
     }))
     const classes = useStyles()
     const [address, setAddress] = useState([])
-    const [category, setCategory] = useState('')
+    const [category, setCategory] = useState('Category')
     const [labels, setLabels] = useState({})
     const [formats, setFormats] = useState([])
     const [error, setError] = useState(null)
@@ -154,12 +154,11 @@ export default function OutputSelector(props) {
 
     const {outputs, stage, updateStage, selectedCells, selectedLabels, loadMode, loadLabels, loadCat} = props
 
-    console.log(stage)
 
     //Hooks
     useEffect(() => {
 
-        //If there was error passed, keep the user at the label completed form to make changes
+                //If there was error passed, keep the user at the label completed form to make changes
         if (errorOpen) {
             updateStage("labelComplete")
         }
@@ -179,28 +178,32 @@ export default function OutputSelector(props) {
                     _formats.push(c.format)
                 })
 
-                setAddress(_addresses)
-                setLabels(_labels)
-                setFormats(_formats)
+                setAddress([..._addresses])
+                setLabels({..._labels})
+                setFormats([..._formats])
                 setCategory(loadCat)
                 setErrorOpen(false)
                 updateStage("labelComplete")
 
-            //otherwise, load default values
-            } else {
+                //otherwise, load default values
+            } else if (stage!=='labelComplete') {
                 selectedCells.forEach((c, idx) => {
-                    _addresses.push(c.address)
-                    if (typeof (selectedLabels[idx]) === 'undefined') {
-                        _labels[c.address] = " "
-                    } else {
-                        _labels[c.address] = selectedLabels[idx].value
+                        _addresses.push(c.address)
+                        if (typeof (selectedLabels[idx]) === 'undefined') {
+                            _labels[c.address] = " "
+                        } else {
+                            _labels[c.address] = selectedLabels[idx].value
+                        }
+                        _formats.push(c.format)
                     }
-                    _formats.push(c.format)
-                })
-                setAddress(_addresses)
-                setLabels(_labels)
-                setFormats(_formats)
-                setCategory("Category")
+                )
+                setAddress([..._addresses])
+                setLabels({..._labels})
+                setFormats([..._formats])
+                if (category !== 'Category') {
+                    setCategory(category)
+                }
+
 
                 // If no outputs have been set before, previous stage would be empty, otherwise previous stage would be
                 // summary
@@ -210,13 +213,13 @@ export default function OutputSelector(props) {
             }
 
 
-        } else if (selectedCells.length ===0 && outputs.length >=1) {
+        } else if (outputs.length >= 1) {
             updateStage("summary")
         } else {
             updateStage("empty")
         }
 
-    }, [errorOpen, outputs, stage, updateStage, selectedCells, selectedLabels, loadMode, loadLabels, loadCat])
+    }, [category, errorOpen, outputs, stage, updateStage, selectedCells, selectedLabels, loadMode, loadLabels, loadCat])
 
 
     //Creators
@@ -252,7 +255,6 @@ export default function OutputSelector(props) {
     }
 
     const createCatSelector = () => {
-
         if (stage === 'loaded' || stage === 'labelSelect' || stage === 'labelComplete') {
 
             return (
@@ -270,7 +272,7 @@ export default function OutputSelector(props) {
                                 input: classes.textField
                             }
                         }}
-                        value={category}
+                        defaultValue={category}
                         onChange={(e) => catHandler(e)}
                     />
                 </Paper>
@@ -522,7 +524,6 @@ export default function OutputSelector(props) {
         //If category is a duplicate while the underlying addresses do not match, throw this error
         if (outputs.some(output => {
             let currSelectedAdds = props.selectedCells.map(label => label.address)
-            console.log((isEqual(Object.keys(output.labels), currSelectedAdds)))
             return (output.category === category && !(isEqual(Object.keys(output.labels), currSelectedAdds)))
             // return (output.category === category)
         })) {

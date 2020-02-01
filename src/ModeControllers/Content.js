@@ -36,7 +36,7 @@ export default function Content(props) {
     const [selectedLabels, setSelectedLabels] = useState([])
     const [enableClick, setEnableClick] = useState(true)
     const [IOState, setIOState] = useState("outputs")
-    const [loadCat, setLoadCat] = useState('')
+    const [loadCat, setLoadCat] = useState('Category')
     const [loadLabels, setLoadLabels] = useState([])
     const [loadMode, setLoadMode] = useState(false)
     const [stage, setStage] = useState("empty")
