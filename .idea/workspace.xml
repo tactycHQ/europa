@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/Features/Spreadsheet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Features/Spreadsheet.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ModeControllers/Content.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Content.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -156,13 +155,6 @@
       <workItem from="1579549438409" duration="96800000" />
       <workItem from="1579884248250" duration="11431000" />
       <workItem from="1580144125934" duration="32973000" />
-    </task>
-    <task id="LOCAL-00162" summary="First commit">
-      <created>1579901403124</created>
-      <option name="number" value="00162" />
-      <option name="presentableId" value="LOCAL-00162" />
-      <option name="project" value="LOCAL" />
-      <updated>1579901403124</updated>
     </task>
     <task id="LOCAL-00163" summary="First commit">
       <created>1579909580955</created>
@@ -500,7 +492,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580524787997</updated>
     </task>
-    <option name="localTasksCounter" value="211" />
+    <task id="LOCAL-00211" summary="First commit">
+      <created>1580525234199</created>
+      <option name="number" value="00211" />
+      <option name="presentableId" value="LOCAL-00211" />
+      <option name="project" value="LOCAL" />
+      <updated>1580525234199</updated>
+    </task>
+    <option name="localTasksCounter" value="212" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

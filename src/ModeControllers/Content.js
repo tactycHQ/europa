@@ -40,6 +40,7 @@ export default function Content(props) {
     const [loadCat, setLoadCat] = useState('')
     const [loadLabels, setLoadLabels] = useState([])
     const [loadMode, setLoadMode] = useState(false)
+    const [status, setStatus] = useState("empty")
 
     //Input Selection Functions
     const getOldColor = (newCell, sheetName) => {
@@ -310,6 +311,11 @@ export default function Content(props) {
 
 
     //Global Functions
+    const updateStatus = (update) => {
+        setStatus(update)
+    }
+
+
     const updateLabelSelectMode = (update) => {
         setLabelSelectMode(update)
     }
@@ -359,6 +365,7 @@ export default function Content(props) {
                     loadOutputHandler={loadOutputHandler}
                     updateLabelSelectMode={updateLabelSelectMode}
                     setOutputHandler={setOutputHandler}
+                    updateStatus = {updateStatus}
                 />
             )
         }
