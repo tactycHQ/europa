@@ -285,7 +285,10 @@ export default function OutputSelector(props) {
         if (stage === 'loaded') {
             return (
                 <div key={address} style={{display: 'flex', width: '100%'}}>
-                    <h3 className={classes.labelAddress}>{address}</h3>
+                    <h3 className={classes.labelAddress}
+                        onMouseEnter={(e) => labelEnter(e, address)}
+                        onMouseLeave={(e) => labelExit(e, address)}
+                    >{address}</h3>
                     <IconButton onClick={() => deleteLabelHandler(address)} size="small">
                         <RemoveCircleSharpIcon style={{color: '#004666'}} size="small"/>
                     </IconButton>
@@ -513,11 +516,15 @@ export default function OutputSelector(props) {
             setError("Please give this ouput a category name before proceeding. A name could be descriptions of the output category, such as Net Income, or Enterprise Value, or IRR.")
         }
 
+        //If category is a duplicate while the underlying addresses match, update the output
+
+
         //If category is a duplicate while the underlying addresses do not match, throw this error
-        if (!loadMode && outputs.some(output => {
-            // let currSelectedAdds = props.selectedCells.map(label => label.address)
-            // return (output.category === category && !(isEqual(Object.keys(output.labels), currSelectedAdds)))
-            return (output.category === category)
+        if (outputs.some(output => {
+            let currSelectedAdds = props.selectedCells.map(label => label.address)
+            console.log((isEqual(Object.keys(output.labels), currSelectedAdds)))
+            return (output.category === category && !(isEqual(Object.keys(output.labels), currSelectedAdds)))
+            // return (output.category === category)
         })) {
             setErrorOpen(true)
             setError("Output category has already been assigned to other cells. Please select a different name")
