@@ -278,6 +278,11 @@ export default function Content(props) {
         updateStage("summary")
     }
 
+    const deleteOutputHandler = (category) => {
+        const newOutputs = props.outputs.filter(output => output.category !== category)
+        props.updateOutputs([...newOutputs])
+    }
+
     const deleteOutLabHandler = (address) => {
         const indexToRemove = selectedCells.findIndex(output => output.address === address)
 
@@ -301,7 +306,6 @@ export default function Content(props) {
             const newLabels = loadLabels.filter(label => selectedLabels.indexOf(label) !== indexToRemove)
             setLoadLabels([...newLabels])
         }
-
     }
 
     const loadOutputHandler = (category) => {
@@ -354,6 +358,7 @@ export default function Content(props) {
                     handleSheetChange={props.handleSheetChange}
                     selectedLabels={selectedLabels}
                     updateEnableClick={updateEnableClick}
+                    deleteOutputHandler={deleteOutputHandler}
                     deleteOutLabHandler={deleteOutLabHandler}
                     updateIOState={updateIOState}
                     loadOutputHandler={loadOutputHandler}

@@ -156,42 +156,22 @@ export default function OutputSelector(props) {
 
     console.log(stage)
 
-    // // if (stage === 'empty') {
-    // //
-    // if (selectedCells.length >= 1 && stage === 'empty') {
-    //     updateStage("loaded")
-    // }
-    //
-    // if (stage === 'loaded') {
-    //     let _addresses = []
-    //     let _labels = {}
-    //     let _formats = []
-    //     selectedCells.forEach((c, idx) => {
-    //         _addresses.push(c.address)
-    //         if (typeof (selectedLabels[idx]) === 'undefined') {
-    //             _labels[c.address] = " "
-    //         } else {
-    //             _labels[c.address] = selectedLabels[idx].value
-    //         }
-    //         _formats.push(c.format)
-    //         setAddress(_addresses)
-    //         setLabels(_labels)
-    //         setFormats(_formats)
-    //         setCategory("Category")
-    //         setErrorOpen(false)
-    //     })
-    // }
-
-
     //Hooks
     useEffect(() => {
 
-        if (selectedCells.length >= 1) {
+        //If there was error passed, keep the user at the label completed form to make changes
+        if (errorOpen) {
+            updateStage("labelComplete")
+        }
+
+        //Otherwise check if any cells have been selected
+        else if (selectedCells.length >= 1) {
 
             let _addresses = []
             let _labels = {}
             let _formats = []
 
+            // If in load mode, then load values from selectedCells and loadLabels
             if (loadMode) {
                 selectedCells.forEach((c, idx) => {
                     _addresses.push(c.address)
@@ -206,6 +186,7 @@ export default function OutputSelector(props) {
                 setErrorOpen(false)
                 updateStage("labelComplete")
 
+            //otherwise, load default values
             } else {
                 selectedCells.forEach((c, idx) => {
                     _addresses.push(c.address)
@@ -220,18 +201,22 @@ export default function OutputSelector(props) {
                 setLabels(_labels)
                 setFormats(_formats)
                 setCategory("Category")
-                setErrorOpen(false)
+
+                // If no outputs have been set before, previous stage would be empty, otherwise previous stage would be
+                // summary
                 if (stage === 'empty' || stage === 'summary') {
                     updateStage("loaded")
                 }
             }
+
+
         } else if (selectedCells.length ===0 && outputs.length >=1) {
             updateStage("summary")
         } else {
             updateStage("empty")
         }
 
-    }, [outputs, stage, updateStage, selectedCells, selectedLabels, loadMode, loadLabels, loadCat])
+    }, [errorOpen, outputs, stage, updateStage, selectedCells, selectedLabels, loadMode, loadLabels, loadCat])
 
 
     //Creators
@@ -285,8 +270,8 @@ export default function OutputSelector(props) {
                                 input: classes.textField
                             }
                         }}
-                        defaultValue={category}
-                        onBlur={(e) => catHandler(e)}
+                        value={category}
+                        onChange={(e) => catHandler(e)}
                     />
                 </Paper>
             )
@@ -528,10 +513,11 @@ export default function OutputSelector(props) {
             setError("Please give this ouput a category name before proceeding. A name could be descriptions of the output category, such as Net Income, or Enterprise Value, or IRR.")
         }
 
-        //If category is a duplicate while the underlying addressed do not match, throw this error
-        if (props.outputs.some(output => {
-            let currSelectedAdds = props.selectedCells.map(label => label.address)
-            return (output.category === category && !(isEqual(Object.keys(output.labels), currSelectedAdds)))
+        //If category is a duplicate while the underlying addresses do not match, throw this error
+        if (!loadMode && outputs.some(output => {
+            // let currSelectedAdds = props.selectedCells.map(label => label.address)
+            // return (output.category === category && !(isEqual(Object.keys(output.labels), currSelectedAdds)))
+            return (output.category === category)
         })) {
             setErrorOpen(true)
             setError("Output category has already been assigned to other cells. Please select a different name")
@@ -549,8 +535,8 @@ export default function OutputSelector(props) {
         }
 
         updateStage("summary")
-
     }
+
 
     const loadOutputHandler = (category) => {
         props.loadOutputHandler(category)
