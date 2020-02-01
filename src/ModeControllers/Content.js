@@ -279,11 +279,21 @@ export default function Content(props) {
     }
 
     const deleteOutLabHandler = (address) => {
-        const removeCell = selectedCells.find(output => output.address === address)
-        props.wb.Sheets[removeCell.sheet][removeCell.raw].s.fgColor = {rgb: removeCell.oldColor}
+        const indexToRemove = selectedCells.findIndex(output => output.address === address)
 
+        const cellToRemove = selectedCells[indexToRemove]
+        props.wb.Sheets[cellToRemove.sheet][cellToRemove.raw].s.fgColor = {rgb: cellToRemove.oldColor}
         const newCells = selectedCells.filter(output => output.address !== address)
         setSelectedCells([...newCells])
+
+        //TODO
+        if(labelSelectMode) {
+            const labelToRemove = selectedLabels[indexToRemove]
+            props.wb.Sheets[labelToRemove.sheet][labelToRemove.raw].s.fgColor = {rgb: labelToRemove.oldColor}
+            const newLabels = selectedLabels.splice(indexToRemove,1)
+            setSelectedCells([...newLabels])
+        }
+
     }
 
     const loadOutputHandler = (category) => {
