@@ -11,6 +11,8 @@ import isEqual from 'lodash.isequal'
 
 export default function OutputSelector(props) {
 
+    console.log(props.selectedCells)
+
 
     const MAXCAT = 10
     const MAXLABEL = 10
@@ -145,16 +147,10 @@ export default function OutputSelector(props) {
 
     }))
     const classes = useStyles()
-    const [address, setAddress] = useState([])
-    const [category, setCategory] = useState('Category')
-    const [labels, setLabels] = useState({})
-    const [formats, setFormats] = useState([])
-    const [error, setError] = useState(null)
-    const [errorOpen, setErrorOpen] = useState(false)
 
-    const {outputs, stage, updateStage} = props
+    const {outputs, stage, updateStage, selectedCells, selectedLabels, selectedCategory} = props
 
-
+    console.log(stage)
     //Hooks
 
     //Creators
@@ -164,23 +160,12 @@ export default function OutputSelector(props) {
             return null
         } else {
             let error_msg = null
-            let labelSelector = null
-            const genericSelector = createCatSelector()
 
-            if (Object.keys(labels).length <= MAXLABEL) {
-                labelSelector = Object.keys(labels).map((address) => {
-                    return createLabelSelector(address)
-                })
-            } else {
-                error_msg = "Maximum of 10 labels for this output category has been reached. Only the first 10 labels" +
-                    "will be considered."
-                labelSelector = Object.keys(labels).splice(0, MAXLABEL - 1).map(label => {
-                    return createLabelSelector(label)
-                })
-            }
+            const genericSelector = createCatSelector()
+            const labelSelector = createLabelSelector()
 
             return (
-                <div className={classes.selectionContainer} key={address}>
+                <div className={classes.selectionContainer}>
                     {genericSelector}
                     {labelSelector}
                     <h3 className={classes.instructions} style={{color: 'red', margin: '10px'}}>{error_msg}</h3>
@@ -207,7 +192,7 @@ export default function OutputSelector(props) {
                                 input: classes.textField
                             }
                         }}
-                        defaultValue={category}
+                        value={props.selectedCategory}
                         onChange={(e) => catHandler(e)}
                     />
                 </Paper>
@@ -217,47 +202,50 @@ export default function OutputSelector(props) {
         }
     }
 
-    const createLabelSelector = (address) => {
+    const createLabelSelector = () => {
 
         if (stage === 'loaded') {
-            return (
-                <div key={address} style={{display: 'flex', width: '100%'}}>
-                    <h3 className={classes.labelAddress}
-                        onMouseEnter={(e) => labelEnter(e, address)}
-                        onMouseLeave={(e) => labelExit(e, address)}
-                    >{address}</h3>
-                    <IconButton onClick={() => deleteLabelHandler(address)} size="small">
-                        <RemoveCircleSharpIcon style={{color: '#004666'}} size="small"/>
-                    </IconButton>
-                </div>
-            )
+            return props.selectedCells.map(c => {
+                return (
+                    <div key={c.address} style={{display: 'flex', width: '100%'}}>
+                        <h3 className={classes.labelAddress}
+                            onMouseEnter={(e) => labelEnter(e, c.address)}
+                            onMouseLeave={(e) => labelExit(e, c.address)}
+                        >{c.address}</h3>
+                        <IconButton onClick={() => deleteLabelHandler(c.address)} size="small">
+                            <RemoveCircleSharpIcon style={{color: '#004666'}} size="small"/>
+                        </IconButton>
+                    </div>
+                )
+            })
         } else if (stage === 'labelSelect' || stage === 'labelComplete') {
-            return (
-                <div key={address} style={{display: 'flex', width: '100%'}}>
-                    <TextField
-                        key={address}
-                        required
-                        className={classes.rootTextContainer}
-                        label={address}
-                        size="small"
-                        InputLabelProps={{
-                            className: classes.labelField
-                        }}
-                        InputProps={{
-                            classes: {
-                                input: classes.textField
-                            },
-                        }}
-                        value={labels[address]}
-                        onChange={(e) => labelHandler(e, address)}
-                        onMouseEnter={(e) => labelEnter(e, address)}
-                        onMouseLeave={(e) => labelExit(e, address)}
-                    />
-                    <IconButton onClick={() => deleteLabelHandler(address)} size="small">
-                        <RemoveCircleSharpIcon style={{color: '#8BBDD3'}} size="small"/>
-                    </IconButton>
-                </div>
-            )
+            return props.selectedCells.map(c => {
+                return (
+                    <div key={c.address} style={{display: 'flex', width: '100%'}}>
+                        <TextField
+                            required
+                            className={classes.rootTextContainer}
+                            label={c.address}
+                            size="small"
+                            InputLabelProps={{
+                                className: classes.labelField
+                            }}
+                            InputProps={{
+                                classes: {
+                                    input: classes.textField
+                                },
+                            }}
+                            value={selectedLabels[c.address]}
+                            onChange={(e) => labelHandler(e, c.address)}
+                            onMouseEnter={(e) => labelEnter(e, c.address)}
+                            onMouseLeave={(e) => labelExit(e, c.address)}
+                        />
+                        <IconButton onClick={() => deleteLabelHandler(c.address)} size="small">
+                            <RemoveCircleSharpIcon style={{color: '#8BBDD3'}} size="small"/>
+                        </IconButton>
+                    </div>
+                )
+            })
         } else {
             return null
         }
@@ -281,7 +269,7 @@ export default function OutputSelector(props) {
                     <h3 className={classes.buttonText}>BACK TO CELL SELECTION</h3>
                 </Button>)
 
-            if (Object.values(labels).every(labelCheck)) {
+            if (Object.values(selectedLabels).every(labelCheck)) {
                 updateStage("labelComplete")
             }
 
@@ -404,14 +392,11 @@ export default function OutputSelector(props) {
     //Handlers
 
     const catHandler = (e) => {
-        setCategory(e.target.value)
+        props.updateCategory(e.target.value)
     }
 
     const labelHandler = (e, address) => {
-        setLabels({
-            ...labels,
-            [address]: e.target.value
-        })
+        props.updateLabels(address, e.target.value)
     }
 
     const labelEnter = (e, address) => {
@@ -440,41 +425,35 @@ export default function OutputSelector(props) {
         window.scrollTo({left: 0, top: 0, behavior: 'smooth'})
     }
 
-    const handleErrorClose = () => {
-        setErrorOpen(false)
-    }
-
     const setOutputHandler = () => {
 
         //Validations Start
         //If category is not set
-        if (category === ' ') {
-            setErrorOpen(true)
-            setError("Please give this ouput a category name before proceeding. A name could be descriptions of the output category, such as Net Income, or Enterprise Value, or IRR.")
+        if (selectedCategory === ' ') {
+            props.updateErrorOpen(true)
+            props.updateError("Please give this ouput a category name before proceeding. A name could be descriptions of the output category, such as Net Income, or Enterprise Value, or IRR.")
         }
 
         //If category is a duplicate while the underlying addresses match, update the output
 
-
         //If category is a duplicate while the underlying addresses do not match, throw this error
         if (outputs.some(output => {
             let currSelectedAdds = props.selectedCells.map(label => label.address)
-            return (output.category === category && !(isEqual(Object.keys(output.labels), currSelectedAdds)))
+            return (output.category === selectedCategory && !(isEqual(Object.keys(output.labels), currSelectedAdds)))
             // return (output.category === category)
         })) {
-            setErrorOpen(true)
-            setError("Output category has already been assigned to other cells. Please select a different name")
+            props.updateErrorOpen(true)
+            props.updateError("Output category has already been assigned to other cells. Please select a different name")
         }
 
         //Otherwise we are go for inserting into input array
         else {
             const outputPayload = {
-                "category": category,
-                "labels": labels,
-                "format": formats
+                "category": selectedCategory,
+                "labels": selectedLabels,
+                "format": 'General'
             }
             props.setOutputHandler(outputPayload)
-            resetState()
         }
 
         updateStage("summary")
@@ -490,15 +469,6 @@ export default function OutputSelector(props) {
     }
 
     //Utility
-    const resetState = () => {
-        setAddress([])
-        setLabels({})
-        setCategory("Category")
-        setFormats([])
-        setError(null)
-        setErrorOpen(false)
-    }
-
     const labelCheck = (label) => {
         return label !== ' ';
     }
@@ -515,11 +485,6 @@ export default function OutputSelector(props) {
             {instructions}
             {outputCells}
             {buttons}
-            <Dialog open={errorOpen} onClose={handleErrorClose}>
-                <div>
-                    <h2 className={classes.instruction}>{error}</h2>
-                </div>
-            </Dialog>
         </div>
     )
 }

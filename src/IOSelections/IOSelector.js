@@ -4,6 +4,7 @@ import {myRound} from "../utils/utils";
 import Spreadsheet from "../Features/Spreadsheet";
 import InputSelector from "./InputSelector";
 import OutputSelector from "./OutputSelector";
+import Dialog from "@material-ui/core/Dialog";
 
 export default function IOSelector(props) {
 
@@ -19,9 +20,12 @@ export default function IOSelector(props) {
     const [IOState, setIOState] = useState("outputs")
     const [selectedCells, setSelectedCells] = useState([])
     const [selectedLabels, setSelectedLabels] = useState([])
+    const [selectedCategory, setSelectedCategory] = useState('Category')
     const [enableClick, setEnableClick] = useState(true)
     const [loadMode, setLoadMode] = useState(false)
     const [stage, setStage] = useState("empty")
+    const [errorOpen, setErrorOpen] = useState(false)
+    const [error, setError] = useState('')
 
 
     //Output Selection Functions
@@ -62,9 +66,9 @@ export default function IOSelector(props) {
                 }])
         }
 
-            if(stage === 'empty') {
-                setStage('loaded')
-            }
+        if (stage === 'empty') {
+            setStage('loaded')
+        }
     }
 
     const addSelectedLabels = (labelCell, labelValue, sheetName) => {
@@ -222,13 +226,34 @@ export default function IOSelector(props) {
         setEnableClick(update)
     }
 
+    const updateErrorOpen = (update) => setErrorOpen(update)
+
+    const updateError = (update) => setError(update)
+
+    const updateCategory = (update) => setSelectedCategory(update)
+
+    const updateLabels = (address, newLabel) => {
+        console.log("to come")
+    }
+
+    const handleErrorClose = () => {
+        setErrorOpen(false)
+    }
+
 
     return (
         <div className={classes.root}>
             <OutputSelector
                 stage={stage}
+                updateStage={updateStage}
                 outputs={props.outputs}
                 selectedCells={selectedCells}
+                selectedLabels={selectedLabels}
+                selectedCategory={selectedCategory}
+                updateCategory={updateCategory}
+                updateLabels={updateLabels}
+                updateErrorOpen={updateErrorOpen}
+                updateError={updateError}
             />
             <Spreadsheet
                 worksheet={props.worksheet}
@@ -241,6 +266,11 @@ export default function IOSelector(props) {
                 selectedLabels={selectedLabels}
                 addSelectedLabels={addSelectedLabels}
             />
+            <Dialog open={errorOpen} onClose={handleErrorClose}>
+                <div>
+                    <h2 className={classes.instruction}>{error}</h2>
+                </div>
+            </Dialog>
         </div>
     )
 }
