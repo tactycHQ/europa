@@ -23,31 +23,6 @@ export default function IOSelector(props) {
     const [loadMode, setLoadMode] = useState(false)
     const [stage, setStage] = useState("empty")
 
-    const getOldColor = (newCell, sheetName) => {
-        try {
-            return props.wb.Sheets[sheetName][newCell].s.fgColor.rgb
-        } catch {
-            return "FFFFFF"
-        }
-    }
-
-    const getValue = (newCell, sheetName) => {
-        try {
-            return myRound(props.wb.Sheets[sheetName][newCell].v)
-        } catch {
-            return 0
-        }
-    }
-
-    const getFormat = (newCell, sheetName) => {
-        try {
-            return props.wb.Sheets[sheetName][newCell].z
-        } catch {
-            return 'General'
-        }
-    }
-
-
 
     //Output Selection Functions
     const addSelectedCells = (newCell, sheetName) => {
@@ -86,6 +61,10 @@ export default function IOSelector(props) {
                     format: format
                 }])
         }
+
+            if(stage === 'empty') {
+                setStage('loaded')
+            }
     }
 
     const addSelectedLabels = (labelCell, labelValue, sheetName) => {
@@ -207,6 +186,30 @@ export default function IOSelector(props) {
 
 
     //Global Functions
+    const getOldColor = (newCell, sheetName) => {
+        try {
+            return props.wb.Sheets[sheetName][newCell].s.fgColor.rgb
+        } catch {
+            return "FFFFFF"
+        }
+    }
+
+    const getValue = (newCell, sheetName) => {
+        try {
+            return myRound(props.wb.Sheets[sheetName][newCell].v)
+        } catch {
+            return 0
+        }
+    }
+
+    const getFormat = (newCell, sheetName) => {
+        try {
+            return props.wb.Sheets[sheetName][newCell].z
+        } catch {
+            return 'General'
+        }
+    }
+
     const updateStage = (update) => {
         setStage(update)
     }
@@ -225,11 +228,13 @@ export default function IOSelector(props) {
             <OutputSelector
                 stage={stage}
                 outputs={props.outputs}
+                selectedCells={selectedCells}
             />
             <Spreadsheet
                 worksheet={props.worksheet}
                 currSheet={props.currSheet}
                 sheets={props.sheets}
+                enableClick={enableClick}
                 handleSheetChange={props.handleSheetChange}
                 selectedCells={selectedCells}
                 addSelectedCells={addSelectedCells}

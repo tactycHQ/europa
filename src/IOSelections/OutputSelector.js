@@ -152,7 +152,7 @@ export default function OutputSelector(props) {
     const [error, setError] = useState(null)
     const [errorOpen, setErrorOpen] = useState(false)
 
-    const {outputs, stage, updateStage, selectedCells, selectedLabels, loadMode, loadLabels, loadCat} = props
+    const {outputs, stage, updateStage} = props
 
 
     //Hooks
