@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
@@ -94,7 +94,7 @@ export default function OutputSelector(props) {
             margin: '2px',
             fontWeight: '100',
             fontFamily: 'Questrial',
-            fontSize:'0.85em'
+            fontSize: '0.85em'
         },
         textField: {
             fontSize: '0.85em',
@@ -153,6 +153,12 @@ export default function OutputSelector(props) {
     const classes = useStyles()
 
     const {outputs, stage, updateStage, selectedCells, selectedCategory} = props
+    const [labels, setLabels] = useState([])
+
+    useEffect(() => {
+        let newLabels = selectedCells.map(c => c.label)
+        setLabels([...newLabels])
+    },[selectedCells])
 
 
     //Hooks
@@ -206,6 +212,12 @@ export default function OutputSelector(props) {
         }
     }
 
+    const labelChange = (e,idx) => {
+        let newLabels = labels
+        newLabels[idx] = e.target.value
+        setLabels([...newLabels])
+    }
+
     const createLabelSelector = () => {
 
         if (stage === 'loaded') {
@@ -223,17 +235,27 @@ export default function OutputSelector(props) {
                 )
             })
         } else if (stage === 'labelSelect' || stage === 'labelComplete') {
-            return selectedCells.map((c,idx) => {
+            return selectedCells.map((c, idx) => {
 
                 return (
                     <div key={c.address} style={{display: 'flex', width: '100%'}}>
-                        <LabelField
-                            address={c.address}
-                            label={c.label}
-                            idx={idx}
-                            labelEnter={props.labelEnter}
-                            labelExit={props.labelExit}
-                            updateLabels={props.updateLabels}
+                        <TextField
+                            required
+                            className={classes.rootTextContainer}
+                            label={props.address}
+                            size="small"
+                            InputLabelProps={{
+                                className: classes.labelField
+                            }}
+                            InputProps={{
+                                classes: {
+                                    input: classes.textField,
+                                }
+                            }}
+                            value={labels[idx]}
+                            onChange={(e) => labelChange(e, idx)}
+                            onMouseEnter={(e) => props.labelEnter(e, c.address)}
+                            onMouseLeave={(e) => props.labelExit(e, c.address)}
                         />
                         <IconButton onClick={() => deleteLabelHandler(c.address)} size="small">
                             <RemoveCircleSharpIcon style={{color: '#8BBDD3'}} size="small"/>
@@ -390,9 +412,9 @@ export default function OutputSelector(props) {
         props.updateCategory(e.target.value)
     }
 
-    const labelHandler = (e,idx) => {
-        props.updateLabels(e.target.value,idx)
-    }
+    // const labelHandler = (e, idx) => {
+    //     props.updateLabels(e.target.value, idx)
+    // }
 
 
     const setOutputHandler = () => {

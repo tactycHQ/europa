@@ -38,6 +38,7 @@ export default function LabelField(props) {
 
     const labelChange = (e) => {
         setValue(e.target.value)
+        props.updateLabels(e.target.value,props.idx)
     }
 
 
