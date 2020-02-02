@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/IOSelections/LabelField.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IOSelections/IOSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/IOSelections/IOSelector.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IOSelections/OutputSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/IOSelections/OutputSelector.js" afterDir="false" />
@@ -157,13 +158,6 @@
       <workItem from="1579549438409" duration="96800000" />
       <workItem from="1579884248250" duration="11431000" />
       <workItem from="1580144125934" duration="32973000" />
-    </task>
-    <task id="LOCAL-00170" summary="First commit">
-      <created>1580172423001</created>
-      <option name="number" value="00170" />
-      <option name="presentableId" value="LOCAL-00170" />
-      <option name="project" value="LOCAL" />
-      <updated>1580172423001</updated>
     </task>
     <task id="LOCAL-00171" summary="First commit">
       <created>1580182208229</created>
@@ -501,7 +495,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580616293967</updated>
     </task>
-    <option name="localTasksCounter" value="219" />
+    <task id="LOCAL-00219" summary="First commit">
+      <created>1580672630824</created>
+      <option name="number" value="00219" />
+      <option name="presentableId" value="LOCAL-00219" />
+      <option name="project" value="LOCAL" />
+      <updated>1580672630824</updated>
+    </task>
+    <option name="localTasksCounter" value="220" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

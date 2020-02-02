@@ -8,6 +8,7 @@ import Dialog from "@material-ui/core/Dialog";
 
 export default function IOSelector(props) {
 
+
     const useStyles = makeStyles(theme => ({
         root: {
             display: 'flex',
@@ -26,6 +27,8 @@ export default function IOSelector(props) {
     const [stage, setStage] = useState("empty")
     const [errorOpen, setErrorOpen] = useState(false)
     const [error, setError] = useState('')
+
+    console.log(selectedCells)
 
 
     //Output Selection Functions
@@ -62,7 +65,8 @@ export default function IOSelector(props) {
                     raw: newCell,
                     oldColor: oldColor,
                     value: v,
-                    format: format
+                    format: format,
+                    label: ''
                 }])
         }
 
@@ -88,8 +92,13 @@ export default function IOSelector(props) {
             oldColor = getOldColor(labelCell, sheetName)
             props.wb.Sheets[sheetName][labelCell].s.fgColor = {rgb: "FCCA46"}
 
+            //Update label data
+            let newCells = selectedCells
+            newCells[selectedLabels.length].label = labelValue
+            setSelectedCells([...newCells])
 
-            //Set new clicked cell
+
+            //Save metadat on label cell in case we need to unhighlight
             setSelectedLabels([...selectedLabels,
                 {
                     address: sheetName + '!' + labelCell,
@@ -98,6 +107,8 @@ export default function IOSelector(props) {
                     oldColor: oldColor,
                     value: labelValue,
                 }])
+
+
         }
     }
 
@@ -232,12 +243,40 @@ export default function IOSelector(props) {
 
     const updateCategory = (update) => setSelectedCategory(update)
 
-    const updateLabels = (address, newLabel) => {
-        console.log("to come")
+    const updateLabels = (newLabel,idx) => {
+        let newArr = selectedCells
+        newArr[idx].label = newLabel
+        setSelectedCells([...newArr])
     }
 
     const handleErrorClose = () => {
         setErrorOpen(false)
+    }
+
+    const labelEnter = (e, address) => {
+        const splits = address.split("!")
+        const sheetName = splits[0]
+        let raw = splits[1]
+        if (props.currSheet === sheetName) {
+            document.getElementById('sjs-' + raw.toString()).style.backgroundColor = "#FE9653"
+            document.getElementById('sjs-' + raw.toString()).scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+                inline: "center"
+            })
+        } else {
+            props.handleSheetChange(sheetName)
+        }
+    }
+
+    const labelExit = (e, address) => {
+        const splits = address.split("!")
+        const sheetName = splits[0]
+        let raw = splits[1]
+        if (props.currSheet === sheetName) {
+            document.getElementById('sjs-' + raw.toString()).style.backgroundColor = "#FCCA46"
+        }
+        window.scrollTo({left: 0, top: 0, behavior: 'smooth'})
     }
 
 
@@ -248,14 +287,16 @@ export default function IOSelector(props) {
                 updateStage={updateStage}
                 outputs={props.outputs}
                 selectedCells={selectedCells}
-                selectedLabels={selectedLabels}
                 selectedCategory={selectedCategory}
                 updateCategory={updateCategory}
                 updateLabels={updateLabels}
                 updateErrorOpen={updateErrorOpen}
                 updateError={updateError}
+                labelEnter={labelEnter}
+                labelExit={labelExit}
             />
             <Spreadsheet
+                stage={stage}
                 worksheet={props.worksheet}
                 currSheet={props.currSheet}
                 sheets={props.sheets}

@@ -1,17 +1,18 @@
-import React, {useState, useEffect} from 'react'
+import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Paper from "@material-ui/core/Paper"
-import Dialog from "@material-ui/core/Dialog";
 import RemoveCircleSharpIcon from '@material-ui/icons/RemoveCircleSharp'
 import IconButton from "@material-ui/core/IconButton";
 import isEqual from 'lodash.isequal'
+import LabelField from "./LabelField";
 
 
 export default function OutputSelector(props) {
 
-    console.log(props.selectedCells)
+    // console.log(props.stage)
+    // console.log(props.selectedCells)
 
 
     const MAXCAT = 10
@@ -90,10 +91,13 @@ export default function OutputSelector(props) {
         rootTextContainer: {
             display: 'flex',
             width: '100%',
-            margin: '2px'
+            margin: '2px',
+            fontWeight: '100',
+            fontFamily: 'Questrial',
+            fontSize:'0.85em'
         },
         textField: {
-            fontSize: '0.8em',
+            fontSize: '0.85em',
             fontWeight: '100',
             fontFamily: 'Questrial',
             paddingTop: '5px',
@@ -148,9 +152,9 @@ export default function OutputSelector(props) {
     }))
     const classes = useStyles()
 
-    const {outputs, stage, updateStage, selectedCells, selectedLabels, selectedCategory} = props
+    const {outputs, stage, updateStage, selectedCells, selectedCategory} = props
 
-    console.log(stage)
+
     //Hooks
 
     //Creators
@@ -205,12 +209,12 @@ export default function OutputSelector(props) {
     const createLabelSelector = () => {
 
         if (stage === 'loaded') {
-            return props.selectedCells.map(c => {
+            return selectedCells.map(c => {
                 return (
                     <div key={c.address} style={{display: 'flex', width: '100%'}}>
                         <h3 className={classes.labelAddress}
-                            onMouseEnter={(e) => labelEnter(e, c.address)}
-                            onMouseLeave={(e) => labelExit(e, c.address)}
+                            onMouseEnter={(e) => props.labelEnter(e, c.address)}
+                            onMouseLeave={(e) => props.labelExit(e, c.address)}
                         >{c.address}</h3>
                         <IconButton onClick={() => deleteLabelHandler(c.address)} size="small">
                             <RemoveCircleSharpIcon style={{color: '#004666'}} size="small"/>
@@ -219,26 +223,17 @@ export default function OutputSelector(props) {
                 )
             })
         } else if (stage === 'labelSelect' || stage === 'labelComplete') {
-            return props.selectedCells.map(c => {
+            return selectedCells.map((c,idx) => {
+
                 return (
                     <div key={c.address} style={{display: 'flex', width: '100%'}}>
-                        <TextField
-                            required
-                            className={classes.rootTextContainer}
-                            label={c.address}
-                            size="small"
-                            InputLabelProps={{
-                                className: classes.labelField
-                            }}
-                            InputProps={{
-                                classes: {
-                                    input: classes.textField
-                                },
-                            }}
-                            value={selectedLabels[c.address]}
-                            onChange={(e) => labelHandler(e, c.address)}
-                            onMouseEnter={(e) => labelEnter(e, c.address)}
-                            onMouseLeave={(e) => labelExit(e, c.address)}
+                        <LabelField
+                            address={c.address}
+                            label={c.label}
+                            idx={idx}
+                            labelEnter={props.labelEnter}
+                            labelExit={props.labelExit}
+                            updateLabels={props.updateLabels}
                         />
                         <IconButton onClick={() => deleteLabelHandler(c.address)} size="small">
                             <RemoveCircleSharpIcon style={{color: '#8BBDD3'}} size="small"/>
@@ -269,7 +264,7 @@ export default function OutputSelector(props) {
                     <h3 className={classes.buttonText}>BACK TO CELL SELECTION</h3>
                 </Button>)
 
-            if (Object.values(selectedLabels).every(labelCheck)) {
+            if (labelCheck() === 'true') {
                 updateStage("labelComplete")
             }
 
@@ -395,35 +390,10 @@ export default function OutputSelector(props) {
         props.updateCategory(e.target.value)
     }
 
-    const labelHandler = (e, address) => {
-        props.updateLabels(address, e.target.value)
+    const labelHandler = (e,idx) => {
+        props.updateLabels(e.target.value,idx)
     }
 
-    const labelEnter = (e, address) => {
-        const splits = address.split("!")
-        const sheetName = splits[0]
-        let raw = splits[1]
-        if (props.currSheet === sheetName) {
-            document.getElementById('sjs-' + raw.toString()).style.backgroundColor = "#FE9653"
-            document.getElementById('sjs-' + raw.toString()).scrollIntoView({
-                behavior: "smooth",
-                block: "center",
-                inline: "center"
-            })
-        } else {
-            props.handleSheetChange(sheetName)
-        }
-    }
-
-    const labelExit = (e, address) => {
-        const splits = address.split("!")
-        const sheetName = splits[0]
-        let raw = splits[1]
-        if (props.currSheet === sheetName) {
-            document.getElementById('sjs-' + raw.toString()).style.backgroundColor = "#FCCA46"
-        }
-        window.scrollTo({left: 0, top: 0, behavior: 'smooth'})
-    }
 
     const setOutputHandler = () => {
 
@@ -450,7 +420,7 @@ export default function OutputSelector(props) {
         else {
             const outputPayload = {
                 "category": selectedCategory,
-                "labels": selectedLabels,
+                // "labels": labels,
                 "format": 'General'
             }
             props.setOutputHandler(outputPayload)
@@ -469,8 +439,8 @@ export default function OutputSelector(props) {
     }
 
     //Utility
-    const labelCheck = (label) => {
-        return label !== ' ';
+    const labelCheck = () => {
+        return false;
     }
 
 
