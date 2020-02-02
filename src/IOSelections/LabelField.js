@@ -33,18 +33,11 @@ export default function LabelField(props) {
 
 
     useEffect(() => {
-        console.log("here")
         setValue(props.label)
     }, [props.label])
 
-    // useEffect(() => {
-    //     props.updateLabels(value,props.idx)
-    // },[props,typed])
-
-
     const labelChange = (e) => {
         setValue(e.target.value)
-        props.updateLabels(value, props.idx)
     }
 
 
