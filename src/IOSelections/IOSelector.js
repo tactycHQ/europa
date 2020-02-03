@@ -454,15 +454,18 @@ export default function IOSelector(props) {
 
         let oldColor
 
+        //Find if this cell is already clicked
         let foundIndex = selectedLabels.findIndex(cell => (cell.raw === labelCell && sheetName === cell.sheet))
 
+        //If clicked, then unhighlight it
         if (foundIndex !== -1) {
             props.wb.Sheets[sheetName][labelCell].s.fgColor = {rgb: selectedLabels[foundIndex].oldColor}
             const newSelection = selectedLabels.filter((cell, idx) => idx !== foundIndex)
+            setLabels({...labels, [selectedCells[foundIndex].address]:''})
             setSelectedLabels([...newSelection])
 
-        } else {
 
+        } else {
             // Get cell metadata on old color, value and format for ne cell
             oldColor = getOldColor(labelCell, sheetName)
             props.wb.Sheets[sheetName][labelCell].s.fgColor = {rgb: "FCCA46"}
@@ -474,7 +477,7 @@ export default function IOSelector(props) {
             })
 
 
-            //Save metadat on label cell in case we need to unhighlight
+            //Save metadata on label cell in case we need to unhighlight
             setSelectedLabels([...selectedLabels,
                 {
                     address: sheetName + '!' + labelCell,
