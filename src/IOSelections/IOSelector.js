@@ -5,10 +5,10 @@ import Spreadsheet from "../Features/Spreadsheet";
 import Dialog from "@material-ui/core/Dialog";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
-import IconButton from "@material-ui/core/IconButton";
-import RemoveCircleSharpIcon from "@material-ui/core/SvgIcon/SvgIcon";
+import IconButton from "@material-ui/core/IconButton"
+import RemoveCircleSharpIcon from '@material-ui/icons/RemoveCircleSharp';
 import Button from "@material-ui/core/Button";
-import isEqual from "lodash.isequal";
+import {hasDuplicates} from "../utils/utils";
 
 export default function IOSelector(props) {
 
@@ -154,16 +154,14 @@ export default function IOSelector(props) {
     const [selectedLabels, setSelectedLabels] = useState([])
     const [category, setCategory] = useState('Category')
     const [labels, setLabels] = useState({})
+    const [formats, setFormats] = useState({})
     const [enableClick, setEnableClick] = useState(true)
     const [loadMode, setLoadMode] = useState(false)
     const [stage, setStage] = useState("empty")
     const [errorOpen, setErrorOpen] = useState(false)
     const [error, setError] = useState('')
 
-    console.log(labels)
-
-
-    //Creators
+    //Element Creators
     const createIOPanel = () => {
 
         if (stage === 'empty') {
@@ -223,7 +221,7 @@ export default function IOSelector(props) {
                             onMouseLeave={(e) => labelExit(e, c.address)}
                         >{c.address}</h3>
                         <IconButton onClick={() => deleteLabelHandler(c.address)} size="small">
-                            <RemoveCircleSharpIcon style={{color: '#004666'}} size="small"/>
+                            <RemoveCircleSharpIcon style={{color: '#899CA9'}} size="small"/>
                         </IconButton>
                     </div>
                 )
@@ -275,24 +273,24 @@ export default function IOSelector(props) {
                     <h3 className={classes.buttonText}>SELECT LABELS</h3>
                 </Button>)
         } else if (stage === 'labelSelect') {
-            backButton = (
-                <Button className={classes.setButton} size="small" onClick={() => setStage("loaded")}>
-                    <h3 className={classes.buttonText}>BACK TO CELL SELECTION</h3>
-                </Button>)
-
-            if (labelCheck() === 'true') {
+            if (labelCheck() === true) {
                 setStage("labelComplete")
             }
 
         } else if (stage === 'labelComplete') {
-            let setText = "OK"
-            if (loadMode) {
-                setText = "UPDATE"
+            if (labelCheck() === false) {
+                setStage("labelSelect")
+            } else {
+
+                let setText = "OK"
+                if (loadMode) {
+                    setText = "UPDATE"
+                }
+                setOutputButton = (
+                    <Button className={classes.setButton} size="small" onClick={() => setOutputHandler()}>
+                        <h3 className={classes.buttonText}>{setText}</h3>
+                    </Button>)
             }
-            setOutputButton = (
-                <Button className={classes.setButton} size="small" onClick={() => setOutputHandler()}>
-                    <h3 className={classes.buttonText}>{setText}</h3>
-                </Button>)
 
         } else if (stage === 'summary') {
             doneWithOutputs = (
@@ -329,7 +327,7 @@ export default function IOSelector(props) {
                         >
                             <h3 className={classes.loadedText}>{output.category}</h3>
                         </Button>
-                        <IconButton onClick={() => props.deleteOutputHandler(output.category)} size="small">
+                        <IconButton onClick={() => deleteOutputHandler(output.category)} size="small">
                             <RemoveCircleSharpIcon style={{color: '#BD467C'}} size="small"/>
                         </IconButton>
                     </div>
@@ -403,24 +401,25 @@ export default function IOSelector(props) {
     //Output Selection Functions
     const addSelectedCells = (newCell, sheetName) => {
 
-        let oldColor
-        let v
-        let format
 
         //if clicked a cell that already exists then reset color of that cell and remove that cell from state
         let foundIndex = selectedCells.findIndex(cell => (cell.raw === newCell && sheetName === cell.sheet))
-
         if (foundIndex !== -1) {
-            props.wb.Sheets[sheetName][newCell].s.fgColor = {rgb: selectedCells[foundIndex].oldColor}
-            const newSelection = selectedCells.filter((cell, idx) => idx !== foundIndex)
-            setSelectedCells([...newSelection])
+            deleteLabelHandler(sheetName + '!' + newCell)
+        }
 
+        //If max labels exceeded, throw an error
+        else if (selectedCells.length === MAXLABEL) {
+            setErrorOpen(true)
+            setError("Maximum allowed cells per category of 10")
+
+            //Highlight that cell and update states
         } else {
 
             // Get cell metadata on old color, value and format for ne cell
-            oldColor = getOldColor(newCell, sheetName)
-            v = getValue(newCell, sheetName)
-            format = getFormat(newCell, sheetName)
+            let oldColor = getOldColor(newCell, sheetName)
+            let v = getValue(newCell, sheetName)
+            let format = getFormat(newCell, sheetName)
             props.wb.Sheets[sheetName][newCell].s.fgColor = {rgb: "FCCA46"}
 
             // document.getElementById('sjs-D15').style.backgroundColor = "yellow"
@@ -437,17 +436,20 @@ export default function IOSelector(props) {
                     format: format
                 }])
 
+            //Add to labels
             setLabels({
                 ...labels,
                 [sheetName + '!' + newCell]: ''
             })
 
+            setFormats({
+                ...formats,
+                [sheetName + '!' + newCell]: format
+            })
 
         }
 
-        if (stage === 'empty') {
-            setStage('loaded')
-        }
+        setStage('loaded')
     }
 
     const addSelectedLabels = (labelCell, labelValue, sheetName) => {
@@ -461,21 +463,22 @@ export default function IOSelector(props) {
         if (foundIndex !== -1) {
             props.wb.Sheets[sheetName][labelCell].s.fgColor = {rgb: selectedLabels[foundIndex].oldColor}
             const newSelection = selectedLabels.filter((cell, idx) => idx !== foundIndex)
-            setLabels({...labels, [selectedCells[foundIndex].address]:''})
+            setLabels({...labels, [selectedCells[foundIndex].address]: ''})
             setSelectedLabels([...newSelection])
 
-
+            // Go ahead and add it to state
         } else {
-            // Get cell metadata on old color, value and format for ne cell
+
             oldColor = getOldColor(labelCell, sheetName)
             props.wb.Sheets[sheetName][labelCell].s.fgColor = {rgb: "FCCA46"}
 
-            //Update label data
-            setLabels({
-                ...labels,
-                [selectedCells[selectedLabels.length].address]: labelValue
-            })
-
+            //if selected labels is already the same length as selected cells, then don't add more
+            if (selectedLabels.length !== selectedCells.length) {
+                setLabels({
+                    ...labels,
+                    [selectedCells[selectedLabels.length].address]: labelValue
+                })
+            }
 
             //Save metadata on label cell in case we need to unhighlight
             setSelectedLabels([...selectedLabels,
@@ -489,11 +492,59 @@ export default function IOSelector(props) {
         }
     }
 
-    const loadOutput2SelectedCells = (category) => {
+    //Output sets and loads
+    const setOutputHandler = () => {
+
+        const outputPayload = {
+            "category": category,
+            "labels": labels,
+            "formats": formats
+        }
+
+        let foundIndex = props.outputs.findIndex(output => output.category === category)
+
+
+        //Validations Start
+        //If category is not set
+        if (category === 'Category') {
+            setErrorOpen(true)
+            setError("Please give this ouput a category name before proceeding. A name could be descriptions of the output category, such as Net Income, or Enterprise Value, or IRR.")
+        }
+
+        //If category already exists in outputs
+        else if (foundIndex !== -1) {
+
+            //If in load mode and labels match the new cell , then update this output
+            if (loadMode) {
+                let newOutputs = props.outputs
+                newOutputs[foundIndex] = outputPayload
+                props.updateOutputs([...newOutputs])
+                resetState()
+            }
+            //Else throw an error
+            else {
+                setErrorOpen(true)
+                setError("Output category has already been assigned to other cells. Please select a different name")
+            }
+
+        } else if (hasDuplicates(Object.values(labels))) {
+            setErrorOpen(true)
+            setError("This category already contains duplicate labels")
+        }
+
+        //Otherwise we are go for inserting into output array
+        else {
+            props.updateOutputs([...props.outputs, outputPayload])
+            resetState()
+        }
+    }
+
+    const loadOutputHandler = (category) => {
         let foundOutput = props.outputs.find(output => output.category === category)
 
         let newSelectedCells = []
-        let newLabels = []
+        let newLabels = {}
+        let newFormats = {}
 
         //Have to do this to avoid setting state within loop. Ugh
         Object.entries(foundOutput.labels).forEach(entry => {
@@ -517,77 +568,19 @@ export default function IOSelector(props) {
                 value: v,
                 format: format
             })
-            newLabels.push(entry[1])
+            newLabels[sheetName + '!' + rawAdd] = entry[1]
+            newFormats[sheetName + '!' + rawAdd] = format
         })
 
+        setCategory(category)
         setSelectedCells([...newSelectedCells])
-        setEnableClick(false)
+        setLabels({...newLabels})
+        setFormats({...newFormats})
         setLoadMode(true)
-        setStage("labelSelect")
+        setStage("loaded")
     }
 
-
-    //Output Handlers
-
-    const labelChange = (e, address) => {
-        setLabels({...labels,
-        [address]:e.target.value
-        })
-    }
-
-    const setOutputHandler = () => {
-
-        //Validations Start
-        //If category is not set
-        if (category === ' ') {
-            setErrorOpen(true)
-            setError("Please give this ouput a category name before proceeding. A name could be descriptions of the output category, such as Net Income, or Enterprise Value, or IRR.")
-        }
-
-        //If category is a duplicate while the underlying addresses match, update the output
-
-        //If category is a duplicate while the underlying addresses do not match, throw this error
-        if (props.outputs.some(output => {
-            let currSelectedAdds = props.selectedCells.map(label => label.address)
-            return (output.category === category && !(isEqual(Object.keys(output.labels), currSelectedAdds)))
-            // return (output.category === category)
-        })) {
-            setErrorOpen(true)
-            setError("Output category has already been assigned to other cells. Please select a different name")
-        }
-
-        //Otherwise we are go for inserting into output array
-        else {
-            const outputPayload = {
-                "category": category,
-                "labels": labels,
-                "format": 'General'
-            }
-            addtoOutput(outputPayload)
-        }
-
-    }
-
-    const addtoOutput = (payload) => {
-        let foundIndex = props.outputs.findIndex(output => output.category === payload.category)
-
-        //if category already exists, update it
-        if (foundIndex === -1) {
-            props.updateOutputs([...props.outputs, payload])
-
-            //else add new
-        } else {
-            let newOutputs = [...props.outputs]
-            newOutputs[foundIndex] = payload
-            props.updateOutputs([...newOutputs])
-        }
-
-        setSelectedCells([])
-        setSelectedLabels([])
-        setEnableClick(true)
-        setStage("summary")
-    }
-
+    //Output Deletions
     const deleteOutputHandler = (category) => {
         const newOutputs = props.outputs.filter(output => output.category !== category)
         props.updateOutputs([...newOutputs])
@@ -596,57 +589,41 @@ export default function IOSelector(props) {
     const deleteLabelHandler = (address) => {
         const indexToRemove = selectedCells.findIndex(output => output.address === address)
 
+        //Remove cell from selectedCells
         const cellToRemove = selectedCells[indexToRemove]
         props.wb.Sheets[cellToRemove.sheet][cellToRemove.raw].s.fgColor = {rgb: cellToRemove.oldColor}
+
+        //If selected cells will be empty after this removal, setStage to empty
+        if (selectedCells.length === 1 && props.outputs.length === 0) {
+            setStage("empty")
+        }
+
+        if (selectedCells.length === 1 && props.outputs.length > 0) {
+            setStage("summary")
+        }
+
         const newCells = selectedCells.filter(output => output.address !== address)
         setSelectedCells([...newCells])
 
+        //Remove from labels
+        const {[address]: tmp, ...rest} = labels
+        setLabels(rest)
 
+        //Remove label from selectedLabels
         if ((stage === 'labelSelect' || stage === 'labelComplete') && typeof (selectedLabels[indexToRemove]) !== 'undefined') {
             const labelToRemove = selectedLabels[indexToRemove]
             props.wb.Sheets[labelToRemove.sheet][labelToRemove.raw].s.fgColor = {rgb: labelToRemove.oldColor}
-            const newLabels = selectedLabels.filter(label => selectedLabels.indexOf(label) !== indexToRemove)
-            setSelectedLabels([...newLabels])
-        }
-
-    }
-
-    const loadOutputHandler = (category) => {
-        loadOutput2SelectedCells(category)
-    }
-
-
-    //Global Functions
-    const getOldColor = (newCell, sheetName) => {
-        try {
-            return props.wb.Sheets[sheetName][newCell].s.fgColor.rgb
-        } catch {
-            return "FFFFFF"
+            const newSelectedLabels = selectedLabels.filter(label => selectedLabels.indexOf(label) !== indexToRemove)
+            setSelectedLabels([...newSelectedLabels])
         }
     }
 
-    const getValue = (newCell, sheetName) => {
-        try {
-            return myRound(props.wb.Sheets[sheetName][newCell].v)
-        } catch {
-            return 0
-        }
-    }
-
-    const getFormat = (newCell, sheetName) => {
-        try {
-            return props.wb.Sheets[sheetName][newCell].z
-        } catch {
-            return 'General'
-        }
-    }
-
-    const labelCheck = () => {
-        return true;
-    }
-
-    const updateIOState = (type) => {
-        console.log("to come")
+    //Other Handlers
+    const labelChange = (e, address) => {
+        setLabels({
+            ...labels,
+            [address]: e.target.value
+        })
     }
 
     const handleErrorClose = () => {
@@ -678,6 +655,58 @@ export default function IOSelector(props) {
         }
         window.scrollTo({left: 0, top: 0, behavior: 'smooth'})
     }
+
+    //Utils
+    const resetState = () => {
+        unHighlightAll()
+        setSelectedCells([])
+        setSelectedLabels([])
+        setLabels({})
+        setFormats({})
+        setCategory("Category")
+        setStage("summary")
+        setLoadMode(false)
+    }
+
+    const unHighlightAll = () => {
+        selectedCells.forEach(c => {
+            props.wb.Sheets[c.sheet][c.raw].s.fgColor = {rgb: c.oldColor}
+        })
+
+
+        selectedLabels.forEach(label => {
+            props.wb.Sheets[label.sheet][label.raw].s.fgColor = {rgb: label.oldColor}
+        })
+    }
+
+    const getOldColor = (newCell, sheetName) => {
+        try {
+            return props.wb.Sheets[sheetName][newCell].s.fgColor.rgb
+        } catch {
+            return "FFFFFF"
+        }
+    }
+
+    const getValue = (newCell, sheetName) => {
+        try {
+            return myRound(props.wb.Sheets[sheetName][newCell].v)
+        } catch {
+            return 0
+        }
+    }
+
+    const getFormat = (newCell, sheetName) => {
+        try {
+            return props.wb.Sheets[sheetName][newCell].z
+        } catch {
+            return 'General'
+        }
+    }
+
+    const labelCheck = () => {
+        return Object.keys(labels).every((address => labels[address] !== ''))
+    }
+
 
     //Executions
     let instructions = createInstructions()

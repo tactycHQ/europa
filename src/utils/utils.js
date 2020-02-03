@@ -134,14 +134,18 @@ export const computeSteps = (value, lb, ub, n_steps) => {
 }
 
 export function ascending(firstNumber, secondNumber) {
-  return firstNumber - secondNumber;
+    return firstNumber - secondNumber;
 }
 
 export function hasNumber(myString) {
-  return !isNaN(myString);
+    return !isNaN(myString);
 }
 
 export function isEmpty(obj) {
     return !obj || Object.keys(obj).length === 0;
+}
+
+export function hasDuplicates(array) {
+    return (new Set(array)).size !== array.length;
 }
 

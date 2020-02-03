@@ -165,8 +165,8 @@ export default function Main(props) {
         setInputs([...inputs])
     }
 
-    const updateOutputs = (outputs) => {
-        setOutputs([...outputs])
+    const updateOutputs = (newOutput) => {
+        setOutputs([...newOutput])
     }
 
     const createContent = () => {

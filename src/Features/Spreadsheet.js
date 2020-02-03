@@ -66,7 +66,7 @@ export default function Spreadsheet(props) {
             e.nativeEvent.stopImmediatePropagation()
 
 
-            if (props.stage === 'labelSelect') {
+            if (props.stage === 'labelSelect' || props.stage === 'labelComplete') {
                 let newCell = e.target.id.replace("sjs-", "")
                 if (props.worksheet.hasOwnProperty(newCell)) {
                     props.addSelectedLabels(newCell, e.target.innerText, props.currSheet)
