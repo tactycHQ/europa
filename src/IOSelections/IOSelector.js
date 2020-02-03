@@ -26,20 +26,16 @@ export default function IOSelector(props) {
             overflowY: 'auto',
             padding: '10px'
         },
-        title: {
-            fontSize: '0.9em',
-            paddingLeft: '5px',
-            fontFamily: 'Questrial',
-            color: '#292F36',
-            margin: '2px'
-        },
         instruction: {
-            fontSize: '0.9em',
+            fontSize: '0.85em',
             fontWeight: '100',
             paddingLeft: '5px',
             fontFamily: 'Questrial',
             color: '#292F36',
-            margin: '10px'
+            padding:'3px',
+            margin:'0px',
+            width:'100%',
+            textAlign: 'center'
         },
         loadButtonContainer: {
             display: 'flex',
@@ -184,13 +180,19 @@ export default function IOSelector(props) {
 
     const createCatSelector = () => {
         if (stage === 'loaded' || stage === 'labelSelect' || stage === 'labelComplete') {
+            let labelText
+            if (category === 'Category') {
+                labelText = "Give this Output a name"
+            } else {
+                labelText = null
+            }
 
             return (
                 <Paper className={classes.genericSelector}>
                     <TextField
                         required id="standard-required"
                         className={classes.rootTextContainer}
-                        label="Output Category"
+                        label={labelText}
                         size="small"
                         InputLabelProps={{
                             className: classes.labelField
@@ -270,7 +272,7 @@ export default function IOSelector(props) {
         if (stage === 'loaded') {
             setOutputButton = (
                 <Button className={classes.setButton} size="small" onClick={() => setStage("labelSelect")}>
-                    <h3 className={classes.buttonText}>SELECT LABELS</h3>
+                    <h3 className={classes.buttonText}>OK</h3>
                 </Button>)
         } else if (stage === 'labelSelect') {
             if (labelCheck() === true) {
@@ -281,7 +283,6 @@ export default function IOSelector(props) {
             if (labelCheck() === false) {
                 setStage("labelSelect")
             } else {
-
                 let setText = "OK"
                 if (loadMode) {
                     setText = "UPDATE"
@@ -340,20 +341,26 @@ export default function IOSelector(props) {
 
             return (
                 <h3 className={classes.instruction}>
-                    Select an output cell or range in the spreadsheet. <br/><br/>
+                    Select an output cell or multiple cells (one at a time) that are part of the same category (Net Profit for e.g.) <br/><br/>
 
-                    Output cells must be in the same <em>category</em> and have the same <em>units</em>. For
-                    example, Revenue (in dollars) or IRRs (in %).<br/><br/>
-
-                    Multiple cells within a category (for e.g. 2020 Profit, 2021 Profit, 2022 Profit) are
-                    called <em>labels</em>.<br/><br/>
-
-                    You can select upto 10 categories and 25 labels per category.<br/><br/>
-
-                    Click <em>Done with Outputs</em> to start calculations.
+                    All cells should have the same <em>units</em>. For example, all cells under a Net Profit cateogry must be in dollars.<br/><br/>
                 </h3>
             )
+        } else if (stage === 'loaded') {
 
+            return (
+                <h3 className={classes.instruction}>
+                    Select upto 10 cells
+                </h3>
+            )
+        }
+        else if (stage === 'labelSelect') {
+
+            return (
+                <h3 className={classes.instruction}>
+                    Give these cells a label. For e.g. Year 1, Year 2 etc. You can type labels below or click cells in the spreadsheet that contain labels.
+                </h3>
+            )
             //If user has selected at least one input
         } else if (stage === 'summary' && props.outputs.length < MAXCAT) {
 
@@ -361,20 +368,16 @@ export default function IOSelector(props) {
                 <div style={{
                     display: 'flex',
                     flexDirection: 'column',
-                    justifyContent: 'center',
+                    justifyContent: 'flex-start',
                     alignItems: 'center',
                     marginBottom: '10px'
                 }}>
                     <h3 className={classes.instruction}>
-                        Please select the next output category from the spreadsheet.<br/><br/>
-                        You can select up to 10 output categories with 20 cells (labels) within each category.
+                        Great! If you would like to define another output, select a new set of cells for the next desired output category.<br/><br/>
                     </h3>
                     <h3 className={classes.instruction} style={{
-                        fontSize: '0.9em',
-                        fontWeight: '800',
                         color: '#A5014B',
-                        marginBottom: '1px'
-                    }}>Selected Outputs</h3>
+                    }}>You can revisit and make changes to your previously defined outputs by selecting them below</h3>
                     {alreadySelected}
                 </div>
 
@@ -398,7 +401,7 @@ export default function IOSelector(props) {
     }
 
 
-    //Output Selection Functions
+//Output Selection Functions
     const addSelectedCells = (newCell, sheetName) => {
 
 
@@ -492,7 +495,7 @@ export default function IOSelector(props) {
         }
     }
 
-    //Output sets and loads
+//Output sets and loads
     const setOutputHandler = () => {
 
         const outputPayload = {
@@ -580,10 +583,13 @@ export default function IOSelector(props) {
         setStage("loaded")
     }
 
-    //Output Deletions
+//Output Deletions
     const deleteOutputHandler = (category) => {
         const newOutputs = props.outputs.filter(output => output.category !== category)
         props.updateOutputs([...newOutputs])
+        if (newOutputs.length === 0) {
+            setStage("empty")
+        }
     }
 
     const deleteLabelHandler = (address) => {
@@ -618,7 +624,7 @@ export default function IOSelector(props) {
         }
     }
 
-    //Other Handlers
+//Other Handlers
     const labelChange = (e, address) => {
         setLabels({
             ...labels,
@@ -656,7 +662,7 @@ export default function IOSelector(props) {
         window.scrollTo({left: 0, top: 0, behavior: 'smooth'})
     }
 
-    //Utils
+//Utils
     const resetState = () => {
         unHighlightAll()
         setSelectedCells([])
@@ -708,7 +714,7 @@ export default function IOSelector(props) {
     }
 
 
-    //Executions
+//Executions
     let instructions = createInstructions()
     let buttons = createButtons()
     let outputCells = createIOPanel()
@@ -717,7 +723,6 @@ export default function IOSelector(props) {
     return (
         <div style={{display: 'flex', width: '100%'}}>
             <div className={classes.root}>
-                <h3 className={classes.title}>Define Model Outputs</h3>
                 {instructions}
                 {outputCells}
                 {buttons}
