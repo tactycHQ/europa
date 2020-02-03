@@ -31,8 +31,6 @@ export default function Content(props) {
 
 
     //Input Selection Functions
-
-
     const generateIOSelector = () => {
         return (
             <Switch>

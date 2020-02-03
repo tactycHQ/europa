@@ -65,25 +65,19 @@ export default function Spreadsheet(props) {
             e.stopPropagation();
             e.nativeEvent.stopImmediatePropagation()
 
+            let newCell = e.target.id.replace("sjs-", "")
 
-            if (props.stage === 'labelSelect' || props.stage === 'labelComplete') {
-                let newCell = e.target.id.replace("sjs-", "")
-                if (props.worksheet.hasOwnProperty(newCell)) {
+            if (props.IO === 'inputs' && props.worksheet.hasOwnProperty(newCell)) {
+                props.addClickedCell(newCell, props.currSheet)
+
+            } else if (props.IO === 'outputs' && props.worksheet.hasOwnProperty(newCell)) {
+                if (props.stage === 'labelSelect' || props.stage === 'labelComplete') {
                     props.addSelectedLabels(newCell, e.target.innerText, props.currSheet)
-                }
-
-            } else {
-                let newCell = e.target.id.replace("sjs-", "")
-                if (props.worksheet.hasOwnProperty(newCell)) {
-                    if (props.IOState === 'inputs') {
-                        props.addClickedCell(newCell, props.currSheet)
-                    } else {
-                        props.addSelectedCells(newCell, props.currSheet)
-                    }
+                } else {
+                    props.addSelectedCells(newCell, props.currSheet)
                 }
             }
         }
-
     }
 
     const onSheetClick = (e, sheet) => {

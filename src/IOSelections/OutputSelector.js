@@ -9,6 +9,7 @@ import IconButton from "@material-ui/core/IconButton"
 import RemoveCircleSharpIcon from '@material-ui/icons/RemoveCircleSharp';
 import Button from "@material-ui/core/Button";
 import {hasDuplicates} from "../utils/utils";
+import {NavLink} from "react-router-dom";
 
 export default function OutputSelector(props) {
 
@@ -32,9 +33,9 @@ export default function OutputSelector(props) {
             paddingLeft: '5px',
             fontFamily: 'Questrial',
             color: '#292F36',
-            padding:'3px',
-            margin:'0px',
-            width:'100%',
+            padding: '3px',
+            margin: '0px',
+            width: '100%',
             textAlign: 'center'
         },
         loadButtonContainer: {
@@ -152,11 +153,9 @@ export default function OutputSelector(props) {
     const [labels, setLabels] = useState({})
     const [formats, setFormats] = useState({})
     const [enableClick, setEnableClick] = useState(true)
-    const [loadMode, setLoadMode] = useState(false)    
+    const [loadMode, setLoadMode] = useState(false)
     const [errorOpen, setErrorOpen] = useState(false)
     const [error, setError] = useState('')
-
-    console.log(loadMode)
 
     //Element Creators
     const createIOPanel = () => {
@@ -296,9 +295,12 @@ export default function OutputSelector(props) {
 
         } else if (props.stage === 'summary') {
             doneWithOutputs = (
-                <Button className={classes.setButton} size="small" onClick={() => props.updateIOState("outputs")}>
-                    <h3 className={classes.buttonText}>DONE WITH ALL OUTPUTS</h3>
-                </Button>)
+                <NavLink to="/dashboard" style={{textDecoration: 'none'}}>
+                    <Button className={classes.setButton} size="small" onClick={() => props.updateIO("calculate")}>
+                        <h3 className={classes.buttonText}>DONE WITH ALL OUTPUTS</h3>
+                    </Button>
+                </NavLink>
+            )
         } else {
             setOutputButton = null
             backButton = null
@@ -342,9 +344,11 @@ export default function OutputSelector(props) {
 
             return (
                 <h3 className={classes.instruction}>
-                    Select an output cell or multiple cells (one at a time) that are part of the same category (Net Profit for e.g.) <br/><br/>
+                    Select an output cell or multiple cells (one at a time) that are part of the same category (Net
+                    Profit for e.g.) <br/><br/>
 
-                    All cells should have the same <em>units</em>. For example, all cells under a Net Profit cateogry must be in dollars.<br/><br/>
+                    All cells should have the same <em>units</em>. For example, all cells under a Net Profit cateogry
+                    must be in dollars.<br/><br/>
                 </h3>
             )
         } else if (props.stage === 'loaded') {
@@ -354,12 +358,12 @@ export default function OutputSelector(props) {
                     Select upto 10 cells
                 </h3>
             )
-        }
-        else if (props.stage === 'labelSelect') {
+        } else if (props.stage === 'labelSelect') {
 
             return (
                 <h3 className={classes.instruction}>
-                    Give these cells a label. For e.g. Year 1, Year 2 etc. You can type labels below or click cells in the spreadsheet that contain labels.
+                    Give these cells a label. For e.g. Year 1, Year 2 etc. You can type labels below or click cells in
+                    the spreadsheet that contain labels.
                 </h3>
             )
             //If user has selected at least one input
@@ -374,7 +378,8 @@ export default function OutputSelector(props) {
                     marginBottom: '10px'
                 }}>
                     <h3 className={classes.instruction}>
-                        Great! If you would like to define another output, select a new set of cells for the next desired output category.<br/><br/>
+                        Great! If you would like to define another output, select a new set of cells for the next
+                        desired output category.<br/><br/>
                     </h3>
                     <h3 className={classes.instruction} style={{
                         color: '#A5014B',
@@ -718,18 +723,19 @@ export default function OutputSelector(props) {
 //Executions
     let instructions = createInstructions()
     let buttons = createButtons()
-    let outputCells = createIOPanel()
+    let ioPanel = createIOPanel()
 
 
     return (
         <div style={{display: 'flex', width: '100%'}}>
             <div className={classes.root}>
                 {instructions}
-                {outputCells}
+                {ioPanel}
                 {buttons}
             </div>
             <Spreadsheet
                 stage={props.stage}
+                IO={props.IO}
                 worksheet={props.worksheet}
                 currSheet={props.currSheet}
                 sheets={props.sheets}

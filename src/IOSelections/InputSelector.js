@@ -16,9 +16,9 @@ import {
     myRound,
     createBounds,
     computeSteps,
-    ascending,
     hasNumber
 } from "../utils/utils";
+import Spreadsheet from "../Features/Spreadsheet";
 
 
 export default function InputSelector(props) {
@@ -28,7 +28,6 @@ export default function InputSelector(props) {
     const LOWER_RATIO = 0.9
     const UPPER_RATIO = 1.1
     const NUM_STEPS = 5
-
 
     const useStyles = makeStyles(theme => ({
         root: {
@@ -73,10 +72,14 @@ export default function InputSelector(props) {
             margin: '10px'
         },
         categoryContainer: {
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
             margin: '5px',
             background: '#D7DEE2',
-            padding: '8px',
-            // width: '100%'
+            padding: '4px',
+            width: '100%'
         },
         buttonContainer: {
             display: 'flex'
@@ -101,27 +104,26 @@ export default function InputSelector(props) {
         },
         rootTextContainer: {
             display: 'flex',
-            // background:'green',
-            width: '100%'
-        },
-        textField: {
-            fontSize: '0.75em',
+            width: '100%',
+            margin: '2px',
             fontWeight: '100',
             fontFamily: 'Questrial',
-            // marginBottom:'0px',
+            fontSize: '0.85em',
+        },
+        textField: {
+            fontSize: '0.85em',
+            fontWeight: '100',
+            fontFamily: 'Questrial',
             paddingTop: '5px',
             paddingBottom: '0px',
         },
         labelField: {
-            fontSize: '1.0em',
+            fontSize: '1.1em',
             fontWeight: '100',
             fontFamily: 'Questrial',
-            marginTop: '7px',
             width: '100%',
-            // background:'yellow'
         },
         formControl: {
-            // margin: theme.spacing(1),
             width: "100%",
             marginTop: '5px'
         },
@@ -156,6 +158,7 @@ export default function InputSelector(props) {
         }
     }))
     const classes = useStyles()
+    const [clickedCells, setClickedCell] = useState({})
     const [address, setAddress] = useState('')
     const [label, setLabel] = useState('')
     const [numSteps, setNumSteps] = useState(5)
@@ -165,75 +168,158 @@ export default function InputSelector(props) {
     const [format, setFormat] = useState('General')
     const [error, setError] = useState(null)
     const [errorOpen, setErrorOpen] = useState(false)
-    const [loaded, setLoaded] = useState(false)
+    const [enableClick, setEnableClick] = useState(true)
 
     //Hooks
     // This is the default hook to load up initial input assumptions when a cell has been clicked
-    useEffect(() => {
-
-        if (props.clickedCells.hasOwnProperty("address")) {
-
-            //If user has clicked on a cell that already exists in input array, load up the input data
-            if (props.inputs.some(input => input.address === props.clickedCells.address)) {
-                let foundInput = props.inputs.find(input => input.address === props.clickedCells.address)
-                setAddress(foundInput.address)
-                setLabel(foundInput.label)
-                setvalue(foundInput.value)
-                setFormat(foundInput.format)
-                setNumSteps(foundInput.values.length)
-                setBounds([Math.min(...foundInput.values), Math.max(...foundInput.values)])
-                setIncr(foundInput.values)
-                setErrorOpen(false)
-                setLoaded(true)
-
-                //User has clicked on a new call, so load up defaults
-            } else {
-
-                const default_value = props.clickedCells.value
-                const default_bounds = createBounds(default_value, LOWER_RATIO, UPPER_RATIO)
-                const default_increments = computeSteps(default_value, default_bounds[0], default_bounds[1], NUM_STEPS)
-
-                setAddress(props.clickedCells.address)
-                setLabel(props.clickedCells.address)
-                setvalue(props.clickedCells.value)
-                setFormat(props.clickedCells.format)
-                setNumSteps(NUM_STEPS)
-                setBounds(default_bounds)
-                setIncr(default_increments)
-
-                setErrorOpen(false)
-                setLoaded(true)
-            }
-        }
-    }, [props.inputs, props.clickedCells])
-
 
     const createIOPanel = () => {
 
-        const labelSelector = createLabelSelector()
-        const boundSelector = createBoundSelector()
-        const stepSelector = createStepSelector()
-        let incrementEl = createIncrementEl()
-        let error_msg = null
+        if (props.stage === 'empty' || props.stage === 'summary') {
+            return null
+        } else {
 
-        //Check whether cell value is within bounds
-        if (!between(value, bounds[0], bounds[1])) {
-            error_msg = `Bounds must include current cell value of ${convert_format(format, value)}`
-            incrementEl = null
+            const labelSelector = createLabelSelector()
+            const boundSelector = createBoundSelector()
+            const stepSelector = createStepSelector()
+            let incrementEl = createIncrementEl()
+            let error_msg = null
+
+            //Check whether cell value is within bounds
+            if (!between(value, bounds[0], bounds[1])) {
+                error_msg = `Bounds must include current cell value of ${convert_format(format, value)}`
+                incrementEl = null
+            }
+
+
+            return (
+                <div className={classes.selectionContainer} key={address}>
+                    {labelSelector}
+                    <Paper className={classes.categoryContainer}>
+                        {boundSelector}
+                        {stepSelector}
+                    </Paper>
+                    {incrementEl}
+                    <h3 className={classes.selectNote} style={{color: 'red', margin: '10px'}}>{error_msg}</h3>
+                </div>
+            )
+        }
+    }
+
+    const createButtons = () => {
+
+
+        let setInputButton = null
+        let doneWithInputs = null
+
+
+        //Sidebar is populated with input data
+        if (props.stage === 'loaded') {
+            setInputButton = (
+                <Button className={classes.selectButton} size="small" onClick={() => setInputHandler()}>
+                    <h3 className={classes.buttonText}>OK</h3>
+                </Button>)
         }
 
 
+        if (props.stage === "summary") {
+            doneWithInputs = (
+                <Button className={classes.selectButton} size="small" onClick={() => props.updateIO("outputs")}>
+                    <h3 className={classes.buttonText}>DONE WITH ALL INPUTS</h3>
+                </Button>)
+        }
+
         return (
-            <div className={classes.selectionContainer} key={address}>
-                {labelSelector}
-                <Paper className={classes.categoryContainer}>
-                    {boundSelector}
-                    {stepSelector}
-                </Paper>
-                {incrementEl}
-                <h3 className={classes.selectNote} style={{color: 'red', margin: '10px'}}>{error_msg}</h3>
+            <div className={classes.buttonContainer}>
+                {setInputButton}
+                {doneWithInputs}
             </div>
         )
+    }
+
+    const createInstructions = () => {
+
+        let alreadySelected = null
+        if (props.inputs.length > 0) {
+            alreadySelected = props.inputs.map(input => {
+                return (
+                    <div className={classes.singleButtonContainer} key={input.address}>
+                        <Button
+                            key={input.address}
+                            className={classes.selectedInputs}
+                            onClick={(e) => loadInputHandler(input.address)}
+                        >
+                            <h3 className={classes.selectedInputsText}>{input.label}</h3>
+                        </Button>
+                        <IconButton onClick={() => deleteInputHandler(input.address)} size="small">
+                            <RemoveCircleSharpIcon style={{color: '#BD467C'}} size="small"/>
+                        </IconButton>
+                    </div>
+                )
+            })
+        }
+
+
+
+        //If no inputs have been selected yet
+        if (props.stage === 'empty') {
+            return (
+                <h3 className={classes.selectNote}>
+                    Select an input cell in the spreadsheet. <br/><br/>
+
+                    These are hardcoded cells that
+                    are typically key model assumptions that drive the rest of the model. For e.g., <em>Annual
+                    Growth
+                    Rate</em> or <em>Profit Margin</em><br/><br/>
+
+                    Please note that the input cell <strong>must</strong> be a number and cannot be a text or date
+                    cell.<br/><br/>
+
+                    After selecting each input, click <em>Next Input</em> to define another input. A maximum of 5
+                    inputs can be selected in total.<br/><br/>
+
+                    Click <em>Done with Inputs</em> to start selecting outputs.
+                </h3>
+            )
+
+            //If user has selected at least one input
+        } else if (props.stage === 'summary' && props.inputs.length < MAXINPUTS) {
+
+            return (
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginBottom: '10px'
+                }}>
+                    <h3 className={classes.selectNote}>
+                        Please select the next input from the spreadsheet. You can select up to 5 inputs <br/><br/>
+                    </h3>
+                    <h3 className={classes.selectNote} style={{
+                        fontSize: '0.9em',
+                        fontWeight: '800',
+                        color: '#A5014B',
+                        marginBottom: '1px'
+                    }}>Selected Inputs</h3>
+                    {alreadySelected}
+                </div>
+
+            )
+
+            //All 5 inputs have been selected
+        } else if (props.inputs.length === MAXINPUTS) {
+            return (
+                <>
+                    <h3 className={classes.selectNote}>
+                        Maximum of 5 inputs have been defined. Click on the inputs below to go back and change
+                        assumptions, or to delete any of the inputs.
+                        <br/>
+                    </h3>
+                    {alreadySelected}
+                </>
+            )
+        }
     }
 
     const createBoundSelector = () => {
@@ -385,6 +471,124 @@ export default function InputSelector(props) {
         )
     }
 
+    //
+    const addClickedCell = (newCell, sheetName) => {
+
+        let oldColor
+        let v
+        let format
+
+        //if clicked a different cell, then reset color of unclicked cell
+        if (clickedCells.raw && clickedCells.raw !== newCell) {
+            refreshWorksheetColor()
+        }
+
+        // Get cell metadata on old color, value and format for ne cell
+        oldColor = getOldColor(newCell, sheetName)
+        v = getValue(newCell, sheetName)
+        format = getFormat(newCell, sheetName)
+        props.wb.Sheets[sheetName][newCell].s.fgColor = {rgb: "FCCA46"}
+
+
+        //Set new clicked cell
+        setClickedCell({
+            address: sheetName + '!' + newCell,
+            sheet: sheetName,
+            raw: newCell,
+            oldColor: oldColor,
+            value: v,
+            format: format
+        })
+
+
+        const default_bounds = createBounds(v, LOWER_RATIO, UPPER_RATIO)
+        const default_increments = computeSteps(v, default_bounds[0], default_bounds[1], NUM_STEPS)
+
+        setAddress(sheetName + '!' + newCell)
+        setLabel(sheetName + '!' + newCell)
+        setvalue(v)
+        setFormat(format)
+        setNumSteps(NUM_STEPS)
+        setBounds(default_bounds)
+        setIncr(default_increments)
+        setErrorOpen(false)
+        props.updateStage('loaded')
+    }
+
+    const loadInput2ClickedCell = (address) => {
+        const splits = address.split("!")
+        const sheetName = splits[0]
+        if (sheetName !== props.currSheet) {
+            props.handleSheetChange(sheetName)
+        }
+        const rawAdd = splits[1]
+        const oldColor = getOldColor(rawAdd, sheetName)
+        const v = getValue(rawAdd, sheetName)
+        const format = getFormat(rawAdd, sheetName)
+        props.wb.Sheets[sheetName][rawAdd].s.fgColor = {rgb: "FCCA46"}
+
+        const foundInput = props.inputs.find(input => input.address === (sheetName + '!' + rawAdd))
+
+        setClickedCell({
+            address: sheetName + '!' + rawAdd,
+            sheet: sheetName,
+            raw: rawAdd,
+            oldColor: oldColor,
+            value: v,
+            format: format
+        })
+        setAddress(foundInput.address)
+        setBounds([Math.min(...foundInput.values), Math.max(...foundInput.values)])
+        setIncr([...foundInput.values])
+        setNumSteps(foundInput.values.length)
+        setFormat(foundInput.format)
+        setErrorOpen(false)
+        props.updateStage('loaded')
+    }
+
+
+    const refreshWorksheetColor = () => {
+        props.wb.Sheets[clickedCells.sheet][clickedCells.raw].s.fgColor = {rgb: clickedCells.oldColor}
+    }
+
+    //Input Handlers
+    const setInputHandler = () => {
+
+        const payload = {
+            "address": address,
+            "label": label,
+            "values": incr
+        }
+
+        let foundIndex = props.inputs.findIndex(input => input.address === payload.address)
+        if (foundIndex === -1) {
+            props.updateInputs([...props.inputs, payload])
+        } else {
+            let newInputs = [...props.inputs]
+            newInputs[foundIndex] = payload
+            props.updateInputs([...newInputs])
+        }
+        refreshWorksheetColor()
+        setClickedCell({})
+        setEnableClick(true)
+        props.updateStage("summary")
+    }
+
+    const deleteInputHandler = (address) => {
+        const newInputs = props.inputs.filter(input => input.address !== address)
+        props.updateInputs([...newInputs])
+        setClickedCell({})
+
+        if (newInputs.length ===0) {
+            props.updateStage("empty")
+        }
+    }
+
+    const loadInputHandler = (address) => {
+        loadInput2ClickedCell(address)
+        setEnableClick(false)
+    }
+
 
     //Event Handlers
     const boundHandler = (e, type) => {
@@ -399,7 +603,7 @@ export default function InputSelector(props) {
                 newb = [bounds[0], myRound(parseFloat(e.target.value))]
             }
             setBounds([...newb])
-            const new_increments = computeSteps(props.clickedCells.value, newb[0], newb[1], numSteps)
+            const new_increments = computeSteps(value, newb[0], newb[1], numSteps)
             setIncr([...new_increments])
         }
     }
@@ -424,7 +628,7 @@ export default function InputSelector(props) {
 
     const stepChangeHandler = (e) => {
         setNumSteps(e.target.value)
-        const new_increments = computeSteps(props.clickedCells.value, bounds[0], bounds[1], e.target.value)
+        const new_increments = computeSteps(value, bounds[0], bounds[1], e.target.value)
         setIncr([...new_increments])
     }
 
@@ -432,42 +636,31 @@ export default function InputSelector(props) {
         setErrorOpen(false)
     }
 
-    const setInputHandler = () => {
-
-        //If label matches address, thow a dialog. TODO make this into matching address
-        if (label === '') {
-            setErrorOpen(true)
-            setError("Please give this input a name before proceeding. A name could be descriptions of the driver, such as Growth Rate or Profit Margin.")
-        }
-
-
-        //Check if label has already been assigned to another input, throw a duplicate error
-        if (props.inputs.some(input => {
-            return (input.label === label) && (input.address !== address)
-        })) {
-            setErrorOpen(true)
-            setError("Input name has already been assigned to another input. Please select a different name")
-        }
-
-        //Otherwise we are go for inserting into input array
-        else {
-            const inputPayload = {
-                "address": address,
-                "value": value,
-                "label": label,
-                "values": incr.sort(ascending),
-                "format": format,
-            }
-            props.setInputHandler(inputPayload)
-            resetState()
-        }
-    }
-
-    const loadInputHandler = (address) => {
-        props.loadInputHandler(address)
-    }
-
     //Other Functions
+    const getOldColor = (newCell, sheetName) => {
+        try {
+            return props.wb.Sheets[sheetName][newCell].s.fgColor.rgb
+        } catch {
+            return "FFFFFF"
+        }
+    }
+
+    const getValue = (newCell, sheetName) => {
+        try {
+            return myRound(props.wb.Sheets[sheetName][newCell].v)
+        } catch {
+            return 0
+        }
+    }
+
+    const getFormat = (newCell, sheetName) => {
+        try {
+            return props.wb.Sheets[sheetName][newCell].z
+        } catch {
+            return 'General'
+        }
+    }
+
     const resetState = () => {
         setAddress('')
         setvalue(null)
@@ -478,145 +671,34 @@ export default function InputSelector(props) {
         setFormat('General')
         setError(null)
         setErrorOpen(false)
-        setLoaded(false)
-    }
-
-    const createButtons = () => {
-
-
-        let setInputButton = null
-        let doneWithInputs = null
-
-
-        //Sidebar is populated with input data
-        if (loaded) {
-            setInputButton = (
-                <Button className={classes.selectButton} size="small" onClick={() => setInputHandler()}>
-                    <h3 className={classes.buttonText}>OK</h3>
-                </Button>)
-        }
-
-
-        if (props.inputs.length >= 1 && !loaded) {
-            doneWithInputs = (
-                <Button className={classes.selectButton} size="small" onClick={() => props.updateIOState("outputs")}>
-                    <h3 className={classes.buttonText}>DONE WITH ALL INPUTS</h3>
-                </Button>)
-        }
-
-        return (
-            <div className={classes.buttonContainer}>
-                {setInputButton}
-                {doneWithInputs}
-            </div>
-        )
-    }
-
-    const createInstructions = () => {
-
-        let alreadySelected = null
-        if (props.inputs.length > 0) {
-            alreadySelected = props.inputs.map(input => {
-                return (
-                    <div className={classes.singleButtonContainer} key={input.address}>
-                        <Button
-                            key={input.address}
-                            className={classes.selectedInputs}
-                            onClick={(e) => loadInputHandler(input.address)}
-                        >
-                            <h3 className={classes.selectedInputsText}>{input.label}</h3>
-                        </Button>
-                        <IconButton onClick={() => props.deleteInputHandler(input.address)} size="small">
-                            <RemoveCircleSharpIcon style={{color: '#BD467C'}} size="small"/>
-                        </IconButton>
-                    </div>
-                )
-            })
-        }
-
-
-        //If no inputs have been selected yet
-        if (props.inputs.length === 0) {
-            return (
-                <h3 className={classes.selectNote}>
-                    Select an input cell in the spreadsheet. <br/><br/>
-
-                    These are hardcoded cells that
-                    are typically key model assumptions that drive the rest of the model. For e.g., <em>Annual
-                    Growth
-                    Rate</em> or <em>Profit Margin</em><br/><br/>
-
-                    Please note that the input cell <strong>must</strong> be a number and cannot be a text or date
-                    cell.<br/><br/>
-
-                    After selecting each input, click <em>Next Input</em> to define another input. A maximum of 5
-                    inputs can be selected in total.<br/><br/>
-
-                    Click <em>Done with Inputs</em> to start selecting outputs.
-                </h3>
-            )
-
-            //If user has selected at least one input
-        } else if (props.inputs.length > 0 && props.inputs.length < MAXINPUTS) {
-
-            return (
-                <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginBottom: '10px'
-                }}>
-                    <h3 className={classes.selectNote}>
-                        Please select the next input from the spreadsheet. You can select up to 5 inputs <br/><br/>
-                    </h3>
-                    <h3 className={classes.selectNote} style={{
-                        fontSize: '0.9em',
-                        fontWeight: '800',
-                        color: '#A5014B',
-                        marginBottom: '1px'
-                    }}>Selected Inputs</h3>
-                    {alreadySelected}
-                </div>
-
-            )
-
-            //All 5 inputs have been selected
-        } else if (props.inputs.length === MAXINPUTS) {
-            return (
-                <>
-                    <h3 className={classes.selectNote}>
-                        Maximum of 5 inputs have been defined. Click on the inputs below to go back and change
-                        assumptions, or to delete any of the inputs.
-                        <br/>
-                    </h3>
-                    {alreadySelected}
-                </>
-            )
-        }
     }
 
 
 //Function Executions
-    let selectedCells = null
     let instructions = createInstructions()
     let buttons = createButtons()
-
-    if (loaded) {
-        instructions = null
-        selectedCells = createIOPanel()
-    }
+    let ioPanel = createIOPanel()
 
 
     return (
 
-        <div className={classes.root}>
-            <div className={classes.selectHeader}>
-                <h3 className={classes.selectText}>Define Model Inputs</h3>
+        <div style={{display: 'flex', width: '100%'}}>
+            <div className={classes.root}>
                 {instructions}
+                {ioPanel}
+                {buttons}
             </div>
-            {selectedCells}
-            {buttons}
+            <Spreadsheet
+                stage={props.stage}
+                IO={props.IO}
+                worksheet={props.worksheet}
+                currSheet={props.currSheet}
+                sheets={props.sheets}
+                enableClick={enableClick}
+                handleSheetChange={props.handleSheetChange}
+                clickedCells={clickedCells}
+                addClickedCell={addClickedCell}
+            />
             <Dialog open={errorOpen} onClose={handleErrorClose}>
                 <div>
                     <h2 className={classes.selectNote}>{error}</h2>

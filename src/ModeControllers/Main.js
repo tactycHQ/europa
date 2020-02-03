@@ -172,6 +172,10 @@ export default function Main(props) {
         setOutputs([...newOutput])
     }
 
+    const updateMode = (update) => {
+        setMode(update)
+    }
+
     const createContent = () => {
         if (mode === 'loaded') {
             return <Content
@@ -206,13 +210,14 @@ export default function Main(props) {
                 inputs={inputs}
                 outputs={outputs}
                 handleSheetChange={handleSheetChange}
+                updateMode={updateMode}
             />
 
         } else {
             return <Spinner className={classes.spinner}/>
         }
-
     }
+
 
     const createHome = () => {
         return <Home
