@@ -99,8 +99,9 @@ export const getVarianceAnalysis = async () => {
     return result
 }
 
-export const loadFile = async (sheetName,setSheets) => {
+export const loadFile = async () => {
 
+    console.log("Loading excel file")
     const api_url = "http://localhost:5000/downloadFile"
     const headers = {
         headers: {
@@ -127,7 +128,7 @@ export const loadFile = async (sheetName,setSheets) => {
                 showGridLines: false
             }
         )
-
+        console.log("Excel sheet loaded")
         return wb
     } catch (error) {
         return "Unable to load file"

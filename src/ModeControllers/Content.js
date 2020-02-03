@@ -4,8 +4,7 @@ import Output from "../Content/Dashboard"
 import Input from "../Content/InputsController";
 import {Switch, Route} from 'react-router-dom'
 import SideBar from "../Content/SideBar";
-import IOSelector from "../IOSelections/IOSelector";
-import Spreadsheet from "../Features/Spreadsheet";
+import IOController from "../IOSelections/IOController";
 
 
 export default function Content(props) {
@@ -38,7 +37,7 @@ export default function Content(props) {
         return (
             <Switch>
                 <Route exact path="/spreadsheet">
-                    <IOSelector
+                    <IOController
                         {...props}
                     />
                 </Route>
@@ -93,10 +92,8 @@ export default function Content(props) {
                             />
                         </Route>
                         <Route exact path="/spreadsheet">
-                            <Spreadsheet
-                                type="spreadsheet"
-                                mode={props.mode}
-                                worksheet={props.worksheet}
+                            <IOController
+                                {...props}
                             />
                         </Route>
                     </Switch>

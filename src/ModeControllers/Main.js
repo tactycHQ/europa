@@ -74,7 +74,10 @@ export default function Main(props) {
             const metadata = await getMetaData(dashid)
             const _solutions = await getSolutions(dashid)
             const _formats = await getFormats(dashid)
-            // const _variance = await getVarianceAnalysis()
+            const wb = await loadFile()
+            setwb(wb)
+            setSheets(Object.keys(wb.Sheets))
+            setCurrSheet(Object.keys(wb.Sheets)[0])
             setSolutions(_solutions.solutions)
             setDistributions(_solutions.distributions)
 
@@ -98,7 +101,7 @@ export default function Main(props) {
         }
 
         const executeNewAPIcalls = async () => {
-            const wb = await loadFile(setSheets)
+            const wb = await loadFile()
             setwb(wb)
             setSheets(Object.keys(wb.Sheets))
             setCurrSheet(Object.keys(wb.Sheets)[0])
@@ -175,6 +178,9 @@ export default function Main(props) {
                 mode={mode}
                 handleSliderChange={handleSliderChange}
                 handleCaseChange={handleCaseChange}
+                handleSheetChange={handleSheetChange}
+                sheets={sheets}
+                currSheet={currSheet}
                 solutions={solutions}
                 currInputVal={currInputVal}
                 distributions={distributions}
@@ -184,7 +190,9 @@ export default function Main(props) {
                 charts={charts}
                 cases={cases}
                 worksheet={worksheet}
-                sheets={sheets}
+                updateInputs={updateInputs}
+                updateOutputs={updateOutputs}
+                wb={wb}
             />
         } else if (mode === 'pendingIO') {
             return <Content
@@ -192,13 +200,12 @@ export default function Main(props) {
                 worksheet={worksheet}
                 sheets={sheets}
                 currSheet={currSheet}
-                handleSheetChange={handleSheetChange}
                 updateInputs={updateInputs}
                 updateOutputs={updateOutputs}
                 wb={wb}
                 inputs={inputs}
                 outputs={outputs}
-
+                handleSheetChange={handleSheetChange}
             />
 
         } else {

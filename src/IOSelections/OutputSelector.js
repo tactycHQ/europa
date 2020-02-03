@@ -10,7 +10,7 @@ import RemoveCircleSharpIcon from '@material-ui/icons/RemoveCircleSharp';
 import Button from "@material-ui/core/Button";
 import {hasDuplicates} from "../utils/utils";
 
-export default function IOSelector(props) {
+export default function OutputSelector(props) {
 
 
     const useStyles = makeStyles(theme => ({
@@ -152,15 +152,16 @@ export default function IOSelector(props) {
     const [labels, setLabels] = useState({})
     const [formats, setFormats] = useState({})
     const [enableClick, setEnableClick] = useState(true)
-    const [loadMode, setLoadMode] = useState(false)
-    const [stage, setStage] = useState("empty")
+    const [loadMode, setLoadMode] = useState(false)    
     const [errorOpen, setErrorOpen] = useState(false)
     const [error, setError] = useState('')
+
+    console.log(loadMode)
 
     //Element Creators
     const createIOPanel = () => {
 
-        if (stage === 'empty') {
+        if (props.stage === 'empty') {
             return null
         } else {
             let error_msg = null
@@ -179,7 +180,7 @@ export default function IOSelector(props) {
     }
 
     const createCatSelector = () => {
-        if (stage === 'loaded' || stage === 'labelSelect' || stage === 'labelComplete') {
+        if (props.stage === 'loaded' || props.stage === 'labelSelect' || props.stage === 'labelComplete') {
             let labelText
             if (category === 'Category') {
                 labelText = "Give this Output a name"
@@ -214,7 +215,7 @@ export default function IOSelector(props) {
 
     const createLabelSelector = () => {
 
-        if (stage === 'loaded') {
+        if (props.stage === 'loaded') {
             return selectedCells.map(c => {
                 return (
                     <div key={c.address} style={{display: 'flex', width: '100%'}}>
@@ -228,7 +229,7 @@ export default function IOSelector(props) {
                     </div>
                 )
             })
-        } else if (stage === 'labelSelect' || stage === 'labelComplete') {
+        } else if (props.stage === 'labelSelect' || props.stage === 'labelComplete') {
 
             return selectedCells.map((c, idx) => {
                 return (
@@ -269,19 +270,19 @@ export default function IOSelector(props) {
         let backButton
         let doneWithOutputs
 
-        if (stage === 'loaded') {
+        if (props.stage === 'loaded') {
             setOutputButton = (
-                <Button className={classes.setButton} size="small" onClick={() => setStage("labelSelect")}>
+                <Button className={classes.setButton} size="small" onClick={() => props.updateStage("labelSelect")}>
                     <h3 className={classes.buttonText}>OK</h3>
                 </Button>)
-        } else if (stage === 'labelSelect') {
+        } else if (props.stage === 'labelSelect') {
             if (labelCheck() === true) {
-                setStage("labelComplete")
+                props.updateStage("labelComplete")
             }
 
-        } else if (stage === 'labelComplete') {
+        } else if (props.stage === 'labelComplete') {
             if (labelCheck() === false) {
-                setStage("labelSelect")
+                props.updateStage("labelSelect")
             } else {
                 let setText = "OK"
                 if (loadMode) {
@@ -293,7 +294,7 @@ export default function IOSelector(props) {
                     </Button>)
             }
 
-        } else if (stage === 'summary') {
+        } else if (props.stage === 'summary') {
             doneWithOutputs = (
                 <Button className={classes.setButton} size="small" onClick={() => props.updateIOState("outputs")}>
                     <h3 className={classes.buttonText}>DONE WITH ALL OUTPUTS</h3>
@@ -337,7 +338,7 @@ export default function IOSelector(props) {
         }
 
         //If no outputs have been selected yet
-        if (stage === 'empty') {
+        if (props.stage === 'empty') {
 
             return (
                 <h3 className={classes.instruction}>
@@ -346,7 +347,7 @@ export default function IOSelector(props) {
                     All cells should have the same <em>units</em>. For example, all cells under a Net Profit cateogry must be in dollars.<br/><br/>
                 </h3>
             )
-        } else if (stage === 'loaded') {
+        } else if (props.stage === 'loaded') {
 
             return (
                 <h3 className={classes.instruction}>
@@ -354,7 +355,7 @@ export default function IOSelector(props) {
                 </h3>
             )
         }
-        else if (stage === 'labelSelect') {
+        else if (props.stage === 'labelSelect') {
 
             return (
                 <h3 className={classes.instruction}>
@@ -362,7 +363,7 @@ export default function IOSelector(props) {
                 </h3>
             )
             //If user has selected at least one input
-        } else if (stage === 'summary' && props.outputs.length < MAXCAT) {
+        } else if (props.stage === 'summary' && props.outputs.length < MAXCAT) {
 
             return (
                 <div style={{
@@ -452,7 +453,7 @@ export default function IOSelector(props) {
 
         }
 
-        setStage('loaded')
+        props.updateStage('loaded')
     }
 
     const addSelectedLabels = (labelCell, labelValue, sheetName) => {
@@ -580,7 +581,7 @@ export default function IOSelector(props) {
         setLabels({...newLabels})
         setFormats({...newFormats})
         setLoadMode(true)
-        setStage("loaded")
+        props.updateStage("loaded")
     }
 
 //Output Deletions
@@ -588,7 +589,7 @@ export default function IOSelector(props) {
         const newOutputs = props.outputs.filter(output => output.category !== category)
         props.updateOutputs([...newOutputs])
         if (newOutputs.length === 0) {
-            setStage("empty")
+            props.updateStage("empty")
         }
     }
 
@@ -599,13 +600,13 @@ export default function IOSelector(props) {
         const cellToRemove = selectedCells[indexToRemove]
         props.wb.Sheets[cellToRemove.sheet][cellToRemove.raw].s.fgColor = {rgb: cellToRemove.oldColor}
 
-        //If selected cells will be empty after this removal, setStage to empty
+        //If selected cells will be empty after this removal, props.updateStage to empty
         if (selectedCells.length === 1 && props.outputs.length === 0) {
-            setStage("empty")
+            props.updateStage("empty")
         }
 
         if (selectedCells.length === 1 && props.outputs.length > 0) {
-            setStage("summary")
+            props.updateStage("summary")
         }
 
         const newCells = selectedCells.filter(output => output.address !== address)
@@ -616,7 +617,7 @@ export default function IOSelector(props) {
         setLabels(rest)
 
         //Remove label from selectedLabels
-        if ((stage === 'labelSelect' || stage === 'labelComplete') && typeof (selectedLabels[indexToRemove]) !== 'undefined') {
+        if ((props.stage === 'labelSelect' || props.stage === 'labelComplete') && typeof (selectedLabels[indexToRemove]) !== 'undefined') {
             const labelToRemove = selectedLabels[indexToRemove]
             props.wb.Sheets[labelToRemove.sheet][labelToRemove.raw].s.fgColor = {rgb: labelToRemove.oldColor}
             const newSelectedLabels = selectedLabels.filter(label => selectedLabels.indexOf(label) !== indexToRemove)
@@ -659,7 +660,7 @@ export default function IOSelector(props) {
         if (props.currSheet === sheetName) {
             document.getElementById('sjs-' + raw.toString()).style.backgroundColor = "#FCCA46"
         }
-        window.scrollTo({left: 0, top: 0, behavior: 'smooth'})
+        // window.scrollTo({left: 0, top: 0, behavior: 'smooth'})
     }
 
 //Utils
@@ -670,7 +671,7 @@ export default function IOSelector(props) {
         setLabels({})
         setFormats({})
         setCategory("Category")
-        setStage("summary")
+        props.updateStage("summary")
         setLoadMode(false)
     }
 
@@ -728,7 +729,7 @@ export default function IOSelector(props) {
                 {buttons}
             </div>
             <Spreadsheet
-                stage={stage}
+                stage={props.stage}
                 worksheet={props.worksheet}
                 currSheet={props.currSheet}
                 sheets={props.sheets}
