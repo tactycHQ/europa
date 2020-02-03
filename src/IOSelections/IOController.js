@@ -9,21 +9,25 @@ export default function IOController(props) {
         setStage(update)
     }
 
-    useEffect(() => {
-        if (props.outputs.length > 0) {
-        setStage("summary")
+    const updateIO = (update) => {
+        setIO(update)
     }
 
-    },[props.outputs])
+    useEffect(() => {
+        if (props.outputs.length > 0) {
+            setStage("summary")
+        }
+
+    }, [props.outputs])
 
 
     if (IO === 'outputs') {
-
         return (
             <OutputSelector
                 {...props}
                 stage={stage}
                 updateStage={updateStage}
+                updateIO={updateIO}
             />
         )
     }
