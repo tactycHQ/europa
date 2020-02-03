@@ -1,23 +1,24 @@
 import React, {useState, useEffect} from 'react'
 import OutputSelector from "./OutputSelector";
 import InputSelector from "./InputSelector";
+import { Redirect } from "react-router-dom"
 
 export default function IOController(props) {
     const [IO, setIO] = useState("inputs")
     const [stage, setStage] = useState("empty")
+
 
     const updateStage = (update) => {
         setStage(update)
     }
 
     const updateIO = (update) => {
-        setIO(update)
-
-        if (update==='outputs' && props.outputs.length > 0) {
+        if (update === 'outputs' && props.outputs.length > 0) {
             setStage("summary")
         } else {
             setStage("empty")
         }
+        setIO(update)
     }
 
     useEffect(() => {
@@ -29,7 +30,7 @@ export default function IOController(props) {
 
     useEffect(() => {
         if (IO === 'calculate') {
-            props.updateMode("loaded")
+            props.updateMode("calculate")
         }
     }, [props, IO])
 
@@ -44,7 +45,7 @@ export default function IOController(props) {
                 updateIO={updateIO}
             />
         )
-    } else {
+    } else if (IO === 'inputs') {
         return (
             <InputSelector
                 {...props}
@@ -54,5 +55,7 @@ export default function IOController(props) {
                 updateIO={updateIO}
             />
         )
+    } else {
+        return (<Redirect to='/dashboard'/>)
     }
 }

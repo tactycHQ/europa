@@ -63,7 +63,7 @@ export default function Main(props) {
     //----------------Modes-------------------
     //1. New - a new dashboard is to be created. Dash id and filename have been provided
     //2. PendingIO - file has been loaded. Pending user I/O selection
-    //3  PendingCalc - I/O selection complete. Generate calcs. When complete auto-save and set mode to Loaded
+    //3  Calculate - I/O selection complete. Generate calcs. When complete auto-save and set mode to Loaded
     //4  Processed - This is an existing dashboard that needs loading. Pending API call to get solutions
     //5  Loaded - All data is complete. Entire dashboard can be generated
 
@@ -108,6 +108,16 @@ export default function Main(props) {
             setMode('pendingIO')
         }
 
+
+        const executeCalculateAPIcalls = async () => {
+            console.log("Calculate to come")
+        }
+
+        if (mode === 'calculate') {
+            //TODO
+            updateMode("loaded")
+        }
+
         if (mode === 'processed') {
             executeExistingAPIcalls(dashid)
         }
@@ -129,6 +139,7 @@ export default function Main(props) {
     }, [wb, currSheet])
 
 
+    console.log(mode)
     // useEffect(() => {
     //     sessionStorage.setItem('mode', JSON.stringify(JSON.stringify(mode)))
     //     sessionStorage.setItem('dashid', JSON.stringify(JSON.stringify(dashid)))
@@ -196,6 +207,7 @@ export default function Main(props) {
                 worksheet={worksheet}
                 updateInputs={updateInputs}
                 updateOutputs={updateOutputs}
+                updateMode={updateMode}
                 wb={wb}
             />
         } else if (mode === 'pendingIO') {

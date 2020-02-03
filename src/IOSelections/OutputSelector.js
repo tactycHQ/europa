@@ -9,7 +9,6 @@ import IconButton from "@material-ui/core/IconButton"
 import RemoveCircleSharpIcon from '@material-ui/icons/RemoveCircleSharp';
 import Button from "@material-ui/core/Button";
 import {hasDuplicates} from "../utils/utils";
-import {NavLink} from "react-router-dom";
 
 export default function OutputSelector(props) {
 
@@ -295,11 +294,9 @@ export default function OutputSelector(props) {
 
         } else if (props.stage === 'summary') {
             doneWithOutputs = (
-                <NavLink to="/dashboard" style={{textDecoration: 'none'}}>
-                    <Button className={classes.setButton} size="small" onClick={() => props.updateIO("calculate")}>
-                        <h3 className={classes.buttonText}>DONE WITH ALL OUTPUTS</h3>
-                    </Button>
-                </NavLink>
+                <Button className={classes.setButton} size="small" onClick={() => props.updateIO("calculate")}>
+                    <h3 className={classes.buttonText}>DONE WITH ALL OUTPUTS</h3>
+                </Button>
             )
         } else {
             setOutputButton = null
