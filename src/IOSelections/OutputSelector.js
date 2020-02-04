@@ -156,6 +156,7 @@ export default function OutputSelector(props) {
     const [errorOpen, setErrorOpen] = useState(false)
     const [error, setError] = useState('')
 
+
     //Element Creators
     const createIOPanel = () => {
 
@@ -617,6 +618,11 @@ export default function OutputSelector(props) {
         //Remove from labels
         const {[address]: tmp, ...rest} = labels
         setLabels(rest)
+
+        //Remove from formats
+        const {[address]: tmpF, ...restF} = formats
+        setFormats(restF)
+
 
         //Remove label from selectedLabels
         if ((props.stage === 'labelSelect' || props.stage === 'labelComplete') && typeof (selectedLabels[indexToRemove]) !== 'undefined') {

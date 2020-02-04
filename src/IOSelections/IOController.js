@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import OutputSelector from "./OutputSelector";
 import InputSelector from "./InputSelector";
-import { Redirect } from "react-router-dom"
+import {Redirect} from "react-router-dom"
 
 export default function IOController(props) {
     const [IO, setIO] = useState("inputs")
@@ -16,6 +16,8 @@ export default function IOController(props) {
         if (update === 'outputs' && props.outputs.length > 0) {
             setStage("summary")
         } else {
+            console.log(props.sheets[0])
+            props.handleSheetChange(props.sheets[0])
             setStage("empty")
         }
         setIO(update)
@@ -30,6 +32,35 @@ export default function IOController(props) {
 
     useEffect(() => {
         if (IO === 'calculate') {
+
+            //First create formats array
+            let inputFormats = props.inputs.reduce((acc, input) => {
+                    let ifmt = input.format
+                    acc = {...acc, [input.address]: ifmt}
+                    return acc
+                }
+                , {})
+            let outputFormats = props.outputs.reduce((acc, output) => {
+                    let fmt = output.formats
+                    acc = {...acc, ...fmt}
+                    return acc
+                }
+                , {})
+
+            props.updateFormats({...inputFormats, ...outputFormats})
+
+            //Next create default case
+            const defaultCase = props.inputs.reduce((acc, input) => {
+                acc[input.address] = input.value
+                return acc
+            }, {})
+
+            props.updateCases({
+                ...props.cases,
+                'Default': defaultCase
+            })
+
+            //Finally update global mode to calculate
             props.updateMode("calculate")
         }
     }, [props, IO])

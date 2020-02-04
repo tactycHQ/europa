@@ -9,12 +9,6 @@ import {Switch, Route} from 'react-router-dom'
 import {fixFormat} from "../utils/utils";
 
 
-function extractDefaults(values) {
-    if (Object.keys(values)[0] === 'Default') {
-        return values.Default
-    }
-}
-
 export default function Main(props) {
 
 
@@ -50,7 +44,7 @@ export default function Main(props) {
     const [currInputVal, setcurrInputVal] = useState(null)
     const [inputs, setInputs] = useState([])
     const [outputs, setOutputs] = useState([])
-    const [cases, setCases] = useState(null)
+    const [cases, setCases] = useState({})
     const [charts, setCharts] = useState(null)
     const [dashName, setDashName] = useState('')
     const [mode, setMode] = useState('')
@@ -75,6 +69,7 @@ export default function Main(props) {
             const _solutions = await getSolutions(dashid)
             const _formats = await getFormats(dashid)
             const wb = await loadFile()
+
             setwb(wb)
             setSheets(Object.keys(wb.Sheets))
             setCurrSheet(Object.keys(wb.Sheets)[0])
@@ -89,12 +84,7 @@ export default function Main(props) {
             setDashName(metadata.name)
             setCases(metadata.cases)
             setInputs(metadata.inputs)
-
-            let defaults = metadata.cases.map(i => {
-                return extractDefaults(i)
-            })
-
-            setcurrInputVal(defaults[0])
+            setcurrInputVal(metadata.cases['Default'])
             setOutputs(metadata.outputs)
             setCharts(metadata.charts)
             setMode('loaded')
@@ -139,7 +129,6 @@ export default function Main(props) {
     }, [wb, currSheet])
 
 
-    console.log(mode)
     // useEffect(() => {
     //     sessionStorage.setItem('mode', JSON.stringify(JSON.stringify(mode)))
     //     sessionStorage.setItem('dashid', JSON.stringify(JSON.stringify(dashid)))
@@ -168,10 +157,11 @@ export default function Main(props) {
     }
 
     const handleCaseChange = event => {
-        setcurrInputVal(cases[0][event.target.value])
+        setcurrInputVal(cases[event.target.value])
     }
 
     const handleSheetChange = (sheet) => {
+        window.scrollTo({left: 0, top: 0, behavior: 'smooth'})
         setCurrSheet(sheet)
     }
 
@@ -186,6 +176,15 @@ export default function Main(props) {
     const updateMode = (update) => {
         setMode(update)
     }
+
+    const updateFormats = (update) => {
+        setFormats(update)
+    }
+
+    const updateCases = (update) => {
+        setCases(update)
+    }
+
 
     const createContent = () => {
         if (mode === 'loaded') {
@@ -208,6 +207,8 @@ export default function Main(props) {
                 updateInputs={updateInputs}
                 updateOutputs={updateOutputs}
                 updateMode={updateMode}
+                updateFormats={updateFormats}
+                updateCases={updateCases}
                 wb={wb}
             />
         } else if (mode === 'pendingIO') {
@@ -221,15 +222,17 @@ export default function Main(props) {
                 wb={wb}
                 inputs={inputs}
                 outputs={outputs}
+                cases={cases}
                 handleSheetChange={handleSheetChange}
                 updateMode={updateMode}
+                updateFormats={updateFormats}
+                updateCases={updateCases}
             />
 
         } else {
             return <Spinner className={classes.spinner}/>
         }
     }
-
 
     const createHome = () => {
         return <Home

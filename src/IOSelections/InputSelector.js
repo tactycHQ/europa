@@ -557,7 +557,9 @@ export default function InputSelector(props) {
         const payload = {
             "address": address,
             "label": label,
-            "values": incr
+            "values": incr,
+            "value":value,
+            "format":format
         }
 
         let foundIndex = props.inputs.findIndex(input => input.address === payload.address)

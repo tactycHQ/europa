@@ -29,6 +29,18 @@ export default function Spreadsheet(props) {
         },
         sheet: {
             display: 'flex',
+            margin: '2px',
+            marginBottom: '0px',
+            padding: '8px',
+            paddingTop: '2px',
+            paddingBottom: '0px',
+            fontSize: '0.7em',
+            fontFamily: 'Questrial',
+            color: '#F4F9E9',
+            borderRadius: "5px 5px 0px 0px"
+        },
+        activeSheet: {
+            display: 'flex',
             background: '#4F545A',
             margin: '2px',
             marginBottom: '0px',
@@ -86,8 +98,13 @@ export default function Spreadsheet(props) {
 
     const createSheets = () => {
         return props.sheets.map(sheet => {
+            let bg = '#4F545A'
+            if (sheet === props.currSheet) {
+                bg = '#006E9F'
+            }
+
             return (
-                <Button key={sheet} className={classes.sheet} onClick={e => onSheetClick(e, sheet)}>{sheet}</Button>)
+                <Button key={sheet} className={classes.sheet} style={{backgroundColor:bg}} onClick={e => onSheetClick(e, sheet)}>{sheet}</Button>)
         })
     }
 

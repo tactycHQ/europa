@@ -30,7 +30,7 @@ export default function CaseSelector(props) {
     const classes = useStyles();
 
     const getCurrCase = () => {
-        return Object.entries(props.cases[0]).reduce((acc, caseInfo) => {
+        return Object.entries(props.cases).reduce((acc, caseInfo) => {
                 if (isEqual(caseInfo[1], props.currInputVal)) {
                     acc.currCase = caseInfo[0]
                 }
@@ -41,7 +41,7 @@ export default function CaseSelector(props) {
 
 
     const getAllCases = () => {
-        return Object.keys(props.cases[0]).map(_case => {
+        return Object.keys(props.cases).map(_case => {
             return <MenuItem key={_case} classes={{root: classes.caseItem}} value={_case}>{_case}</MenuItem>
         })
     }
