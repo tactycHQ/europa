@@ -2,7 +2,7 @@ import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import HomeSharpIcon from '@material-ui/icons/HomeSharp'
-import {NavLink} from "react-router-dom";
+import {Link} from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -46,10 +46,9 @@ export default function DenseAppBar(props) {
         <div className={classes.root}>
             <h3 className={classes.logo}>EPOCH ONE</h3>
             <div className={classes.modelname}><h5>{props.dashName}</h5></div>
-            <IconButton edge="start" aria-label="menu">
-                <NavLink to="/home" style={{textDecoration: 'none'}}>
+            <IconButton edge="start" aria-label="menu" component={ Link } to="/home" style={{textDecoration: 'none'}}>
                     <HomeSharpIcon className={classes.icon}/>
-                </NavLink>
+
             </IconButton>
         </div>
     );

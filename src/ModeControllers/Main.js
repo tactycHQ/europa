@@ -149,7 +149,6 @@ export default function Main(props) {
 
     }, [mode, dashid])
 
-
     // if currsheet is changed, gets the new sheet info from the wb object
     useEffect(() => {
         if (wb && currSheet) {
@@ -242,6 +241,7 @@ export default function Main(props) {
                 worksheet={worksheet}
                 sheets={sheets}
                 currSheet={currSheet}
+                formats={formats}
                 updateInputs={updateInputs}
                 updateOutputs={updateOutputs}
                 wb={wb}
@@ -270,7 +270,6 @@ export default function Main(props) {
     }
 
 // Executing functions
-
 
     const content = createContent()
     const home = createHome()

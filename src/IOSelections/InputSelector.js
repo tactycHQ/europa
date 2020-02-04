@@ -283,7 +283,8 @@ export default function InputSelector(props) {
                 return (
                     <>
                         <h3 className={classes.selectNote}>
-                            Maximum of 5 inputs have been defined. <br/><br/> Click on the inputs below to revisit or change
+                            Maximum of 5 inputs have been defined. <br/><br/> Click on the inputs below to revisit or
+                            change
                             assumptions
                             <br/>
                         </h3>
@@ -521,7 +522,6 @@ export default function InputSelector(props) {
         const oldColor = getOldColor(rawAdd, sheetName)
         const v = getValue(rawAdd, sheetName)
         const fmt = props.formats[address]
-        console.log(format)
         props.wb.Sheets[sheetName][rawAdd].s.fgColor = {rgb: "FCCA46"}
 
         const foundInput = props.inputs.find(input => input.address === (sheetName + '!' + rawAdd))
@@ -562,21 +562,37 @@ export default function InputSelector(props) {
         }
 
         let foundIndex = props.inputs.findIndex(input => input.address === payload.address)
+
         if (foundIndex === -1) {
             props.updateInputs([...props.inputs, payload])
+            props.updateFormats({...props.formats, [address]: format})
+            props.updateCases({...props.cases,'Default':{...props.cases.Default,[address]:value}})
+
         } else {
             let newInputs = [...props.inputs]
             newInputs[foundIndex] = payload
             props.updateInputs([...newInputs])
+            props.updateFormats({...props.formats, [address]: format})
+            props.updateCases({...props.cases,'Default':{...props.cases.Default,[address]:value}})
         }
         refreshWorksheetColor()
         setClickedCell({})
         props.updateStage("summary")
     }
 
+
     const deleteInputHandler = (address) => {
         const newInputs = props.inputs.filter(input => input.address !== address)
         props.updateInputs([...newInputs])
+
+        //Delete from formats
+        const {[address]: tmp, ...rest} = props.formats
+        props.updateFormats({...rest})
+
+        //Delete from values
+        const {[address]: curr, ...other} = props.cases.Default
+        props.updateCases({...props.cases,'Default':{...other}})
+
         setClickedCell({})
 
         if (newInputs.length === 0) {

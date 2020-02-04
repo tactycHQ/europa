@@ -33,20 +33,6 @@ export default function IOController(props) {
         if (IO === 'calculate') {
 
             //First create formats array
-            let inputFormats = props.inputs.reduce((acc, input) => {
-                    let ifmt = input.format
-                    acc = {...acc, [input.address]: ifmt}
-                    return acc
-                }
-                , {})
-            let outputFormats = props.outputs.reduce((acc, output) => {
-                    let fmt = output.formats
-                    acc = {...acc, ...fmt}
-                    return acc
-                }
-                , {})
-
-            props.updateFormats({...inputFormats, ...outputFormats})
 
             //Next create default case
             const defaultCase = props.inputs.reduce((acc, input) => {

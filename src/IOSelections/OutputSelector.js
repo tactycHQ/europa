@@ -553,7 +553,8 @@ export default function OutputSelector(props) {
         let newLabels = {}
         let newFormats = {}
 
-        //Have to do this to avoid setting state within loop. Ugh
+        //Have to do this to avoid setting state within loop. Ugh. We are creating a temp array of new selectedCells
+        //and labels and loading those at the end of the loop
         Object.entries(foundOutput.labels).forEach(entry => {
             const splits = entry[0].split("!")
             const sheetName = splits[0]
