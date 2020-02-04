@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
@@ -141,7 +141,7 @@ export default function InputSelector(props) {
         selectedInputs: {
             display: 'flex',
             flexDirection: 'column',
-            backgroundColor: '#BD467C',
+            backgroundColor: '#4595B9',
             padding: '2px',
             marginBottom: '2px',
             width: '90%',
@@ -240,7 +240,7 @@ export default function InputSelector(props) {
     const createInstructions = () => {
 
         let alreadySelected = null
-        if (props.inputs.length > 0) {
+        if (props.stage === 'summary') {
             alreadySelected = props.inputs.map(input => {
                 return (
                     <div className={classes.singleButtonContainer} key={input.address}>
@@ -252,17 +252,50 @@ export default function InputSelector(props) {
                             <h3 className={classes.selectedInputsText}>{input.label}</h3>
                         </Button>
                         <IconButton onClick={() => deleteInputHandler(input.address)} size="small">
-                            <RemoveCircleSharpIcon style={{color: '#BD467C'}} size="small"/>
+                            <RemoveCircleSharpIcon style={{color: '#4595B9'}} size="small"/>
                         </IconButton>
                     </div>
                 )
             })
+
+            if (props.inputs.length < MAXINPUTS) {
+                return (
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        marginBottom: '10px'
+                    }}>
+                        <h3 className={classes.selectNote}>
+                            Please select the next input from the spreadsheet. You can select up to 5 inputs <br/><br/>
+                        </h3>
+                        <h3 className={classes.selectNote} style={{
+                            fontSize: '0.9em',
+                            fontWeight: '800',
+                            color: '#A5014B',
+                            marginBottom: '1px'
+                        }}>Selected Inputs</h3>
+                        {alreadySelected}
+                    </div>
+                )
+            } else if (props.inputs.length === MAXINPUTS) {
+                return (
+                    <>
+                        <h3 className={classes.selectNote}>
+                            Maximum of 5 inputs have been defined. Click on the inputs below to go back and change
+                            assumptions, or to delete any of the inputs.
+                            <br/>
+                        </h3>
+                        {alreadySelected}
+                    </>
+                )
+            }
         }
 
 
-
         //If no inputs have been selected yet
-        if (props.stage === 'empty') {
+        else if (props.stage === 'empty') {
             return (
                 <h3 className={classes.selectNote}>
                     Select an input cell in the spreadsheet. <br/><br/>
@@ -280,44 +313,6 @@ export default function InputSelector(props) {
 
                     Click <em>Done with Inputs</em> to start selecting outputs.
                 </h3>
-            )
-
-            //If user has selected at least one input
-        } else if (props.stage === 'summary' && props.inputs.length < MAXINPUTS) {
-
-            return (
-                <div style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginBottom: '10px'
-                }}>
-                    <h3 className={classes.selectNote}>
-                        Please select the next input from the spreadsheet. You can select up to 5 inputs <br/><br/>
-                    </h3>
-                    <h3 className={classes.selectNote} style={{
-                        fontSize: '0.9em',
-                        fontWeight: '800',
-                        color: '#A5014B',
-                        marginBottom: '1px'
-                    }}>Selected Inputs</h3>
-                    {alreadySelected}
-                </div>
-
-            )
-
-            //All 5 inputs have been selected
-        } else if (props.inputs.length === MAXINPUTS) {
-            return (
-                <>
-                    <h3 className={classes.selectNote}>
-                        Maximum of 5 inputs have been defined. Click on the inputs below to go back and change
-                        assumptions, or to delete any of the inputs.
-                        <br/>
-                    </h3>
-                    {alreadySelected}
-                </>
             )
         }
     }
@@ -405,7 +400,7 @@ export default function InputSelector(props) {
                         className={classes.rootTextContainer}
                         key={v + idx.toString()}
                         disabled
-                        label={"Model: " + convert_format(format, v)}
+                        label={"Current Model: " + convert_format(format, v)}
                         value={v}
                         size="small"
                         InputLabelProps={{
@@ -474,6 +469,7 @@ export default function InputSelector(props) {
     //
     const addClickedCell = (newCell, sheetName) => {
 
+
         let oldColor
         let v
         let format
@@ -524,7 +520,8 @@ export default function InputSelector(props) {
         const rawAdd = splits[1]
         const oldColor = getOldColor(rawAdd, sheetName)
         const v = getValue(rawAdd, sheetName)
-        const format = getFormat(rawAdd, sheetName)
+        const fmt = props.formats[address]
+        console.log(format)
         props.wb.Sheets[sheetName][rawAdd].s.fgColor = {rgb: "FCCA46"}
 
         const foundInput = props.inputs.find(input => input.address === (sheetName + '!' + rawAdd))
@@ -535,13 +532,15 @@ export default function InputSelector(props) {
             raw: rawAdd,
             oldColor: oldColor,
             value: v,
-            format: format
+            format: fmt
         })
         setAddress(foundInput.address)
+        setLabel(foundInput.label)
+        setvalue(v)
         setBounds([Math.min(...foundInput.values), Math.max(...foundInput.values)])
         setIncr([...foundInput.values])
         setNumSteps(foundInput.values.length)
-        setFormat(foundInput.format)
+        setFormat(fmt)
         setErrorOpen(false)
         props.updateStage('loaded')
     }
@@ -558,8 +557,8 @@ export default function InputSelector(props) {
             "address": address,
             "label": label,
             "values": incr,
-            "value":value,
-            "format":format
+            "value": value,
+            "format": format
         }
 
         let foundIndex = props.inputs.findIndex(input => input.address === payload.address)
@@ -572,7 +571,6 @@ export default function InputSelector(props) {
         }
         refreshWorksheetColor()
         setClickedCell({})
-        setEnableClick(true)
         props.updateStage("summary")
     }
 
@@ -581,7 +579,7 @@ export default function InputSelector(props) {
         props.updateInputs([...newInputs])
         setClickedCell({})
 
-        if (newInputs.length ===0) {
+        if (newInputs.length === 0) {
             props.updateStage("empty")
         }
     }
@@ -693,6 +691,7 @@ export default function InputSelector(props) {
             <Spreadsheet
                 stage={props.stage}
                 IO={props.IO}
+                inputs={props.inputs}
                 worksheet={props.worksheet}
                 currSheet={props.currSheet}
                 sheets={props.sheets}

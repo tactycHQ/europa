@@ -45,6 +45,8 @@ export default function Content(props) {
 
 
     const generateContent = () => {
+
+        //MODE is LOADED
         if (props.mode === 'loaded') {
             return (
                 <div className={classes.content}>
@@ -97,9 +99,10 @@ export default function Content(props) {
                     </Switch>
                 </div>
             )
+
+        //MODE is PENDINGIO
         } else {
-            const ioEl = generateIOSelector()
-            return ioEl
+            return generateIOSelector()
         }
     }
 

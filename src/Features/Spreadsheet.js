@@ -67,6 +67,9 @@ export default function Spreadsheet(props) {
     }))
     const classes = useStyles()
     const sheetEl = useRef(null)
+
+    const MAXINPUTS = 5
+
     useEffect(() => {
         sheetEl.current.innerHTML = utils.sheet_to_html(props.worksheet)
     }, [props.worksheet, props.selectedCells, props.clickedCells, props.selectedLabels])
@@ -80,7 +83,9 @@ export default function Spreadsheet(props) {
             let newCell = e.target.id.replace("sjs-", "")
 
             if (props.IO === 'inputs' && props.worksheet.hasOwnProperty(newCell)) {
-                props.addClickedCell(newCell, props.currSheet)
+                if (props.inputs.length < MAXINPUTS) {
+                    props.addClickedCell(newCell, props.currSheet)
+                }
 
             } else if (props.IO === 'outputs' && props.worksheet.hasOwnProperty(newCell)) {
                 if (props.stage === 'labelSelect' || props.stage === 'labelComplete') {

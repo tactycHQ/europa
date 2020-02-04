@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
         color: '#292F36',
         fontFamily: 'Questrial',
         textTransform: 'uppercase',
-        marginRight:'9%'
+        marginRight:'6%'
     },
     icon: {
         display: 'flex',

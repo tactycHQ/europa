@@ -38,9 +38,11 @@ export default function Main(props) {
             display: 'flex'
         },
         snackbar: {
-            backgroundColor: '#006E9F',
+            backgroundColor: '#F8FBF1',
+            color:'#006E9F',
             fontSize: '0.9em',
-            fontFamily: 'Questrial'
+            fontFamily: 'Questrial',
+            justifyContent: 'center'
         }
     }));
     const classes = useStyles()
@@ -61,9 +63,11 @@ export default function Main(props) {
     const [currSheet, setCurrSheet] = useState(null)
 
     const [open, setOpen] = useState(false)
+    const [msg, setMsg] = useState('')
 
     const handleClose = () => {
         setOpen(false);
+        setMsg('')
     }
 
 
@@ -128,6 +132,7 @@ export default function Main(props) {
         if (mode === 'new') {
             setSolutions(null)
             setDistributions(null)
+            setDashName('')
             setFormats(null)
             setcurrInputVal(null)
             setInputs([])
@@ -170,6 +175,7 @@ export default function Main(props) {
 
     const handleSheetChange = (sheet) => {
         window.scrollTo({left: 0, top: 0, behavior: 'smooth'})
+        setMsg('Sheet changed to ' + sheet)
         setOpen(true)
         setCurrSheet(sheet)
     }
@@ -194,9 +200,16 @@ export default function Main(props) {
         setCases(update)
     }
 
+    const updateMsg = (update) => {
+        setMsg(update)
+    }
+
+    const updateOpen = (update) => {
+        setOpen(update)
+    }
+
 
     const createContent = () => {
-        console.log(mode)
         if (mode === 'loaded') {
             return <Content
                 mode={mode}
@@ -219,6 +232,8 @@ export default function Main(props) {
                 updateMode={updateMode}
                 updateFormats={updateFormats}
                 updateCases={updateCases}
+                updateMsg={updateMsg}
+                updateOpen={updateOpen}
                 wb={wb}
             />
         } else if (mode === 'pendingIO') {
@@ -249,10 +264,14 @@ export default function Main(props) {
             updateMode={updateMode}
             setDashid={setDashid}
             setDashName={setDashName}
+            updateMsg={updateMsg}
+            updateOpen={updateOpen}
         />
     }
 
 // Executing functions
+
+
     const content = createContent()
     const home = createHome()
 
@@ -283,7 +302,7 @@ export default function Main(props) {
                 }}
                 open={open}
                 onClose={handleClose}
-                message="Sheet changed"
+                message={msg}
                 autoHideDuration={1500}
                 TransitionComponent={Slide}
             />

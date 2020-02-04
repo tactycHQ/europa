@@ -16,7 +16,6 @@ export default function IOController(props) {
         if (update === 'outputs' && props.outputs.length > 0) {
             setStage("summary")
         } else {
-            console.log(props.sheets[0])
             props.handleSheetChange(props.sheets[0])
             setStage("empty")
         }

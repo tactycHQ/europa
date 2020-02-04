@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
         marginTop: '25vh'
     },
     circle:{
-        color:'#006E9F'
+        color:'#89023E'
     }
 }));
 

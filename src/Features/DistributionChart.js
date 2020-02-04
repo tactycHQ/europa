@@ -133,7 +133,7 @@ export default function Distribution(props) {
     const processCases = () => {
 
         const probKey = props.currSolution[outAdd].toFixed(3)
-        return Object.entries(props.cases[0]).reduce((acc, caseData) => {
+        return Object.entries(props.cases).reduce((acc, caseData) => {
             const caseName = caseData[0]
             const inputCombo = caseData[1]
             const caseOutVal = props.findSolution(inputCombo)[outAdd].toFixed(3)

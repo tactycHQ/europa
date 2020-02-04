@@ -565,7 +565,6 @@ export default function SummaryChart(props) {
         return (
             <div className={classes.summaryChartContainer}>
                 {summaryCharts}
-                {/*{miniCharts}*/}
                 {iiSummary}
             </div>
         )

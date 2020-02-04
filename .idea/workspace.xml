@@ -3,7 +3,18 @@
   <component name="ChangeListManager">
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Content/Dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/Dashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Features/DistributionChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Features/DistributionChart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Features/Spreadsheet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Features/Spreadsheet.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Features/SummaryChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Features/SummaryChart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IOSelections/IOController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/IOSelections/IOController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IOSelections/InputSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/IOSelections/InputSelector.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IOSelections/OutputSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/IOSelections/OutputSelector.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ModeControllers/Content.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Content.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ModeControllers/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Home.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ModeControllers/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ModeControllers/TopBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/TopBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/UtilityComponents/Spinner.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/UtilityComponents/Spinner.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -157,13 +168,6 @@
       <workItem from="1579884248250" duration="11431000" />
       <workItem from="1580144125934" duration="32973000" />
       <workItem from="1580749995012" duration="28590000" />
-    </task>
-    <task id="LOCAL-00182" summary="First commit">
-      <created>1580254111848</created>
-      <option name="number" value="00182" />
-      <option name="presentableId" value="LOCAL-00182" />
-      <option name="project" value="LOCAL" />
-      <updated>1580254111848</updated>
     </task>
     <task id="LOCAL-00183" summary="First commit">
       <created>1580254310190</created>
@@ -501,7 +505,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580776536065</updated>
     </task>
-    <option name="localTasksCounter" value="231" />
+    <task id="LOCAL-00231" summary="First commit">
+      <created>1580781122876</created>
+      <option name="number" value="00231" />
+      <option name="presentableId" value="LOCAL-00231" />
+      <option name="project" value="LOCAL" />
+      <updated>1580781122876</updated>
+    </task>
+    <option name="localTasksCounter" value="232" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

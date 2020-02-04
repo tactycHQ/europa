@@ -7,6 +7,7 @@ import InputImportance from "../Features/InputImportance";
 import ScenarioAnalysis from "../Features/ScenarioAnalysis";
 import {getAvg, convert_format, getAvgfromKey, getDomains, getSumfromKey} from "../utils/utils";
 import isEqual from "lodash.isequal";
+import Home from "../ModeControllers/Home";
 
 
 export default function Dashboard(props) {
@@ -83,7 +84,6 @@ export default function Dashboard(props) {
         setCurrCategory(event.target.value)
         setCurrOutputCell('')
     }
-
 
     const handleSummaryTickMouseClick = (event, category) => {
         setCurrCategory(category)
@@ -196,7 +196,6 @@ export default function Dashboard(props) {
 
     //Summary chart creator
     const createSummaryCharts = (summaryChartData, outAdd, outCat, out_fmt, inputLabelMap, distSummaryData, iiSummaryData) => {
-
         return (
             <SummaryChart
                 summaryData={summaryChartData}
@@ -210,6 +209,8 @@ export default function Dashboard(props) {
                 setSummaryPrefs={setSummaryPrefs}
                 handleSummaryBarMouseClick={handleSummaryBarMouseClick}
                 handleSummaryTickMouseClick={handleSummaryTickMouseClick}
+                updateMsg={props.updateMsg}
+                updateOpen={props.updateOpen}
             />
         )
     }

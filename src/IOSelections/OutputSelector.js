@@ -284,9 +284,6 @@ export default function OutputSelector(props) {
                 props.updateStage("labelSelect")
             } else {
                 let setText = "OK"
-                if (loadMode) {
-                    setText = "UPDATE"
-                }
                 setOutputButton = (
                     <Button className={classes.setButton} size="small" onClick={() => setOutputHandler()}>
                         <h3 className={classes.buttonText}>{setText}</h3>
@@ -376,7 +373,7 @@ export default function OutputSelector(props) {
                     marginBottom: '10px'
                 }}>
                     <h3 className={classes.instruction}>
-                        Great! If you would like to define another output, select a new set of cells for the next
+                        Outputs already selected are shown below. Click on the spreadsheet to select a new set of cells for the next
                         desired output category.<br/><br/>
                     </h3>
                     <h3 className={classes.instruction} style={{
