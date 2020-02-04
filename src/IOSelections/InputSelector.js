@@ -534,6 +534,7 @@ export default function InputSelector(props) {
             value: v,
             format: fmt
         })
+
         setAddress(foundInput.address)
         setLabel(foundInput.label)
         setvalue(v)

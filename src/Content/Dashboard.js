@@ -519,7 +519,6 @@ export default function Dashboard(props) {
 
 
     //Function executions
-
     const currSolution = findSolution(props.currInputVal)
     const inputLabelMap = generateInputLabelMap()
     const final_charts = createCharts()

@@ -99,7 +99,7 @@ export const getVarianceAnalysis = async () => {
     return result
 }
 
-export const loadFile = async () => {
+export const loadFile = async (dash_id) => {
 
     console.log("Loading excel file")
     const api_url = "http://localhost:5000/downloadFile"
@@ -110,7 +110,7 @@ export const loadFile = async () => {
         },
         method: "POST",
         body: JSON.stringify({
-            filename: "lpi.xlsx"
+            dash_id: dash_id
         })
     }
 

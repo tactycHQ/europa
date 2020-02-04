@@ -39,13 +39,15 @@ export default function Main(props) {
         },
         snackbar: {
             backgroundColor: '#A5014B',
-            color:'#FEFEFD',
+            color: '#FEFEFD',
             fontSize: '1.1em',
             fontFamily: 'Questrial',
             justifyContent: 'center'
         }
     }));
     const classes = useStyles()
+
+    const [mode, setMode] = useState('')
     const [dashid, setDashid] = useState(null)
     const [solutions, setSolutions] = useState(null)
     const [distributions, setDistributions] = useState(null)
@@ -56,12 +58,10 @@ export default function Main(props) {
     const [cases, setCases] = useState({})
     const [charts, setCharts] = useState(null)
     const [dashName, setDashName] = useState('')
-    const [mode, setMode] = useState('')
     const [wb, setwb] = useState(null)
     const [sheets, setSheets] = useState([])
     const [worksheet, setWorksheet] = useState(null)
     const [currSheet, setCurrSheet] = useState(null)
-
     const [open, setOpen] = useState(false)
     const [msg, setMsg] = useState('')
 
@@ -70,7 +70,6 @@ export default function Main(props) {
         setMsg('')
     }
 
-
     //----------------Modes-------------------
     //1. New - a new dashboard is to be created. Dash id and filename have been provided
     //2. PendingIO - file has been loaded. Pending user I/O selection
@@ -78,26 +77,21 @@ export default function Main(props) {
     //4  Processed - This is an existing dashboard that needs loading. Pending API call to get solutions
     //5  Loaded - All data is complete. Entire dashboard can be generated
 
-
     // At initial load, checks to see which API call to make
     useEffect(() => {
-        const executeExistingAPIcalls = async (dashid) => {
+
+        const executeExistingAPIcalls = async () => {
+
             const metadata = await getMetaData(dashid)
             const _solutions = await getSolutions(dashid)
-            const _formats = await getFormats(dashid)
-            const wb = await loadFile()
+            const _wb = await loadFile(dashid)
 
-            setwb(wb)
-            setSheets(Object.keys(wb.Sheets))
-            setCurrSheet(Object.keys(wb.Sheets)[0])
+            setwb(_wb)
+            setSheets(Object.keys(_wb.Sheets))
+            setCurrSheet(Object.keys(_wb.Sheets)[0])
             setSolutions(_solutions.solutions)
             setDistributions(_solutions.distributions)
-
-            for (const _add in _formats) {
-                _formats[_add] = _formats[_add].replace(/\\/g, "")
-            }
-
-            setFormats(_formats)
+            setFormats(metadata.formats)
             setDashName(metadata.name)
             setCases(metadata.cases)
             setInputs(metadata.inputs)
@@ -108,10 +102,10 @@ export default function Main(props) {
         }
 
         const executeNewAPIcalls = async () => {
-            const wb = await loadFile()
-            setwb(wb)
-            setSheets(Object.keys(wb.Sheets))
-            setCurrSheet(Object.keys(wb.Sheets)[0])
+            const _wb = await loadFile(dashid)
+            setwb(_wb)
+            setSheets(Object.keys(_wb.Sheets))
+            setCurrSheet(Object.keys(_wb.Sheets)[0])
             setMode('pendingIO')
         }
 
@@ -159,6 +153,24 @@ export default function Main(props) {
 
     }, [wb, currSheet])
 
+    const clearState = () => {
+        setDashid(null)
+        setSolutions(null)
+        setDistributions(null)
+        setDashName('')
+        setFormats(null)
+        setcurrInputVal(null)
+        setInputs([])
+        setOutputs([])
+        setCases({})
+        setCharts(null)
+        setwb(null)
+        setSheets([])
+        setWorksheet(null)
+        setCurrSheet(null)
+        setOpen(false)
+        setMsg('')
+    }
 
     // Defining functions
     const handleSliderChange = (event, newValue, setAddress) => {
@@ -206,7 +218,6 @@ export default function Main(props) {
     const updateOpen = (update) => {
         setOpen(update)
     }
-
 
     const createContent = () => {
         if (mode === 'loaded') {
@@ -266,6 +277,7 @@ export default function Main(props) {
             setDashName={setDashName}
             updateMsg={updateMsg}
             updateOpen={updateOpen}
+            clearState={clearState}
         />
     }
 

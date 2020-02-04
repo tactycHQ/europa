@@ -70,12 +70,14 @@ export default function Home(props) {
     const classes = useStyles()
 
     const newDash = () => {
-        props.setDashid(20)
+        props.clearState()
+        props.setDashid(11)
         props.updateMode('new')
-        props.setDashName('')
+        props.setDashName('LPI DASH')
     }
 
     const openDash = (dash_id) => {
+        props.clearState()
         props.setDashid(dash_id)
         props.updateMode('processed')
         props.setDashName('')

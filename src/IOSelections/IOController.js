@@ -31,21 +31,6 @@ export default function IOController(props) {
 
     useEffect(() => {
         if (IO === 'calculate') {
-
-            //First create formats array
-
-            //Next create default case
-            const defaultCase = props.inputs.reduce((acc, input) => {
-                acc[input.address] = input.value
-                return acc
-            }, {})
-
-            props.updateCases({
-                ...props.cases,
-                'Default': defaultCase
-            })
-
-            //Finally update global mode to calculate
             props.updateMode("calculate")
         }
     }, [props, IO])
