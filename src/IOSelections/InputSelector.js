@@ -283,8 +283,8 @@ export default function InputSelector(props) {
                 return (
                     <>
                         <h3 className={classes.selectNote}>
-                            Maximum of 5 inputs have been defined. Click on the inputs below to go back and change
-                            assumptions, or to delete any of the inputs.
+                            Maximum of 5 inputs have been defined. <br/><br/> Click on the inputs below to revisit or change
+                            assumptions
                             <br/>
                         </h3>
                         {alreadySelected}

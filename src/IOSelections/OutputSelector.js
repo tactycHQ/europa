@@ -107,7 +107,10 @@ export default function OutputSelector(props) {
             backgroundColor: '#004666',
             padding: '2px',
             margin: '2px',
-            borderRadius: '3px'
+            borderRadius: '3px',
+            "&:hover": {
+                backgroundColor: "#A5014B",
+            }
         },
         labelField: {
             fontSize: '1.1em',

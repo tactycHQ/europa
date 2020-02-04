@@ -38,9 +38,9 @@ export default function Main(props) {
             display: 'flex'
         },
         snackbar: {
-            backgroundColor: '#F8FBF1',
-            color:'#006E9F',
-            fontSize: '0.9em',
+            backgroundColor: '#A5014B',
+            color:'#FEFEFD',
+            fontSize: '1.1em',
             fontFamily: 'Questrial',
             justifyContent: 'center'
         }
@@ -303,7 +303,7 @@ export default function Main(props) {
                 open={open}
                 onClose={handleClose}
                 message={msg}
-                autoHideDuration={1500}
+                autoHideDuration={1750}
                 TransitionComponent={Slide}
             />
         </div>
