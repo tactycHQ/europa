@@ -296,7 +296,7 @@ export default function OutputSelector(props) {
         } else if (props.stage === 'summary') {
             doneWithOutputs = (
                 <Button className={classes.setButton} size="small" onClick={() => props.updateIO("calculate")}>
-                    <h3 className={classes.buttonText}>DONE WITH ALL OUTPUTS</h3>
+                    <h3 className={classes.buttonText}>CREATE DASHBOARD</h3>
                 </Button>
             )
         } else {

@@ -48,14 +48,14 @@ export default function Home(props) {
 
     const newDash = () => {
         props.setDashid(20)
-        props.setMode('new')
+        props.updateMode('new')
         props.setDashName('')
 
     }
 
     const openDash = (dash_id) => {
         props.setDashid(dash_id)
-        props.setMode('processed')
+        props.updateMode('processed')
         props.setDashName('')
     }
 

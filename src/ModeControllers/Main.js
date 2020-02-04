@@ -6,7 +6,9 @@ import TopBar from "./TopBar"
 import Spinner from "../UtilityComponents/Spinner"
 import {getSolutions, getMetaData, getFormats, loadFile} from "./api"
 import {Switch, Route} from 'react-router-dom'
-import {fixFormat} from "../utils/utils";
+import {fixFormat} from "../utils/utils"
+import Snackbar from '@material-ui/core/Snackbar'
+import Slide from '@material-ui/core/Slide'
 
 
 export default function Main(props) {
@@ -34,6 +36,11 @@ export default function Main(props) {
         },
         spinner: {
             display: 'flex'
+        },
+        snackbar: {
+            backgroundColor: '#006E9F',
+            fontSize: '0.9em',
+            fontFamily: 'Questrial'
         }
     }));
     const classes = useStyles()
@@ -50,8 +57,14 @@ export default function Main(props) {
     const [mode, setMode] = useState('')
     const [wb, setwb] = useState(null)
     const [sheets, setSheets] = useState([])
-    const [worksheet, setWorksheet] = useState(false)
+    const [worksheet, setWorksheet] = useState(null)
     const [currSheet, setCurrSheet] = useState(null)
+
+    const [open, setOpen] = useState(false)
+
+    const handleClose = () => {
+        setOpen(false);
+    }
 
 
     //----------------Modes-------------------
@@ -113,6 +126,19 @@ export default function Main(props) {
         }
 
         if (mode === 'new') {
+            setSolutions(null)
+            setDistributions(null)
+            setFormats(null)
+            setcurrInputVal(null)
+            setInputs([])
+            setOutputs([])
+            setCases({})
+            setCharts(null)
+            setwb(null)
+            setSheets([])
+            setWorksheet(null)
+            setCurrSheet(null)
+            setOpen(false)
             executeNewAPIcalls()
         }
 
@@ -162,6 +188,7 @@ export default function Main(props) {
 
     const handleSheetChange = (sheet) => {
         window.scrollTo({left: 0, top: 0, behavior: 'smooth'})
+        setOpen(true)
         setCurrSheet(sheet)
     }
 
@@ -236,12 +263,13 @@ export default function Main(props) {
 
     const createHome = () => {
         return <Home
-            setMode={setMode}
+            updateMode={updateMode}
             setDashid={setDashid}
             setDashName={setDashName}
         />
     }
 
+    console.log(mode)
 
 // Executing functions
     const content = createContent()
@@ -266,6 +294,18 @@ export default function Main(props) {
                     </div>
                 </Route>
             </Switch>
+            <Snackbar
+                ContentProps={{
+                    classes: {
+                        root: classes.snackbar
+                    }
+                }}
+                open={open}
+                onClose={handleClose}
+                message="Sheet changed"
+                autoHideDuration={1500}
+                TransitionComponent={Slide}
+            />
         </div>
     );
 }

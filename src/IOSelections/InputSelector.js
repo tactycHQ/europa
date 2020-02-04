@@ -225,7 +225,7 @@ export default function InputSelector(props) {
         if (props.stage === "summary") {
             doneWithInputs = (
                 <Button className={classes.selectButton} size="small" onClick={() => props.updateIO("outputs")}>
-                    <h3 className={classes.buttonText}>DONE WITH ALL INPUTS</h3>
+                    <h3 className={classes.buttonText}>GO TO OUTPUTS</h3>
                 </Button>)
         }
 
