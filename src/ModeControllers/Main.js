@@ -75,7 +75,7 @@ export default function Main(props) {
     //5  Loaded - All data is complete. Entire dashboard can be generated
 
 
-    // At initial load
+    // At initial load, checks to see which API call to make
     useEffect(() => {
         const executeExistingAPIcalls = async (dashid) => {
             const metadata = await getMetaData(dashid)
@@ -111,14 +111,14 @@ export default function Main(props) {
             setMode('pendingIO')
         }
 
-
         const executeCalculateAPIcalls = async () => {
+            updateMode("loaded")
             console.log("Calculate to come")
         }
 
         if (mode === 'calculate') {
             //TODO
-            updateMode("loaded")
+            executeCalculateAPIcalls()
         }
 
         if (mode === 'processed') {
@@ -143,8 +143,9 @@ export default function Main(props) {
         }
 
     }, [mode, dashid])
-    //
 
+
+    // if currsheet is changed, gets the new sheet info from the wb object
     useEffect(() => {
         if (wb && currSheet) {
             const currws = wb.Sheets[currSheet]
@@ -153,25 +154,6 @@ export default function Main(props) {
         }
 
     }, [wb, currSheet])
-
-
-    // useEffect(() => {
-    //     sessionStorage.setItem('mode', JSON.stringify(JSON.stringify(mode)))
-    //     sessionStorage.setItem('dashid', JSON.stringify(JSON.stringify(dashid)))
-    //     sessionStorage.setItem('dashname', JSON.stringify(JSON.stringify(dashName)))
-    //     sessionStorage.setItem('solutions', JSON.stringify(JSON.stringify(solutions)))
-    //     sessionStorage.setItem('currInputVal', JSON.stringify(JSON.stringify(currInputVal)))
-    //     sessionStorage.setItem('distributions', JSON.stringify(JSON.stringify(distributions)))
-    //     sessionStorage.setItem('formats', JSON.stringify(JSON.stringify(formats)))
-    //     sessionStorage.setItem('inputs', JSON.stringify(JSON.stringify(inputs)))
-    //     sessionStorage.setItem('outputs', JSON.stringify(JSON.stringify(outputs)))
-    //     sessionStorage.setItem('charts', JSON.stringify(JSON.stringify(charts)))
-    //     sessionStorage.setItem('cases', JSON.stringify(JSON.stringify(cases)))
-    //     console.log("Local Storage Saved")
-    //     console.log(dashName)
-    //     console.log(sessionStorage.getItem("dashName"))
-    //     // console.log(JSON.parse(sessionStorage.getItem("dashName")) || 'nothing')
-    // }, [mode, dashid, dashName, solutions, currInputVal, distributions, formats, inputs, charts, cases, outputs])
 
 
     // Defining functions
@@ -214,6 +196,7 @@ export default function Main(props) {
 
 
     const createContent = () => {
+        console.log(mode)
         if (mode === 'loaded') {
             return <Content
                 mode={mode}
@@ -268,8 +251,6 @@ export default function Main(props) {
             setDashName={setDashName}
         />
     }
-
-    console.log(mode)
 
 // Executing functions
     const content = createContent()
