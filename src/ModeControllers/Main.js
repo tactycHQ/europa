@@ -64,7 +64,6 @@ export default function Main(props) {
     const [currSheet, setCurrSheet] = useState(null)
     const [open, setOpen] = useState(false)
     const [msg, setMsg] = useState('')
-    const [wait, setWait] = useState(false)
 
     const handleClose = () => {
         setOpen(false);
@@ -109,6 +108,17 @@ export default function Main(props) {
             setMode('pendingIO')
         }
 
+        if (mode === 'processed') {
+            executeExistingAPIcalls()
+        }
+
+        if (mode === 'new') {
+            executeNewAPIcalls()
+        }
+
+    }, [mode, dashid])
+
+    useEffect(() => {
         const executeCalculateAPIcalls = async () => {
             const outputAdds = outputs.reduce((acc, output) => {
                 acc.push(...Object.keys(output.labels))
@@ -120,21 +130,16 @@ export default function Main(props) {
             setDistributions(_solutions.distributions)
             setcurrInputVal(cases['Default'])
             setMode("loaded")
+            saveDashboard(dashid, dashName, inputs, outputs, cases, formats)
+            setMsg("Dashboard saved")
+            setOpen(true)
         }
 
         if (mode === 'calculate') {
             executeCalculateAPIcalls()
         }
 
-        if (mode === 'processed') {
-            executeExistingAPIcalls()
-        }
-
-        if (mode === 'new') {
-            executeNewAPIcalls()
-        }
-
-    }, [mode, dashid])
+    }, [mode, dashid, inputs, outputs, cases,formats,dashName])
 
 
     // if currsheet is changed, gets the new sheet info from the wb object
@@ -215,6 +220,8 @@ export default function Main(props) {
 
     const saveDash = () => {
         saveDashboard(dashid, dashName, inputs, outputs, cases, formats)
+        setMsg("Dashboard saved")
+        setOpen(true)
     }
 
 
