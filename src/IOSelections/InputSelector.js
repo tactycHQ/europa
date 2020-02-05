@@ -678,18 +678,6 @@ export default function InputSelector(props) {
         }
     }
 
-    const resetState = () => {
-        setAddress('')
-        setvalue(null)
-        setLabel('')
-        setNumSteps([])
-        setBounds([])
-        setIncr([])
-        setFormat('General')
-        setError(null)
-        setErrorOpen(false)
-    }
-
 
 //Function Executions
     let instructions = createInstructions()

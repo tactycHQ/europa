@@ -1,6 +1,6 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import Output from "../Content/Dashboard"
+import Dashboard from "../Content/Dashboard"
 import Input from "../Content/InputsController";
 import {Switch, Route} from 'react-router-dom'
 import SideBar from "../Content/SideBar";
@@ -53,7 +53,7 @@ export default function Content(props) {
                     <SideBar className={classes.sidebar} saveDash={props.saveDash} outputs={props.outputs}/>
                     <Switch>
                         <Route exact path={"/dashboard"}>
-                            <Output
+                            <Dashboard
                                 type="summary"
                                 {...props}
                             />
@@ -62,7 +62,7 @@ export default function Content(props) {
                             />
                         </Route>
                         <Route exact path="/distributions">
-                            <Output
+                            <Dashboard
                                 type="distributions"
                                 {...props}
                             />
@@ -71,13 +71,13 @@ export default function Content(props) {
                             />
                         </Route>
                         <Route exact path="/inputimportance">
-                            <Output
+                            <Dashboard
                                 type="inputimportance"
                                 {...props}
                             />
                         </Route>
                         <Route exact path="/sensitivity">
-                            <Output
+                            <Dashboard
                                 type="sensitivity"
                                 {...props}
                             />
@@ -86,7 +86,7 @@ export default function Content(props) {
                             />
                         </Route>
                         <Route exact path="/scenario">
-                            <Output
+                            <Dashboard
                                 type="scenarioanalysis"
                                 {...props}
                             />

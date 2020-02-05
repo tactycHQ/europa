@@ -78,20 +78,6 @@ export function InputDropdown(props) {
     })
 
 
-
-    //Generate list of labelitems for drop down
-    // const menuLabelItems = outputLabels.map(combo => {
-    //     const outAdd = combo[0]
-    //     const outLabel = combo[1]
-    //     return (<MenuItem key={outAdd} classes={{root: classes.caseItem}} value={outAdd}>{outLabel}</MenuItem>)
-    // })
-
-    //Custom Functions to get label and category to show
-
-    //Function Execution
-    // const in1DropDown = createInput1DropDowns()
-
-
     return (
         <div className={classes.labelSelectorContainer}>
             <div className={classes.selectionContainer}>

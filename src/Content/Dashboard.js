@@ -7,7 +7,6 @@ import InputImportance from "../Features/InputImportance";
 import ScenarioAnalysis from "../Features/ScenarioAnalysis";
 import {getAvg, convert_format, getAvgfromKey, getDomains, getSumfromKey} from "../utils/utils";
 import isEqual from "lodash.isequal";
-import Home from "../ModeControllers/Home";
 
 
 export default function Dashboard(props) {
@@ -287,12 +286,8 @@ export default function Dashboard(props) {
 
     const createSAData = (input1, input2) => {
 
-        // const saPairs = generateSAPairs()
-
-        // return saPairs.map(address => {
-
-        const add1 = input1
-        const add2 = input2
+        let add1 = input1
+        let add2 = input2
 
         const in1bounds = props.inputs.find(i1 => (i1.address === add1))
         const in2bounds = props.inputs.find(i2 => (i2.address === add2))
@@ -489,7 +484,13 @@ export default function Dashboard(props) {
 
             //Get relevant data for SA charts
             const input1 = getInput1()
-            const input2 = getInput2()
+            let input2
+
+            if(props.inputs.length === 1) {
+                input2 = getInput1()
+            } else {
+                input2 = getInput2()
+            }
             const saCombos = createSAData(input1, input2)
 
             const lineData = createLines(saCombos, outAdd)
@@ -520,7 +521,7 @@ export default function Dashboard(props) {
 
     //Function executions
     const currSolution = findSolution(props.currInputVal)
-    const inputLabelMap = generateInputLabelMap()
+    let inputLabelMap = generateInputLabelMap()
     const final_charts = createCharts()
 
 

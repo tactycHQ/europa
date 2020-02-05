@@ -154,7 +154,6 @@ export default function OutputSelector(props) {
     const [category, setCategory] = useState('Category')
     const [labels, setLabels] = useState({})
     const [formats, setFormats] = useState({})
-    const [enableClick, setEnableClick] = useState(true)
     const [loadMode, setLoadMode] = useState(false)
     const [errorOpen, setErrorOpen] = useState(false)
     const [error, setError] = useState('')
@@ -751,7 +750,6 @@ export default function OutputSelector(props) {
                 worksheet={props.worksheet}
                 currSheet={props.currSheet}
                 sheets={props.sheets}
-                enableClick={enableClick}
                 handleSheetChange={props.handleSheetChange}
                 selectedCells={selectedCells}
                 addSelectedCells={addSelectedCells}
