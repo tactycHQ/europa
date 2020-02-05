@@ -3,7 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ModeControllers/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Content/SideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/SideBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IOSelections/IOController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/IOSelections/IOController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IOSelections/InputSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/IOSelections/InputSelector.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IOSelections/OutputSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/IOSelections/OutputSelector.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ModeControllers/Content.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Content.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -73,7 +77,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PyCharm 2019.1.1\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
@@ -157,14 +161,7 @@
       <workItem from="1579884248250" duration="11431000" />
       <workItem from="1580144125934" duration="32973000" />
       <workItem from="1580749995012" duration="28590000" />
-      <workItem from="1580868838836" duration="7156000" />
-    </task>
-    <task id="LOCAL-00193" summary="First commit">
-      <created>1580326762506</created>
-      <option name="number" value="00193" />
-      <option name="presentableId" value="LOCAL-00193" />
-      <option name="project" value="LOCAL" />
-      <updated>1580326762506</updated>
+      <workItem from="1580868838836" duration="10506000" />
     </task>
     <task id="LOCAL-00194" summary="First commit">
       <created>1580327763508</created>
@@ -502,7 +499,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580879721291</updated>
     </task>
-    <option name="localTasksCounter" value="242" />
+    <task id="LOCAL-00242" summary="First commit">
+      <created>1580880481266</created>
+      <option name="number" value="00242" />
+      <option name="presentableId" value="LOCAL-00242" />
+      <option name="project" value="LOCAL" />
+      <updated>1580880481266</updated>
+    </task>
+    <option name="localTasksCounter" value="243" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

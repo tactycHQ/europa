@@ -19,6 +19,7 @@ import {
     hasNumber
 } from "../utils/utils";
 import Spreadsheet from "../Features/Spreadsheet";
+import {NavLink} from "react-router-dom";
 
 
 export default function InputSelector(props) {
@@ -47,7 +48,8 @@ export default function InputSelector(props) {
             flexDirection: 'column',
             height: '100%',
             width: '100%',
-            alignContent: 'center'
+            alignItems: 'center',
+            justifyContent: 'flex-start'
         },
         selectHeader: {
             display: 'flex',
@@ -176,9 +178,9 @@ export default function InputSelector(props) {
     const createIOPanel = () => {
 
         if (props.stage === 'empty' || props.stage === 'summary') {
-            return null
-        } else {
+            return <div className={classes.selectionContainer} key={address}/>
 
+        } else {
             const labelSelector = createLabelSelector()
             const boundSelector = createBoundSelector()
             const stepSelector = createStepSelector()
@@ -444,8 +446,8 @@ export default function InputSelector(props) {
                     fontWeight: '100',
                     fontFamily: 'Questrial',
                     width: '100%',
-                    marginBottom:'5px',
-                    color:'#8A8D91'
+                    marginBottom: '5px',
+                    color: '#8A8D91'
                 }}>Generated Increments
                 </div>
                 {incrEls}
@@ -693,6 +695,20 @@ export default function InputSelector(props) {
     let buttons = createButtons()
     let ioPanel = createIOPanel()
 
+    let cancelEl
+    if (props.mode === 'loaded') {
+        cancelEl = (
+            <NavLink to="/dashboard" style={{textDecoration: 'none'}}>
+                <h3 style={{
+                    color: 'gray',
+                    marginTop: '5px',
+                    fontSize: '0.85em',
+                    fontWeight: '100',
+                    fontFamily: 'Questrial',
+                    cursor: 'pointer'
+                }} onClick={() => props.cancel()}>Cancel and Go Back</h3>
+            </NavLink>)
+    }
 
     return (
 
@@ -701,6 +717,7 @@ export default function InputSelector(props) {
                 {instructions}
                 {ioPanel}
                 {buttons}
+                {cancelEl}
             </div>
             <Spreadsheet
                 stage={props.stage}

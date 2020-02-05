@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Dashboard from "../Content/Dashboard"
 import Input from "../Content/InputsController";
@@ -9,6 +9,8 @@ import IOController from "../IOSelections/IOController";
 
 export default function Content(props) {
 
+    const [inputsBak, setInputsBak] = useState([])
+    const [outputsBak, setOutputsBak] = useState([])
 
     // Defining Hooks
     const useStyles = makeStyles(theme => ({
@@ -44,6 +46,13 @@ export default function Content(props) {
     }
 
 
+
+    const generateBackupIO = () => {
+        setInputsBak(Array.from(props.inputs))
+        setOutputsBak(Array.from(props.outputs))
+    }
+
+
     const generateContent = () => {
 
         //MODE is LOADED
@@ -52,6 +61,7 @@ export default function Content(props) {
                 <div className={classes.content}>
                     <SideBar className={classes.sidebar}
                              downloadModel={props.downloadModel}
+                             generateBackupIO={generateBackupIO}
                              saveDash={props.saveDash}
                              outputs={props.outputs}/>
                     <Switch>
@@ -97,6 +107,8 @@ export default function Content(props) {
                         <Route exact path="/spreadsheet">
                             <IOController
                                 {...props}
+                                inputsBak={inputsBak}
+                                outputsBak={outputsBak}
                             />
                         </Route>
                     </Switch>

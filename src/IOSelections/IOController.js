@@ -36,6 +36,12 @@ export default function IOController(props) {
     }, [props, IO])
 
 
+    const cancel = () => {
+        props.updateInputs([...props.inputsBak])
+        props.updateOutputs([...props.outputsBak])
+    }
+
+
     if (IO === 'outputs') {
         return (
             <OutputSelector
@@ -44,6 +50,8 @@ export default function IOController(props) {
                 IO={IO}
                 updateStage={updateStage}
                 updateIO={updateIO}
+                outputsBak={props.outputBak}
+                cancel={cancel}
             />
         )
     } else if (IO === 'inputs') {
@@ -54,6 +62,8 @@ export default function IOController(props) {
                 IO={IO}
                 updateStage={updateStage}
                 updateIO={updateIO}
+                inputsBak={props.inputsBak}
+                cancel={cancel}
             />
         )
     } else {

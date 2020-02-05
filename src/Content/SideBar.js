@@ -159,7 +159,7 @@ export default function SideBar(props) {
                     <Divider variant="middle" className={classes.divider}/>
 
                     <NavLink to="/spreadsheet" style={{textDecoration: 'none'}}>
-                        <ListItem className={classes.buttons} button={true}>
+                        <ListItem className={classes.buttons} button={true} onClick={() => props.generateBackupIO()}>
                             <TuneIcon className={classes.icon}/>
                             <div className={classes.buttonLabel}>Change Inputs/Outputs</div>
                         </ListItem>

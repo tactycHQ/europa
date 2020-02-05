@@ -9,6 +9,7 @@ import IconButton from "@material-ui/core/IconButton"
 import RemoveCircleSharpIcon from '@material-ui/icons/RemoveCircleSharp';
 import Button from "@material-ui/core/Button";
 import {hasDuplicates} from "../utils/utils";
+import {NavLink} from "react-router-dom";
 
 export default function OutputSelector(props) {
 
@@ -41,7 +42,7 @@ export default function OutputSelector(props) {
             display: 'flex',
             width: '100%',
             justifyContent: 'flex-start',
-            alignItems: 'center',
+            alignItems: 'center'
         },
         loadedButton: {
             display: 'flex',
@@ -735,6 +736,20 @@ export default function OutputSelector(props) {
     let instructions = createInstructions()
     let buttons = createButtons()
     let ioPanel = createIOPanel()
+    let cancelEl
+    if (props.mode === 'loaded') {
+        cancelEl = (
+            <NavLink to="/dashboard" style={{textDecoration: 'none'}}>
+                <h3 style={{
+                    color: 'gray',
+                    marginTop: '5px',
+                    fontSize: '0.85em',
+                    fontWeight: '100',
+                    fontFamily: 'Questrial',
+                    cursor: 'pointer'
+                }} onClick={() => props.cancel()}>Cancel and Go Back</h3>
+            </NavLink>)
+    }
 
 
     return (
@@ -743,6 +758,7 @@ export default function OutputSelector(props) {
                 {instructions}
                 {ioPanel}
                 {buttons}
+                {cancelEl}
             </div>
             <Spreadsheet
                 stage={props.stage}
