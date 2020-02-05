@@ -510,7 +510,6 @@ export default function OutputSelector(props) {
 
         let foundIndex = props.outputs.findIndex(output => output.category === category)
 
-
         //Validations Start
         //If category is not set
         if (category === 'Category') {
@@ -542,6 +541,7 @@ export default function OutputSelector(props) {
         //Otherwise we are go for inserting into output array
         else {
             props.updateOutputs([...props.outputs, outputPayload])
+            props.updateFormats({...props.formats, ...formats})
             resetState()
         }
     }
@@ -595,6 +595,10 @@ export default function OutputSelector(props) {
         if (newOutputs.length === 0) {
             props.updateStage("empty")
         }
+
+        //TODO delete format if output is deleted
+
+
     }
 
     const deleteLabelHandler = (address) => {
@@ -623,6 +627,10 @@ export default function OutputSelector(props) {
         //Remove from formats
         const {[address]: tmpF, ...restF} = formats
         setFormats(restF)
+
+        //Remove from global formats
+        const {[address]: tmp2, ...rest2} = props.formats
+        props.updateFormats({...rest2})
 
 
         //Remove label from selectedLabels

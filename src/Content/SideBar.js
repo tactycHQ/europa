@@ -19,7 +19,7 @@ import {NavLink} from 'react-router-dom'
 import Divider from "@material-ui/core/Divider";
 
 
-export default function SideBar() {
+export default function SideBar(props) {
     const useStyles = makeStyles(theme => ({
         root: {
             display: 'flex',
@@ -176,7 +176,7 @@ export default function SideBar() {
                         <CloudDownloadSharpIcon className={classes.icon}/>
                         <div className={classes.buttonLabel}>Download Model Excel</div>
                     </ListItem>
-                    <ListItem className={classes.saveButton} button={true}>
+                    <ListItem className={classes.saveButton} button={true} onClick={() => props.saveDash()}>
                         <SaveAltIcon className={classes.icon}/>
                         <div className={classes.buttonLabel}>Save Dashboard</div>
                     </ListItem>

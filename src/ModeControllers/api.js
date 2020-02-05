@@ -74,10 +74,10 @@ export const getFormats = async (dash_id) => {
     return result
 }
 
-export const getVarianceAnalysis = async () => {
-    console.log("Getting variance analysis results...");
-    const api_url = "http://localhost:5000/getVarianceAnalysis"
-    let dash_id = 9
+export const calculateSolutions = async (dash_id, inputs, outputs) => {
+    console.log("Getting calculation results...");
+    const api_url = "http://localhost:5000/calculateSolutions"
+
     let result
     const headers = {
         headers: {
@@ -86,7 +86,9 @@ export const getVarianceAnalysis = async () => {
         },
         method: "POST",
         body: JSON.stringify({
-            dash_id: dash_id
+            dash_id: dash_id,
+            inputs: inputs,
+            outputs: outputs
         })
     }
     try {
@@ -95,7 +97,7 @@ export const getVarianceAnalysis = async () => {
     } catch (error) {
         result = "Server not responsive"
     }
-    console.log("Variance analysis results recieved")
+    console.log("Solutions recieved")
     return result
 }
 
@@ -113,9 +115,7 @@ export const loadFile = async (dash_id) => {
             dash_id: dash_id
         })
     }
-
     try {
-
         const ab = await fetch(api_url, headers)
             .then(res => res.arrayBuffer())
 
@@ -133,5 +133,36 @@ export const loadFile = async (dash_id) => {
     } catch (error) {
         return "Unable to load file"
     }
+}
+
+
+export const saveDashboard = async (dash_id, name, inputs, outputs, cases, formats) => {
+    console.log("Saving dashboard...");
+    const api_url = "http://localhost:5000/saveDashboard"
+
+    let result
+    const headers = {
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify({
+            dash_id: dash_id,
+            name: name,
+            inputs: inputs,
+            outputs: outputs,
+            cases: cases,
+            formats: formats
+        })
+    }
+    try {
+        const response = await fetch(api_url, headers)
+        result = await response.json()
+    } catch (error) {
+        result = "Server not responsive"
+    }
+    console.log("Dashboard Saved")
+    return result
 }
 

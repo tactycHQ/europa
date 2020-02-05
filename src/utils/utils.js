@@ -5,6 +5,10 @@ import SSF from "ssf/ssf"
 
 export const convert_format = (fmt, value) => {
 
+    if (typeof(fmt) === 'undefined') {
+        return SSF.format('General', value).trim()
+    }
+
     //--------DATA FORAMTTER
     // let temp_format = dataFormatter.format(value, 'Number', fmt).value
 

@@ -91,7 +91,7 @@ export default function Home(props) {
 
             <Paper className={classes.newdashboardpaper} component={Link} to="/spreadsheet"
                    style={{textDecoration: 'none'}}>
-                <AddCircleSharpIcon style={{color:'#FEFEFD'}}/>
+                <AddCircleSharpIcon style={{color: '#FEFEFD'}}/>
                 <h1 className={classes.dashTitle} onClick={() => newDash()}>Create New
                     Dashboard</h1>
             </Paper>
@@ -109,15 +109,21 @@ export default function Home(props) {
                        component={Link} to="/dashboard"
                        style={{textDecoration: 'none'}}
                        onClick={() => openDash(7)}>
-                    <h1 className={classes.dashTitle} >LPI Dashboard</h1>
+                    <h1 className={classes.dashTitle}>LPI Dashboard</h1>
                 </Paper>
 
                 <Paper className={classes.existingdash}
                        component={Link} to="/dashboard"
                        style={{textDecoration: 'none'}}
                        onClick={() => openDash(9)}>
-                    <h1 className={classes.dashTitle} >VC Returns</h1>
+                    <h1 className={classes.dashTitle}>VC Returns</h1>
+                </Paper>
 
+                <Paper className={classes.existingdash}
+                       component={Link} to="/dashboard"
+                       style={{textDecoration: 'none'}}
+                       onClick={() => openDash(11)}>
+                    <h1 className={classes.dashTitle}>LPI DASH</h1>
                 </Paper>
 
             </Card>

@@ -323,6 +323,7 @@ export default function SummaryChart(props) {
 // Function executions
     const createSingleChart = (solutionSet, idx) => {
 
+
         const category = solutionSet.category
         const domains = solutionSet.domains
         const chartData = addFormats(solutionSet.values)
@@ -332,7 +333,6 @@ export default function SummaryChart(props) {
         if (_width === '100%') {
             container_paper = classes.maxPaper
         }
-
 
         return (
             <Paper className={container_paper} key={"summary" + category} elevation={3}>
@@ -414,7 +414,8 @@ export default function SummaryChart(props) {
                         <Bar
                             className={classes.bar}
                             dataKey="value"
-                            isAnimationActive={true}
+                            isAnimationActive={false}
+                            // onAnimationEnd={()=>{this.setState({});}}
                             // fill={color_url(fill)}
                             animationDuration={200}
                             radius={[3, 3, 0, 0]}

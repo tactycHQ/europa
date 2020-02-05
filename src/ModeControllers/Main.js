@@ -4,7 +4,7 @@ import Content from "./Content"
 import Home from "./Home";
 import TopBar from "./TopBar"
 import Spinner from "../UtilityComponents/Spinner"
-import {getSolutions, getMetaData, getFormats, loadFile} from "./api"
+import {getSolutions, getMetaData, calculateSolutions, loadFile, saveDashboard} from "./api"
 import {Switch, Route} from 'react-router-dom'
 import {fixFormat} from "../utils/utils"
 import Snackbar from '@material-ui/core/Snackbar'
@@ -64,6 +64,7 @@ export default function Main(props) {
     const [currSheet, setCurrSheet] = useState(null)
     const [open, setOpen] = useState(false)
     const [msg, setMsg] = useState('')
+    const [wait, setWait] = useState(false)
 
     const handleClose = () => {
         setOpen(false);
@@ -81,7 +82,6 @@ export default function Main(props) {
     useEffect(() => {
 
         const executeExistingAPIcalls = async () => {
-
             const metadata = await getMetaData(dashid)
             const _solutions = await getSolutions(dashid)
             const _wb = await loadFile(dashid)
@@ -110,38 +110,32 @@ export default function Main(props) {
         }
 
         const executeCalculateAPIcalls = async () => {
-            updateMode("loaded")
-            console.log("Calculate to come")
+            const outputAdds = outputs.reduce((acc, output) => {
+                acc.push(...Object.keys(output.labels))
+                return acc
+            }, [])
+
+            const _solutions = await calculateSolutions(dashid, inputs, outputAdds)
+            setSolutions(_solutions.solutions)
+            setDistributions(_solutions.distributions)
+            setcurrInputVal(cases['Default'])
+            setMode("loaded")
         }
 
         if (mode === 'calculate') {
-            //TODO
             executeCalculateAPIcalls()
         }
 
         if (mode === 'processed') {
-            executeExistingAPIcalls(dashid)
+            executeExistingAPIcalls()
         }
 
         if (mode === 'new') {
-            setSolutions(null)
-            setDistributions(null)
-            setDashName('')
-            setFormats(null)
-            setcurrInputVal(null)
-            setInputs([])
-            setOutputs([])
-            setCases({})
-            setCharts(null)
-            setwb(null)
-            setSheets([])
-            setWorksheet(null)
-            setCurrSheet(null)
-            setOpen(false)
             executeNewAPIcalls()
         }
 
-    }, [mode, dashid])
+    }, [cases, inputs, outputs, mode, dashid])
+
 
     // if currsheet is changed, gets the new sheet info from the wb object
     useEffect(() => {
@@ -219,10 +213,16 @@ export default function Main(props) {
         setOpen(update)
     }
 
+    const saveDash = () => {
+        saveDashboard(dashid, dashName, inputs, outputs, cases, formats)
+    }
+
+
     const createContent = () => {
         if (mode === 'loaded') {
             return <Content
                 mode={mode}
+                saveDash={saveDash}
                 handleSliderChange={handleSliderChange}
                 handleCaseChange={handleCaseChange}
                 handleSheetChange={handleSheetChange}
