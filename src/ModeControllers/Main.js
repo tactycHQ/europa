@@ -134,7 +134,7 @@ export default function Main(props) {
             executeNewAPIcalls()
         }
 
-    }, [cases, inputs, outputs, mode, dashid])
+    }, [mode, dashid])
 
 
     // if currsheet is changed, gets the new sheet info from the wb object
