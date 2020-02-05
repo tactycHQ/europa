@@ -8,7 +8,7 @@ import TextField from "@material-ui/core/TextField";
 import IconButton from "@material-ui/core/IconButton"
 import RemoveCircleSharpIcon from '@material-ui/icons/RemoveCircleSharp';
 import Button from "@material-ui/core/Button";
-import {hasDuplicates} from "../utils/utils";
+import {hasDuplicates, omitKeys} from "../utils/utils";
 import {NavLink} from "react-router-dom";
 
 export default function OutputSelector(props) {
@@ -590,15 +590,18 @@ export default function OutputSelector(props) {
 
 //Output Deletions
     const deleteOutputHandler = (category) => {
+
+        //First remove all the formats associated with this output
+        const outputToRemove = props.outputs.find(output => output.category === category)
+        const newFormat = omitKeys(props.formats,Object.keys(outputToRemove.labels))
+        props.updateFormats({...newFormat})
+
+        //Then go ahead and remove this output
         const newOutputs = props.outputs.filter(output => output.category !== category)
         props.updateOutputs([...newOutputs])
         if (newOutputs.length === 0) {
             props.updateStage("empty")
         }
-
-        //TODO delete format if output is deleted
-
-
     }
 
     const deleteLabelHandler = (address) => {
@@ -608,23 +611,26 @@ export default function OutputSelector(props) {
         const cellToRemove = selectedCells[indexToRemove]
         props.wb.Sheets[cellToRemove.sheet][cellToRemove.raw].s.fgColor = {rgb: cellToRemove.oldColor}
 
-        //If selected cells will be empty after this removal, props.updateStage to empty
+        //If selected cells will be empty after this removal AND no outputs have been selected yet props.updateStage to empty
         if (selectedCells.length === 1 && props.outputs.length === 0) {
+            deleteOutputHandler(category)
             props.updateStage("empty")
         }
 
+        //If selected cells will be empty after this removal BUT other outputs exist, delete this output and stage is summary
         if (selectedCells.length === 1 && props.outputs.length > 0) {
+            deleteOutputHandler(category)
             props.updateStage("summary")
         }
 
         const newCells = selectedCells.filter(output => output.address !== address)
         setSelectedCells([...newCells])
 
-        //Remove from labels
+        //Remove from local labels
         const {[address]: tmp, ...rest} = labels
         setLabels(rest)
 
-        //Remove from formats
+        //Remove from local formats
         const {[address]: tmpF, ...restF} = formats
         setFormats(restF)
 

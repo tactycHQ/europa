@@ -53,6 +53,7 @@ export default function Content(props) {
     }
 
 
+
     const generateContent = () => {
 
         //MODE is LOADED
