@@ -226,7 +226,6 @@ export default function Main(props) {
 
 
     const createContent = () => {
-        console.log(formats)
 
         if (mode === 'loaded') {
             return <Content
