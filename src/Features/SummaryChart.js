@@ -176,17 +176,14 @@ export default function SummaryChart(props) {
     }
 
     const yAxisFormatter = (value) => {
-        // console.log(props)
         return convert_format('0.0', value)
     }
 
     const tooltipFormatter = (value, name, props) => {
-        // console.log(props)
         return props.payload.label
     }
 
     function CustomizedYAxisTick(props) {
-        // console.log(props)
         const {x, y, payload} = props
 
         return (

@@ -50,7 +50,10 @@ export default function Content(props) {
         if (props.mode === 'loaded') {
             return (
                 <div className={classes.content}>
-                    <SideBar className={classes.sidebar} saveDash={props.saveDash} outputs={props.outputs}/>
+                    <SideBar className={classes.sidebar}
+                             downloadModel={props.downloadModel}
+                             saveDash={props.saveDash}
+                             outputs={props.outputs}/>
                     <Switch>
                         <Route exact path={"/dashboard"}>
                             <Dashboard

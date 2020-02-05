@@ -1,7 +1,6 @@
 //API Functions
-
-
 import {read} from "@sheet/core";
+import { saveAs } from 'file-saver'
 
 export const getSolutions = async (dash_id) => {
     console.log("Getting Solutions...");
@@ -47,30 +46,6 @@ export const getMetaData = async (dash_id) => {
         result = "Server not responsive"
     }
     console.log("Metadata recieved")
-    return result
-}
-
-export const getFormats = async (dash_id) => {
-    console.log("Getting formats...");
-    const api_url = "http://localhost:5000/getFormats"
-    let result
-    const headers = {
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-        },
-        method: "POST",
-        body: JSON.stringify({
-            dash_id: dash_id,
-        })
-    }
-    try {
-        const response = await fetch(api_url, headers)
-        result = await response.json()
-    } catch (error) {
-        result = "Server not responsive"
-    }
-    console.log("Formats recieved")
     return result
 }
 
@@ -130,6 +105,29 @@ export const loadFile = async (dash_id) => {
         )
         console.log("Excel sheet loaded")
         return wb
+    } catch (error) {
+        return "Unable to load file"
+    }
+}
+
+
+export const downloadFile = async (dash_id, origFilename) => {
+
+    console.log("Downloading excel model")
+    const api_url = "http://localhost:5000/downloadFile"
+    const headers = {
+        headers: {
+            Accept: "application/json", "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify({
+            dash_id: dash_id
+        })
+    }
+    try {
+        const response = await fetch(api_url, headers)
+        const blob = await response.blob()
+        saveAs(blob,origFilename)
     } catch (error) {
         return "Unable to load file"
     }

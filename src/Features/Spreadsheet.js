@@ -58,7 +58,7 @@ export default function Spreadsheet(props) {
             marginTop: '22px',
             marginBottom: '22px',
             borderWidth: '1px',
-            boxShadow: '5px 10px',
+            boxShadow: '5px 5px #C4C6C8',
             borderColor: '#D0D3D6',
             // background: 'yellow',
             cursor: 'cell',

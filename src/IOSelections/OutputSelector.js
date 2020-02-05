@@ -88,7 +88,7 @@ export default function OutputSelector(props) {
             fontSize: '0.85em'
         },
         textField: {
-            fontSize: '0.85em',
+            fontSize: '0.9em',
             fontWeight: '100',
             fontFamily: 'Questrial',
             paddingTop: '5px',
@@ -113,7 +113,7 @@ export default function OutputSelector(props) {
             }
         },
         labelField: {
-            fontSize: '1.1em',
+            fontSize: '1.3em',
             fontWeight: '100',
             fontFamily: 'Questrial',
             width: '100%',

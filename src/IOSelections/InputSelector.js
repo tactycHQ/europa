@@ -111,14 +111,14 @@ export default function InputSelector(props) {
             fontSize: '0.85em',
         },
         textField: {
-            fontSize: '0.85em',
+            fontSize: '0.9em',
             fontWeight: '100',
             fontFamily: 'Questrial',
             paddingTop: '5px',
             paddingBottom: '0px',
         },
         labelField: {
-            fontSize: '1.1em',
+            fontSize: '1.3em',
             fontWeight: '100',
             fontFamily: 'Questrial',
             width: '100%',
@@ -439,6 +439,15 @@ export default function InputSelector(props) {
 
         return (
             <Paper className={classes.categoryContainer}>
+                <div style={{
+                    fontSize: '1.em',
+                    fontWeight: '100',
+                    fontFamily: 'Questrial',
+                    width: '100%',
+                    marginBottom:'5px',
+                    color:'#8A8D91'
+                }}>Generated Increments
+                </div>
                 {incrEls}
             </Paper>
         )
@@ -567,14 +576,14 @@ export default function InputSelector(props) {
         if (foundIndex === -1) {
             props.updateInputs([...props.inputs, payload])
             props.updateFormats({...props.formats, [address]: format})
-            props.updateCases({...props.cases,'Default':{...props.cases.Default,[address]:value}})
+            props.updateCases({...props.cases, 'Default': {...props.cases.Default, [address]: value}})
 
         } else {
             let newInputs = [...props.inputs]
             newInputs[foundIndex] = payload
             props.updateInputs([...newInputs])
             props.updateFormats({...props.formats, [address]: format})
-            props.updateCases({...props.cases,'Default':{...props.cases.Default,[address]:value}})
+            props.updateCases({...props.cases, 'Default': {...props.cases.Default, [address]: value}})
         }
         refreshWorksheetColor()
         setClickedCell({})
@@ -592,7 +601,7 @@ export default function InputSelector(props) {
 
         //Delete from values
         const {[address]: curr, ...other} = props.cases.Default
-        props.updateCases({...props.cases,'Default':{...other}})
+        props.updateCases({...props.cases, 'Default': {...other}})
 
         setClickedCell({})
 

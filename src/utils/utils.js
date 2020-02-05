@@ -51,7 +51,7 @@ export const getDomains = (xmin, xmax) => {
     } else if (xmin < 0 && xmax > 0) {
         return [xmin * cushion, xmax * cushion]
     } else if (xmin > 0 && xmax > 0) {
-        return [0, xmax * cushion]
+        return [xmin / cushion, xmax * cushion]
     }
 }
 

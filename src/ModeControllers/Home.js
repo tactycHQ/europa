@@ -20,32 +20,34 @@ export default function Home(props) {
             flexDirection: 'column',
             justifyContent: 'flex-start',
             alignItems: 'center',
-            padding: '5px',
+            padding: '10px',
             background: '#FEFEFD'
         },
         existingContainer: {
             display: 'flex',
-            width: '100%',
+            minWidth: '180px',
             flexDirection: 'column',
-            minHeight: '60vh',
+            width:'100%',
             flexWrap: 'wrap',
             justifyContent: 'flex-start',
             alignItems: 'flex-start',
             background: 'linear-gradient(#F4F4F4 10%,#FEFEFD)',
             padding: '5px',
-            margin: '10px',
+            margin: '10px'
         },
         existingdash: {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            alignItems: 'center',
-            margin: '1%',
+            margin: '4px',
             padding: '5px',
-            background: '#4595B9',
-            width: '20%',
-            height: '50px',
-            cursor: 'pointer'
+            background: '#627C8D',
+            width: '100%',
+            height: '30px',
+            cursor: 'pointer',
+            "&:hover": {
+                background: '#284B63',
+            }
         },
         newdashboardpaper: {
             display: 'flex',
@@ -103,7 +105,39 @@ export default function Home(props) {
                     fontWeight: '200',
                     color: '#006E9F',
                     marginBottom: '5px'
-                }}>My Dashboards</h1>
+                }}>My Created Dashboards</h1>
+
+                <Paper className={classes.existingdash}
+                       component={Link} to="/dashboard"
+                       style={{textDecoration: 'none'}}
+                       onClick={() => openDash(7)}>
+                    <h1 className={classes.dashTitle}>LPI Dashboard</h1>
+                </Paper>
+
+                <Paper className={classes.existingdash}
+                       component={Link} to="/dashboard"
+                       style={{textDecoration: 'none'}}
+                       onClick={() => openDash(9)}>
+                    <h1 className={classes.dashTitle}>VC Returns</h1>
+                </Paper>
+
+                <Paper className={classes.existingdash}
+                       component={Link} to="/dashboard"
+                       style={{textDecoration: 'none'}}
+                       onClick={() => openDash(11)}>
+                    <h1 className={classes.dashTitle}>LPI DASH</h1>
+                </Paper>
+
+            </Card>
+
+                        <Card className={classes.existingContainer}>
+                <h1 className={classes.dashTitle} style={{
+                    fontFamily: 'Questrial',
+                    fontSize: '1.2em',
+                    fontWeight: '200',
+                    color: '#006E9F',
+                    marginBottom: '5px'
+                }}>Dashboards Shared With Me</h1>
 
                 <Paper className={classes.existingdash}
                        component={Link} to="/dashboard"

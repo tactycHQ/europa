@@ -4,7 +4,7 @@ import Content from "./Content"
 import Home from "./Home";
 import TopBar from "./TopBar"
 import Spinner from "../UtilityComponents/Spinner"
-import {getSolutions, getMetaData, calculateSolutions, loadFile, saveDashboard} from "./api"
+import {getSolutions, getMetaData, calculateSolutions, loadFile, saveDashboard, downloadFile} from "./api"
 import {Switch, Route} from 'react-router-dom'
 import {fixFormat} from "../utils/utils"
 import Snackbar from '@material-ui/core/Snackbar'
@@ -49,6 +49,7 @@ export default function Main(props) {
 
     const [mode, setMode] = useState('')
     const [dashid, setDashid] = useState(null)
+    const [origFilename, setOrigFilename] = useState('')
     const [solutions, setSolutions] = useState(null)
     const [distributions, setDistributions] = useState(null)
     const [formats, setFormats] = useState('General')
@@ -70,6 +71,7 @@ export default function Main(props) {
         setMsg('')
     }
 
+
     //----------------Modes-------------------
     //1. New - a new dashboard is to be created. Dash id and filename have been provided
     //2. PendingIO - file has been loaded. Pending user I/O selection
@@ -90,6 +92,7 @@ export default function Main(props) {
             setCurrSheet(Object.keys(_wb.Sheets)[0])
             setSolutions(_solutions.solutions)
             setDistributions(_solutions.distributions)
+            setOrigFilename(metadata.filename)
             setFormats(metadata.formats)
             setDashName(metadata.name)
             setCases(metadata.cases)
@@ -139,7 +142,7 @@ export default function Main(props) {
             executeCalculateAPIcalls()
         }
 
-    }, [mode, dashid, inputs, outputs, cases,formats,dashName])
+    }, [mode, dashid, inputs, outputs, cases, formats, dashName])
 
 
     // if currsheet is changed, gets the new sheet info from the wb object
@@ -154,6 +157,7 @@ export default function Main(props) {
 
     const clearState = () => {
         setDashid(null)
+        setOrigFilename('')
         setSolutions(null)
         setDistributions(null)
         setDashName('')
@@ -224,6 +228,10 @@ export default function Main(props) {
         setOpen(true)
     }
 
+    const downloadModel = () => {
+        downloadFile(dashid,origFilename)
+    }
+
 
     const createContent = () => {
 
@@ -250,6 +258,7 @@ export default function Main(props) {
                 updateMode={updateMode}
                 updateFormats={updateFormats}
                 updateCases={updateCases}
+                downloadModel={downloadModel}
                 updateMsg={updateMsg}
                 updateOpen={updateOpen}
                 wb={wb}

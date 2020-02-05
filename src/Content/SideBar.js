@@ -172,7 +172,7 @@ export default function SideBar(props) {
                         <CloudUploadIcon className={classes.icon}/>
                         <div className={classes.buttonLabel}>Upload New Model Excel</div>
                     </ListItem>
-                    <ListItem className={classes.buttons} button={true}>
+                    <ListItem className={classes.buttons} button={true} onClick={() => props.downloadModel()}>
                         <CloudDownloadSharpIcon className={classes.icon}/>
                         <div className={classes.buttonLabel}>Download Model Excel</div>
                     </ListItem>
