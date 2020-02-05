@@ -226,6 +226,8 @@ export default function Main(props) {
 
 
     const createContent = () => {
+        console.log(formats)
+
         if (mode === 'loaded') {
             return <Content
                 mode={mode}
@@ -287,6 +289,7 @@ export default function Main(props) {
             clearState={clearState}
         />
     }
+
 
 // Executing functions
 

@@ -76,23 +76,23 @@ export default function Spreadsheet(props) {
 
 
     const onMouseClick = (e) => {
-        if (props.enableClick) {
-            e.stopPropagation();
-            e.nativeEvent.stopImmediatePropagation()
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation()
 
-            let newCell = e.target.id.replace("sjs-", "")
+        let newCell = e.target.id.replace("sjs-", "")
 
-            if (props.IO === 'inputs' && props.worksheet.hasOwnProperty(newCell)) {
+        if (props.IO === 'inputs' && props.worksheet.hasOwnProperty(newCell)) {
+            if (props.enableClick) {
                 if (props.inputs.length < MAXINPUTS) {
                     props.addClickedCell(newCell, props.currSheet)
                 }
+            }
 
-            } else if (props.IO === 'outputs' && props.worksheet.hasOwnProperty(newCell)) {
-                if (props.stage === 'labelSelect' || props.stage === 'labelComplete') {
-                    props.addSelectedLabels(newCell, e.target.innerText, props.currSheet)
-                } else {
-                    props.addSelectedCells(newCell, props.currSheet)
-                }
+        } else if (props.IO === 'outputs' && props.worksheet.hasOwnProperty(newCell)) {
+            if (props.stage === 'labelSelect' || props.stage === 'labelComplete') {
+                props.addSelectedLabels(newCell, e.target.innerText, props.currSheet)
+            } else {
+                props.addSelectedCells(newCell, props.currSheet)
             }
         }
     }
@@ -109,7 +109,8 @@ export default function Spreadsheet(props) {
             }
 
             return (
-                <Button key={sheet} className={classes.sheet} style={{backgroundColor:bg}} onClick={e => onSheetClick(e, sheet)}>{sheet}</Button>)
+                <Button key={sheet} className={classes.sheet} style={{backgroundColor: bg}}
+                        onClick={e => onSheetClick(e, sheet)}>{sheet}</Button>)
         })
     }
 
