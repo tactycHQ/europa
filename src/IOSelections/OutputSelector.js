@@ -376,7 +376,8 @@ export default function OutputSelector(props) {
                     marginBottom: '10px'
                 }}>
                     <h3 className={classes.instruction}>
-                        Outputs already selected are shown below. Click on the spreadsheet to select a new set of cells for the next
+                        Outputs already selected are shown below. Click on the spreadsheet to select a new set of cells
+                        for the next
                         desired output category.<br/><br/>
                     </h3>
                     <h3 className={classes.instruction} style={{
@@ -593,8 +594,10 @@ export default function OutputSelector(props) {
 
         //First remove all the formats associated with this output
         const outputToRemove = props.outputs.find(output => output.category === category)
-        const newFormat = omitKeys(props.formats,Object.keys(outputToRemove.labels))
-        props.updateFormats({...newFormat})
+        if (outputToRemove) {
+            const newFormat = omitKeys(props.formats, Object.keys(outputToRemove.labels))
+            props.updateFormats({...newFormat})
+        }
 
         //Then go ahead and remove this output
         const newOutputs = props.outputs.filter(output => output.category !== category)
@@ -614,13 +617,19 @@ export default function OutputSelector(props) {
         //If selected cells will be empty after this removal AND no outputs have been selected yet props.updateStage to empty
         if (selectedCells.length === 1 && props.outputs.length === 0) {
             deleteOutputHandler(category)
+            unHighlightAll()
+            setSelectedCells([])
+            setSelectedLabels([])
+            setLabels({})
+            setFormats({})
+            setCategory("Category")
             props.updateStage("empty")
         }
 
         //If selected cells will be empty after this removal BUT other outputs exist, delete this output and stage is summary
         if (selectedCells.length === 1 && props.outputs.length > 0) {
             deleteOutputHandler(category)
-            props.updateStage("summary")
+            resetState()
         }
 
         const newCells = selectedCells.filter(output => output.address !== address)

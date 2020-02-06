@@ -9,7 +9,7 @@ import {
     ResponsiveContainer,
     ReferenceLine,
     Cell,
-    PieChart, Pie, Text
+    Text
 } from 'recharts'
 import {Paper, makeStyles, Card} from "@material-ui/core"
 import {convert_format} from "../utils/utils"
@@ -37,18 +37,6 @@ export default function SummaryChart(props) {
 
 
     // Initialization function to get width of chart based on user preferences
-    const defaultWidth = '48%'
-    const getWidth = (category) => {
-        if (category in props.summaryPrefs && 'size' in props.summaryPrefs[category]) {
-            if (props.summaryPrefs[category].size === 'Maximize') {
-                return '100%'
-            } else {
-                return defaultWidth
-            }
-        } else {
-            return defaultWidth
-        }
-    }
     let stats_fill = '#006E9F'
 
 
@@ -357,15 +345,10 @@ export default function SummaryChart(props) {
         const category = solutionSet.category
         const domains = solutionSet.domains
         const chartData = addFormats(solutionSet.values)
-        const _width = getWidth(category)
         const fill = chartColors[idx]
-        let container_paper = classes.SummaryPaper
-        if (_width === '100%') {
-            container_paper = classes.maxPaper
-        }
 
         return (
-            <Paper className={container_paper} key={"summary" + category} elevation={3}>
+            <Paper className={classes.SummaryPaper} key={"summary" + category} elevation={3}>
                 <div className={classes.paperHeaderContainer}>
                     <h3 className={classes.chartTitle}>{category}</h3>
                     <CardSettings category={category}
@@ -444,7 +427,7 @@ export default function SummaryChart(props) {
                         <Bar
                             className={classes.bar}
                             dataKey="value"
-                            isAnimationActive={false}
+                            isAnimationActive={true}
                             // onAnimationEnd={()=>{this.setState({});}}
                             // fill={color_url(fill)}
                             animationDuration={200}
@@ -556,56 +539,6 @@ export default function SummaryChart(props) {
                     </div>
                 </Paper>
             </Slide>
-        )
-    }
-
-    const createIISummary = () => {
-
-        const outCat = props.outCat
-        const outAdd = props.outAdd
-        const keyStats = generateIIStats(props.iiSummaryData)
-
-        return (
-            <Paper className={classes.maxPaper} elevation={3}>
-                <div className={classes.paperHeaderContainer}>
-                    <NavLink to="/inputimportance" style={{textDecoration: 'none'}}>
-                        <h3 className={classes.chartTitle}>Key Metrics</h3>
-                        <h3 className={classes.chartNote}>{outCat.category}, {outCat.labels[outAdd]} </h3>
-                    </NavLink>
-                </div>
-                <div className={classes.contributionContainer}>
-                    {keyStats}
-                    <ResponsiveContainer
-                        width="100%"
-                        height={220}
-                        margin={{top: 5, right: 0, left: 0, bottom: 300}}
-                    >
-                        <PieChart>
-                            <Pie
-                                data={props.iiSummaryData}
-                                dataKey="value"
-                                cx={"50%"}
-                                cy={"50%"}
-                                labelLine={true}
-                                label={(labelData) => pieLabelFormatter(labelData)}
-                                innerRadius={30}
-                                outerRadius={80}
-                                animationDuration={600}
-                            >
-                                {
-                                    props.iiSummaryData.map((entry, index) => <Cell key={"cell_" + index}
-                                                                                    fill={chartColors[index]}/>)
-                                }
-                            </Pie>
-                            <Tooltip
-                                wrapperStyle={{fontSize: '0.9em', fontFamily: 'Questrial'}}
-                                cursor={{fill: '#FEFEFD', fontFamily: 'Questrial', fontSize: '0.8em'}}
-                                // labelFormatter={value => `${value}`}
-                                formatter={(value, name) => [`${convert_format('0.0%', value)}`, `${name}`]}/>
-                        </PieChart>
-                    </ResponsiveContainer>
-                </div>
-            </Paper>
         )
     }
 
