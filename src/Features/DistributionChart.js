@@ -368,8 +368,9 @@ export default function Distribution(props) {
                         />
                         {/*<YAxis yAxisId="cdf" orientation='right'/>*/}
                         <Tooltip
-                            wrapperStyle={{fontSize: '0.9em', fontFamily: 'Questrial'}}
-                            cursor={{fill: '#FEFEFD', fontFamily: 'Questrial', fontSize: '0.8em'}}
+                            wrapperStyle={{fontSize: '0.9em', fontFamily: 'Questrial',color:'#A5014B'}}
+                            itemStyle={{fontSize: '0'}}
+                            cursor={{fill: '#FEFEFD'}}
                             // formatter={value => [`${value} solutions`]}
                             labelFormatter={value => [`${convert_format(out_fmt, value)}`]}
                         />

@@ -387,7 +387,7 @@ export default function SummaryChart(props) {
 
                         <Tooltip
                             wrapperStyle={{fontSize: '0.9em', fontFamily: 'Questrial', color: fill}}
-                            cursor={{fill: '#FEFEFD', fontFamily: 'Questrial', fontSize: '0.8em'}}
+                            cursor={{fill: '#FEFEFD'}}
                             formatter={(value, name, props) => {
                                 return [tooltipFormatter(value, name, props)]
                             }}
