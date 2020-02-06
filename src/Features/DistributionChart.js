@@ -14,11 +14,13 @@ import {
 import Paper from '@material-ui/core/Paper'
 import {Card} from "@material-ui/core";
 import {OutputDropdown} from "../UtilityComponents/OutputDropdown";
-import {convert_format} from "../utils/utils"
+import {convert_format, arrSum} from "../utils/utils"
 import Fade from '@material-ui/core/Fade'
 
 
 export default function Distribution(props) {
+
+    const digits = 3
 
 
     //Styles
@@ -124,26 +126,40 @@ export default function Distribution(props) {
     // Get address of outout label selected from dropdown
 
     const outAdd = props.outAdd
-
     const out_fmt = props.formats[outAdd]
     const outCat = props.outCat
     const probs = props.distributions.prob[outAdd]
 
+    function sortNumber(a, b) {
+        return parseFloat(a) - parseFloat(b)
+    }
 
-    const processCases = () => {
+
+    const createCDF = () => {
+        const totalpdf = arrSum(Object.values(probs))
+
+        const sortedKeys = Object.keys(probs).sort(sortNumber)
+        const sortedVals = sortedKeys.map(key => probs[key])
+        return sortedKeys.reduce((acc, key, idx) => {
+            acc[key] = arrSum(sortedVals.slice(idx))/totalpdf
+            return acc
+        },{})
+    }
+
+    const processCases = (cdf) => {
 
         const probKey = props.currSolution[outAdd].toFixed(3)
         return Object.entries(props.cases).reduce((acc, caseData) => {
             const caseName = caseData[0]
             const inputCombo = caseData[1]
-            const caseOutVal = props.findSolution(inputCombo)[outAdd].toFixed(3)
-            acc[caseName] = [caseOutVal, probs[caseOutVal][1]]
+            const caseOutVal = props.findSolution(inputCombo)[outAdd]
+            acc[caseName] = [caseOutVal, cdf[caseOutVal]]
             return acc
-        }, {'Current': [props.currSolution[outAdd], probs[probKey][1]]})
+        }, {'Current': [props.currSolution[outAdd], cdf[probKey]]})
     }
 
     const createRefBars = (caseVals, yAxisId) => {
-        return Object.entries(caseVals).map((caseVal, idx) => {
+        return Object.entries(caseVals).map((caseVal) => {
             let labelposition
             let labelfill
             let labelWeight
@@ -194,10 +210,10 @@ export default function Distribution(props) {
         })
     }
 
-    const createProbData = (probs, counts) => {
+    const createProbData = (probs) => {
         return Object.entries(probs).map(ValProbPair => {
             const outVal = parseFloat(ValProbPair[0])
-            const pdf = ValProbPair[1][0]
+            const pdf = ValProbPair[1]
 
             return ({
                 value: outVal,
@@ -257,7 +273,7 @@ export default function Distribution(props) {
         return (
             <Paper className={classes.paper} elevation={2}>
                 <h3 className={classes.chartTitle}>Histogram for {outCat.category}, {outCat.labels[outAdd]}</h3>
-                <h3 className={classes.chartNote}><em>Represents relative frequency of values assuming a standrard bin
+                <h3 className={classes.chartNote}><em>Represents relative frequency of values assuming a standard bin
                     width</em></h3>
                 <ResponsiveContainer width="100%" height={300}>
                     <BarChart
@@ -314,7 +330,6 @@ export default function Distribution(props) {
 
         //Combine with cases
         prob_data.sort((a, b) => a.value - b.value)
-
 
         return (
             <Paper className={classes.paper} elevation={2}>
@@ -405,7 +420,8 @@ export default function Distribution(props) {
 
 
     //Execute Functions
-    const caseVals = processCases()
+    const cdf = createCDF()
+    const caseVals = processCases(cdf)
     const counts = props.distributions.count[outAdd]
     const bin_centers = createBinCenters(counts)
     const histChart = generateHistChart(outAdd, outCat, caseVals, counts, bin_centers)
