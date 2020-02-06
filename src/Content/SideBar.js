@@ -18,7 +18,6 @@ import GraphicEqSharpIcon from '@material-ui/icons/GraphicEqSharp'
 import {NavLink} from 'react-router-dom'
 import Divider from "@material-ui/core/Divider";
 
-
 export default function SideBar(props) {
     const useStyles = makeStyles(theme => ({
         root: {
@@ -58,6 +57,14 @@ export default function SideBar(props) {
             "&:hover": {
                 background: '#A2CADC'
             }
+        },
+        activeButtons: {
+            display: 'flex',
+            margin: '3px',
+            color: '#006E9F',
+            backgroundColor:'#D0E4ED',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
         },
         saveButton: {
             display: 'flex',
@@ -114,42 +121,42 @@ export default function SideBar(props) {
     }))
     const classes = useStyles()
 
+
     return (
         <div className={classes.root}>
             <div className={classes.content}>
-                {/*<Divider variant="middle" className={classes.divider}/>*/}
                 <List component="nav" aria-label="main mailbox folders">
-                    <NavLink to="/dashboard" style={{textDecoration: 'none'}}>
+                    <NavLink to="/dashboard" activeClassName={classes.activeButtons} style={{textDecoration: 'none'}}>
                         <ListItem className={classes.buttons} button={true}>
                             <InsertChartIcon className={classes.icon}/>
                             <div className={classes.buttonLabel}>Summary Dashboard</div>
                         </ListItem>
                     </NavLink>
-                    <NavLink to="/distributions" style={{textDecoration: 'none'}}>
+                    <NavLink to="/distributions" activeClassName={classes.activeButtons} style={{textDecoration: 'none'}}>
                         <ListItem className={classes.buttons} button={true}>
                             <GraphicEqSharpIcon className={classes.icon}/>
                             <div className={classes.buttonLabel}>Output Distributions</div>
                         </ListItem>
                     </NavLink>
-                    <NavLink to="/inputimportance" style={{textDecoration: 'none'}}>
+                    <NavLink to="/inputimportance" activeClassName={classes.activeButtons} style={{textDecoration: 'none'}}>
                         <ListItem className={classes.buttons} button={true}>
                             <PieChartSharpIcon className={classes.icon}/>
                             <div className={classes.buttonLabel}>Input Contribution</div>
                         </ListItem>
                     </NavLink>
-                    <NavLink to="/sensitivity" style={{textDecoration: 'none'}}>
+                    <NavLink to="/sensitivity" activeClassName={classes.activeButtons} style={{textDecoration: 'none'}}>
                         <ListItem className={classes.buttons} button={true}>
                             <TimelineSharpIcon className={classes.icon}/>
                             <div className={classes.buttonLabel}>Sensitivity Analysis</div>
                         </ListItem>
                     </NavLink>
-                    <NavLink to="/scenario" style={{textDecoration: 'none'}}>
+                    <NavLink to="/scenario"  activeClassName={classes.activeButtons} style={{textDecoration: 'none'}}>
                         <ListItem className={classes.buttons} button={true}>
                             <FilterCenterFocusIcon className={classes.icon}/>
                             <div className={classes.buttonLabel}>Scenario Analysis</div>
                         </ListItem>
                     </NavLink>
-                    <NavLink to="/dependency" style={{textDecoration: 'none'}}>
+                    <NavLink to="/dependency"  activeClassName={classes.activeButtons} style={{textDecoration: 'none'}}>
                         <ListItem className={classes.buttons} button={true}>
                             <AccountTreeIcon className={classes.icon}/>
                             <div className={classes.buttonLabel}>Dependency Graph</div>

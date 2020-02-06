@@ -90,6 +90,7 @@ export default function Dashboard(props) {
         const _catlabels = _catdata.labels
         const catlabel = Object.keys(_catdata.labels).find(k => _catlabels[k] === event.value)
         setCurrOutputCell(catlabel)
+        setShowMetrics(true)
     }
 
     const handleSummaryBarMouseClick = (event, category) => {
