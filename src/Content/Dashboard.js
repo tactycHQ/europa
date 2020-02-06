@@ -71,6 +71,7 @@ export default function Dashboard(props) {
     }
     const [sa_value, setSAValue] = useState(() => createDefaults())
     const [checked, setChecked] = useState(() => createCheckDefaults())
+    const [showMetrics, setShowMetrics] = useState(false)
 
 
     /// Handlers
@@ -97,6 +98,11 @@ export default function Dashboard(props) {
         const _catlabels = _catdata.labels
         const catlabel = Object.keys(_catdata.labels).find(k => _catlabels[k] === event.payload.x)
         setCurrOutputCell(catlabel)
+        setShowMetrics(true)
+    }
+
+    const handleShowMetrics = (update) => {
+        setShowMetrics(update)
     }
 
 
@@ -207,6 +213,8 @@ export default function Dashboard(props) {
                 setSummaryPrefs={setSummaryPrefs}
                 handleSummaryBarMouseClick={handleSummaryBarMouseClick}
                 handleSummaryTickMouseClick={handleSummaryTickMouseClick}
+                showMetrics={showMetrics}
+                handleShowMetrics={handleShowMetrics}
                 updateMsg={props.updateMsg}
                 updateOpen={props.updateOpen}
             />

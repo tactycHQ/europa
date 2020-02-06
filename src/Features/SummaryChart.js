@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {
     BarChart,
     Bar,
@@ -16,6 +16,8 @@ import {convert_format} from "../utils/utils"
 import CardSettings from "../UtilityComponents/CardSettings"
 import {NavLink} from "react-router-dom"
 import {Slide} from '@material-ui/core'
+import ArrowDropDownSharpIcon from '@material-ui/icons/ArrowDropDownSharp'
+import IconButton from '@material-ui/core/IconButton'
 
 
 const chartColors = [
@@ -126,7 +128,6 @@ export default function SummaryChart(props) {
             margin: '5px',
             width: '120px',
             height: '55px',
-            background: 'yellow',
             padding: '3px',
             opacity: '80%',
             "&:hover": {
@@ -153,6 +154,7 @@ export default function SummaryChart(props) {
         },
     }))
     const classes = useStyles()
+
 
     // Defined variables
     const color_url = (color) => ("url(#" + color + ")")
@@ -257,88 +259,6 @@ export default function SummaryChart(props) {
 
         )
     }
-
-    const pieLabelFormatter = (props) => {
-        const {cx, x, y, payload, index} = props
-
-        return (
-            <Text
-                x={x}
-                y={y}
-                width={200}
-                textAnchor={x > cx ? "start" : "end"}
-                fontSize='0.9em'
-                fontWeight={300}
-                fill={chartColors[index]}
-                fontFamily="Questrial"
-            >
-                {payload.name + ": " + convert_format('0.0%', payload.value)}
-            </Text>
-        )
-    }
-
-
-//     const pieLabelFormatter2 = (props) => {
-//         const {cx, cy, midAngle, innerRadius, outerRadius, payload, index} = props
-//         console.log(props)
-//         const RADIAN = Math.PI / 180;
-//
-//         // eslint-disable-next-line
-//         let radius = 20 + innerRadius + (outerRadius - innerRadius);
-//         // eslint-disable-next-line
-//         let x = cx + radius * Math.cos(-midAngle * RADIAN);
-//         // eslint-disable-next-line
-//         let y = cy + radius * Math.sin(-midAngle * RADIAN);
-//
-//         if (payload.value < 0) {
-//             return null;
-//         }
-//
-//         console.log(x,y)
-//
-//         return (
-//             <text
-//                 x={x}
-//                 y={y}
-//                 fill="#000"
-//                 fontWeight="300"
-//                 fontSize="13px"
-//                 fontFamily="'Source Sans Pro', 'Roboto', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'"
-//                 textAnchor={x > cx ? "start" : "end"}
-//                 dominantBaseline="central"
-//             >
-//                 {payload.name} {payload.value}
-//             </text>
-//         )
-//     }
-//
-//
-// const labelLineFmt = (props) => {
-//     const {cx, cy, midAngle, innerRadius, outerRadius, value, index} = props
-//
-//     const RADIAN = Math.PI / 180
-//     // eslint-disable-next-line
-//     let radius1 = 20 + innerRadius + (outerRadius - innerRadius);
-//
-//     let radius2 = innerRadius + (outerRadius - innerRadius);
-//     // eslint-disable-next-line
-//     let x2 = cx + radius1 + index*10;
-//     // eslint-disable-next-line
-//     let y2 = cy + radius1 + index*10;
-//
-//     let x1 = cx + radius2 * index*10;
-//     // eslint-disable-next-line
-//     let y1 = cy + radius2 * index*10;
-//
-//     if (value < 0) {
-//         return null;
-//     }
-//
-//     return (
-//         <line x1={x1} y1={y1} x2={x2} y2={y2} stroke="#ccc" strokeWidth={1}>
-//         </line>
-//     )
-// }
 
 
 // Function executions
@@ -469,12 +389,14 @@ export default function SummaryChart(props) {
         const fill = chartColors[(props.summaryData.findIndex(output => output.category === props.outCat.category))]
 
         return (
-            <Slide in={true} direction="up" timeout={750} mountOnEnter>
+            <Slide in={props.showMetrics} direction="up" timeout={750} mountOnEnter>
                 <Paper className={classes.maxPaper} elevation={5}>
                     <div style={{
+                        display: 'flex',
                         width: '100%',
                         textAlign: 'center',
-                        padding: '2px'
+                        padding: '2px',
+                        justifyContent: 'space-between'
                     }}>
                         <NavLink to="/inputimportance" style={{textDecoration: 'none'}}>
                             <h3 style={{
@@ -486,6 +408,14 @@ export default function SummaryChart(props) {
                             }}>Key Metrics for {outCat.category}, {outCat.labels[outAdd]}. Chart represents % impact of
                                 each input on {outCat.category}, {outCat.labels[outAdd]} variance</h3>
                         </NavLink>
+                        <IconButton size="small" onClick={() => props.handleShowMetrics(false)}>
+                            <ArrowDropDownSharpIcon style={{
+                                color: '#63676C',
+                                "&:hover": {
+                                    color: "#3B9D7E4"
+                                },
+                            }}/>
+                        </IconButton>
                     </div>
                     <div className={classes.contributionContainer}>
                         {keyStats}
@@ -563,7 +493,7 @@ export default function SummaryChart(props) {
                 <NavLink to={{pathname: "/inputimportance", state: {}}}
                          style={{textDecoration: 'none'}}>
                     <Paper className={classes.keyStatsPaper} style={{background: '#FEFEFD'}}>
-                        <h2 className={classes.statsText} style={{color: stats_fill}}>{'Most Sensitive To:'}</h2>
+                        <h2 className={classes.statsText} style={{color: '#63676C'}}>{'Most Sensitive To:'}</h2>
                         <h3
                             className={classes.statFigure} style={{color: stats_fill}}>{mostSensitiveMag.name}
                         </h3>
@@ -571,7 +501,7 @@ export default function SummaryChart(props) {
                 </NavLink>
                 <NavLink to="/inputimportance" style={{textDecoration: 'none'}}>
                     <Paper className={classes.keyStatsPaper} style={{background: '#FEFEFD'}}>
-                        <h2 className={classes.statsText} style={{color: stats_fill}}>{'Least Sensitive To:'}</h2>
+                        <h2 className={classes.statsText} style={{color: '#63676C'}}>{'Least Sensitive To:'}</h2>
                         <h3
                             className={classes.statFigure} style={{color: stats_fill}}>{leastSensitiveMag.name}
                         </h3>
@@ -579,28 +509,28 @@ export default function SummaryChart(props) {
                 </NavLink>
                 <NavLink to="/distributions" style={{textDecoration: 'none'}}>
                     <Paper className={classes.keyStatsPaper} style={{background: '#FEFEFD'}}>
-                        <h2 className={classes.statsText} style={{color: stats_fill}}>{'Mean'}</h2>
+                        <h2 className={classes.statsText} style={{color: '#63676C'}}>{'Mean'}</h2>
                         <h2 className={classes.statFigure}
                             style={{color: stats_fill}}>{convert_format(out_fmt, xmean)}</h2>
                     </Paper>
                 </NavLink>
                 <NavLink to="/distributions" style={{textDecoration: 'none'}}>
                     <Paper className={classes.keyStatsPaper} style={{background: '#FEFEFD'}}>
-                        <h2 className={classes.statsText} style={{color: stats_fill}}>{'Minimum'}</h2>
+                        <h2 className={classes.statsText} style={{color: '#63676C'}}>{'Minimum'}</h2>
                         <h2 className={classes.statFigure}
                             style={{color: stats_fill}}>{convert_format(out_fmt, xmin)}</h2>
                     </Paper>
                 </NavLink>
                 <NavLink to="/distributions" style={{textDecoration: 'none'}}>
                     <Paper className={classes.keyStatsPaper} style={{background: '#FEFEFD'}}>
-                        <h2 className={classes.statsText} style={{color: stats_fill}}> {'Maximum'}</h2>
+                        <h2 className={classes.statsText} style={{color: '#63676C'}}> {'Maximum'}</h2>
                         <h2 className={classes.statFigure}
                             style={{color: stats_fill}}>{convert_format(out_fmt, xmax)}</h2>
                     </Paper>
                 </NavLink>
                 <NavLink to="/distributions" style={{textDecoration: 'none'}}>
                     <Paper className={classes.keyStatsPaper} style={{background: '#FEFEFD'}}>
-                        <h2 className={classes.statsText} style={{color: stats_fill}}> {'Std Dev'}</h2>
+                        <h2 className={classes.statsText} style={{color: '#63676C'}}> {'Std Dev'}</h2>
                         <h2 className={classes.statFigure}
                             style={{color: stats_fill}}>{convert_format(out_fmt, xstd)}</h2>
                     </Paper>
