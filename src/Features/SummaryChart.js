@@ -42,6 +42,9 @@ export default function SummaryChart(props) {
 
     // Defining hooks
     const useStyles = makeStyles(theme => ({
+        root: {
+            width: '100%'
+        },
         summaryChartContainer: {
             display: 'flex',
             flexWrap: 'wrap',
@@ -77,13 +80,13 @@ export default function SummaryChart(props) {
             borderRadius: '10px 10px 0px 0px',
             bottom: 0,
             left: '50%',
-            marginLeft:'-500px'
+            marginLeft: '-500px'
             // transform: 'translateX(-50%)'
         },
         paperHeaderContainer: {
             display: 'flex',
             justifyContent: 'space-between',
-            width:'100%'
+            width: '100%'
         },
         chartTitle: {
             fontFamily: 'Questrial',
@@ -427,7 +430,7 @@ export default function SummaryChart(props) {
                         <Bar
                             className={classes.bar}
                             dataKey="value"
-                            isAnimationActive={true}
+                            isAnimationActive={false}
                             // onAnimationEnd={()=>{this.setState({});}}
                             // fill={color_url(fill)}
                             animationDuration={200}
@@ -466,7 +469,7 @@ export default function SummaryChart(props) {
         const fill = chartColors[(props.summaryData.findIndex(output => output.category === props.outCat.category))]
 
         return (
-            <Slide in={true} direction="up" timeout={750}>
+            <Slide in={true} direction="up" timeout={750} mountOnEnter>
                 <Paper className={classes.maxPaper} elevation={5}>
                     <div style={{
                         width: '100%',
@@ -627,7 +630,7 @@ export default function SummaryChart(props) {
 
     //Handlers
     return (
-        <Card elevation={0}>
+        <Card elevation={0} className={classes.root}>
             {charts}
         </Card>
     )

@@ -30,7 +30,7 @@ export default function Dashboard(props) {
             marginLeft: '12%',
             flexWrap: 'wrap',
             justifyContent: 'center',
-            padding: '8px',
+            padding: '8px'
         }
     }))
     const classes = useStyles()
