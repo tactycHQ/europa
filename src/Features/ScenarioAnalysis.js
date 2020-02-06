@@ -32,10 +32,23 @@ export default function ScenarioAnalysis(props) {
         // },
         topCard: {
             display: 'flex',
+            flexDirection: 'column',
             width: '100%',
-            padding: '10px',
-            // justifyContent: 'space-between',
-            // background: 'yellow',
+            background: '#FEFEFD'
+        },
+        cardHeaderContainer: {
+            display: 'flex',
+            justifyContent: 'space-between',
+        },
+        cardTitleHeader: {
+            color: '#4F545A',
+            fontFamily: 'Questrial',
+            fontWeight: '20',
+            fontSize: '2em',
+            marginTop: '10px',
+            marginLeft: '15px',
+            marginBottom: '20px',
+            // backgroundColor:'blue'
         },
         outputContainer: {
             display: 'flex',
@@ -164,7 +177,6 @@ export default function ScenarioAnalysis(props) {
                 const checkstate = props.checked[address]
                 let SliderEl
                 let checkEl
-
 
                 if (checkstate) {
                     SliderEl = (
@@ -323,12 +335,16 @@ export default function ScenarioAnalysis(props) {
     //Return
     return (
         <Card className={classes.topCard} elevation={0}>
-            {/*<h3 className={classes.chartNote}>Select Desired Output Value Range</h3>*/}
-            <div className={classes.outputContainer}>
-                {outSliders}
+            <div className={classes.cardHeaderContainer}>
+                <h2 className={classes.cardTitleHeader}>Scenario Analysis</h2>
             </div>
-            <div className={classes.solutionContainer}>
-                {solutionsEl}
+            <div style={{display: 'flex', width: '100%'}}>
+                <div className={classes.outputContainer}>
+                    {outSliders}
+                </div>
+                <div className={classes.solutionContainer}>
+                    {solutionsEl}
+                </div>
             </div>
         </Card>
     )

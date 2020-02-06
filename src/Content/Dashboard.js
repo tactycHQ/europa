@@ -62,7 +62,6 @@ export default function Dashboard(props) {
     const createCheckDefaults = () => {
         return props.outputs.reduce((acc, output) => {
             const addresses = Object.entries(output.labels)
-
             addresses.forEach((pair) => {
                 let address = pair[0]
                 acc[address] = false
@@ -324,6 +323,7 @@ export default function Dashboard(props) {
         return (
             <DistributionChart
                 distributions={props.distributions}
+                solutions={props.solutions}
                 currSolution={currSolution}
                 findSolution={findSolution}
                 inputLabelMap={inputLabelMap}
@@ -436,7 +436,6 @@ export default function Dashboard(props) {
     }
 
     const createScenarioAnalysis = () => {
-
         return (
             <ScenarioAnalysis
                 {...props}

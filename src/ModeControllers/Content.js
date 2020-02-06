@@ -45,14 +45,10 @@ export default function Content(props) {
         )
     }
 
-
-
     const generateBackupIO = () => {
         setInputsBak(Array.from(props.inputs))
         setOutputsBak(Array.from(props.outputs))
     }
-
-
 
     const generateContent = () => {
 

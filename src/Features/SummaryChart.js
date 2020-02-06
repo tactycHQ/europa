@@ -130,7 +130,7 @@ export default function SummaryChart(props) {
             padding: '3px',
             opacity: '80%',
             "&:hover": {
-                opacity: "100%"
+                opacity: "100%",
             }
         },
         statsText: {

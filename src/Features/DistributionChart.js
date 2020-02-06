@@ -13,15 +13,16 @@ import {
 } from 'recharts'
 import Paper from '@material-ui/core/Paper'
 import {Card} from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 import {OutputDropdown} from "../UtilityComponents/OutputDropdown";
 import {convert_format, arrSum} from "../utils/utils"
 import Fade from '@material-ui/core/Fade'
+import {NavLink} from "react-router-dom";
 
 
 export default function Distribution(props) {
 
     const digits = 3
-
 
     //Styles
     const useStyles = makeStyles(theme => ({
@@ -141,14 +142,14 @@ export default function Distribution(props) {
         const sortedKeys = Object.keys(probs).sort(sortNumber)
         const sortedVals = sortedKeys.map(key => probs[key])
         return sortedKeys.reduce((acc, key, idx) => {
-            acc[key] = arrSum(sortedVals.slice(idx))/totalpdf
+            acc[key] = arrSum(sortedVals.slice(idx)) / totalpdf
             return acc
-        },{})
+        }, {})
     }
 
     const processCases = (cdf) => {
 
-        const probKey = props.currSolution[outAdd].toFixed(3)
+        const probKey = props.currSolution[outAdd].toFixed(digits)
         return Object.entries(props.cases).reduce((acc, caseData) => {
             const caseName = caseData[0]
             const inputCombo = caseData[1]
@@ -222,7 +223,7 @@ export default function Distribution(props) {
         })
     }
 
-    const createBinCenters = (counts) => {
+    const createBinCenters = () => {
         const bin_edges = props.distributions.bin_edges[outAdd]
         let bin_centers = bin_edges.map((edge, idx) => {
             if (idx < bin_edges.length - 1) {
@@ -324,7 +325,7 @@ export default function Distribution(props) {
         )
     }
 
-    const generateProbChart = (outAdd, outCat,caseVals, ticks) => {
+    const generateProbChart = (outAdd, outCat, caseVals, ticks) => {
         const prob_data = createProbData(probs)
         const referenceBars = createRefBars(caseVals, "pdf")
 
@@ -368,7 +369,7 @@ export default function Distribution(props) {
                         />
                         {/*<YAxis yAxisId="cdf" orientation='right'/>*/}
                         <Tooltip
-                            wrapperStyle={{fontSize: '0.9em', fontFamily: 'Questrial',color:'#A5014B'}}
+                            wrapperStyle={{fontSize: '0.9em', fontFamily: 'Questrial', color: '#A5014B'}}
                             itemStyle={{fontSize: '0'}}
                             cursor={{fill: '#FEFEFD'}}
                             // formatter={value => [`${value} solutions`]}
@@ -420,14 +421,115 @@ export default function Distribution(props) {
     }
 
 
+    const createBoundSol = (val, fill) => {
+        const foundSols = props.solutions.filter(solution => solution.outputs[outAdd] === val)
+        const foundSolInputs = foundSols.map(solution => solution.inputs)
+        return foundSolInputs.map((inputCombo, idx) => {
+            if (idx <= 5) {
+                const singleSolution = Object.keys(inputCombo).map((inputAdd, idx) => {
+                    const inptLabel = props.inputLabelMap[inputAdd]
+                    const inptVal = convert_format(props.formats[inputAdd], inputCombo[inputAdd])
+                    return (
+                        <h2 key={"Combo" + idx + val.toString()}
+                            style={{
+                                color: '#F4F9E9',
+                                fontFamily: 'Questrial',
+                                margin: '0px',
+                                fontWeight: '20',
+                                fontSize: '0.9em'
+                            }}
+                        >
+                            {inptLabel}: {inptVal}
+                        </h2>)
+                })
+                return (
+                    <Paper key={idx + "foundInput" + val.toString()}
+                           style={{
+                               display: 'flex',
+                               flexDirection: 'column',
+                               backgroundColor: fill,
+                               margin: '3px',
+                               width: '100%',
+                               padding: '5px'
+                           }}
+                    >{singleSolution}
+                    </Paper>)
+            }
+        })
+    }
+
+
+    const boundsStats = (outAdd) => {
+        const minFill = '#2E88B0'
+        const maxFill = '#5CA2C1'
+
+        const minEls = createBoundSol(props.distributions.min[outAdd], minFill)
+        const maxEls = createBoundSol(props.distributions.max[outAdd], maxFill)
+
+        const minVal = convert_format(out_fmt, props.distributions.min[outAdd])
+        const maxVal = convert_format(out_fmt, props.distributions.max[outAdd])
+
+        return (
+            <Paper className={classes.paper} elevation={2}>
+                <h3 className={classes.chartTitle}>Boundaries Evaluation</h3>
+                <div style={{display: 'flex', width: '100%', justifyContent: 'center'}}>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        width: '45%',
+                        margin: '5px',
+                        alignItems: 'center'
+                    }}>
+                        <h3 className={classes.chartNote}
+                            style={{color: minFill, fontWeight: '500', fontSize: '1em', margin: '2px'}}>Inputs that lead
+                            to Minimum of {minVal}</h3>
+                        {minEls}
+                    </div>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        width: '45%',
+                        margin: '5px',
+                        alignItems: 'center'
+                    }}>
+                        <h3 className={classes.chartNote}
+                            style={{color: maxFill, fontWeight: '500', fontSize: '1em', margin: '2px'}}>Inputs that lead
+                            to Maximum of {maxVal}</h3>
+                        {maxEls}
+                    </div>
+                </div>
+
+                <h3 className={classes.chartNote}> The above scenarios only show a maximum a 5 input combinations.
+                    Further
+                    input scenarios that match specific output values can be evaluated at</h3>
+                <NavLink to="/scenario" style={{textDecoration: 'none'}}>
+                    <Paper style={{
+                        display:'flex',
+                        justifyContent:'center',
+                        alignItems:'center',
+                        color: '#F4F9E9',
+                        fontFamily: 'Questrial',
+                        margin: '0px',
+                        fontWeight: '20',
+                        fontSize: '0.9em',
+                        padding:'20px',
+                        backgroundColor: '#A5014B'
+                    }}>Scenario Analysis</Paper>
+                </NavLink>
+            </Paper>
+        )
+    }
+
+
     //Execute Functions
     const cdf = createCDF()
     const caseVals = processCases(cdf)
     const counts = props.distributions.count[outAdd]
     const bin_centers = createBinCenters(counts)
     const histChart = generateHistChart(outAdd, outCat, caseVals, counts, bin_centers)
-    const probChart = generateProbChart(outAdd,outCat, caseVals, bin_centers)
+    const probChart = generateProbChart(outAdd, outCat, caseVals, bin_centers)
     const keyStats = generateKeyStats(outAdd)
+    const boundStats = boundsStats(outAdd)
 
     return (
         <Card
@@ -451,6 +553,7 @@ export default function Distribution(props) {
             </Fade>
             {histChart}
             {probChart}
+            {boundStats}
         </Card>
     )
 
