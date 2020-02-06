@@ -15,6 +15,7 @@ import {Paper, makeStyles, Card} from "@material-ui/core"
 import {convert_format} from "../utils/utils"
 import CardSettings from "../UtilityComponents/CardSettings"
 import {NavLink} from "react-router-dom"
+import {Slide} from '@material-ui/core'
 
 
 const chartColors = [
@@ -59,7 +60,7 @@ export default function SummaryChart(props) {
             width: '100%',
             padding: '1.2%',
             paddingTop: '2px',
-            // background:'yellow'
+            marginBottom: '180px'
         },
         SummaryPaper: {
             display: 'flex',
@@ -76,21 +77,25 @@ export default function SummaryChart(props) {
         maxPaper: {
             display: 'flex',
             flexDirection: 'row',
-            flexWrap:'wrap',
+            flexWrap: 'wrap',
             justifyContent: 'flex-start',
-            alignItems: 'center',
-            margin: '10px',
-            marginTop: '0px',
-            marginBottom: '20px',
-            padding: '1%',
-            background: 'linear-gradient(#F4F4F4 10%,#FEFEFD)',
-            width: '100%',
-            // height:'40vh'
+            alignItems: 'flex-start',
+            padding: '3px',
+            paddingLeft: '10px',
+            paddingRight: '10px',
+            background: '#EBECEC',
+            width: '1000px',
+            position: 'fixed',
+            borderRadius: '10px 10px 0px 0px',
+            bottom: 0,
+            left: '50%',
+            marginLeft:'-500px'
+            // transform: 'translateX(-50%)'
         },
         paperHeaderContainer: {
             display: 'flex',
-            width: '100%',
             justifyContent: 'space-between',
+            width:'100%'
         },
         chartTitle: {
             fontFamily: 'Questrial',
@@ -120,18 +125,17 @@ export default function SummaryChart(props) {
         },
         contribStatsContainer: {
             display: 'flex',
-            flexWrap:'wrap',
-            justifyContent: 'space-between',
-            width:'45%'
+            flexWrap: 'wrap',
+            width: '70%'
         },
         keyStatsPaper: {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            width: '140px',
-            height: '65px',
-            background:'yellow',
             margin: '5px',
+            width: '120px',
+            height: '55px',
+            background: 'yellow',
             padding: '3px',
             opacity: '80%',
             "&:hover": {
@@ -144,17 +148,17 @@ export default function SummaryChart(props) {
             // textAlign:'center',
             margin: '0px',
             fontWeight: '10',
-            fontSize: '0.85em',
+            fontSize: '0.80em',
             textAlign: 'center'
         },
         statFigure: {
             color: '#F4F9E9',
             textAlign: 'center',
             margin: '0px',
-            marginBottom: '5%',
+            marginBottom: '2px',
             fontFamily: 'Questrial',
-            fontWeight: '10',
-            fontSize: '1.0em'
+            fontWeight: '600',
+            fontSize: '0.95em'
         },
     }))
     const classes = useStyles()
@@ -235,6 +239,34 @@ export default function SummaryChart(props) {
         )
     }
 
+    function CustomizedXAxisTickKeyMetrics(props) {
+        const {x, y, payload, fill} = props
+
+        // let _fill=props.fill
+        let _fontWeight = '500'
+        if (props.name === props.outCat.category && props.payload.value === props.outCat.labels[props.outAdd]) {
+            _fontWeight = '700'
+        }
+
+        return (
+            <Text
+                x={x}
+                y={y}
+                dy={15}
+                textAnchor="middle"
+                width={110}
+                fill={fill}
+                fontSize='0.8em'
+                fontFamily="Questrial"
+                fontWeight='500'
+                style={{fontWeight: _fontWeight}}
+            >
+                {payload.value}
+            </Text>
+
+        )
+    }
+
     const pieLabelFormatter = (props) => {
         const {cx, x, y, payload, index} = props
 
@@ -253,6 +285,7 @@ export default function SummaryChart(props) {
             </Text>
         )
     }
+
 
 //     const pieLabelFormatter2 = (props) => {
 //         const {cx, cy, midAngle, innerRadius, outerRadius, payload, index} = props
@@ -442,6 +475,90 @@ export default function SummaryChart(props) {
         )
     }
 
+    const createIISummary2 = () => {
+
+        const outCat = props.outCat
+        const outAdd = props.outAdd
+        const keyStats = generateIIStats(props.iiSummaryData)
+        const fill = chartColors[(props.summaryData.findIndex(output => output.category === props.outCat.category))]
+
+        return (
+            <Slide in={true} direction="up" timeout={750}>
+                <Paper className={classes.maxPaper} elevation={5}>
+                    <div style={{
+                        width: '100%',
+                        textAlign: 'center',
+                        padding: '2px'
+                    }}>
+                        <NavLink to="/inputimportance" style={{textDecoration: 'none'}}>
+                            <h3 style={{
+                                fontFamily: 'Questrial',
+                                fontSize: '0.85em',
+                                fontWeight: '800',
+                                margin: '5px',
+                                color: '#63676C'
+                            }}>Key Metrics for {outCat.category}, {outCat.labels[outAdd]}. Chart represents % impact of
+                                each input on {outCat.category}, {outCat.labels[outAdd]} variance</h3>
+                        </NavLink>
+                    </div>
+                    <div className={classes.contributionContainer}>
+                        {keyStats}
+                        <ResponsiveContainer
+                            width="100%"
+                            height={150}
+                            margin={{top: 0, right: 0, left: 0, bottom: 0}}
+                        >
+                            <BarChart
+                                data={props.iiSummaryData}
+                                margin={{top: 20, right: 20, left: 20, bottom: 0}}
+                                maxBarSize={20}
+                            >
+                                <XAxis
+                                    hide={false}
+                                    dataKey="name"
+                                    tickLine={false}
+                                    minTickGap={2}
+                                    interval={0}
+                                    tick={<CustomizedXAxisTickKeyMetrics outAdd={props.outAdd} outCat={props.outCat}/>}
+                                    padding={{top: 0, bottom: 0}}
+                                />
+
+                                <YAxis
+                                    hide={true}
+                                    dataKey="value"
+                                    type="number"
+                                    padding={{top: 0, bottom: 0}}
+                                    interval={0}
+                                    domain={[0, 1]}
+                                />
+                                <Bar
+                                    className={classes.bar}
+                                    dataKey="value"
+                                    isAnimationActive={false}
+                                    fill={color_url(fill)}
+                                    animationDuration={200}
+                                    radius={[3, 3, 0, 0]}
+                                >
+                                    <LabelList
+                                        dataKey="value"
+                                        position="top"
+                                        style={{
+                                            fill: fill,
+                                            fontFamily: 'Questrial',
+                                            fontSize: '0.8em',
+                                            fontWeight: '800'
+                                        }}
+                                        formatter={(value) => convert_format('0.0%', value)}
+                                    />
+                                </Bar>
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
+                </Paper>
+            </Slide>
+        )
+    }
+
     const createIISummary = () => {
 
         const outCat = props.outCat
@@ -509,43 +626,47 @@ export default function SummaryChart(props) {
             <div className={classes.contribStatsContainer}>
                 <NavLink to={{pathname: "/inputimportance", state: {}}}
                          style={{textDecoration: 'none'}}>
-                    <Paper className={classes.keyStatsPaper} style={{background: stats_fill}}>
-                        <h2 className={classes.statsText}>{'Most Sensitive Driver'}</h2>
+                    <Paper className={classes.keyStatsPaper} style={{background: '#FEFEFD'}}>
+                        <h2 className={classes.statsText} style={{color: stats_fill}}>{'Most Sensitive To:'}</h2>
                         <h3
-                            className={classes.statFigure}>{mostSensitiveMag.name}
+                            className={classes.statFigure} style={{color: stats_fill}}>{mostSensitiveMag.name}
                         </h3>
                     </Paper>
                 </NavLink>
                 <NavLink to="/inputimportance" style={{textDecoration: 'none'}}>
-                    <Paper className={classes.keyStatsPaper} style={{background: stats_fill}}>
-                        <h2 className={classes.statsText}>{'Least Sensitive Driver'}</h2>
+                    <Paper className={classes.keyStatsPaper} style={{background: '#FEFEFD'}}>
+                        <h2 className={classes.statsText} style={{color: stats_fill}}>{'Least Sensitive To:'}</h2>
                         <h3
-                            className={classes.statFigure}>{leastSensitiveMag.name}
+                            className={classes.statFigure} style={{color: stats_fill}}>{leastSensitiveMag.name}
                         </h3>
                     </Paper>
                 </NavLink>
                 <NavLink to="/distributions" style={{textDecoration: 'none'}}>
-                    <Paper className={classes.keyStatsPaper} style={{background: stats_fill}}>
-                        <h2 className={classes.statsText}>{'Mean'}</h2>
-                        <h2 className={classes.statFigure}>{convert_format(out_fmt, xmean)}</h2>
+                    <Paper className={classes.keyStatsPaper} style={{background: '#FEFEFD'}}>
+                        <h2 className={classes.statsText} style={{color: stats_fill}}>{'Mean'}</h2>
+                        <h2 className={classes.statFigure}
+                            style={{color: stats_fill}}>{convert_format(out_fmt, xmean)}</h2>
                     </Paper>
                 </NavLink>
                 <NavLink to="/distributions" style={{textDecoration: 'none'}}>
-                    <Paper className={classes.keyStatsPaper} style={{background: stats_fill}}>
-                        <h2 className={classes.statsText}>{'Minimum'}</h2>
-                        <h2 className={classes.statFigure}>{convert_format(out_fmt, xmin)}</h2>
+                    <Paper className={classes.keyStatsPaper} style={{background: '#FEFEFD'}}>
+                        <h2 className={classes.statsText} style={{color: stats_fill}}>{'Minimum'}</h2>
+                        <h2 className={classes.statFigure}
+                            style={{color: stats_fill}}>{convert_format(out_fmt, xmin)}</h2>
                     </Paper>
                 </NavLink>
                 <NavLink to="/distributions" style={{textDecoration: 'none'}}>
-                    <Paper className={classes.keyStatsPaper} style={{background: stats_fill}}>
-                        <h2 className={classes.statsText}> {'Maximum'}</h2>
-                        <h2 className={classes.statFigure}>{convert_format(out_fmt, xmax)}</h2>
+                    <Paper className={classes.keyStatsPaper} style={{background: '#FEFEFD'}}>
+                        <h2 className={classes.statsText} style={{color: stats_fill}}> {'Maximum'}</h2>
+                        <h2 className={classes.statFigure}
+                            style={{color: stats_fill}}>{convert_format(out_fmt, xmax)}</h2>
                     </Paper>
                 </NavLink>
                 <NavLink to="/distributions" style={{textDecoration: 'none'}}>
-                    <Paper className={classes.keyStatsPaper} style={{background: stats_fill}}>
-                        <h2 className={classes.statsText}> {'Std Dev'}</h2>
-                        <h2 className={classes.statFigure}>{convert_format(out_fmt, xstd)}</h2>
+                    <Paper className={classes.keyStatsPaper} style={{background: '#FEFEFD'}}>
+                        <h2 className={classes.statsText} style={{color: stats_fill}}> {'Std Dev'}</h2>
+                        <h2 className={classes.statFigure}
+                            style={{color: stats_fill}}>{convert_format(out_fmt, xstd)}</h2>
                     </Paper>
                 </NavLink>
             </div>
@@ -555,7 +676,7 @@ export default function SummaryChart(props) {
 
     const createCharts = () => {
         // const miniCharts = createDistSummary()
-        const iiSummary = createIISummary()
+        const iiSummary = createIISummary2()
         const summaryCharts = props.summaryData.map((solutionSet, idx) => {
             return createSingleChart(solutionSet, idx)
         })
