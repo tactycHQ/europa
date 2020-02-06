@@ -508,7 +508,7 @@ export default function InputImportance(props) {
             elevation={0}
         >
             <div className={classes.cardHeaderContainer}>
-                <h2 className={classes.cardTitleHeader}>Input Importance</h2>
+                <h2 className={classes.cardTitleHeader}>Input Contribution</h2>
             </div>
             <OutputDropdown
                 type="withLabel"

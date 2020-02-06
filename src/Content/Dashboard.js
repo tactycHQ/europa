@@ -1,18 +1,19 @@
 import React, {useState} from 'react'
 import {makeStyles} from '@material-ui/core'
-import SummaryChart from "../Features/SummaryChart"
+import DashboardChart from "../Features/DashboardChart"
 import SensitivityAnalysis from "../Features/SensitivityAnalysis"
 import DistributionChart from "../Features/DistributionChart";
 import InputImportance from "../Features/InputImportance";
 import ScenarioAnalysis from "../Features/ScenarioAnalysis";
 import {getAvg, convert_format, getAvgfromKey, getDomains, getSumfromKey} from "../utils/utils";
 import isEqual from "lodash.isequal";
+import SummaryPage from "../Features/SummaryPage";
 
 
 export default function Dashboard(props) {
 
     const getWidth = () => {
-        if (['summary', 'distributions', 'sensitivity'].includes(props.type)) {
+        if (['dashboard', 'distributions', 'sensitivity'].includes(props.type)) {
             return '72.5%'
         } else {
             return '100%'
@@ -146,7 +147,7 @@ export default function Dashboard(props) {
     ///======== Summary Chart Functions========
 
     //Adds labels and formats to solutions
-    const addLiveChartMetaData = (solutionSet) => {
+    const addDashChartMetaData = (solutionSet) => {
 
         const labelsInChart = props.outputs.map(output => {
 
@@ -200,9 +201,9 @@ export default function Dashboard(props) {
     }
 
     //Summary chart creator
-    const createSummaryCharts = (summaryChartData, outAdd, outCat, out_fmt, inputLabelMap, distSummaryData, iiSummaryData) => {
+    const createDashboardCharts = (summaryChartData, outAdd, outCat, out_fmt, inputLabelMap, distSummaryData, iiSummaryData) => {
         return (
-            <SummaryChart
+            <DashboardChart
                 summaryData={summaryChartData}
                 distSummaryData={distSummaryData}
                 iiSummaryData={iiSummaryData}
@@ -466,19 +467,29 @@ export default function Dashboard(props) {
         const {outAdd, outCat} = outCellData
         const out_fmt = props.formats[outAdd]
 
-
         if (props.type === 'summary') {
 
 
             //Get relevant data for summary charts
-            const summaryChartData = addLiveChartMetaData(currSolution)
+            return (
+                <SummaryPage
+                    {...props}
+                    inputLabelMap={inputLabelMap}
+                />
+            )
+
+        } else if (props.type === 'dashboard') {
+
+
+            //Get relevant data for dashboard charts
+            const dashChartData = addDashChartMetaData(currSolution)
             const distSummaryData = distKeyStats(outAdd)
             const avgData = createImpacts(outAdd)
             const iiSummaryData = createIISummary(avgData)
 
 
-            return createSummaryCharts(
-                summaryChartData,
+            return createDashboardCharts(
+                dashChartData,
                 outAdd,
                 outCat,
                 out_fmt,
@@ -494,7 +505,7 @@ export default function Dashboard(props) {
             const input1 = getInput1()
             let input2
 
-            if(props.inputs.length === 1) {
+            if (props.inputs.length === 1) {
                 input2 = getInput1()
             } else {
                 input2 = getInput2()

@@ -210,6 +210,7 @@ export default function Main(props) {
     }
 
     const updateCases = (update) => {
+        console.log(cases)
         setCases(update)
     }
 
@@ -228,7 +229,7 @@ export default function Main(props) {
     }
 
     const downloadModel = () => {
-        downloadFile(dashid,origFilename)
+        downloadFile(dashid, origFilename)
     }
 
 
@@ -316,7 +317,7 @@ export default function Main(props) {
                     </div>
                 </Route>
                 <Route exact
-                       path="/(dashboard|distributions|inputimportance|sensitivity|scenario|dependency|spreadsheet)">
+                       path="/(summary|dashboard|distributions|inputimportance|sensitivity|scenario|dependency|spreadsheet)">
                     <div className={classes.middle}>
                         {content}
                     </div>

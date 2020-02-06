@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {
     BarChart,
     Bar,
@@ -35,7 +35,7 @@ const chartColors = [
     '#002247'
 ]
 
-export default function SummaryChart(props) {
+export default function DashboardChart(props) {
 
 
     // Initialization function to get width of chart based on user preferences

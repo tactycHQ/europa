@@ -13,7 +13,6 @@ import {
 } from 'recharts'
 import Paper from '@material-ui/core/Paper'
 import {Card} from "@material-ui/core";
-import Button from "@material-ui/core/Button";
 import {OutputDropdown} from "../UtilityComponents/OutputDropdown";
 import {convert_format, arrSum} from "../utils/utils"
 import Fade from '@material-ui/core/Fade'
@@ -556,5 +555,4 @@ export default function Distribution(props) {
             {boundStats}
         </Card>
     )
-
 }

@@ -700,7 +700,7 @@ export default function InputSelector(props) {
         cancelEl = (
             <NavLink to="/dashboard" style={{textDecoration: 'none'}}>
                 <h3 style={{
-                    color: 'gray',
+                    color: '#8A8D91',
                     marginTop: '5px',
                     fontSize: '0.85em',
                     fontWeight: '100',

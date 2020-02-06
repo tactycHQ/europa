@@ -1,10 +1,11 @@
-import React,{useState} from 'react'
+import React, {useState} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Dashboard from "../Content/Dashboard"
 import Input from "../Content/InputsController";
 import {Switch, Route} from 'react-router-dom'
 import SideBar from "../Content/SideBar";
 import IOController from "../IOSelections/IOController";
+import SummaryPage from "../Features/SummaryPage";
 
 
 export default function Content(props) {
@@ -62,9 +63,15 @@ export default function Content(props) {
                              saveDash={props.saveDash}
                              outputs={props.outputs}/>
                     <Switch>
-                        <Route exact path={"/dashboard"}>
+                        <Route exact path={"/summary"}>
                             <Dashboard
                                 type="summary"
+                                {...props}
+                            />
+                        </Route>
+                        <Route exact path={"/dashboard"}>
+                            <Dashboard
+                                type="dashboard"
                                 {...props}
                             />
                             <Input
@@ -112,7 +119,7 @@ export default function Content(props) {
                 </div>
             )
 
-        //MODE is PENDINGIO
+            //MODE is PENDINGIO
         } else {
             return generateIOSelector()
         }
