@@ -205,6 +205,9 @@ export default function OutputSelector(props) {
                                 input: classes.textField
                             }
                         }}
+                        inputProps={{
+                            maxlength: 20
+                        }}
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
                     />

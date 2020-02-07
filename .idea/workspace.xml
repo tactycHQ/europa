@@ -2,16 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Features/SummaryPage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Content/Dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/Dashboard.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Content/InputsController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/InputsController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Content/SideBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/SideBar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Features/DistributionChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Features/DistributionChart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Features/InputImportance.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Features/InputImportance.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Features/SummaryChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Features/DashboardChart.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IOSelections/InputSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/IOSelections/InputSelector.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ModeControllers/Content.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Content.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IOSelections/OutputSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/IOSelections/OutputSelector.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ModeControllers/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Main.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -86,19 +80,19 @@
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PyCharm 2019.1.1\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\ModeControllers" />
-      <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\Features" />
-      <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\Content" />
-      <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\Other" />
-      <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\IOSelections" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\anubhav\Desktop\Projects\europa\node_modules\ssf" />
       <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\LayoutComponents" />
       <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\Outputs" />
       <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\dependency_graph" />
       <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\scenario_analysis" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\ModeControllers" />
+      <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\Features" />
+      <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\Content" />
+      <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\Other" />
+      <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\IOSelections" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -168,14 +162,7 @@
       <workItem from="1580749995012" duration="28590000" />
       <workItem from="1580868838836" duration="13657000" />
       <workItem from="1580936766214" duration="999000" />
-      <workItem from="1580938060012" duration="39429000" />
-    </task>
-    <task id="LOCAL-00204" summary="First commit">
-      <created>1580430884473</created>
-      <option name="number" value="00204" />
-      <option name="presentableId" value="LOCAL-00204" />
-      <option name="project" value="LOCAL" />
-      <updated>1580430884473</updated>
+      <workItem from="1580938060012" duration="43887000" />
     </task>
     <task id="LOCAL-00205" summary="First commit">
       <created>1580436023168</created>
@@ -513,7 +500,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581018443124</updated>
     </task>
-    <option name="localTasksCounter" value="253" />
+    <task id="LOCAL-00253" summary="First commit">
+      <created>1581028302679</created>
+      <option name="number" value="00253" />
+      <option name="presentableId" value="LOCAL-00253" />
+      <option name="project" value="LOCAL" />
+      <updated>1581028302680</updated>
+    </task>
+    <option name="localTasksCounter" value="254" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

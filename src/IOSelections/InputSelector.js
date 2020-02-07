@@ -344,6 +344,7 @@ export default function InputSelector(props) {
                             input: classes.textField
                         }
                     }}
+                    type="number"
                     defaultValue={myRound(bounds[0])}
                     onBlur={e => boundHandler(e, "lb")}
                 />
@@ -360,6 +361,7 @@ export default function InputSelector(props) {
                             input: classes.textField
                         }
                     }}
+                    type="number"
                     defaultValue={myRound(bounds[1])}
                     onBlur={e => boundHandler(e, "ub")}
                 />
@@ -425,6 +427,7 @@ export default function InputSelector(props) {
                         label={convert_format(format, v)}
                         defaultValue={v}
                         size="small"
+                        type="number"
                         onBlur={(e) => incrementHandler(e, idx)}
                         InputLabelProps={{
                             className: classes.labelField
@@ -463,6 +466,7 @@ export default function InputSelector(props) {
                     className={classes.rootTextContainer}
                     label="Input Name"
                     size="small"
+                    type="text"
                     InputLabelProps={{
                         className: classes.labelField
                     }}
@@ -470,6 +474,9 @@ export default function InputSelector(props) {
                         classes: {
                             input: classes.textField
                         }
+                    }}
+                    inputProps={{
+                        maxLength: 20
                     }}
                     defaultValue={label}
                     onChange={(e) => labelHandler(e)}

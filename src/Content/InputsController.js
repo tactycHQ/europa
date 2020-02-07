@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import InputSlider from "./InputSlider"
 import Slide from "@material-ui/core/Slide"
@@ -108,10 +108,32 @@ const useStyles = makeStyles(theme => ({
 export default function Input(props) {
 
     const classes = useStyles()
+    const [showAskSave, setShowAskSave] = useState(false)
+    const [showDelete, setShowDelete] = useState(false)
     const [showSave, setShowSave] = useState(false)
     const [saveName, setSaveName] = useState('')
     const [error, setError] = useState(null)
     const [errorOpen, setErrorOpen] = useState(false)
+
+
+    useEffect(() => {
+        let foundIndex = Object.values(props.cases).findIndex(caseData => isEqual(caseData, props.currInputVal))
+        let foundCase = Object.keys(props.cases)[foundIndex]
+
+        if (foundIndex === -1) {
+            setShowAskSave(true)
+        } else {
+            setShowAskSave(false)
+        }
+
+        if (foundCase === 'Default') {
+            setShowDelete(false)
+        } else {
+            setShowDelete(true)
+        }
+
+
+    }, [props.cases, props.currInputVal])
 
 
     const saveCase = () => {
@@ -170,7 +192,7 @@ export default function Input(props) {
     }
 
     const createAskSaveButton = () => {
-        if (!showSave) {
+        if (showAskSave) {
             return (
                 <Button className={classes.selectButton} size="small" onClick={() => setShowSave(true)}>
                     <h3 className={classes.buttonText}>Save as New Case</h3>
@@ -192,7 +214,7 @@ export default function Input(props) {
         let foundIndex = Object.values(props.cases).findIndex(caseData => isEqual(caseData, props.currInputVal))
         let foundCase = Object.keys(props.cases)[foundIndex]
 
-        if (foundCase !== 'Default' && !showSave) {
+        if (showDelete && !showSave) {
             return (
                 <h3 style={{
                     color: '#8A8D91',
