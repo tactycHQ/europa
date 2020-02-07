@@ -5,7 +5,6 @@ import Input from "../Content/InputsController";
 import {Switch, Route} from 'react-router-dom'
 import SideBar from "../Content/SideBar";
 import IOController from "../IOSelections/IOController";
-import SummaryPage from "../Features/SummaryPage";
 
 
 export default function Content(props) {

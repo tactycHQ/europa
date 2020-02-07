@@ -452,7 +452,10 @@ export default function Distribution(props) {
                                padding: '5px'
                            }}
                     >{singleSolution}
-                    </Paper>)
+                    </Paper>
+                )
+            } else {
+                return null
             }
         })
     }

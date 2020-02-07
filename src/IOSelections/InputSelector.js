@@ -210,7 +210,6 @@ export default function InputSelector(props) {
 
     const createButtons = () => {
 
-
         let setInputButton = null
         let doneWithInputs = null
 
@@ -488,46 +487,52 @@ export default function InputSelector(props) {
     //
     const addClickedCell = (newCell, sheetName) => {
 
+        if (props.wb.Sheets[sheetName][newCell].hasOwnProperty('f')) {
+            setError("Input must be a hardcode and not a formula cell")
+            setErrorOpen(true)
 
-        let oldColor
-        let v
-        let format
+        } else {
 
-        //if clicked a different cell, then reset color of unclicked cell
-        if (clickedCells.raw && clickedCells.raw !== newCell) {
-            refreshWorksheetColor()
+            let oldColor
+            let v
+            let format
+
+            //if clicked a different cell, then reset color of unclicked cell
+            if (clickedCells.raw && clickedCells.raw !== newCell) {
+                refreshWorksheetColor()
+            }
+
+            // Get cell metadata on old color, value and format for ne cell
+            oldColor = getOldColor(newCell, sheetName)
+            v = getValue(newCell, sheetName)
+            format = getFormat(newCell, sheetName)
+            props.wb.Sheets[sheetName][newCell].s.fgColor = {rgb: "FCCA46"}
+
+
+            //Set new clicked cell
+            setClickedCell({
+                address: sheetName + '!' + newCell,
+                sheet: sheetName,
+                raw: newCell,
+                oldColor: oldColor,
+                value: v,
+                format: format
+            })
+
+
+            const default_bounds = createBounds(v, LOWER_RATIO, UPPER_RATIO)
+            const default_increments = computeSteps(v, default_bounds[0], default_bounds[1], NUM_STEPS)
+
+            setAddress(sheetName + '!' + newCell)
+            setLabel(sheetName + '!' + newCell)
+            setvalue(v)
+            setFormat(format)
+            setNumSteps(NUM_STEPS)
+            setBounds(default_bounds)
+            setIncr(default_increments)
+            setErrorOpen(false)
+            props.updateStage('loaded')
         }
-
-        // Get cell metadata on old color, value and format for ne cell
-        oldColor = getOldColor(newCell, sheetName)
-        v = getValue(newCell, sheetName)
-        format = getFormat(newCell, sheetName)
-        props.wb.Sheets[sheetName][newCell].s.fgColor = {rgb: "FCCA46"}
-
-
-        //Set new clicked cell
-        setClickedCell({
-            address: sheetName + '!' + newCell,
-            sheet: sheetName,
-            raw: newCell,
-            oldColor: oldColor,
-            value: v,
-            format: format
-        })
-
-
-        const default_bounds = createBounds(v, LOWER_RATIO, UPPER_RATIO)
-        const default_increments = computeSteps(v, default_bounds[0], default_bounds[1], NUM_STEPS)
-
-        setAddress(sheetName + '!' + newCell)
-        setLabel(sheetName + '!' + newCell)
-        setvalue(v)
-        setFormat(format)
-        setNumSteps(NUM_STEPS)
-        setBounds(default_bounds)
-        setIncr(default_increments)
-        setErrorOpen(false)
-        props.updateStage('loaded')
     }
 
     const loadInput2ClickedCell = (address) => {
