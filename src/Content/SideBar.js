@@ -165,12 +165,6 @@ export default function SideBar(props) {
                             <div className={classes.buttonLabel}>Scenario Analysis</div>
                         </ListItem>
                     </NavLink>
-                    <NavLink to="/dependency" activeClassName={classes.activeButtons} style={{textDecoration: 'none'}}>
-                        <ListItem className={classes.buttons} button={true}>
-                            <AccountTreeIcon className={classes.icon}/>
-                            <div className={classes.buttonLabel}>Dependency Graph</div>
-                        </ListItem>
-                    </NavLink>
 
                     <Divider variant="middle" className={classes.divider}/>
 
@@ -180,10 +174,6 @@ export default function SideBar(props) {
                             <div className={classes.buttonLabel}>Change Inputs/Outputs</div>
                         </ListItem>
                     </NavLink>
-                    <ListItem className={classes.buttons} button={true}>
-                        <VerifiedUserSharpIcon className={classes.icon}/>
-                        <div className={classes.buttonLabel}>Audit Model</div>
-                    </ListItem>
                     <ListItem className={classes.buttons} button={true}>
                         <CloudUploadIcon className={classes.icon}/>
                         <div className={classes.buttonLabel}>Upload New Model Excel</div>
@@ -200,10 +190,7 @@ export default function SideBar(props) {
                         <ShareSharpIcon className={classes.icon}/>
                         <div className={classes.buttonLabel}>Send Dashboard</div>
                     </ListItem>
-                    <ListItem className={classes.saveButton} button={true}>
-                        <SettingsBackupRestoreSharpIcon className={classes.icon}/>
-                        <div className={classes.buttonLabel}>Reset Dashboard</div>
-                    </ListItem>
+
                 </List>
             </div>
         </div>

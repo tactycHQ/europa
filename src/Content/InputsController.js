@@ -192,7 +192,7 @@ export default function Input(props) {
     }
 
     const createAskSaveButton = () => {
-        if (showAskSave) {
+        if (showAskSave && !showSave) {
             return (
                 <Button className={classes.selectButton} size="small" onClick={() => setShowSave(true)}>
                     <h3 className={classes.buttonText}>Save as New Case</h3>
