@@ -105,7 +105,7 @@ export default function InputImportance(props) {
             // textAlign:'center',
             margin: '0px',
             fontWeight: '20',
-            fontSize: '1em'
+            fontSize: '0.9em'
         },
         statFigure: {
             color: '#F4F9E9',
@@ -113,7 +113,7 @@ export default function InputImportance(props) {
             margin: '0px',
             fontFamily: 'Questrial',
             fontWeight: '10',
-            fontSize: '1.5em'
+            fontSize: '1.3em'
         },
         cardHeaderContainer: {
             display: 'flex',

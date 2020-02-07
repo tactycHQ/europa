@@ -57,7 +57,7 @@ const useStyles = makeStyles(theme => ({
                 flexDirection: 'column',
                 minHeight: '80vh',
                 maxHeight: '80vh',
-                justifyContent: 'space-evenly',
+                justifyContent: 'flex-start',
                 marginTop: '5.0%',
                 marginLeft: '3.5%',
                 marginRight: '3.5%',
@@ -217,7 +217,7 @@ export default function Input(props) {
             return (
                 <h3 style={{
                     color: '#8A8D91',
-                    marginTop: '5px',
+                    marginTop: '1px',
                     fontSize: '0.85em',
                     fontWeight: '100',
                     fontFamily: 'Questrial',

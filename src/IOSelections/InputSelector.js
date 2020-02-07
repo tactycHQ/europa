@@ -582,7 +582,9 @@ export default function InputSelector(props) {
     const setInputHandler = () => {
 
 
-        if (props.inputs.findIndex(input => input.label === label) !== -1) {
+        if (props.inputs.findIndex(input => input.label === label) !== -1 && props.mode === 'pendingIO') {
+            console.log(props.mode)
+            console.log(props.stage)
             setError("Input name already defined. Please provide another name")
             setErrorOpen(true)
 

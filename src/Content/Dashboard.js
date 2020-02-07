@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import {makeStyles} from '@material-ui/core'
 import DashboardChart from "../Features/DashboardChart"
 import SensitivityAnalysis from "../Features/SensitivityAnalysis"
@@ -62,18 +62,18 @@ export default function Dashboard(props) {
     const [saInput2, setSAInput2] = useState('') //for category selection from dropdown
     const [onClose, setOnClose] = useState(false) //for category selection from dropdown
 
-    useEffect(() => {
-        const setupBeforeUnloadListener = () => {
-            console.log("here")
-            window.addEventListener("beforeunload", (ev) => {
-                ev.preventDefault();
-                ev.returnValue = "Please save before exiting"
-                setOnClose(true)
-
-            })
-        }
-        setupBeforeUnloadListener()
-    }, [])
+    // useEffect(() => {
+    //     const setupBeforeUnloadListener = () => {
+    //         console.log("here")
+    //         window.addEventListener("beforeunload", (ev) => {
+    //             ev.preventDefault();
+    //             ev.returnValue = "Please save before exiting"
+    //             setOnClose(true)
+    //
+    //         })
+    //     }
+    //     setupBeforeUnloadListener()
+    // }, [])
 
     // Scenario Analysis Hooks
     const createDefaults = () => {
@@ -125,13 +125,23 @@ export default function Dashboard(props) {
         setShowMetrics(true)
     }
 
-    const handleSummaryBarMouseClick = (event, category) => {
-        setCurrCategory(category)
-        const _catdata = props.outputs.find(cat => cat.category === category)
-        const _catlabels = _catdata.labels
-        const catlabel = Object.keys(_catdata.labels).find(k => _catlabels[k] === event.payload.x)
-        setCurrOutputCell(catlabel)
-        setShowMetrics(true)
+    const handleSummaryBarMouseClick = (event, category, type) => {
+        if (type==='bar') {
+            setCurrCategory(category)
+            const _catdata = props.outputs.find(cat => cat.category === category)
+            const _catlabels = _catdata.labels
+            const catlabel = Object.keys(_catdata.labels).find(k => _catlabels[k] === event.payload.x)
+            setCurrOutputCell(catlabel)
+            setShowMetrics(true)
+        }
+        else {
+            setCurrCategory(category)
+            const _catdata = props.outputs.find(cat => cat.category === category)
+            const _catlabels = _catdata.labels
+            const catlabel = Object.keys(_catdata.labels)[0]
+            setCurrOutputCell(catlabel)
+            setShowMetrics(true)
+        }
     }
 
     const handleShowMetrics = (update) => {
@@ -235,6 +245,8 @@ export default function Dashboard(props) {
     const createDashboardCharts = (summaryChartData, outAdd, outCat, out_fmt, inputLabelMap, distSummaryData, iiSummaryData) => {
         return (
             <DashboardChart
+                outputs={props.outputs}
+                distributions={props.distributions}
                 summaryData={summaryChartData}
                 distSummaryData={distSummaryData}
                 iiSummaryData={iiSummaryData}

@@ -61,8 +61,7 @@ export default function SideBar(props) {
         },
         activeButtons: {
             display: 'flex',
-            margin: '3px',
-            color: '#006E9F',
+            // color: '#006E9F',
             backgroundColor: '#D0E4ED',
             justifyContent: 'flex-start',
             alignItems: 'center',
@@ -89,19 +88,13 @@ export default function SideBar(props) {
             fontSize: '0.9em',
             paddingLeft: '5px',
             fontFamily: 'Questrial',
-            color: '#292F36',
-            "&:hover": {
-                color: "#FEFEFD"
-            }
+            color: '#292F36'
         },
         outputLabel: {
             fontSize: '0.9em',
             paddingLeft: '5px',
             fontFamily: 'Questrial',
-            color: '#292F36',
-            "&:hover": {
-                color: "#FEFEFD"
-            }
+            color: '#292F36'
         },
         outputIcon: {
             color: '#006E9F',

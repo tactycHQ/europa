@@ -424,7 +424,7 @@ export default function Distribution(props) {
         const foundSols = props.solutions.filter(solution => solution.outputs[outAdd] === val)
         const foundSolInputs = foundSols.map(solution => solution.inputs)
         return foundSolInputs.map((inputCombo, idx) => {
-            if (idx <= 5) {
+            if (idx <= 4) {
                 const singleSolution = Object.keys(inputCombo).map((inputAdd, idx) => {
                     const inptLabel = props.inputLabelMap[inputAdd]
                     const inptVal = convert_format(props.formats[inputAdd], inputCombo[inputAdd])

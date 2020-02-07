@@ -9,7 +9,8 @@ import {
     ResponsiveContainer,
     ReferenceLine,
     Cell,
-    Text
+    Text,
+    PieChart, Pie
 } from 'recharts'
 import {Paper, makeStyles, Card} from "@material-ui/core"
 import {convert_format} from "../utils/utils"
@@ -18,6 +19,8 @@ import {NavLink} from "react-router-dom"
 import {Slide} from '@material-ui/core'
 import ArrowDropDownSharpIcon from '@material-ui/icons/ArrowDropDownSharp'
 import IconButton from '@material-ui/core/IconButton'
+import {CircularProgressbar} from 'react-circular-progressbar'
+import 'react-circular-progressbar/dist/styles.css'
 
 
 const chartColors = [
@@ -269,15 +272,61 @@ export default function DashboardChart(props) {
         const domains = solutionSet.domains
         const chartData = addFormats(solutionSet.values)
         const fill = chartColors[idx]
+        let chartEl = null
 
-        return (
-            <Paper className={classes.SummaryPaper} key={"summary" + category} elevation={3}>
-                <div className={classes.paperHeaderContainer}>
-                    <h3 className={classes.chartTitle}>{category}</h3>
-                    <CardSettings category={category}
-                                  setSummaryPrefs={props.setSummaryPrefs}
-                                  summaryPrefs={props.summaryPrefs}/>
+        if (solutionSet.values.length === 1) {
+            let val = solutionSet.values[0].value
+            let fmt = convert_format(solutionSet.values[0].format, val)
+            const outObj = props.outputs.find(output => output.category === category)
+            const outAdd = Object.keys(outObj.labels)[0]
+            const xmin = props.distributions.min[outAdd]
+            const xmax = props.distributions.max[outAdd]
+            chartEl = (
+                <div style={{width: '100%', height: '100%'}}
+                     onClick={(e) => props.handleSummaryBarMouseClick(e, category, 'pie')}>
+                    <CircularProgressbar
+                        value={val}
+                        minValue={xmin}
+                        maxValue={xmax}
+                        text={fmt}
+                        styles={{
+                            root: {
+                                width: "100%",
+                                height: "210px",
+                                cursor: "pointer"
+                            },
+                            path: {
+                                // Path color
+                                stroke: fill,
+                                // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+                                strokeLinecap: 'round',
+                                // Customize transition animation
+                                transition: 'stroke-dashoffset 0.5s ease 0s',
+                                // Rotate the path
+                                transform: 'rotate(0.25turn)',
+                                transformOrigin: 'center center',
+                            },
+                            trail: {
+                                // Trail color
+                                stroke: fill,
+                                opacity: '10%',
+                                // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+                                strokeLinecap: 'butt',
+                                // Rotate the trail
+                                transform: 'rotate(0.25turn)',
+                                transformOrigin: 'center center',
+                            },
+                            text: {
+                                fill: fill,
+                                fontFamily: 'Questrial',
+                                fontSize: '1em'
+                            }
+                        }}
+                    />
                 </div>
+            )
+        } else {
+            chartEl = (
                 <ResponsiveContainer width="100%" height={210}>
                     <BarChart
                         data={chartData}
@@ -355,7 +404,7 @@ export default function DashboardChart(props) {
                             // fill={color_url(fill)}
                             animationDuration={200}
                             radius={[3, 3, 0, 0]}
-                            onMouseDown={(e) => props.handleSummaryBarMouseClick(e, category)}
+                            onMouseDown={(e) => props.handleSummaryBarMouseClick(e, category, 'bar')}
                             style={{cursor: 'pointer'}}
                         >
                             {chartData.map((entry, index) => (
@@ -377,6 +426,18 @@ export default function DashboardChart(props) {
                         </Bar>
                     </BarChart>
                 </ResponsiveContainer>
+            )
+        }
+
+        return (
+            <Paper className={classes.SummaryPaper} key={"summary" + category} elevation={3}>
+                <div className={classes.paperHeaderContainer}>
+                    <h3 className={classes.chartTitle}>{category}</h3>
+                    <CardSettings category={category}
+                                  setSummaryPrefs={props.setSummaryPrefs}
+                                  summaryPrefs={props.summaryPrefs}/>
+                </div>
+                {chartEl}
             </Paper>
         )
     }
@@ -405,7 +466,8 @@ export default function DashboardChart(props) {
                                 fontWeight: '800',
                                 margin: '5px',
                                 color: '#63676C'
-                            }}>Key Metrics for {outCat.category}, {outCat.labels[outAdd]}. Chart represents % impact of
+                            }}>Key Metrics for {outCat.category}, {outCat.labels[outAdd]}. Chart represents % impact
+                                of
                                 each input on {outCat.category}, {outCat.labels[outAdd]} variance</h3>
                         </NavLink>
                         <IconButton size="small" onClick={() => props.handleShowMetrics(false)}>
@@ -435,7 +497,9 @@ export default function DashboardChart(props) {
                                     tickLine={false}
                                     minTickGap={2}
                                     interval={0}
-                                    tick={<CustomizedXAxisTickKeyMetrics outAdd={props.outAdd} outCat={props.outCat}/>}
+                                    stroke={fill}
+                                    tick={<CustomizedXAxisTickKeyMetrics outAdd={props.outAdd}
+                                                                         outCat={props.outCat}/>}
                                     padding={{top: 0, bottom: 0}}
                                 />
 
@@ -451,7 +515,7 @@ export default function DashboardChart(props) {
                                     className={classes.bar}
                                     dataKey="value"
                                     isAnimationActive={false}
-                                    fill={color_url(fill)}
+                                    fill={fill}
                                     animationDuration={200}
                                     radius={[3, 3, 0, 0]}
                                 >
