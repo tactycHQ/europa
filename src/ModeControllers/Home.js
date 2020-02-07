@@ -1,9 +1,11 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import {Card} from "@material-ui/core";
 import AddCircleSharpIcon from '@material-ui/icons/AddCircleSharp'
 import {Link} from 'react-router-dom'
+import {getRecords} from "./api";
+import Spinner from "../UtilityComponents/Spinner";
 
 // import Button from "@material-ui/core/Button";
 // import {Switch, Route} from 'react-router-dom'
@@ -70,6 +72,18 @@ export default function Home(props) {
         },
     }))
     const classes = useStyles()
+    const [records, setRecords] = useState([])
+
+
+    useEffect(() => {
+        const executeGetUserRecords = async () => {
+            const userRecords = await getRecords()
+            setRecords([...userRecords])
+        }
+        executeGetUserRecords()
+
+    }, [])
+
 
     const newDash = () => {
         props.clearState()
@@ -87,101 +101,50 @@ export default function Home(props) {
         props.updateOpen(true)
     }
 
+    const createMyDashboards = () => {
+        if (records.length >= 1) {
+            let myDashboards = records.map(record => {
+                return (
+                    <Paper className={classes.existingdash}
+                           key={record.id}
+                           component={Link} to="/dashboard"
+                           style={{textDecoration: 'none'}}
+                           onClick={() => openDash(record.id)}>
+                        <h1 className={classes.dashTitle}>{record.name}</h1>
+                    </Paper>
+                )
+            })
+
+            return (
+                <Card className={classes.existingContainer}>
+                    <h1 className={classes.dashTitle} style={{
+                        fontFamily: 'Questrial',
+                        fontSize: '1.2em',
+                        fontWeight: '200',
+                        color: '#006E9F',
+                        marginBottom: '5px'
+                    }}>My Dashboards</h1>
+                    {myDashboards}
+                </Card>
+            )
+        } else {
+            return <Spinner/>
+
+        }
+    }
+
+    let myDashboards = createMyDashboards()
+
 
     return (
         <div className={classes.root}>
-
             <Paper className={classes.newdashboardpaper} component={Link} to="/spreadsheet"
                    style={{textDecoration: 'none'}}>
                 <AddCircleSharpIcon style={{color: '#FEFEFD'}}/>
                 <h1 className={classes.dashTitle} onClick={() => newDash()}>Create New
                     Dashboard</h1>
             </Paper>
-
-            <Card className={classes.existingContainer}>
-                <h1 className={classes.dashTitle} style={{
-                    fontFamily: 'Questrial',
-                    fontSize: '1.2em',
-                    fontWeight: '200',
-                    color: '#006E9F',
-                    marginBottom: '5px'
-                }}>Recently Viewed Dashboards</h1>
-
-                <Paper className={classes.existingdash}
-                       component={Link} to="/dashboard"
-                       style={{textDecoration: 'none'}}
-                       onClick={() => openDash(7)}>
-                    <h1 className={classes.dashTitle}>LPI Dashboard</h1>
-                </Paper>
-
-                <Paper className={classes.existingdash}
-                       component={Link} to="/dashboard"
-                       style={{textDecoration: 'none'}}
-                       onClick={() => openDash(9)}>
-                    <h1 className={classes.dashTitle}>VC Returns</h1>
-                </Paper>
-
-                <Paper className={classes.existingdash}
-                       component={Link} to="/dashboard"
-                       style={{textDecoration: 'none'}}
-                       onClick={() => openDash(11)}>
-                    <h1 className={classes.dashTitle}>LPI DASH</h1>
-                </Paper>
-
-            </Card>
-
-            <Card className={classes.existingContainer}>
-                <h1 className={classes.dashTitle} style={{
-                    fontFamily: 'Questrial',
-                    fontSize: '1.2em',
-                    fontWeight: '200',
-                    color: '#006E9F',
-                    marginBottom: '5px'
-                }}>All Dashboards</h1>
-
-                <Paper className={classes.existingdash}
-                       component={Link} to="/dashboard"
-                       style={{textDecoration: 'none'}}
-                       onClick={() => openDash(7)}>
-                    <h1 className={classes.dashTitle}>LPI Dashboard</h1>
-                </Paper>
-
-                <Paper className={classes.existingdash}
-                       component={Link} to="/dashboard"
-                       style={{textDecoration: 'none'}}
-                       onClick={() => openDash(9)}>
-                    <h1 className={classes.dashTitle}>VC Returns</h1>
-                </Paper>
-
-                <Paper className={classes.existingdash}
-                       component={Link} to="/dashboard"
-                       style={{textDecoration: 'none'}}
-                       onClick={() => openDash(11)}>
-                    <h1 className={classes.dashTitle}>LPI DASH</h1>
-                </Paper>
-
-                <Paper className={classes.existingdash}
-                       component={Link} to="/dashboard"
-                       style={{textDecoration: 'none'}}
-                       onClick={() => openDash(7)}>
-                    <h1 className={classes.dashTitle}>LPI Dashboard</h1>
-                </Paper>
-
-                <Paper className={classes.existingdash}
-                       component={Link} to="/dashboard"
-                       style={{textDecoration: 'none'}}
-                       onClick={() => openDash(9)}>
-                    <h1 className={classes.dashTitle}>VC Returns</h1>
-                </Paper>
-
-                <Paper className={classes.existingdash}
-                       component={Link} to="/dashboard"
-                       style={{textDecoration: 'none'}}
-                       onClick={() => openDash(11)}>
-                    <h1 className={classes.dashTitle}>LPI DASH</h1>
-                </Paper>
-
-            </Card>
+            {myDashboards}
         </div>
     )
 }

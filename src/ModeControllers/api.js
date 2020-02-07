@@ -110,7 +110,6 @@ export const loadFile = async (dash_id) => {
     }
 }
 
-
 export const downloadFile = async (dash_id, origFilename) => {
 
     console.log("Downloading excel model")
@@ -132,7 +131,6 @@ export const downloadFile = async (dash_id, origFilename) => {
         return "Unable to load file"
     }
 }
-
 
 export const saveDashboard = async (dash_id, name, inputs, outputs, cases, formats) => {
     console.log("Saving dashboard...");
@@ -161,6 +159,28 @@ export const saveDashboard = async (dash_id, name, inputs, outputs, cases, forma
         result = "Server not responsive"
     }
     console.log("Dashboard Saved")
+    return result
+}
+
+export const getRecords = async () => {
+    console.log("Getting all records with this user...");
+    const api_url = "http://localhost:5000/getRecords"
+
+    let result
+    const headers = {
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        method: "POST"
+    }
+    try {
+        const response = await fetch(api_url, headers)
+        result = await response.json()
+    } catch (error) {
+        result = "Server not responsive"
+    }
+    console.log("All records recieved")
     return result
 }
 
