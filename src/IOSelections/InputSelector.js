@@ -582,13 +582,7 @@ export default function InputSelector(props) {
     const setInputHandler = () => {
 
 
-        if (props.inputs.findIndex(input => input.label === label) !== -1 && props.mode === 'pendingIO') {
-            console.log(props.mode)
-            console.log(props.stage)
-            setError("Input name already defined. Please provide another name")
-            setErrorOpen(true)
-
-        } else if (label === address) {
+        if (label === address) {
             setError("Input name cannot be the cell address. Please provide a name for the input that will help you identify it with context. For e.g. Growth Rate or EBITDA margin ")
             setErrorOpen(true)
 
@@ -602,7 +596,8 @@ export default function InputSelector(props) {
                 "format": format
             }
 
-            let foundIndex = props.inputs.findIndex(input => input.address === payload.address)
+            //If address or label is a duplicate, overwrite the past one
+            let foundIndex = props.inputs.findIndex(input => (input.address === payload.address) || (input.label === payload.label))
 
             if (foundIndex === -1) {
                 props.updateInputs([...props.inputs, payload])
