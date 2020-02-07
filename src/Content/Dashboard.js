@@ -137,7 +137,6 @@ export default function Dashboard(props) {
         else {
             setCurrCategory(category)
             const _catdata = props.outputs.find(cat => cat.category === category)
-            const _catlabels = _catdata.labels
             const catlabel = Object.keys(_catdata.labels)[0]
             setCurrOutputCell(catlabel)
             setShowMetrics(true)
@@ -399,7 +398,7 @@ export default function Dashboard(props) {
             const in_fmt = props.formats[inAdd]
             const increments = input.values
 
-            const averages = increments.reduce((acc, incr, idx) => {
+            const averages = increments.reduce((acc, incr) => {
                 const outVals = []
                 props.solutions.map(solution => {
                     if (solution.inputs[inAdd] === incr) {
@@ -407,6 +406,7 @@ export default function Dashboard(props) {
                     }
                     return outVals
                 })
+
                 acc.push({
                     "name": incr,
                     "value": getAvg(outVals)
@@ -414,6 +414,7 @@ export default function Dashboard(props) {
                 return acc
 
             }, [])
+
             const delta = averages.reduce((_acc, average, idx) => {
                 if (idx < averages.length - 1) {
                     _acc.push({
@@ -461,6 +462,13 @@ export default function Dashboard(props) {
 
         const totals = getSumfromKey(avgAcrossInput, 'value')
         const contributions = avgAcrossInput.map(averages => {
+            if (totals === 0) {
+                return ({
+                "name": averages.name,
+                "value": 0
+            })
+
+            } else
             return ({
                 "name": averages.name,
                 "value": averages.value / totals
@@ -594,9 +602,9 @@ export default function Dashboard(props) {
         setOnClose(false)
     }
 
-    const handleSaveNo = () => {
-        setOnClose(false)
-    }
+    // const handleSaveNo = () => {
+    //     setOnClose(false)
+    // }
 
     return (
         <div className={classes.root}>

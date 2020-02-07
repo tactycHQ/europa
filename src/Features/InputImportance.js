@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles'
 import {
     BarChart,
@@ -8,18 +8,15 @@ import {
     YAxis,
     Tooltip,
     ResponsiveContainer,
-    PieChart,
-    Pie,
-    Cell,
-    ReferenceLine,
-    Text
+    ReferenceLine
 } from 'recharts'
 import Paper from '@material-ui/core/Paper'
 import {Card} from "@material-ui/core";
 import {OutputDropdown} from "../UtilityComponents/OutputDropdown";
 import {getAvgfromKey, getMaxfromKey, getMinfromKey, getDomains, convert_format} from "../utils/utils";
 import Fade from '@material-ui/core/Fade'
-// import { useLocation} from "react-router"
+import {CircularProgressbar} from 'react-circular-progressbar'
+import 'react-circular-progressbar/dist/styles.css'
 
 const chartColors = [
     '#006E9F',
@@ -32,7 +29,6 @@ const chartColors = [
 
 
 export default function InputImportance(props) {
-
 
 
     //Styles
@@ -150,10 +146,22 @@ export default function InputImportance(props) {
     const color_url = (color) => "url(#" + color + ")"
 
     //Hooks
-    //let location = useLocation();
+    const [loadProgress, setLoadProgress] = useState(false)
 
+    useEffect(() => {
 
-    //Formatters
+        const timer = setTimeout(() => {
+            setLoadProgress(true)
+        }, 500)
+
+        return () => {
+            setLoadProgress(false)
+            clearTimeout(timer)
+
+        }
+    }, [props.outAdd])
+
+//Formatters
     const CustomizedCompXAxisTick = (props) => {
         const {x, y, payload} = props
 
@@ -200,31 +208,8 @@ export default function InputImportance(props) {
         )
     }
 
-    const pieLabelFormatter = (props, fmt) => {
-        const {cx, x, y, payload, index} = props
 
-        // const rx = new RegExp(`.{1,${maxChars}}`, 'g');
-        // const chunks = payload.value.replace(/-/g, ' ').split(' ').map(s => s.match(rx)).flat();
-        // const tspans = chunks.map((s, i) => <tspan x={0} y={lineHeight} dy={(i * lineHeight)}>{s}</tspan>);
-
-        return (
-            <Text
-                x={x}
-                y={y}
-                width={200}
-                textAnchor={x > cx ? "start" : "end"}
-                fontSize='0.9em'
-                fontWeight={300}
-                fill={chartColors[index]}
-                fontFamily="Questrial"
-            >
-                {payload.name + ": " + convert_format(fmt, payload.value)}
-            </Text>
-
-        )
-    }
-
-    //Chart Creators
+//Chart Creators
     const generateCharts = () => {
         const {avgData, iiSummaryData, outAdd} = props
         const out_fmt = props.formats[outAdd]
@@ -327,7 +312,7 @@ export default function InputImportance(props) {
             )
         })
 
-
+        //Bar chart
         const inputCompChart = (
             <Paper className={classes.paper} elevation={4}>
                 <h3 className={classes.chartTitle}>Impact Analysis
@@ -397,51 +382,98 @@ export default function InputImportance(props) {
             </Paper>
         )
 
-        const inputMagChart = (
-            <Paper className={classes.paper} elevation={4}>
-                <h3 className={classes.chartTitle}>Contribution Analysis
-                    on {props.outCat.category}, {props.outCat.labels[props.outAdd]} </h3>
-                <h3 className={classes.chartNote}>Average impact contribution of input</h3>
-                <ResponsiveContainer
-                    width="75%"
-                    height={300}
-                    margin={{top: 5, right: 20, left: 10, bottom: 300}}
-                >
-                    <PieChart>
-                        <Pie
-                            data={iiSummaryData}
-                            dataKey="value"
-                            cx={"50%"}
-                            cy={"50%"}
-                            labelLine={true}
-                            label={(labelData) => pieLabelFormatter(labelData, '0.0%')}
-                            innerRadius={60}
-                            outerRadius={100}
-                            animationDuration={600}
-                        >
-                            {
-                                iiSummaryData.map((entry, index) => <Cell key={"cell_" + index}
-                                                                          fill={chartColors[index]}/>)
+
+        //Guage charts
+        const inputMagCharts = iiSummaryData.map((inputData, idx) => {
+
+            let value
+            if (loadProgress) {
+                value = inputData.value
+            } else {
+                value = 0
+            }
+
+            return (
+                <div
+                    key={inputData.name + 'contributionChart'}
+                    style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        margin: '10px'
+                    }}>
+                    <h3
+                        className={classes.chartTitle}
+                        style={{color: chartColors[idx]}}>
+                        {inputData.name}
+                    </h3>
+                    <CircularProgressbar
+                        value={value}
+                        minValue={0}
+                        maxValue={1}
+                        text={convert_format('0.0%', value)}
+                        styles={{
+                            root: {
+                                width: "180px",
+                                height: "180px",
+                                cursor: "pointer"
+                            },
+                            path: {
+                                // Path color
+                                stroke: chartColors[idx],
+                                // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+                                strokeLinecap: 'round',
+                                // Customize transition animation
+                                transition: 'stroke-dashoffset 0.5s ease 0s',
+                                // Rotate the path
+                                transform: 'rotate(0.25turn)',
+                                transformOrigin: 'center center',
+                            },
+                            trail: {
+                                // Trail color
+                                stroke: chartColors[idx],
+                                opacity: '10%',
+                                // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+                                strokeLinecap: 'butt',
+                                // Rotate the trail
+                                transform: 'rotate(0.25turn)',
+                                transformOrigin: 'center center',
+                            },
+                            text: {
+                                fill: chartColors[idx],
+                                fontFamily: 'Questrial',
+                                fontSize: '1em'
                             }
-                        </Pie>
-                        <Tooltip
-                            wrapperStyle={{fontSize: '0.9em', fontFamily: 'Questrial'}}
-                            cursor={{fill: '#FEFEFD', fontFamily: 'Questrial', fontSize: '0.8em'}}
-                            // labelFormatter={value => `${value}`}
-                            formatter={(value, name) => [`${convert_format('0.0%', value)}`, `${name}`]}/>
-                    </PieChart>
-                </ResponsiveContainer>
-            </Paper>
-        )
+                        }}
+                    />
+                </div>
+            )
+        })
+
 
         return (
-            <Paper className={classes.paper} style={{background: '#FEFEFD'}} elevation={0}>
+            <>
+                <Paper className={classes.paper} elevation={4}>
+                    <h3 className={classes.chartTitle}>Which Inputs Drive The Greatest Variance
+                        for {props.outCat.category}, {props.outCat.labels[props.outAdd]}?</h3>
+                    <h3 className={classes.chartNote}>% of variance contribution</h3>
+                    <div style={{
+                        display: 'flex',
+                        height: '100%',
+                        width: '100%',
+                        flexWrap: 'wrap',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}>
+                        {inputMagCharts}
+                    </div>
+                </Paper>
                 {inputCompChart}
-                {inputMagChart}
                 <Paper className={classes.deltaChartsContainer} elevation={4}>
                     {deltaCharts}
                 </Paper>
-            </Paper>
+            </>
         )
     }
 
@@ -495,7 +527,7 @@ export default function InputImportance(props) {
     }
 
 
-    //Execute Functions
+//Execute Functions
     const inptCompData = []
     const charts = generateCharts()
     const keyStats = generateKeyStats()

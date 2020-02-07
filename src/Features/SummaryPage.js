@@ -48,7 +48,7 @@ export default function SummaryPage(props) {
     const numOutputs = props.outputs.length
     const outputNames = props.outputs.map(output => output.category)
     const numInputs = props.inputs.length
-    const inputNames = props.inputs.length
+    // const inputNames = props.inputs.length
 
     console.log(totalCombos)
     console.log(numOutputs)

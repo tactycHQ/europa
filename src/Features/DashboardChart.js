@@ -9,8 +9,7 @@ import {
     ResponsiveContainer,
     ReferenceLine,
     Cell,
-    Text,
-    PieChart, Pie
+    Text
 } from 'recharts'
 import {Paper, makeStyles, Card} from "@material-ui/core"
 import {convert_format} from "../utils/utils"
