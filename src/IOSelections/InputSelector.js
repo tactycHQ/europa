@@ -475,7 +475,7 @@ export default function InputSelector(props) {
                         }
                     }}
                     inputProps={{
-                        maxLength: 20
+                        maxLength: 23
                     }}
                     defaultValue={label}
                     onChange={(e) => labelHandler(e)}
@@ -489,6 +489,10 @@ export default function InputSelector(props) {
 
         if (props.wb.Sheets[sheetName][newCell].hasOwnProperty('f')) {
             setError("Input must be a hardcode and not a formula cell")
+            setErrorOpen(true)
+
+        } else if (typeof (props.wb.Sheets[sheetName][newCell]['v']) === 'string') {
+            setError("Input must be a number and not a text cell")
             setErrorOpen(true)
 
         } else {
@@ -577,31 +581,43 @@ export default function InputSelector(props) {
     //Input Handlers
     const setInputHandler = () => {
 
-        const payload = {
-            "address": address,
-            "label": label,
-            "values": incr,
-            "value": value,
-            "format": format
-        }
 
-        let foundIndex = props.inputs.findIndex(input => input.address === payload.address)
+        if (props.inputs.findIndex(input => input.label === label) !== -1) {
+            setError("Input label already defined. Please provide another name")
+            setErrorOpen(true)
 
-        if (foundIndex === -1) {
-            props.updateInputs([...props.inputs, payload])
-            props.updateFormats({...props.formats, [address]: format})
-            props.updateCases({...props.cases, 'Default': {...props.cases.Default, [address]: value}})
+        } else if (label === address) {
+            setError("Input label cannot be cell address")
+            setErrorOpen(true)
 
         } else {
-            let newInputs = [...props.inputs]
-            newInputs[foundIndex] = payload
-            props.updateInputs([...newInputs])
-            props.updateFormats({...props.formats, [address]: format})
-            props.updateCases({...props.cases, 'Default': {...props.cases.Default, [address]: value}})
+
+            const payload = {
+                "address": address,
+                "label": label,
+                "values": incr,
+                "value": value,
+                "format": format
+            }
+
+            let foundIndex = props.inputs.findIndex(input => input.address === payload.address)
+
+            if (foundIndex === -1) {
+                props.updateInputs([...props.inputs, payload])
+                props.updateFormats({...props.formats, [address]: format})
+                props.updateCases({...props.cases, 'Default': {...props.cases.Default, [address]: value}})
+
+            } else {
+                let newInputs = [...props.inputs]
+                newInputs[foundIndex] = payload
+                props.updateInputs([...newInputs])
+                props.updateFormats({...props.formats, [address]: format})
+                props.updateCases({...props.cases, 'Default': {...props.cases.Default, [address]: value}})
+            }
+            refreshWorksheetColor()
+            setClickedCell({})
+            props.updateStage("summary")
         }
-        refreshWorksheetColor()
-        setClickedCell({})
-        props.updateStage("summary")
     }
 
 
@@ -630,7 +646,7 @@ export default function InputSelector(props) {
     }
 
 
-    //Event Handlers
+//Event Handlers
     const boundHandler = (e, type) => {
         let newb
         if (!hasNumber(e.target.value)) {
@@ -676,7 +692,7 @@ export default function InputSelector(props) {
         setErrorOpen(false)
     }
 
-    //Other Functions
+//Other Functions
     const getOldColor = (newCell, sheetName) => {
         try {
             return props.wb.Sheets[sheetName][newCell].s.fgColor.rgb

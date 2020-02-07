@@ -206,7 +206,7 @@ export default function OutputSelector(props) {
                             }
                         }}
                         inputProps={{
-                            maxlength: 20
+                            maxLength: 23
                         }}
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
@@ -412,55 +412,66 @@ export default function OutputSelector(props) {
 //Output Selection Functions
     const addSelectedCells = (newCell, sheetName) => {
 
-
-        //if clicked a cell that already exists then reset color of that cell and remove that cell from state
-        let foundIndex = selectedCells.findIndex(cell => (cell.raw === newCell && sheetName === cell.sheet))
-        if (foundIndex !== -1) {
-            deleteLabelHandler(sheetName + '!' + newCell)
-        }
-
-        //If max labels exceeded, throw an error
-        else if (selectedCells.length === MAXLABEL) {
+        if (!props.wb.Sheets[sheetName][newCell].hasOwnProperty('f')) {
+            setError("Output must be a formula cell and not a hardcode")
             setErrorOpen(true)
-            setError("Maximum allowed cells per category of 10")
 
-            //Highlight that cell and update states
+        } else if (typeof (props.wb.Sheets[sheetName][newCell]['v']) === 'string') {
+            setError("Output must be a number and not a text cell")
+            setErrorOpen(true)
+
         } else {
 
-            // Get cell metadata on old color, value and format for ne cell
-            let oldColor = getOldColor(newCell, sheetName)
-            let v = getValue(newCell, sheetName)
-            let format = getFormat(newCell, sheetName)
-            props.wb.Sheets[sheetName][newCell].s.fgColor = {rgb: "FCCA46"}
 
-            // document.getElementById('sjs-D15').style.backgroundColor = "yellow"
-            // highlight.scrollIntoView()
+            //if clicked a cell that already exists then reset color of that cell and remove that cell from state
+            let foundIndex = selectedCells.findIndex(cell => (cell.raw === newCell && sheetName === cell.sheet))
+            if (foundIndex !== -1) {
+                deleteLabelHandler(sheetName + '!' + newCell)
+            }
 
-            //Set new clicked cell
-            setSelectedCells([...selectedCells,
-                {
-                    address: sheetName + '!' + newCell,
-                    sheet: sheetName,
-                    raw: newCell,
-                    oldColor: oldColor,
-                    value: v,
-                    format: format
-                }])
+            //If max labels exceeded, throw an error
+            else if (selectedCells.length === MAXLABEL) {
+                setErrorOpen(true)
+                setError("Maximum allowed cells per category of 10")
 
-            //Add to labels
-            setLabels({
-                ...labels,
-                [sheetName + '!' + newCell]: ''
-            })
+                //Highlight that cell and update states
+            } else {
 
-            setFormats({
-                ...formats,
-                [sheetName + '!' + newCell]: format
-            })
+                // Get cell metadata on old color, value and format for ne cell
+                let oldColor = getOldColor(newCell, sheetName)
+                let v = getValue(newCell, sheetName)
+                let format = getFormat(newCell, sheetName)
+                props.wb.Sheets[sheetName][newCell].s.fgColor = {rgb: "FCCA46"}
 
+                // document.getElementById('sjs-D15').style.backgroundColor = "yellow"
+                // highlight.scrollIntoView()
+
+                //Set new clicked cell
+                setSelectedCells([...selectedCells,
+                    {
+                        address: sheetName + '!' + newCell,
+                        sheet: sheetName,
+                        raw: newCell,
+                        oldColor: oldColor,
+                        value: v,
+                        format: format
+                    }])
+
+                //Add to labels
+                setLabels({
+                    ...labels,
+                    [sheetName + '!' + newCell]: ''
+                })
+
+                setFormats({
+                    ...formats,
+                    [sheetName + '!' + newCell]: format
+                })
+
+            }
+
+            props.updateStage('loaded')
         }
-
-        props.updateStage('loaded')
     }
 
     const addSelectedLabels = (labelCell, labelValue, sheetName) => {
