@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {makeStyles} from '@material-ui/core'
 import DashboardChart from "../Features/DashboardChart"
 import SensitivityAnalysis from "../Features/SensitivityAnalysis"
@@ -8,6 +8,8 @@ import ScenarioAnalysis from "../Features/ScenarioAnalysis";
 import {getAvg, convert_format, getAvgfromKey, getDomains, getSumfromKey} from "../utils/utils";
 import isEqual from "lodash.isequal";
 import SummaryPage from "../Features/SummaryPage";
+import Dialog from "@material-ui/core/Dialog";
+import Button from "@material-ui/core/Button";
 
 
 export default function Dashboard(props) {
@@ -32,7 +34,22 @@ export default function Dashboard(props) {
             flexWrap: 'wrap',
             justifyContent: 'center',
             padding: '8px'
-        }
+        },
+        saveButton: {
+            display: 'flex',
+            background: '#006E9F',
+            justifyContent: 'center',
+            alignItems: 'center',
+            color: '#FEFEFD',
+            padding: '5px',
+            margin: '5px'
+        },
+        buttonText: {
+            fontSize: '0.85em',
+            fontWeight: '100',
+            fontFamily: 'Questrial',
+            margin: '0px'
+        },
     }))
     const classes = useStyles()
 
@@ -43,6 +60,20 @@ export default function Dashboard(props) {
     const [summaryPrefs, setSummaryPrefs] = useState({}) //for chart preferences
     const [saInput1, setSAInput1] = useState('') //for category selection from dropdown
     const [saInput2, setSAInput2] = useState('') //for category selection from dropdown
+    const [onClose, setOnClose] = useState(false) //for category selection from dropdown
+
+    useEffect(() => {
+        const setupBeforeUnloadListener = () => {
+            console.log("here")
+            window.addEventListener("beforeunload", (ev) => {
+                ev.preventDefault();
+                ev.returnValue = "Please save before exiting"
+                setOnClose(true)
+
+            })
+        }
+        setupBeforeUnloadListener()
+    }, [])
 
     // Scenario Analysis Hooks
     const createDefaults = () => {
@@ -543,10 +574,39 @@ export default function Dashboard(props) {
     let inputLabelMap = generateInputLabelMap()
     const final_charts = createCharts()
 
+    const handleWindowClose = () => {
+        setOnClose(false)
+    }
+
+    const handleSaveYes = () => {
+        setOnClose(false)
+    }
+
+    const handleSaveNo = () => {
+        setOnClose(false)
+    }
 
     return (
         <div className={classes.root}>
             {final_charts}
+            <Dialog open={onClose} onClose={handleWindowClose}>
+                <div>
+                    <h2 style={{
+                        fontSize: '0.9em',
+                        fontWeight: '100',
+                        paddingLeft: '5px',
+                        fontFamily: 'Questrial',
+                        color: '#292F36',
+                        margin: '10px'
+                    }}>Save Dashboard?</h2>
+                </div>
+                <Button className={classes.saveButton} size="small" onClick={() => handleSaveYes()}>
+                    <h3 className={classes.buttonText}>Yes</h3>
+                </Button>
+                <Button className={classes.saveButton} size="small" onClick={() => handleSaveYes()}>
+                    <h3 className={classes.buttonText}>No</h3>
+                </Button>
+            </Dialog>
         </div>
     )
 }

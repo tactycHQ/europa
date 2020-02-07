@@ -74,7 +74,6 @@ const useStyles = makeStyles(theme => ({
                 color: '#FEFEFD',
                 padding: '5px',
                 margin: '5px'
-
             },
             buttonText: {
                 fontSize: '0.85em',

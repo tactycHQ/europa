@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="" />
+    <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Content/Dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/Dashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Content/InputsController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/InputsController.js" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,14 +161,7 @@
       <workItem from="1580868838836" duration="13657000" />
       <workItem from="1580936766214" duration="999000" />
       <workItem from="1580938060012" duration="44203000" />
-      <workItem from="1581034168677" duration="4267000" />
-    </task>
-    <task id="LOCAL-00209" summary="First commit">
-      <created>1580524566878</created>
-      <option name="number" value="00209" />
-      <option name="presentableId" value="LOCAL-00209" />
-      <option name="project" value="LOCAL" />
-      <updated>1580524566878</updated>
+      <workItem from="1581034168677" duration="5731000" />
     </task>
     <task id="LOCAL-00210" summary="First commit">
       <created>1580524787997</created>
@@ -502,7 +499,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581038005683</updated>
     </task>
-    <option name="localTasksCounter" value="258" />
+    <task id="LOCAL-00258" summary="First commit">
+      <created>1581039287118</created>
+      <option name="number" value="00258" />
+      <option name="presentableId" value="LOCAL-00258" />
+      <option name="project" value="LOCAL" />
+      <updated>1581039287118</updated>
+    </task>
+    <option name="localTasksCounter" value="259" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
