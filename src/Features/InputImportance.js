@@ -146,20 +146,13 @@ export default function InputImportance(props) {
     const color_url = (color) => "url(#" + color + ")"
 
     //Hooks
-    const [loadProgress, setLoadProgress] = useState(false)
+    const [inptCont, setInputCont] = useState([...props.iiSummaryData])
 
     useEffect(() => {
 
-        const timer = setTimeout(() => {
-            setLoadProgress(true)
-        }, 500)
+        setInputCont([...props.iiSummaryData])
 
-        return () => {
-            setLoadProgress(false)
-            clearTimeout(timer)
-
-        }
-    }, [props.outAdd])
+    }, [props.iiSummaryData])
 
 //Formatters
     const CustomizedCompXAxisTick = (props) => {
@@ -211,7 +204,7 @@ export default function InputImportance(props) {
 
 //Chart Creators
     const generateCharts = () => {
-        const {avgData, iiSummaryData, outAdd} = props
+        const {avgData, outAdd} = props
         const out_fmt = props.formats[outAdd]
 
 
@@ -384,14 +377,9 @@ export default function InputImportance(props) {
 
 
         //Guage charts
-        const inputMagCharts = iiSummaryData.map((inputData, idx) => {
+        const inputMagCharts = inptCont.map((inputData, idx) => {
 
-            let value
-            if (loadProgress) {
-                value = inputData.value
-            } else {
-                value = 0
-            }
+            let value = inputData.value
 
             return (
                 <div
