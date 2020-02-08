@@ -12,7 +12,7 @@ import Dialog from "@material-ui/core/Dialog";
 import Button from "@material-ui/core/Button";
 import Dropzone from "react-dropzone";
 import TextField from "@material-ui/core/TextField";
-import { Redirect } from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 
 // import Button from "@material-ui/core/Button";
 // import {Switch, Route} from 'react-router-dom'
@@ -36,7 +36,7 @@ export default function Home(props) {
             display: 'flex',
             minWidth: '180px',
             flexDirection: 'column',
-            width: '100%',
+            width: '90%',
             flexWrap: 'wrap',
             justifyContent: 'flex-start',
             alignItems: 'flex-start',
@@ -48,11 +48,11 @@ export default function Home(props) {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            margin: '4px',
+            margin: '10px',
             padding: '5px',
             background: '#627C8D',
             width: '100%',
-            height: '30px',
+            // height: '30px',
             cursor: 'pointer',
             "&:hover": {
                 background: '#A5014B',
@@ -67,7 +67,10 @@ export default function Home(props) {
             padding: '5px',
             background: '#006491',
             width: '180px',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            "&:hover": {
+                background: '#A5014B',
+            }
         },
         dashTitle: {
             fontFamily: 'Questrial',
@@ -157,7 +160,12 @@ export default function Home(props) {
                                component={Link} to="/dashboard"
                                style={{textDecoration: 'none'}}
                                onClick={() => openDash(record.id)}>
-                            <h1 className={classes.dashTitle}>{record.name}</h1>
+                            <h1 className={classes.dashTitle}
+                                style={{fontWeight: '300', fontSize: '1.2em'}}>{record.name}</h1>
+                            <h1 className={classes.dashTitle} style={{fontWeight: '100', fontSize: '0.9em'}}>Last
+                                Accessed: Tuesday, Feb 2nd, 2019</h1>
+                            <h1 className={classes.dashTitle} style={{fontWeight: '100', fontSize: '0.9em'}}>Shared
+                                With: - </h1>
                         </Paper>
                         <IconButton onClick={() => askDeleteHandler(record.id)}>
                             <DeleteSharpIcon size="small" style={{
@@ -425,7 +433,19 @@ export default function Home(props) {
                 <h1 className={classes.dashTitle}>Create New Dashboard</h1>
             </Paper>
             {myDashboards}
-            <Dialog open={askDelete}>
+            <Dialog open={askDelete}
+                    PaperProps={{
+                        style:
+                            {
+                                display: 'flex',
+                                width: '200px',
+                                height: '150px',
+                                padding: '10px',
+                                flexDirection: 'column',
+                                justifyContent: 'space-evenly',
+                                alignItems:'center'
+                            },
+                    }}>
                 <div>
                     <h2 style={{
                         fontSize: '0.9em',
@@ -436,6 +456,7 @@ export default function Home(props) {
                         margin: '10px'
                     }}>Delete this dashboard?</h2>
                 </div>
+                <div style={{display:'flex',width:'100%', justifyContent:'space-around'}}>
                 <Button className={classes.selectButton} size="small"
                         onClick={() => confirmDeleteHandler(true)}>
                     <h3 className={classes.buttonText}>Yes</h3>
@@ -444,6 +465,7 @@ export default function Home(props) {
                         onClick={() => confirmDeleteHandler(false)}>
                     <h3 className={classes.buttonText}>No</h3>
                 </Button>
+                </div>
             </Dialog>
             {newDashEl}
         </div>
