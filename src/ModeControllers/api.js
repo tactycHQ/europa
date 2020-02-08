@@ -1,6 +1,32 @@
 //API Functions
 import {read} from "@sheet/core";
-import { saveAs } from 'file-saver'
+import {saveAs} from 'file-saver'
+
+
+export const uploadFile = async (file,Dashname) => {
+
+    const data = new FormData()
+    data.append("file", file[0])
+    data.append("Dashname", Dashname)
+
+    console.log("Uploading excel file")
+    const api_url = "http://localhost:5000/uploadFile"
+    const settings = {
+        method: "POST",
+        body: data
+    }
+
+    try {
+        const response = await fetch(api_url, settings)
+        const result = await response.json()
+        if (result.message === 'OK') {
+            return result
+        }
+    } catch (error) {
+        return "Unable to load file"
+    }
+}
+
 
 export const getSolutions = async (dash_id) => {
     console.log("Getting Solutions...");
@@ -126,7 +152,7 @@ export const downloadFile = async (dash_id, origFilename) => {
     try {
         const response = await fetch(api_url, headers)
         const blob = await response.blob()
-        saveAs(blob,origFilename)
+        saveAs(blob, origFilename)
     } catch (error) {
         return "Unable to load file"
     }
@@ -183,4 +209,31 @@ export const getRecords = async () => {
     console.log("All records recieved")
     return result
 }
+
+export const deleteRecord = async (dash_id) => {
+    console.log("deleting this dashboard...");
+    const api_url = "http://localhost:5000/deleteRecord"
+
+    let result
+    const headers = {
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify({
+            dash_id: dash_id
+        })
+    }
+    try {
+        const response = await fetch(api_url, headers)
+        result = await response.json()
+    } catch (error) {
+        result = {'message': "ERROR"}
+    }
+    console.log("Dashboard deleted")
+    return result.message
+}
+
+
 

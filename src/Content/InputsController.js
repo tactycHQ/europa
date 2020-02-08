@@ -113,7 +113,7 @@ export default function Input(props) {
     const [saveName, setSaveName] = useState('')
     const [error, setError] = useState(null)
     const [errorOpen, setErrorOpen] = useState(false)
-
+    const [askDeleteOpen, setAskDeleteOpen] = useState(false)
 
     useEffect(() => {
         let foundIndex = Object.values(props.cases).findIndex(caseData => isEqual(caseData, props.currInputVal))
@@ -156,9 +156,40 @@ export default function Input(props) {
         }
     }
 
+    const createDeleteCase = () => {
+
+        if (showDelete && !showSave) {
+            return (
+                <h3 style={{
+                    color: '#8A8D91',
+                    marginTop: '1px',
+                    fontSize: '0.85em',
+                    fontWeight: '100',
+                    fontFamily: 'Questrial',
+                    cursor: 'pointer',
+                    width: '100%',
+                    textAlign: 'center'
+                }}
+                    onClick={() => setAskDeleteOpen(true)}
+                >
+                    Delete Case
+                </h3>)
+        }
+    }
+
     const deleteCase = (deleteCase) => {
         const {[deleteCase]: tmp, ...rest} = props.cases
         props.updateCases({...rest})
+
+    }
+
+    const confirmDeleteHandler = (update) => {
+        if (update === true) {
+            let foundIndex = Object.values(props.cases).findIndex(caseData => isEqual(caseData, props.currInputVal))
+            let foundCase = Object.keys(props.cases)[foundIndex]
+            deleteCase(foundCase)
+        }
+        setAskDeleteOpen(false)
     }
 
     const createSaveField = () => {
@@ -179,7 +210,7 @@ export default function Input(props) {
                         }
                     }}
                     inputProps={{
-                        maxlength: 15
+                        maxLength: 15
                     }}
                     label="Case Name"
                     defaultValue=""
@@ -205,30 +236,6 @@ export default function Input(props) {
                 <Button className={classes.selectButton} size="small" onClick={() => saveCase()}>
                     <h3 className={classes.buttonText}>Save</h3>
                 </Button>)
-        }
-    }
-
-    const createDeleteCase = () => {
-
-        let foundIndex = Object.values(props.cases).findIndex(caseData => isEqual(caseData, props.currInputVal))
-        let foundCase = Object.keys(props.cases)[foundIndex]
-
-        if (showDelete && !showSave) {
-            return (
-                <h3 style={{
-                    color: '#8A8D91',
-                    marginTop: '1px',
-                    fontSize: '0.85em',
-                    fontWeight: '100',
-                    fontFamily: 'Questrial',
-                    cursor: 'pointer',
-                    width: '100%',
-                    textAlign: 'center'
-                }}
-                    onClick={() => deleteCase(foundCase)}
-                >
-                    Delete Case
-                </h3>)
         }
     }
 
@@ -307,6 +314,24 @@ export default function Input(props) {
                         margin: '10px'
                     }}>{error}</h2>
                 </div>
+            </Dialog>
+            <Dialog open={askDeleteOpen}>
+                <div>
+                    <h2 style={{
+                        fontSize: '0.9em',
+                        fontWeight: '100',
+                        paddingLeft: '5px',
+                        fontFamily: 'Questrial',
+                        color: '#292F36',
+                        margin: '10px'
+                    }}>Delete this case?</h2>
+                </div>
+                <Button className={classes.selectButton} size="small" onClick={() => confirmDeleteHandler(true)}>
+                    <h3 className={classes.buttonText}>Yes</h3>
+                </Button>
+                <Button className={classes.selectButton} size="small" onClick={() => confirmDeleteHandler(false)}>
+                    <h3 className={classes.buttonText}>No</h3>
+                </Button>
             </Dialog>
         </div>
     )
