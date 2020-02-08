@@ -12,6 +12,7 @@ import Dialog from "@material-ui/core/Dialog";
 import Button from "@material-ui/core/Button";
 import Dropzone from "react-dropzone";
 import TextField from "@material-ui/core/TextField";
+import { Redirect } from 'react-router-dom'
 
 // import Button from "@material-ui/core/Button";
 // import {Switch, Route} from 'react-router-dom'
@@ -117,7 +118,16 @@ export default function Home(props) {
     const [askNewDash, setAskNewDash] = useState(false)
     const [newFile, setNewFile] = useState(null)
     const [newDashname, setNewDashname] = useState('')
-    const [loaded, setLoaded] = useState(false)
+    const [stage, setStage] = useState('awaitingUpload')
+
+    const resetState = () => {
+        setAskNewDash(false)
+        setAskDelete(false)
+        setToDelete(null)
+        setNewFile(null)
+        setNewDashname('')
+        setStage('awaitingUpload')
+    }
 
 
     useEffect(() => {
@@ -133,7 +143,6 @@ export default function Home(props) {
         props.clearState()
         props.setDashid(dash_id)
         props.updateMode('processed')
-        props.setDashName('')
         props.updateMsg("Opening Dashboard...")
         props.updateOpen(true)
     }
@@ -201,7 +210,8 @@ export default function Home(props) {
         }
     }
 
-    const newDashboardHandler = async () => {
+    const selectionCompleteHandler = async () => {
+        setStage('pendingUploadCompletion')
         if (newDashname === '') {
             props.updateMsg("Please provide a name for this dashboard")
             props.updateOpen(true)
@@ -215,13 +225,60 @@ export default function Home(props) {
             props.setDashName(newDashname)
             props.updateMode("new")
             if (response.message === 'OK') {
-                setLoaded(true)
+                setStage('fileUploaded')
             }
         }
     }
 
     const newDashSetup = () => {
-        if (askNewDash && !loaded) {
+
+        //Still in upload phase. OK not clicked yet
+        if (askNewDash && stage === 'awaitingUpload') {
+            let uploadEl
+
+            //a file has been selected, so disabling button
+            if (newFile) {
+                let rawfilename = newFile[0].name.toString()
+                let filename
+                if (rawfilename.length >= 25) {
+                    filename = rawfilename.slice(0, 22) + "..."
+                } else {
+                    filename = rawfilename
+                }
+
+                uploadEl = (
+                    <Button
+                        className={classes.selectButton}
+                        style={{backgroundColor: '#3DA32D'}}
+                        disabled
+                        size="small"
+                    >
+                        <h3 className={classes.buttonText} style={{color: '#FEFEFD'}}>{filename} uploaded</h3>
+                    </Button>
+                )
+
+
+                //no file has been selected so showing UPLOAD FILE button
+            } else {
+                uploadEl = (
+                    <Dropzone
+                        onDrop={(file) => setNewFile(file)}
+                        accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                    >
+                        {({getRootProps, getInputProps}) => (
+                            <Button {...getRootProps()}
+                                    className={classes.selectButton}
+                                    style={{backgroundColor: '#006E9F'}}
+                                    size="small"
+                            >
+                                <input {...getInputProps()} />
+                                <h3 className={classes.buttonText}>Upload Excel Model</h3>
+                            </Button>
+                        )}
+                    </Dropzone>
+                )
+            }
+
             return (
                 <Dialog
                     open={askNewDash}
@@ -258,21 +315,7 @@ export default function Home(props) {
                         size="small"
                         onBlur={(e) => setNewDashname(e.target.value)}
                     />
-                    <Dropzone
-                        onDrop={(file) => setNewFile(file)}
-                        accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                    >
-                        {({getRootProps, getInputProps}) => (
-                            <Button {...getRootProps()}
-                                    className={classes.selectButton}
-                                    style={{backgroundColor: '#006E9F'}}
-                                    size="small"
-                            >
-                                <input {...getInputProps()} />
-                                <h3 className={classes.buttonText}>Upload Excel Model</h3>
-                            </Button>
-                        )}
-                    </Dropzone>
+                    {uploadEl}
                     <h3 className={classes.buttonText}><em>Only *.xlsx or *.xls files are supported currently</em></h3>
                     <div style={{
                         display: 'flex',
@@ -284,18 +327,61 @@ export default function Home(props) {
                         <Button
                             className={classes.selectButton}
                             size="small"
-                            onClick={() => newDashboardHandler()}
+                            onClick={() => selectionCompleteHandler()}
                         >
                             <h3 className={classes.buttonText}>OK</h3>
                         </Button>
                         <Button className={classes.selectButton} style={{backgroundColor: '#9DA0A3'}} size="small"
-                                onClick={() => setAskNewDash(false)}>
+                                onClick={() => resetState()}>
                             <h3 className={classes.buttonText}>Cancel</h3>
                         </Button>
                     </div>
                 </Dialog>
             )
-        } else if (askNewDash && loaded) {
+
+            //file has been uploaded, so showing "GO TO I/O" option
+        } else if (askNewDash && stage === 'fileUploaded') {
+
+            //loadFile has completed
+            if (props.mode === 'pendingIO') {
+                return (
+                    <Redirect to={{pathname: '/spreadsheet'}}/>
+                )
+
+                //loadFile hasn't finished yet
+            } else {
+                return (
+                    <Dialog
+                        open={askNewDash}
+                        PaperProps={{
+                            style:
+                                {
+                                    display: 'flex',
+                                    width: '300px',
+                                    height: '200px',
+                                    padding: '10px',
+                                    flexDirection: 'column',
+                                    justifyContent: 'space-evenly'
+                                },
+                        }}>
+                        <div style={{
+                            display: 'flex',
+                            width: '100%',
+                            height: '100%',
+                            flexDirection: 'column',
+                            justifyContent: 'flex-end',
+                            alignItems: 'center'
+                        }}>
+                            <Spinner/>
+                            <h3
+                                className={classes.buttonText}
+                                style={{color: '#A5014B'}}>Loading spreadsheet for viewing...</h3>
+                        </div>
+                    </Dialog>
+                )
+            }
+        } else if (askNewDash && stage === 'pendingUploadCompletion') {
+
             return (
                 <Dialog
                     open={askNewDash}
@@ -310,19 +396,21 @@ export default function Home(props) {
                                 justifyContent: 'space-evenly'
                             },
                     }}>
-                    <Button
-                        className={classes.selectButton}
-                        size="small"
-                        component={Link}
-                        to="/spreadsheet"
-                    >
-                        <h3 className={classes.buttonText}>Go to Input and Output Selection</h3>
-                    </Button>
+                    <div style={{
+                        display: 'flex',
+                        width: '100%',
+                        height: '100%',
+                        flexDirection: 'column',
+                        justifyContent: 'flex-end',
+                        alignItems: 'center'
+                    }}>
+                        <Spinner/>
+                        <h3 className={classes.buttonText} style={{color: '#A5014B'}}>Processing file...</h3>
+                    </div>
                 </Dialog>
             )
         }
     }
-
 
     let myDashboards = createMyDashboards()
     let newDashEl = newDashSetup()
@@ -334,8 +422,7 @@ export default function Home(props) {
                 onClick={() => setAskNewDash(true)}
             >
                 <AddCircleSharpIcon style={{color: '#FEFEFD'}}/>
-                <h1 className={classes.dashTitle}>Create New
-                    Dashboard</h1>
+                <h1 className={classes.dashTitle}>Create New Dashboard</h1>
             </Paper>
             {myDashboards}
             <Dialog open={askDelete}>

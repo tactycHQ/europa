@@ -2,6 +2,7 @@ import React, {useRef, useEffect} from "react";
 import {utils} from "@sheet/core";
 import {makeStyles} from '@material-ui/core/styles'
 import {Card, Button} from "@material-ui/core";
+import {Scrollbars} from 'react-custom-scrollbars'
 import "./sheetstyles.css"
 
 
@@ -37,7 +38,9 @@ export default function Spreadsheet(props) {
             fontSize: '0.7em',
             fontFamily: 'Questrial',
             color: '#F4F9E9',
-            borderRadius: "5px 5px 0px 0px"
+            borderRadius: "5px 5px 0px 0px",
+            overflow: 'hidden',
+            height: '20px'
         },
         activeSheet: {
             display: 'flex',
@@ -50,12 +53,14 @@ export default function Spreadsheet(props) {
             fontSize: '0.7em',
             fontFamily: 'Questrial',
             color: '#F4F9E9',
-            borderRadius: "5px 5px 0px 0px"
+            borderRadius: "5px 5px 0px 0px",
+            overflow: 'hidden',
+            height: '20px'
         },
         spreadsheet: {
             display: 'flex',
             border: 'solid',
-            marginTop: '22px',
+            marginTop: '35px',
             marginBottom: '22px',
             borderWidth: '1px',
             boxShadow: '5px 5px #C4C6C8',
@@ -101,8 +106,9 @@ export default function Spreadsheet(props) {
         props.handleSheetChange(sheet)
     }
 
+
     const createSheets = () => {
-        return props.sheets.map(sheet => {
+        let sheetEl = props.sheets.map(sheet => {
             let bg = '#4F545A'
             if (sheet === props.currSheet) {
                 bg = '#006E9F'
@@ -112,6 +118,23 @@ export default function Spreadsheet(props) {
                 <Button key={sheet} className={classes.sheet} style={{backgroundColor: bg}}
                         onClick={e => onSheetClick(e, sheet)}>{sheet}</Button>)
         })
+
+        return (
+            <Scrollbars
+                style={{width: 1100, height: 33}}
+                autoHide
+                renderThumbHorizontal={({style, ...props}) => <div {...props} style={{
+                    ...style,
+                    backgroundColor: '#A5014B',
+                    width: '4px'
+                }}/>
+                }
+            >
+                <div style={{display: 'flex'}}>
+                    {sheetEl}
+                </div>
+            </Scrollbars>
+        )
     }
 
     const sheets = createSheets()

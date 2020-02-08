@@ -5,10 +5,13 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Content/InputsController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/InputsController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Content/Dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/Dashboard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Features/DashboardChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Features/DashboardChart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Features/DistributionChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Features/DistributionChart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Features/Spreadsheet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Features/Spreadsheet.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ModeControllers/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Home.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ModeControllers/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ModeControllers/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/api.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ModeControllers/TopBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/TopBar.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -34,8 +37,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
-        <option value="CSS File" />
         <option value="JavaScript File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -165,14 +168,7 @@
       <workItem from="1580868838836" duration="13657000" />
       <workItem from="1580936766214" duration="999000" />
       <workItem from="1580938060012" duration="44203000" />
-      <workItem from="1581034168677" duration="39377000" />
-    </task>
-    <task id="LOCAL-00216" summary="First commit">
-      <created>1580594266357</created>
-      <option name="number" value="00216" />
-      <option name="presentableId" value="LOCAL-00216" />
-      <option name="project" value="LOCAL" />
-      <updated>1580594266357</updated>
+      <workItem from="1581034168677" duration="54736000" />
     </task>
     <task id="LOCAL-00217" summary="First commit">
       <created>1580616007745</created>
@@ -510,7 +506,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581105277658</updated>
     </task>
-    <option name="localTasksCounter" value="265" />
+    <task id="LOCAL-00265" summary="First commit">
+      <created>1581122015090</created>
+      <option name="number" value="00265" />
+      <option name="presentableId" value="LOCAL-00265" />
+      <option name="project" value="LOCAL" />
+      <updated>1581122015090</updated>
+    </task>
+    <option name="localTasksCounter" value="266" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

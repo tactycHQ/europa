@@ -42,13 +42,21 @@ const useStyles = makeStyles(theme => ({
 export default function DenseAppBar(props) {
     const classes = useStyles();
 
+
+
+
     return (
         <div className={classes.root}>
             <h3 className={classes.logo}>EPOCH ONE</h3>
             <div className={classes.modelname}><h5>{props.dashName}</h5></div>
-            <IconButton edge="start" aria-label="menu" component={ Link } to="/home" style={{textDecoration: 'none'}}>
+            <IconButton
+                edge="start"
+                aria-label="menu"
+                component={ Link }
+                to="/home"
+                onClick={() => props.updateMode('home')}
+                style={{textDecoration: 'none'}}>
                     <HomeSharpIcon className={classes.icon}/>
-
             </IconButton>
         </div>
     );

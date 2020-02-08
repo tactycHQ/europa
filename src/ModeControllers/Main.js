@@ -47,7 +47,7 @@ export default function Main(props) {
     }));
     const classes = useStyles()
 
-    const [mode, setMode] = useState('')
+    const [mode, setMode] = useState('home')
     const [dashid, setDashid] = useState(null)
     const [origFilename, setOrigFilename] = useState('')
     const [solutions, setSolutions] = useState(null)
@@ -70,6 +70,7 @@ export default function Main(props) {
         setOpen(false);
         setMsg('')
     }
+
 
 
     //----------------Modes-------------------
@@ -289,6 +290,7 @@ export default function Main(props) {
 
     const createHome = () => {
         return <Home
+            mode={mode}
             updateMode={updateMode}
             setDashid={setDashid}
             setDashName={setDashName}
@@ -297,8 +299,6 @@ export default function Main(props) {
             clearState={clearState}
         />
     }
-
-
 
 // Executing functions
 
@@ -309,7 +309,7 @@ export default function Main(props) {
     return (
         <div className={classes.root}>
             <div className={classes.top}>
-                <TopBar dashName={dashName}/>
+                <TopBar dashName={dashName} updateMode={updateMode}/>
             </div>
             <Switch>
                 <Route exact path={["/", "/home"]}>

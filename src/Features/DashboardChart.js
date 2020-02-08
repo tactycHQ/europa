@@ -318,7 +318,7 @@ export default function DashboardChart(props) {
                             text: {
                                 fill: fill,
                                 fontFamily: 'Questrial',
-                                fontSize: '1em'
+                                fontSize: '0.8em'
                             }
                         }}
                     />

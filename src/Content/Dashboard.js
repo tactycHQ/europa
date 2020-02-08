@@ -177,6 +177,7 @@ export default function Dashboard(props) {
     const findSolution = (inputCombo) => {
         if (props.solutions && inputCombo) {
             const foundSolution = props.solutions.find(i => isEqual(i.inputs, inputCombo))
+
             return foundSolution.outputs
         } else {
             return "No solution found"
@@ -193,6 +194,7 @@ export default function Dashboard(props) {
 
                 // Applying labels and formats
                 const reformatted = Object.entries(output.labels).map(labelSet => {
+
                     return {
                         x: labelSet[1],
                         value: solutionSet[labelSet[0]],
@@ -591,6 +593,7 @@ export default function Dashboard(props) {
 
     //Function executions
     const currSolution = findSolution(props.currInputVal)
+
     let inputLabelMap = generateInputLabelMap()
     const final_charts = createCharts()
 

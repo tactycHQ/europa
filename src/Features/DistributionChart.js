@@ -553,8 +553,8 @@ export default function Distribution(props) {
             <Fade in={true} timeout={1000}>
                 {keyStats}
             </Fade>
-            {histChart}
             {probChart}
+            {histChart}
             {boundStats}
         </Card>
     )
