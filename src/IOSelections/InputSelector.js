@@ -16,7 +16,7 @@ import {
     myRound,
     createBounds,
     computeSteps,
-    hasNumber
+    hasNumber, isEmpty
 } from "../utils/utils";
 import Spreadsheet from "../Features/Spreadsheet";
 import {NavLink} from "react-router-dom";
@@ -120,7 +120,7 @@ export default function InputSelector(props) {
             paddingBottom: '0px',
         },
         labelField: {
-            fontSize: '1.3em',
+            fontSize: '1.0em',
             fontWeight: '100',
             fontFamily: 'Questrial',
             width: '100%',
@@ -502,9 +502,11 @@ export default function InputSelector(props) {
             let format
 
             //if clicked a different cell, then reset color of unclicked cell
-            if (clickedCells.raw && clickedCells.raw !== newCell) {
-                refreshWorksheetColor()
+            if (!isEmpty(clickedCells)) {
+            refreshWorksheetColor()
             }
+
+
 
             // Get cell metadata on old color, value and format for ne cell
             oldColor = getOldColor(newCell, sheetName)
@@ -528,7 +530,7 @@ export default function InputSelector(props) {
             const default_increments = computeSteps(v, default_bounds[0], default_bounds[1], NUM_STEPS)
 
             setAddress(sheetName + '!' + newCell)
-            setLabel(sheetName + '!' + newCell)
+            // setLabel(sheetName + '!' + newCell)
             setvalue(v)
             setFormat(format)
             setNumSteps(NUM_STEPS)
@@ -572,7 +574,6 @@ export default function InputSelector(props) {
         setErrorOpen(false)
         props.updateStage('loaded')
     }
-
 
     const refreshWorksheetColor = () => {
         props.wb.Sheets[clickedCells.sheet][clickedCells.raw].s.fgColor = {rgb: clickedCells.oldColor}

@@ -114,7 +114,7 @@ export default function OutputSelector(props) {
             }
         },
         labelField: {
-            fontSize: '1.3em',
+            fontSize: '1.0em',
             fontWeight: '100',
             fontFamily: 'Questrial',
             width: '100%',
@@ -152,7 +152,7 @@ export default function OutputSelector(props) {
 
     const [selectedCells, setSelectedCells] = useState([])
     const [selectedLabels, setSelectedLabels] = useState([])
-    const [category, setCategory] = useState('Category')
+    const [category, setCategory] = useState('')
     const [labels, setLabels] = useState({})
     const [formats, setFormats] = useState({})
     const [loadMode, setLoadMode] = useState(false)
@@ -184,10 +184,10 @@ export default function OutputSelector(props) {
     const createCatSelector = () => {
         if (props.stage === 'loaded' || props.stage === 'labelSelect' || props.stage === 'labelComplete') {
             let labelText
-            if (category === 'Category') {
-                labelText = "Give this Output a name"
+            if (category === '') {
+                labelText = 'Output Category Name'
             } else {
-                labelText = null
+                labelText = ''
             }
 
             return (
@@ -236,7 +236,7 @@ export default function OutputSelector(props) {
             })
         } else if (props.stage === 'labelSelect' || props.stage === 'labelComplete') {
 
-            return selectedCells.map((c, idx) => {
+            return selectedCells.map(c => {
                 return (
                     <div key={c.address} style={{display: 'flex', width: '100%'}}>
                         <TextField
@@ -527,7 +527,7 @@ export default function OutputSelector(props) {
 
         //Validations Start
         //If category is not set
-        if (category === 'Category') {
+        if (category === '') {
             setErrorOpen(true)
             setError("Please give this ouput a category name before proceeding. A name could be descriptions of the output category, such as Net Income, or Enterprise Value, or IRR.")
         }
@@ -636,7 +636,7 @@ export default function OutputSelector(props) {
             setSelectedLabels([])
             setLabels({})
             setFormats({})
-            setCategory("Category")
+            setCategory("")
             props.updateStage("empty")
         }
 
@@ -716,7 +716,7 @@ export default function OutputSelector(props) {
         setSelectedLabels([])
         setLabels({})
         setFormats({})
-        setCategory("Category")
+        setCategory("")
         props.updateStage("summary")
         setLoadMode(false)
     }
