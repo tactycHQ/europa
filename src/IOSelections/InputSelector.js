@@ -175,6 +175,8 @@ export default function InputSelector(props) {
     //Hooks
     // This is the default hook to load up initial input assumptions when a cell has been clicked
 
+
+
     const createIOPanel = () => {
 
         if (props.stage === 'empty' || props.stage === 'summary') {
@@ -503,9 +505,8 @@ export default function InputSelector(props) {
 
             //if clicked a different cell, then reset color of unclicked cell
             if (!isEmpty(clickedCells)) {
-            refreshWorksheetColor()
+                refreshWorksheetColor()
             }
-
 
 
             // Get cell metadata on old color, value and format for ne cell
@@ -612,11 +613,25 @@ export default function InputSelector(props) {
                 props.updateFormats({...props.formats, [address]: format})
                 props.updateCases({...props.cases, 'Default': {...props.cases.Default, [address]: value}})
             }
-            refreshWorksheetColor()
-            setClickedCell({})
-            props.updateStage("summary")
+            resetState()
         }
     }
+
+    const resetState = () => {
+        refreshWorksheetColor()
+        setLabel('')
+        setNumSteps(5)
+        setBounds([])
+        setIncr([])
+        setvalue(null)
+        setFormat('General')
+        setError(null)
+        setErrorOpen(false)
+        setClickedCell({})
+        setEnableClick(true)
+        props.updateStage("summary")
+    }
+
 
 
     const deleteInputHandler = (address) => {

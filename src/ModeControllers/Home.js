@@ -220,31 +220,26 @@ export default function Home(props) {
 
     const selectionCompleteHandler = async () => {
         setStage('pendingUploadCompletion')
-        if (newDashname === '') {
-            props.updateMsg("Please provide a name for this dashboard")
-            props.updateOpen(true)
-        } else if (!newFile) {
-            props.updateMsg("Please upload a file")
-            props.updateOpen(true)
-        } else {
-            const response = await uploadFile(newFile, newDashname)
-            props.clearState()
-            props.setDashid(response.dash_id)
-            props.setDashName(newDashname)
-            props.updateMode("new")
-            if (response.message === 'OK') {
-                setStage('fileUploaded')
-            }
+
+        const response = await uploadFile(newFile, newDashname)
+        props.clearState()
+        props.setDashid(response.dash_id)
+        props.setDashName(newDashname)
+        props.updateMode("new")
+        if (response.message === 'OK') {
+            setStage('fileUploaded')
         }
     }
+
 
     const newDashSetup = () => {
 
         //Still in upload phase. OK not clicked yet
         if (askNewDash && stage === 'awaitingUpload') {
             let uploadEl
+            let okEl
 
-            //a file has been selected, so disabling button
+            //a file has been selected, so disabling UPLOAD FILE button
             if (newFile) {
                 let rawfilename = newFile[0].name.toString()
                 let filename
@@ -287,6 +282,17 @@ export default function Home(props) {
                 )
             }
 
+            if (newFile && newDashname !== '') {
+                okEl = (<Button
+                    className={classes.selectButton}
+                    size="small"
+                    onClick={() => selectionCompleteHandler()}
+                >
+                    <h3 className={classes.buttonText}>OK</h3>
+                </Button>)
+            }
+
+
             return (
                 <Dialog
                     open={askNewDash}
@@ -321,7 +327,7 @@ export default function Home(props) {
                         label="Dashboard Name"
                         defaultValue=""
                         size="small"
-                        onBlur={(e) => setNewDashname(e.target.value)}
+                        onChange={(e) => setNewDashname(e.target.value)}
                     />
                     {uploadEl}
                     <h3 className={classes.buttonText}><em>Only *.xlsx or *.xls files are supported currently</em></h3>
@@ -332,13 +338,7 @@ export default function Home(props) {
                         justifyContent: 'space-around',
                         alignItems: 'center'
                     }}>
-                        <Button
-                            className={classes.selectButton}
-                            size="small"
-                            onClick={() => selectionCompleteHandler()}
-                        >
-                            <h3 className={classes.buttonText}>OK</h3>
-                        </Button>
+                        {okEl}
                         <Button className={classes.selectButton} style={{backgroundColor: '#9DA0A3'}} size="small"
                                 onClick={() => resetState()}>
                             <h3 className={classes.buttonText}>Cancel</h3>
@@ -420,6 +420,7 @@ export default function Home(props) {
         }
     }
 
+
     let myDashboards = createMyDashboards()
     let newDashEl = newDashSetup()
 
@@ -443,7 +444,7 @@ export default function Home(props) {
                                 padding: '10px',
                                 flexDirection: 'column',
                                 justifyContent: 'space-evenly',
-                                alignItems:'center'
+                                alignItems: 'center'
                             },
                     }}>
                 <div>
@@ -456,15 +457,15 @@ export default function Home(props) {
                         margin: '10px'
                     }}>Delete this dashboard?</h2>
                 </div>
-                <div style={{display:'flex',width:'100%', justifyContent:'space-around'}}>
-                <Button className={classes.selectButton} size="small"
-                        onClick={() => confirmDeleteHandler(true)}>
-                    <h3 className={classes.buttonText}>Yes</h3>
-                </Button>
-                <Button className={classes.selectButton} size="small"
-                        onClick={() => confirmDeleteHandler(false)}>
-                    <h3 className={classes.buttonText}>No</h3>
-                </Button>
+                <div style={{display: 'flex', width: '100%', justifyContent: 'space-around'}}>
+                    <Button className={classes.selectButton} size="small"
+                            onClick={() => confirmDeleteHandler(true)}>
+                        <h3 className={classes.buttonText}>Yes</h3>
+                    </Button>
+                    <Button className={classes.selectButton} size="small"
+                            onClick={() => confirmDeleteHandler(false)}>
+                        <h3 className={classes.buttonText}>No</h3>
+                    </Button>
                 </div>
             </Dialog>
             {newDashEl}
