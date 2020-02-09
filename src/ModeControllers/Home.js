@@ -256,7 +256,7 @@ export default function Home(props) {
                         disabled
                         size="small"
                     >
-                        <h3 className={classes.buttonText} style={{color: '#FEFEFD'}}>{filename} uploaded</h3>
+                        <h3 className={classes.buttonText} style={{color: '#FEFEFD'}}>{filename} selected</h3>
                     </Button>
                 )
 
