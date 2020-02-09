@@ -151,6 +151,7 @@ export default function Home(props) {
     }
 
     const createMyDashboards = () => {
+        console.log(records)
         if (records.length >= 1) {
             let myDashboards = records.map(record => {
                 return (
@@ -190,7 +191,6 @@ export default function Home(props) {
             )
         } else {
             return <Spinner/>
-
         }
     }
 
@@ -230,7 +230,6 @@ export default function Home(props) {
             setStage('fileUploaded')
         }
     }
-
 
     const newDashSetup = () => {
 

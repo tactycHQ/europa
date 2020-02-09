@@ -204,7 +204,7 @@ export const getRecords = async () => {
         const response = await fetch(api_url, headers)
         result = await response.json()
     } catch (error) {
-        result = "Server not responsive"
+        result = []
     }
     console.log("All records recieved")
     return result
