@@ -461,7 +461,7 @@ export default function InputSelector(props) {
         return (
             <Paper className={classes.categoryContainer}>
                 <TextField
-                    required id="standard-required"
+                    required
                     className={classes.rootTextContainer}
                     label="Input Name"
                     size="small"

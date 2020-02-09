@@ -316,7 +316,7 @@ export default function Home(props) {
                             }
                         }}
                         inputProps={{
-                            maxLength: 15
+                            maxLength: 30
                         }}
                         label="Dashboard Name"
                         defaultValue=""

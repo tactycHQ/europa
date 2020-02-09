@@ -81,7 +81,7 @@ export function between(x, min, max) {
 }
 
 export function myRound(value) {
-    const dp = 3
+    const dp = 5
     try {
         return parseFloat(value.toFixed(dp))
     } catch {
