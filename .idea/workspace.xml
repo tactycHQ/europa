@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="" />
+    <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Features/DashboardChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Features/DashboardChart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ModeControllers/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Home.js" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +38,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="dev" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -74,19 +78,19 @@
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PyCharm 2019.1.1\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\anubhav\Desktop\Projects\europa\node_modules\ssf" />
-      <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\LayoutComponents" />
-      <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\Outputs" />
-      <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\dependency_graph" />
-      <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\scenario_analysis" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\ModeControllers" />
       <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\Features" />
       <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\Content" />
       <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\Other" />
       <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\IOSelections" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\anubhav\Desktop\Projects\europa\node_modules\ssf" />
+      <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\LayoutComponents" />
+      <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\Outputs" />
+      <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\dependency_graph" />
+      <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\scenario_analysis" />
     </key>
   </component>
   <component name="RunDashboard">

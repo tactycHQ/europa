@@ -150,8 +150,7 @@ export default function Home(props) {
         props.updateOpen(true)
     }
 
-    const createMyDashboards = () => {
-        console.log(records)
+    const createMyDashboards = () =>  {
         if (records.length >= 1) {
             let myDashboards = records.map(record => {
                 return (

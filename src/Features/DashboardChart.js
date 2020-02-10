@@ -23,11 +23,11 @@ import 'react-circular-progressbar/dist/styles.css'
 
 
 const chartColors = [
-    '#006E9F',
-    '#A5014B',
-    '#3DA32D',
-    '#6014BC',
-    '#C62525',
+    '#005C84',
+    '#AA0008',
+    '#066D6B',
+    '#117C1A',
+    '#076B0F',
     '#002247',
     '#006E9F',
     '#A5014B',
@@ -334,14 +334,8 @@ export default function DashboardChart(props) {
                     >
                         <defs>
                             <linearGradient id={fill} x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="25%" stopColor={fill} stopOpacity={0.75}/>
-                                <stop offset="95%" stopColor={fill} stopOpacity={0.25}/>
-                            </linearGradient>
-                        </defs>
-                        <defs>
-                            <linearGradient id={'_active' + fill} x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="60%" stopColor={fill} stopOpacity={1.0}/>
-                                <stop offset="100%" stopColor={fill} stopOpacity={0.65}/>
+                                <stop offset="55%" stopColor={fill} stopOpacity={1.0}/>
+                                <stop offset="95%" stopColor={fill} stopOpacity={0.45}/>
                             </linearGradient>
                         </defs>
                         <XAxis
@@ -409,7 +403,7 @@ export default function DashboardChart(props) {
                             {chartData.map((entry, index) => (
                                 <Cell
                                     key={"Cell_" + index}
-                                    fill={entry['x'] === props.outCat.labels[props.outAdd] && category === props.outCat.category ? color_url("_active" + fill) : color_url(fill)}
+                                    fill={entry['x'] === props.outCat.labels[props.outAdd] && category === props.outCat.category ? '#A5014B' : color_url(fill)}
                                 />
                             ))}
                             <LabelList
