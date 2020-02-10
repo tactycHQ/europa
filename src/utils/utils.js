@@ -1,6 +1,6 @@
 // import DataFormatter from "excel-style-dataformatter";
 // const dataFormatter = new DataFormatter()
-import SSF from "ssf/ssf"
+import SSF from "./fixformats"
 
 
 export const convert_format = (fmt, value) => {
