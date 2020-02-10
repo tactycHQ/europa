@@ -1,7 +1,7 @@
 import React from 'react'
 import Main from "./ModeControllers/Main"
 import {BrowserRouter} from 'react-router-dom'
-import ScrollToTop from 'react-router-scroll-top'
+import ScrollIntoView from "./UtilityComponents/ScrollIntoView";
 import ContextProvider from "./Context"
 import CssBaseline from '@material-ui/core/CssBaseline'
 import {makeStyles} from "@material-ui/core"
@@ -17,11 +17,11 @@ export default function App() {
         <ContextProvider>
             <CssBaseline/>
             <BrowserRouter>
-                <ScrollToTop>
+                <ScrollIntoView>
                     <div className={classes.app}>
                         <Main/>
                     </div>
-                </ScrollToTop>
+                </ScrollIntoView>
             </BrowserRouter>
         </ContextProvider>
     )
