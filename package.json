@@ -7,7 +7,6 @@
     "@material-ui/icons": "^4.5.1",
     "@sheet/core": "^1.20200128.1",
     "excel-style-dataformatter": "^2.0.1",
-    "file-saver": "^2.0.2",
     "lodash.isequal": "^4.5.0",
     "react": "^16.12.0",
     "react-circular-progressbar": "^2.0.3",

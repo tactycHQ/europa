@@ -1,9 +1,8 @@
 //API Functions
-import {read} from "@sheet/core";
-import {saveAs} from 'file-saver'
+import {read} from "@sheet/core"
 
 
-export const uploadFile = async (file,Dashname) => {
+export const uploadFile = async (file, Dashname) => {
 
     const data = new FormData()
     data.append("file", file[0])
@@ -152,7 +151,11 @@ export const downloadFile = async (dash_id, origFilename) => {
     try {
         const response = await fetch(api_url, headers)
         const blob = await response.blob()
-        saveAs(blob, origFilename)
+        let url = window.URL.createObjectURL(blob);
+        let a = document.createElement('a');
+        a.href = url;
+        a.download = origFilename;
+        a.click()
     } catch (error) {
         return "Unable to load file"
     }
