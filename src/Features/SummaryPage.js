@@ -44,17 +44,11 @@ export default function SummaryPage(props) {
     }))
     const classes = useStyles()
 
-    const totalCombos = props.solutions.length
-    const numOutputs = props.outputs.length
-    const outputNames = props.outputs.map(output => output.category)
-    const numInputs = props.inputs.length
+    // const totalCombos = props.solutions.length
+    // const numOutputs = props.outputs.length
+    // const outputNames = props.outputs.map(output => output.category)
+    // const numInputs = props.inputs.length
     // const inputNames = props.inputs.length
-
-    console.log(totalCombos)
-    console.log(numOutputs)
-    console.log(outputNames)
-    console.log(numInputs)
-    console.log(Object.values(props.inputLabelMap))
 
     const createInfo = () => {
         return (
