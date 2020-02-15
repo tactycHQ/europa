@@ -120,7 +120,7 @@ export default function InputSelector(props) {
             paddingBottom: '0px',
         },
         labelField: {
-            fontSize: '1.0em',
+            fontSize: '1.2em',
             fontWeight: '100',
             fontFamily: 'Questrial',
             width: '100%',
