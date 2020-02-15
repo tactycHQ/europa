@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useRef} from 'react'
 import {makeStyles} from '@material-ui/core'
 import DashboardChart from "../Features/DashboardChart"
 import SensitivityAnalysis from "../Features/SensitivityAnalysis"
@@ -10,7 +10,7 @@ import isEqual from "lodash.isequal";
 import SummaryPage from "../Features/SummaryPage";
 import Dialog from "@material-ui/core/Dialog";
 import Button from "@material-ui/core/Button";
-
+import ReactToPdf from "react-to-pdf"
 
 export default function Dashboard(props) {
 
@@ -22,6 +22,14 @@ export default function Dashboard(props) {
         }
     }
     let outputWidth = getWidth()
+
+    const ref = useRef(null)
+
+    const options = {
+        orientation: 'landscape',
+        unit: 'in',
+        format: [4, 2]
+    }
 
 
     //Defining Styles
@@ -126,15 +134,14 @@ export default function Dashboard(props) {
     }
 
     const handleSummaryBarMouseClick = (event, category, type) => {
-        if (type==='bar') {
+        if (type === 'bar') {
             setCurrCategory(category)
             const _catdata = props.outputs.find(cat => cat.category === category)
             const _catlabels = _catdata.labels
             const catlabel = Object.keys(_catdata.labels).find(k => _catlabels[k] === event.payload.x)
             setCurrOutputCell(catlabel)
             setShowMetrics(true)
-        }
-        else {
+        } else {
             setCurrCategory(category)
             const _catdata = props.outputs.find(cat => cat.category === category)
             const catlabel = Object.keys(_catdata.labels)[0]
@@ -245,25 +252,32 @@ export default function Dashboard(props) {
     //Summary chart creator
     const createDashboardCharts = (summaryChartData, outAdd, outCat, out_fmt, inputLabelMap, distSummaryData, iiSummaryData) => {
         return (
-            <DashboardChart
-                outputs={props.outputs}
-                distributions={props.distributions}
-                summaryData={summaryChartData}
-                distSummaryData={distSummaryData}
-                iiSummaryData={iiSummaryData}
-                outAdd={outAdd}
-                outCat={outCat}
-                inputLabelMap={inputLabelMap}
-                formats={props.formats}
-                summaryPrefs={summaryPrefs}
-                setSummaryPrefs={setSummaryPrefs}
-                handleSummaryBarMouseClick={handleSummaryBarMouseClick}
-                handleSummaryTickMouseClick={handleSummaryTickMouseClick}
-                showMetrics={showMetrics}
-                handleShowMetrics={handleShowMetrics}
-                updateMsg={props.updateMsg}
-                updateOpen={props.updateOpen}
-            />
+            <>
+                <ReactToPdf targetRef={ref} filename="div-blue.pdf" options={options} x={.5} y={.5}>
+                    {({toPdf}) => (
+                        <Button onClick={toPdf}>Generate pdf</Button>
+                    )}
+                </ReactToPdf>
+                <DashboardChart
+                    outputs={props.outputs}
+                    distributions={props.distributions}
+                    summaryData={summaryChartData}
+                    distSummaryData={distSummaryData}
+                    iiSummaryData={iiSummaryData}
+                    outAdd={outAdd}
+                    outCat={outCat}
+                    inputLabelMap={inputLabelMap}
+                    formats={props.formats}
+                    summaryPrefs={summaryPrefs}
+                    setSummaryPrefs={setSummaryPrefs}
+                    handleSummaryBarMouseClick={handleSummaryBarMouseClick}
+                    handleSummaryTickMouseClick={handleSummaryTickMouseClick}
+                    showMetrics={showMetrics}
+                    handleShowMetrics={handleShowMetrics}
+                    updateMsg={props.updateMsg}
+                    updateOpen={props.updateOpen}
+                />
+            </>
         )
     }
 
@@ -466,15 +480,15 @@ export default function Dashboard(props) {
         const contributions = avgAcrossInput.map(averages => {
             if (totals === 0) {
                 return ({
-                "name": averages.name,
-                "value": 0
-            })
+                    "name": averages.name,
+                    "value": 0
+                })
 
             } else
-            return ({
-                "name": averages.name,
-                "value": averages.value / totals
-            })
+                return ({
+                    "name": averages.name,
+                    "value": averages.value / totals
+                })
         })
 
         return contributions
@@ -608,6 +622,7 @@ export default function Dashboard(props) {
     // const handleSaveNo = () => {
     //     setOnClose(false)
     // }
+
 
     return (
         <div className={classes.root}>

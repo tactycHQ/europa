@@ -8,8 +8,7 @@ import {
     Tooltip,
     ResponsiveContainer,
     ReferenceLine,
-    Cell,
-    Text
+    Cell
 } from 'recharts'
 import {Paper, makeStyles, Card} from "@material-ui/core"
 import {convert_format} from "../utils/utils"
@@ -23,12 +22,13 @@ import 'react-circular-progressbar/dist/styles.css'
 
 
 const chartColors = [
-    '#005C84',
-    '#AA0008',
-    '#066D6B',
-    '#117C1A',
-    '#076B0F',
+    '#006E9F',
+    '#A5014B',
+    '#3DA32D',
+    '#6014BC',
+    '#C62525',
     '#002247',
+    '#076B0F',
     '#006E9F',
     '#A5014B',
     '#3DA32D',
@@ -141,7 +141,7 @@ export default function DashboardChart(props) {
             fontFamily: 'Questrial',
             // textAlign:'center',
             margin: '0px',
-            fontWeight: '10',
+            fontWeight: '500',
             fontSize: '0.80em',
             textAlign: 'center'
         },
@@ -234,33 +234,33 @@ export default function DashboardChart(props) {
         )
     }
 
-    function CustomizedXAxisTickKeyMetrics(props) {
-        const {x, y, payload, fill} = props
-
-        // let _fill=props.fill
-        let _fontWeight = '500'
-        if (props.name === props.outCat.category && props.payload.value === props.outCat.labels[props.outAdd]) {
-            _fontWeight = '700'
-        }
-
-        return (
-            <Text
-                x={x}
-                y={y}
-                dy={15}
-                textAnchor="middle"
-                width={110}
-                fill={fill}
-                fontSize='0.8em'
-                fontFamily="Questrial"
-                fontWeight='500'
-                style={{fontWeight: _fontWeight}}
-            >
-                {payload.value}
-            </Text>
-
-        )
-    }
+    // function CustomizedXAxisTickKeyMetrics(props) {
+    //     const {x, y, payload, fill} = props
+    //
+    //     // let _fill=props.fill
+    //     let _fontWeight = '500'
+    //     if (props.name === props.outCat.category && props.payload.value === props.outCat.labels[props.outAdd]) {
+    //         _fontWeight = '700'
+    //     }
+    //
+    //     return (
+    //         <Text
+    //             x={x}
+    //             y={y}
+    //             dy={15}
+    //             textAnchor="middle"
+    //             width={110}
+    //             fill={fill}
+    //             fontSize='0.8em'
+    //             fontFamily="Questrial"
+    //             fontWeight='500'
+    //             style={{fontWeight: _fontWeight}}
+    //         >
+    //             {payload.value}
+    //         </Text>
+    //
+    //     )
+    // }
 
 
 // Function executions
@@ -440,7 +440,62 @@ export default function DashboardChart(props) {
         const outCat = props.outCat
         const outAdd = props.outAdd
         const keyStats = generateIIStats(props.iiSummaryData)
-        const fill = chartColors[(props.summaryData.findIndex(output => output.category === props.outCat.category))]
+        const impactCircles = props.iiSummaryData.map((input, idx) => {
+            return (
+                <div key={input.name} style={{display:'flex',flexDirection:'column', margin:'5px', alignItems:'center'}}>
+                    <div style={{
+                        color: chartColors[idx],
+                        fontFamily: 'Questrial',
+                        fontSize: '0.8em',
+                        textAlign:'center',
+                        height:'25px',
+                        marginBottom:'5px'
+                    }}>
+                        {input.name}
+                    </div>
+                    <CircularProgressbar
+                        value={input.value}
+                        minValue={0}
+                        maxValue={1}
+                        text={convert_format('0.0%', input.value)}
+                        styles={{
+                            root: {
+                                width: "80px",
+                                height: "80px",
+                                cursor: "pointer"
+                            },
+                            path: {
+                                // Path color
+                                stroke: chartColors[idx],
+                                // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+                                strokeLinecap: 'round',
+                                // Customize transition animation
+                                transition: 'stroke-dashoffset 0.5s ease 0s',
+                                // Rotate the path
+                                transform: 'rotate(0.25turn)',
+                                transformOrigin: 'center center',
+                            },
+                            trail: {
+                                // Trail color
+                                stroke: chartColors[idx],
+                                opacity: '10%',
+                                // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+                                strokeLinecap: 'butt',
+                                // Rotate the trail
+                                transform: 'rotate(0.25turn)',
+                                transformOrigin: 'center center',
+                            },
+                            text: {
+                                fill: chartColors[idx],
+                                fontFamily: 'Questrial',
+                                fontSize: '1.5em'
+                            }
+                        }}
+                    />
+                </div>
+            )
+        })
+
 
         return (
             <Slide in={props.showMetrics} direction="up" timeout={750} mountOnEnter>
@@ -459,7 +514,7 @@ export default function DashboardChart(props) {
                                 fontWeight: '800',
                                 margin: '5px',
                                 color: '#63676C'
-                            }}>Key Metrics for {outCat.category}, {outCat.labels[outAdd]}. Chart represents % impact
+                            }}>Key Metrics for {outCat.category}, {outCat.labels[outAdd]}. Progress Circles represents % impact
                                 of
                                 each input on {outCat.category}, {outCat.labels[outAdd]} variance</h3>
                         </NavLink>
@@ -474,58 +529,7 @@ export default function DashboardChart(props) {
                     </div>
                     <div className={classes.contributionContainer}>
                         {keyStats}
-                        <ResponsiveContainer
-                            width="100%"
-                            height={150}
-                            margin={{top: 0, right: 0, left: 0, bottom: 0}}
-                        >
-                            <BarChart
-                                data={props.iiSummaryData}
-                                margin={{top: 20, right: 20, left: 20, bottom: 0}}
-                                maxBarSize={20}
-                            >
-                                <XAxis
-                                    hide={false}
-                                    dataKey="name"
-                                    tickLine={false}
-                                    minTickGap={2}
-                                    interval={0}
-                                    stroke={fill}
-                                    tick={<CustomizedXAxisTickKeyMetrics outAdd={props.outAdd}
-                                                                         outCat={props.outCat}/>}
-                                    padding={{top: 0, bottom: 0}}
-                                />
-
-                                <YAxis
-                                    hide={true}
-                                    dataKey="value"
-                                    type="number"
-                                    padding={{top: 0, bottom: 0}}
-                                    interval={0}
-                                    domain={[0, 1]}
-                                />
-                                <Bar
-                                    className={classes.bar}
-                                    dataKey="value"
-                                    isAnimationActive={false}
-                                    fill={fill}
-                                    animationDuration={200}
-                                    radius={[3, 3, 0, 0]}
-                                >
-                                    <LabelList
-                                        dataKey="value"
-                                        position="top"
-                                        style={{
-                                            fill: fill,
-                                            fontFamily: 'Questrial',
-                                            fontSize: '0.8em',
-                                            fontWeight: '800'
-                                        }}
-                                        formatter={(value) => convert_format('0.0%', value)}
-                                    />
-                                </Bar>
-                            </BarChart>
-                        </ResponsiveContainer>
+                        {impactCircles}
                     </div>
                 </Paper>
             </Slide>
@@ -550,7 +554,7 @@ export default function DashboardChart(props) {
                 <NavLink to={{pathname: "/inputimportance", state: {}}}
                          style={{textDecoration: 'none'}}>
                     <Paper className={classes.keyStatsPaper} style={{background: '#FEFEFD'}}>
-                        <h2 className={classes.statsText} style={{color: '#63676C'}}>{'Most Sensitive To:'}</h2>
+                        <h2 className={classes.statsText} style={{color: '#040505', fontWeight: '500'}}>{'Most Sensitive To'}</h2>
                         <h3
                             className={classes.statFigure} style={{color: stats_fill}}>{mostSensitiveMag.name}
                         </h3>
@@ -558,7 +562,7 @@ export default function DashboardChart(props) {
                 </NavLink>
                 <NavLink to="/inputimportance" style={{textDecoration: 'none'}}>
                     <Paper className={classes.keyStatsPaper} style={{background: '#FEFEFD'}}>
-                        <h2 className={classes.statsText} style={{color: '#63676C'}}>{'Least Sensitive To:'}</h2>
+                        <h2 className={classes.statsText} style={{color: '#040505',fontWeight: '500'}}>{'Least Sensitive To'}</h2>
                         <h3
                             className={classes.statFigure} style={{color: stats_fill}}>{leastSensitiveMag.name}
                         </h3>
@@ -566,28 +570,28 @@ export default function DashboardChart(props) {
                 </NavLink>
                 <NavLink to="/distributions" style={{textDecoration: 'none'}}>
                     <Paper className={classes.keyStatsPaper} style={{background: '#FEFEFD'}}>
-                        <h2 className={classes.statsText} style={{color: '#63676C'}}>{'Mean'}</h2>
+                        <h2 className={classes.statsText} style={{color: '#040505',fontWeight: '500'}}>{'Mean'}</h2>
                         <h2 className={classes.statFigure}
                             style={{color: stats_fill}}>{convert_format(out_fmt, xmean)}</h2>
                     </Paper>
                 </NavLink>
                 <NavLink to="/distributions" style={{textDecoration: 'none'}}>
                     <Paper className={classes.keyStatsPaper} style={{background: '#FEFEFD'}}>
-                        <h2 className={classes.statsText} style={{color: '#63676C'}}>{'Minimum'}</h2>
+                        <h2 className={classes.statsText} style={{color: '#040505',fontWeight: '500'}}>{'Minimum'}</h2>
                         <h2 className={classes.statFigure}
                             style={{color: stats_fill}}>{convert_format(out_fmt, xmin)}</h2>
                     </Paper>
                 </NavLink>
                 <NavLink to="/distributions" style={{textDecoration: 'none'}}>
                     <Paper className={classes.keyStatsPaper} style={{background: '#FEFEFD'}}>
-                        <h2 className={classes.statsText} style={{color: '#63676C'}}> {'Maximum'}</h2>
+                        <h2 className={classes.statsText} style={{color: '#040505',fontWeight: '500'}}> {'Maximum'}</h2>
                         <h2 className={classes.statFigure}
                             style={{color: stats_fill}}>{convert_format(out_fmt, xmax)}</h2>
                     </Paper>
                 </NavLink>
                 <NavLink to="/distributions" style={{textDecoration: 'none'}}>
                     <Paper className={classes.keyStatsPaper} style={{background: '#FEFEFD'}}>
-                        <h2 className={classes.statsText} style={{color: '#63676C'}}> {'Std Dev'}</h2>
+                        <h2 className={classes.statsText} style={{color: '#040505',fontWeight: '500'}}> {'Std Dev'}</h2>
                         <h2 className={classes.statFigure}
                             style={{color: stats_fill}}>{convert_format(out_fmt, xstd)}</h2>
                     </Paper>
@@ -595,7 +599,6 @@ export default function DashboardChart(props) {
             </div>
         )
     }
-
 
     const createCharts = () => {
         // const miniCharts = createDistSummary()
