@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react'
+import React, {useState} from 'react'
 import {makeStyles} from '@material-ui/core'
 import DashboardChart from "../Features/DashboardChart"
 import SensitivityAnalysis from "../Features/SensitivityAnalysis"
@@ -10,7 +10,6 @@ import isEqual from "lodash.isequal";
 import SummaryPage from "../Features/SummaryPage";
 import Dialog from "@material-ui/core/Dialog";
 import Button from "@material-ui/core/Button";
-import ReactToPdf from "react-to-pdf"
 
 export default function Dashboard(props) {
 
@@ -22,15 +21,6 @@ export default function Dashboard(props) {
         }
     }
     let outputWidth = getWidth()
-
-    const ref = useRef(null)
-
-    const options = {
-        orientation: 'landscape',
-        unit: 'in',
-        format: [4, 2]
-    }
-
 
     //Defining Styles
     const useStyles = makeStyles(theme => ({

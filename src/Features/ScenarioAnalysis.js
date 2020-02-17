@@ -60,7 +60,8 @@ export default function ScenarioAnalysis(props) {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'flex-start',
-            width: '50%'
+            width: '50%',
+            height:'100%'
         },
         outputPaper: {
             display: 'flex',
@@ -78,9 +79,11 @@ export default function ScenarioAnalysis(props) {
         solutionPaper: {
             display: 'flex',
             flexDirection: 'column',
+            justifyContent:'center',
+            alignItems:'center',
             flexWrap: 'wrap',
-            maxHeight: '100%',
-            // width: '100%',
+            // height: '100%',
+            width: '100%',
             margin: '1%',
             padding: '1%',
             background: '#4595B9'
@@ -88,7 +91,7 @@ export default function ScenarioAnalysis(props) {
         solutionTextContainer: {
             display: 'flex',
             flexDirection: 'row',
-            justifyContent: 'space-between',
+            justifyContent: 'flex-start',
             background: '#E7F1F6',
             margin: '1%'
         },
@@ -290,7 +293,7 @@ export default function ScenarioAnalysis(props) {
         })
 
         return (
-            <div>
+            <div style={{display:'flex', flexDirection:'column',width:'100%'}}>
                 {solutions}
             </div>
         )
@@ -338,7 +341,7 @@ export default function ScenarioAnalysis(props) {
             <div className={classes.cardHeaderContainer}>
                 <h2 className={classes.cardTitleHeader}>Scenario Analysis</h2>
             </div>
-            <div style={{display: 'flex', width: '100%'}}>
+            <div style={{display: 'flex', width: '100%', height:'100%'}}>
                 <div className={classes.outputContainer}>
                     {outSliders}
                 </div>
