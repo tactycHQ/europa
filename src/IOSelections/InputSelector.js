@@ -582,7 +582,6 @@ export default function InputSelector(props) {
     //Input Handlers
     const setInputHandler = () => {
 
-        console.log(label)
         if (label === address) {
             setError("Input name cannot be the cell address. Please provide a name for the input that will help you identify it with context. For e.g. Growth Rate or EBITDA margin ")
             setErrorOpen(true)
