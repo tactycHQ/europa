@@ -442,7 +442,7 @@ export default function DashboardChart(props) {
     const handleImageExport = (img_id) => {
         domtoimage.toBlob(document.getElementById(img_id))
             .then(function (blob) {
-                fileDownload(blob, 'dom-to-image.png')
+                fileDownload(blob, img_id+'.png')
             })
     }
 
