@@ -116,6 +116,7 @@ export default function Home(props) {
     }))
     const classes = useStyles()
     const [records, setRecords] = useState([])
+    const [apiComplete, setApiComplete] = useState(false)
     const [askDelete, setAskDelete] = useState(false)
     const [toDelete, setToDelete] = useState(null)
     const [askNewDash, setAskNewDash] = useState(false)
@@ -137,6 +138,7 @@ export default function Home(props) {
         const executeGetUserRecords = async () => {
             const userRecords = await getRecords()
             setRecords([...userRecords])
+            setApiComplete(true)
         }
         executeGetUserRecords()
 
@@ -150,31 +152,47 @@ export default function Home(props) {
         props.updateOpen(true)
     }
 
-    const createMyDashboards = () =>  {
-        if (records.length >= 1) {
-            let myDashboards = records.map(record => {
-                return (
-                    <div key={record.id}
-                         style={{display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
-                        <Paper className={classes.existingdash}
-                               component={Link} to="/dashboard"
-                               style={{textDecoration: 'none'}}
-                               onClick={() => openDash(record.id)}>
-                            <h1 className={classes.dashTitle}
-                                style={{fontWeight: '300', fontSize: '1.2em'}}>{record.name}</h1>
-                            <h1 className={classes.dashTitle} style={{fontWeight: '100', fontSize: '0.9em'}}>Last
-                                Accessed: Tuesday, Feb 2nd, 2019</h1>
-                            <h1 className={classes.dashTitle} style={{fontWeight: '100', fontSize: '0.9em'}}>Shared
-                                With: - </h1>
-                        </Paper>
-                        <IconButton onClick={() => askDeleteHandler(record.id)}>
-                            <DeleteSharpIcon size="small" style={{
-                                color: '#8BBDD3'
-                            }}/>
-                        </IconButton>
-                    </div>
-                )
-            })
+    const createMyDashboards = () => {
+
+        if (apiComplete) {
+
+            let recordsEl = (
+                <div
+                    style={{
+                        fontFamily: 'Questrial',
+                        fontSize: '1.em',
+                        fontWeight: '200',
+                        color: '#006E9F',
+                        marginBottom: '5px'
+                    }}
+                >You have not yet created any dashboards</div>
+            )
+
+            if (records.length > 0) {
+                recordsEl = records.map(record => {
+                    return (
+                        <div key={record.id}
+                             style={{display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
+                            <Paper className={classes.existingdash}
+                                   component={Link} to="/dashboard"
+                                   style={{textDecoration: 'none'}}
+                                   onClick={() => openDash(record.id)}>
+                                <h1 className={classes.dashTitle}
+                                    style={{fontWeight: '300', fontSize: '1.2em'}}>{record.name}</h1>
+                                <h1 className={classes.dashTitle} style={{fontWeight: '100', fontSize: '0.9em'}}>Last
+                                    Accessed: Tuesday, Feb 2nd, 2019</h1>
+                                <h1 className={classes.dashTitle} style={{fontWeight: '100', fontSize: '0.9em'}}>Shared
+                                    With: - </h1>
+                            </Paper>
+                            <IconButton onClick={() => askDeleteHandler(record.id)}>
+                                <DeleteSharpIcon size="small" style={{
+                                    color: '#8BBDD3'
+                                }}/>
+                            </IconButton>
+                        </div>
+                    )
+                })
+            }
 
             return (
                 <Card className={classes.existingContainer}>
@@ -185,7 +203,7 @@ export default function Home(props) {
                         color: '#006E9F',
                         marginBottom: '5px'
                     }}>My Dashboards</h1>
-                    {myDashboards}
+                    {recordsEl}
                 </Card>
             )
         } else {
@@ -328,7 +346,8 @@ export default function Home(props) {
                         onChange={(e) => setNewDashname(e.target.value)}
                     />
                     {uploadEl}
-                    <h3 className={classes.buttonText}><em>Only *.xlsx or *.xls files are supported currently</em></h3>
+                    <h3 className={classes.buttonText}><em>Only *.xlsx or *.xls files are supported currently</em>
+                    </h3>
                     <div style={{
                         display: 'flex',
                         marginTop: '10%',

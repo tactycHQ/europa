@@ -120,7 +120,7 @@ export default function InputSelector(props) {
             paddingBottom: '0px',
         },
         labelField: {
-            fontSize: '1.2em',
+            fontSize: '1.1em',
             fontWeight: '100',
             fontFamily: 'Questrial',
             width: '100%',
@@ -174,7 +174,6 @@ export default function InputSelector(props) {
 
     //Hooks
     // This is the default hook to load up initial input assumptions when a cell has been clicked
-
 
 
     const createIOPanel = () => {
@@ -583,10 +582,16 @@ export default function InputSelector(props) {
     //Input Handlers
     const setInputHandler = () => {
 
-
+        console.log(label)
         if (label === address) {
             setError("Input name cannot be the cell address. Please provide a name for the input that will help you identify it with context. For e.g. Growth Rate or EBITDA margin ")
             setErrorOpen(true)
+        }
+
+        if (label === "") {
+            setError("Please provide a name for the input that will help you identify it with context. For e.g. Growth Rate or EBITDA margin ")
+            setErrorOpen(true)
+
 
         } else {
 
@@ -631,7 +636,6 @@ export default function InputSelector(props) {
         setEnableClick(true)
         props.updateStage("summary")
     }
-
 
 
     const deleteInputHandler = (address) => {

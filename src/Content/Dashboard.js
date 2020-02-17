@@ -253,11 +253,11 @@ export default function Dashboard(props) {
     const createDashboardCharts = (summaryChartData, outAdd, outCat, out_fmt, inputLabelMap, distSummaryData, iiSummaryData) => {
         return (
             <>
-                <ReactToPdf targetRef={ref} filename="div-blue.pdf" options={options} x={.5} y={.5}>
-                    {({toPdf}) => (
-                        <Button onClick={toPdf}>Generate pdf</Button>
-                    )}
-                </ReactToPdf>
+                {/*<ReactToPdf targetRef={ref} filename="div-blue.pdf" options={options} x={.5} y={.5}>*/}
+                {/*    {({toPdf}) => (*/}
+                {/*        <Button onClick={toPdf}>Generate pdf</Button>*/}
+                {/*    )}*/}
+                {/*</ReactToPdf>*/}
                 <DashboardChart
                     outputs={props.outputs}
                     distributions={props.distributions}

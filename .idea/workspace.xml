@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Content/Dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/Dashboard.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/IOSelections/InputSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/IOSelections/InputSelector.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ModeControllers/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Home.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -167,13 +169,12 @@
       <workItem from="1581365433816" duration="1975000" />
       <workItem from="1581376000577" duration="4000" />
       <workItem from="1581732083553" duration="1093000" />
-    </task>
-    <task id="LOCAL-00228" summary="First commit">
-      <created>1580770027477</created>
-      <option name="number" value="00228" />
-      <option name="presentableId" value="LOCAL-00228" />
-      <option name="project" value="LOCAL" />
-      <updated>1580770027477</updated>
+      <workItem from="1581735646972" duration="33000" />
+      <workItem from="1581799344112" duration="518000" />
+      <workItem from="1581806311204" duration="593000" />
+      <workItem from="1581824350273" duration="611000" />
+      <workItem from="1581888425033" duration="1378000" />
+      <workItem from="1581907234120" duration="2253000" />
     </task>
     <task id="LOCAL-00229" summary="First commit">
       <created>1580771272336</created>
@@ -511,7 +512,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581732461800</updated>
     </task>
-    <option name="localTasksCounter" value="277" />
+    <task id="LOCAL-00277" summary="First commit">
+      <created>1581735652205</created>
+      <option name="number" value="00277" />
+      <option name="presentableId" value="LOCAL-00277" />
+      <option name="project" value="LOCAL" />
+      <updated>1581735652206</updated>
+    </task>
+    <option name="localTasksCounter" value="278" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
