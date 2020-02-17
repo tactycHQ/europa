@@ -78,6 +78,12 @@ export default function CardSettings(props) {
         setAnchorEl(null);
     };
 
+
+    const handleImgExport = () => {
+        props.handleImageExport("summary" + props.category)
+        handleClose()
+    }
+
     return (
         <div>
             <IconButton className={classes.settings} aria-controls="simple-menu" aria-haspopup="true"
@@ -97,9 +103,7 @@ export default function CardSettings(props) {
                 <MenuItem className={classes.menuItem}
                           onClick={(event) => handleChange(event, 'size', item.size)}
                           dense={true}>{item.size}</MenuItem>
-                <MenuItem className={classes.menuItem} onClick={handleClose} dense={true}>Hide</MenuItem>
-                <MenuItem className={classes.menuItem} onClick={handleClose} dense={true}>Customize Chart</MenuItem>
-                <MenuItem className={classes.menuItem} onClick={handleClose} dense={true}>Remove Output</MenuItem>
+                <MenuItem className={classes.menuItem} onClick={() => handleImgExport() } dense={true}>Export Chart</MenuItem>
             </Menu>
         </div>
     );

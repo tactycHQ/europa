@@ -19,6 +19,8 @@ import ArrowDropDownSharpIcon from '@material-ui/icons/ArrowDropDownSharp'
 import IconButton from '@material-ui/core/IconButton'
 import {CircularProgressbar} from 'react-circular-progressbar'
 import 'react-circular-progressbar/dist/styles.css'
+import domtoimage from "retina-dom-to-image";
+import fileDownload from "js-file-download";
 
 
 const chartColors = [
@@ -423,16 +425,25 @@ export default function DashboardChart(props) {
         }
 
         return (
-            <Paper className={classes.SummaryPaper} key={"summary" + category} elevation={3}>
+            <Paper className={classes.SummaryPaper} key={"summary" + category} elevation={3} id={"summary" + category}>
                 <div className={classes.paperHeaderContainer}>
                     <h3 className={classes.chartTitle}>{category}</h3>
                     <CardSettings category={category}
                                   setSummaryPrefs={props.setSummaryPrefs}
-                                  summaryPrefs={props.summaryPrefs}/>
+                                  summaryPrefs={props.summaryPrefs}
+                                  handleImageExport={handleImageExport}
+                    />
                 </div>
                 {chartEl}
             </Paper>
         )
+    }
+
+    const handleImageExport = (img_id) => {
+        domtoimage.toBlob(document.getElementById(img_id))
+            .then(function (blob) {
+                fileDownload(blob, 'dom-to-image.png')
+            })
     }
 
     const createIISummary2 = () => {
@@ -442,14 +453,15 @@ export default function DashboardChart(props) {
         const keyStats = generateIIStats(props.iiSummaryData)
         const impactCircles = props.iiSummaryData.map((input, idx) => {
             return (
-                <div key={input.name} style={{display:'flex',flexDirection:'column', margin:'5px', alignItems:'center'}}>
+                <div key={input.name}
+                     style={{display: 'flex', flexDirection: 'column', margin: '5px', alignItems: 'center'}}>
                     <div style={{
                         color: chartColors[idx],
                         fontFamily: 'Questrial',
                         fontSize: '0.8em',
-                        textAlign:'center',
-                        height:'25px',
-                        marginBottom:'5px'
+                        textAlign: 'center',
+                        height: '25px',
+                        marginBottom: '5px'
                     }}>
                         {input.name}
                     </div>
@@ -514,7 +526,8 @@ export default function DashboardChart(props) {
                                 fontWeight: '800',
                                 margin: '5px',
                                 color: '#63676C'
-                            }}>Key Metrics for {outCat.category}, {outCat.labels[outAdd]}. Progress Circles represents % impact
+                            }}>Key Metrics for {outCat.category}, {outCat.labels[outAdd]}. Progress Circles represents %
+                                impact
                                 of
                                 each input on {outCat.category}, {outCat.labels[outAdd]} variance</h3>
                         </NavLink>
@@ -554,7 +567,8 @@ export default function DashboardChart(props) {
                 <NavLink to={{pathname: "/inputimportance", state: {}}}
                          style={{textDecoration: 'none'}}>
                     <Paper className={classes.keyStatsPaper} style={{background: '#FEFEFD'}}>
-                        <h2 className={classes.statsText} style={{color: '#040505', fontWeight: '500'}}>{'Most Sensitive To'}</h2>
+                        <h2 className={classes.statsText}
+                            style={{color: '#040505', fontWeight: '500'}}>{'Most Sensitive To'}</h2>
                         <h3
                             className={classes.statFigure} style={{color: stats_fill}}>{mostSensitiveMag.name}
                         </h3>
@@ -562,7 +576,8 @@ export default function DashboardChart(props) {
                 </NavLink>
                 <NavLink to="/inputimportance" style={{textDecoration: 'none'}}>
                     <Paper className={classes.keyStatsPaper} style={{background: '#FEFEFD'}}>
-                        <h2 className={classes.statsText} style={{color: '#040505',fontWeight: '500'}}>{'Least Sensitive To'}</h2>
+                        <h2 className={classes.statsText}
+                            style={{color: '#040505', fontWeight: '500'}}>{'Least Sensitive To'}</h2>
                         <h3
                             className={classes.statFigure} style={{color: stats_fill}}>{leastSensitiveMag.name}
                         </h3>
@@ -570,28 +585,30 @@ export default function DashboardChart(props) {
                 </NavLink>
                 <NavLink to="/distributions" style={{textDecoration: 'none'}}>
                     <Paper className={classes.keyStatsPaper} style={{background: '#FEFEFD'}}>
-                        <h2 className={classes.statsText} style={{color: '#040505',fontWeight: '500'}}>{'Mean'}</h2>
+                        <h2 className={classes.statsText} style={{color: '#040505', fontWeight: '500'}}>{'Mean'}</h2>
                         <h2 className={classes.statFigure}
                             style={{color: stats_fill}}>{convert_format(out_fmt, xmean)}</h2>
                     </Paper>
                 </NavLink>
                 <NavLink to="/distributions" style={{textDecoration: 'none'}}>
                     <Paper className={classes.keyStatsPaper} style={{background: '#FEFEFD'}}>
-                        <h2 className={classes.statsText} style={{color: '#040505',fontWeight: '500'}}>{'Minimum'}</h2>
+                        <h2 className={classes.statsText} style={{color: '#040505', fontWeight: '500'}}>{'Minimum'}</h2>
                         <h2 className={classes.statFigure}
                             style={{color: stats_fill}}>{convert_format(out_fmt, xmin)}</h2>
                     </Paper>
                 </NavLink>
                 <NavLink to="/distributions" style={{textDecoration: 'none'}}>
                     <Paper className={classes.keyStatsPaper} style={{background: '#FEFEFD'}}>
-                        <h2 className={classes.statsText} style={{color: '#040505',fontWeight: '500'}}> {'Maximum'}</h2>
+                        <h2 className={classes.statsText}
+                            style={{color: '#040505', fontWeight: '500'}}> {'Maximum'}</h2>
                         <h2 className={classes.statFigure}
                             style={{color: stats_fill}}>{convert_format(out_fmt, xmax)}</h2>
                     </Paper>
                 </NavLink>
                 <NavLink to="/distributions" style={{textDecoration: 'none'}}>
                     <Paper className={classes.keyStatsPaper} style={{background: '#FEFEFD'}}>
-                        <h2 className={classes.statsText} style={{color: '#040505',fontWeight: '500'}}> {'Std Dev'}</h2>
+                        <h2 className={classes.statsText}
+                            style={{color: '#040505', fontWeight: '500'}}> {'Std Dev'}</h2>
                         <h2 className={classes.statFigure}
                             style={{color: stats_fill}}>{convert_format(out_fmt, xstd)}</h2>
                     </Paper>
