@@ -351,5 +351,4 @@ export default function ScenarioAnalysis(props) {
             </div>
         </Card>
     )
-
 }
