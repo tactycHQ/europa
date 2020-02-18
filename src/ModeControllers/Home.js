@@ -225,8 +225,6 @@ export default function Home(props) {
         }
     }
 
-    console.log(stage)
-
     const confirmDeleteHandler = (update) => {
         if (update === true) {
             deleteDashBoard(toDelete)
