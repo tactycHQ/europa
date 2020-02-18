@@ -25,18 +25,16 @@ import fileDownload from "js-file-download";
 
 const chartColors = [
     '#006E9F',
-    '#A5014B',
     '#3DA32D',
     '#6014BC',
     '#C62525',
     '#002247',
-    '#076B0F',
     '#006E9F',
-    '#A5014B',
     '#3DA32D',
     '#6014BC',
     '#C62525',
     '#002247'
+
 ]
 
 export default function DashboardChart(props) {
@@ -442,7 +440,7 @@ export default function DashboardChart(props) {
     const handleImageExport = (img_id) => {
         domtoimage.toBlob(document.getElementById(img_id))
             .then(function (blob) {
-                fileDownload(blob, img_id+'.png')
+                fileDownload(blob, img_id + '.png')
             })
     }
 
