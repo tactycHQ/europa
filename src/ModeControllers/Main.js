@@ -72,7 +72,6 @@ export default function Main(props) {
     }
 
 
-
     //----------------Modes-------------------
     //1. New - a new dashboard is to be created. Dash id and filename have been provided
     //2. PendingIO - file has been loaded. Pending user I/O selection
@@ -219,6 +218,10 @@ export default function Main(props) {
         setMsg(update)
     }
 
+    const updateFilename = (update) => {
+        setOrigFilename(update)
+    }
+
     const updateOpen = (update) => {
         setOpen(update)
     }
@@ -297,6 +300,7 @@ export default function Main(props) {
             updateMsg={updateMsg}
             updateOpen={updateOpen}
             clearState={clearState}
+            updateFilename={updateFilename}
         />
     }
 

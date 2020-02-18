@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
+    <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="First commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Content/Dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Content/Dashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Features/DashboardChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Features/DashboardChart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/UtilityComponents/CardSettings.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/UtilityComponents/CardSettings.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ModeControllers/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ModeControllers/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ModeControllers/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/api.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -177,20 +175,8 @@
       <workItem from="1581824350273" duration="611000" />
       <workItem from="1581888425033" duration="1378000" />
       <workItem from="1581907234120" duration="2971000" />
-    </task>
-    <task id="LOCAL-00231" summary="First commit">
-      <created>1580781122876</created>
-      <option name="number" value="00231" />
-      <option name="presentableId" value="LOCAL-00231" />
-      <option name="project" value="LOCAL" />
-      <updated>1580781122876</updated>
-    </task>
-    <task id="LOCAL-00232" summary="First commit">
-      <created>1580790488810</created>
-      <option name="number" value="00232" />
-      <option name="presentableId" value="LOCAL-00232" />
-      <option name="project" value="LOCAL" />
-      <updated>1580790488810</updated>
+      <workItem from="1581979511594" duration="2193000" />
+      <workItem from="1582059672140" duration="2604000" />
     </task>
     <task id="LOCAL-00233" summary="First commit">
       <created>1580791729648</created>
@@ -521,7 +507,21 @@
       <option name="project" value="LOCAL" />
       <updated>1581916088283</updated>
     </task>
-    <option name="localTasksCounter" value="280" />
+    <task id="LOCAL-00280" summary="First commit">
+      <created>1581923604677</created>
+      <option name="number" value="00280" />
+      <option name="presentableId" value="LOCAL-00280" />
+      <option name="project" value="LOCAL" />
+      <updated>1581923604677</updated>
+    </task>
+    <task id="LOCAL-00281" summary="First commit">
+      <created>1581923718402</created>
+      <option name="number" value="00281" />
+      <option name="presentableId" value="LOCAL-00281" />
+      <option name="project" value="LOCAL" />
+      <updated>1581923718402</updated>
+    </task>
+    <option name="localTasksCounter" value="282" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

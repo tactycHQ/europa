@@ -225,6 +225,8 @@ export default function Home(props) {
         }
     }
 
+    console.log(stage)
+
     const confirmDeleteHandler = (update) => {
         if (update === true) {
             deleteDashBoard(toDelete)
@@ -242,6 +244,7 @@ export default function Home(props) {
         props.clearState()
         props.setDashid(response.dash_id)
         props.setDashName(newDashname)
+        props.updateFilename(response.original_filename)
         props.updateMode("new")
         if (response.message === 'OK') {
             setStage('fileUploaded')
@@ -366,6 +369,7 @@ export default function Home(props) {
 
             //file has been uploaded, so showing "GO TO I/O" option
         } else if (askNewDash && stage === 'fileUploaded') {
+
 
             //loadFile has completed
             if (props.mode === 'pendingIO') {

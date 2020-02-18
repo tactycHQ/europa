@@ -137,6 +137,7 @@ export const loadFile = async (dash_id) => {
 
 export const downloadFile = async (dash_id, origFilename) => {
 
+    console.log(origFilename)
     console.log("Downloading excel model")
     const api_url = "http://localhost:5000/downloadFile"
     const headers = {
