@@ -13,6 +13,7 @@ import Button from "@material-ui/core/Button";
 import Dropzone from "react-dropzone";
 import TextField from "@material-ui/core/TextField";
 import {Redirect} from 'react-router-dom'
+import Background from '../images/home.jpg'
 
 // import Button from "@material-ui/core/Button";
 // import {Switch, Route} from 'react-router-dom'
@@ -26,11 +27,13 @@ export default function Home(props) {
         root: {
             display: 'flex',
             width: '100%',
+            height:'95vh',
             flexDirection: 'column',
             justifyContent: 'flex-start',
             alignItems: 'center',
             padding: '10px',
-            background: '#FEFEFD'
+            // background: 'red'
+            backgroundImage:`url(${Background})`
         },
         existingContainer: {
             display: 'flex',
@@ -42,13 +45,13 @@ export default function Home(props) {
             alignItems: 'flex-start',
             background: 'linear-gradient(#F4F4F4 10%,#FEFEFD)',
             padding: '5px',
-            margin: '10px'
+            margin: '20px'
         },
         existingdash: {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            margin: '10px',
+            margin: '20px',
             padding: '5px',
             background: '#627C8D',
             width: '100%',
@@ -62,10 +65,10 @@ export default function Home(props) {
             display: 'flex',
             justifyContent: 'space-around',
             alignItems: 'center',
-            marginTop: '0px',
+            marginTop: '5px',
             marginBottom: '5px',
             padding: '5px',
-            background: '#006491',
+            background: '#AD185B',
             width: '180px',
             cursor: 'pointer',
             "&:hover": {
@@ -199,9 +202,9 @@ export default function Home(props) {
                     <h1 className={classes.dashTitle} style={{
                         fontFamily: 'Questrial',
                         fontSize: '1.2em',
-                        fontWeight: '200',
-                        color: '#006E9F',
-                        marginBottom: '5px'
+                        fontWeight: '500',
+                        color: '#A5014B',
+                        marginBottom: '10px'
                     }}>My Flexboards</h1>
                     {recordsEl}
                 </Card>
@@ -447,6 +450,7 @@ export default function Home(props) {
         <div className={classes.root}>
             <Paper
                 className={classes.newdashboardpaper}
+                elevation="20"
                 onClick={() => setAskNewDash(true)}
             >
                 <AddCircleSharpIcon style={{color: '#FEFEFD'}}/>

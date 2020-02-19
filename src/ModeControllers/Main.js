@@ -18,7 +18,7 @@ export default function Main(props) {
     const useStyles = makeStyles(theme => ({
         root: {
             display: 'flex',
-            flexDirection: 'column'
+            flexDirection: 'column',
         },
         top: {
             display: 'flex',
@@ -32,7 +32,7 @@ export default function Main(props) {
         },
         middle: {
             display: 'flex',
-            marginTop: '5vh',
+            marginTop: '5vh'
         },
         spinner: {
             display: 'flex'
