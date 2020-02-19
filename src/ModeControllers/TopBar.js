@@ -28,7 +28,8 @@ const useStyles = makeStyles(theme => ({
         color: '#292F36',
         fontFamily: 'Questrial',
         textTransform: 'uppercase',
-        marginRight: '6%'
+        // marginRight:
+        // positon:'fixed'
     },
     icon: {
         display: 'flex',
@@ -52,7 +53,7 @@ export default function DenseAppBar(props) {
             <h3 className={classes.logo}>FLEXBOARD</h3>
             <div className={classes.modelname}><h5>{props.dashName}</h5></div>
             <div style={{display:'flex', padding:'3px'}}>
-                <div style={{fontFamily:'Questrial', fontSize:'0.9em', marginRight:'10px', fontWight:'100', color:'#9DA0A3'}}><h5>Logged in as Anubhav</h5></div>
+                <div style={{fontFamily:'Questrial', fontSize:'0.9em', marginRight:'10px', fontWight:'100', color:'#9DA0A3'}}><h5>Log out Anubhav</h5></div>
                 <IconButton
                     edge="start"
                     aria-label="menu"

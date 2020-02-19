@@ -2,12 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/ModeControllers/LandingPage.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/config/auth_config.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/react-auth0-spa.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/history.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ModeControllers/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ModeControllers/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ModeControllers/LandingPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/LandingPage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ModeControllers/TopBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/TopBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -179,14 +182,7 @@
       <workItem from="1581907234120" duration="2971000" />
       <workItem from="1581979511594" duration="2193000" />
       <workItem from="1582059672140" duration="4012000" />
-      <workItem from="1582137451634" duration="8502000" />
-    </task>
-    <task id="LOCAL-00238" summary="First commit">
-      <created>1580867170119</created>
-      <option name="number" value="00238" />
-      <option name="presentableId" value="LOCAL-00238" />
-      <option name="project" value="LOCAL" />
-      <updated>1580867170119</updated>
+      <workItem from="1582137451634" duration="11234000" />
     </task>
     <task id="LOCAL-00239" summary="First commit">
       <created>1580867515304</created>
@@ -524,7 +520,14 @@
       <option name="project" value="LOCAL" />
       <updated>1582143985532</updated>
     </task>
-    <option name="localTasksCounter" value="287" />
+    <task id="LOCAL-00287" summary="First commit">
+      <created>1582148602709</created>
+      <option name="number" value="00287" />
+      <option name="presentableId" value="LOCAL-00287" />
+      <option name="project" value="LOCAL" />
+      <updated>1582148602709</updated>
+    </task>
+    <option name="localTasksCounter" value="288" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
