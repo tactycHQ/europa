@@ -7,7 +7,7 @@ import {Switch, Route} from 'react-router-dom'
 import Main from "./Main";
 import Background from '../images/home.jpg'
 import TopBar from "./TopBar";
-
+import {useAuth0} from "../react-auth0-spa"
 
 
 // import Button from "@material-ui/core/Button";
@@ -44,6 +44,8 @@ export default function LandingPage() {
     }))
     const classes = useStyles()
 
+    const {isAuthenticated, loginWithRedirect, logout} = useAuth0()
+
 
     return (
         <div>
@@ -54,12 +56,17 @@ export default function LandingPage() {
                             <TopBar/>
                         </div>
                         <Card className={classes.mainPage}>
+                            {!isAuthenticated && (
+                                <Button onClick={() => loginWithRedirect({})}>Log in</Button>
+                            )}
+
+                            {isAuthenticated && <Button onClick={() => logout()}>Log out</Button>}
                         </Card>
                     </Paper>
                 </Route>
                 <Route exact
                        path="/(home|summary|dashboard|distributions|inputimportance|sensitivity|scenario|dependency|spreadsheet)">
-                        <Main/>
+                    <Main/>
                 </Route>
             </Switch>
         </div>

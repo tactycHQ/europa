@@ -124,7 +124,7 @@ export default function SideBar(props) {
             color: '#292F36',
             backgroundColor: '#DEE3D4',
             opacity: '50%',
-            fontSize: '1em'
+            fontSize: '0.8em'
         }
     }))
     const classes = useStyles()
@@ -136,7 +136,7 @@ export default function SideBar(props) {
         if (location.pathname === '/dashboard') {
             tipText = 'Click on any chart element to view detailed metrics on that output variable'
         } else if (location.pathname === '/distributions') {
-            tipText = 'Selecting an output generates a histogram and probability density function. The output values are calculated based on all possible input combinations '+
+            tipText = 'Selecting an output generates a histogram and probability density function. The output values are calculated based on all possible input combinations ' +
                 'within the defined input range'
         } else if (location.pathname === '/inputimportance') {
             tipText = 'Select an output to see which input variables drive the greatest (or least) variance. The impact of each input is calculated based on the average change of ' +
@@ -221,27 +221,43 @@ export default function SideBar(props) {
                     <Divider variant="middle" className={classes.divider}/>
 
                     <NavLink to="/spreadsheet" style={{textDecoration: 'none'}}>
-                        <ListItem className={classes.buttons} button={true} onClick={() => props.generateBackupIO()}>
-                            <TuneIcon className={classes.icon}/>
-                            <div className={classes.buttonLabel}>Change Inputs/Outputs</div>
-                        </ListItem>
+                        <Tooltip title="Revisit input and output selection" enterDelay={500}
+                                 classes={{tooltip: classes.toolTip}} placement='right'>
+                            <ListItem className={classes.buttons} button={true}
+                                      onClick={() => props.generateBackupIO()}>
+                                <TuneIcon className={classes.icon}/>
+                                <div className={classes.buttonLabel}>Change Inputs/Outputs</div>
+                            </ListItem>
+                        </Tooltip>
                     </NavLink>
-                    <ListItem className={classes.buttons} button={true}>
-                        <CloudUploadIcon className={classes.icon}/>
-                        <div className={classes.buttonLabel}>Upload New Model Excel</div>
-                    </ListItem>
+                    <Tooltip title="Replace the current excel model with a new version" enterDelay={500}
+                             classes={{tooltip: classes.toolTip}} placement='right'>
+                        <ListItem className={classes.buttons} button={true}>
+                            <CloudUploadIcon className={classes.icon}/>
+                            <div className={classes.buttonLabel}>Upload New Model Excel</div>
+                        </ListItem>
+                    </Tooltip>
+                    <Tooltip title="Download the current excel model file" enterDelay={500}
+                             classes={{tooltip: classes.toolTip}} placement='right'>
                     <ListItem className={classes.buttons} button={true} onClick={() => props.downloadModel()}>
                         <CloudDownloadSharpIcon className={classes.icon}/>
                         <div className={classes.buttonLabel}>Download Model Excel</div>
                     </ListItem>
+                    </Tooltip>
+                    <Tooltip title="Save all changes made to this dashboard" enterDelay={500}
+                             classes={{tooltip: classes.toolTip}} placement='right'>
                     <ListItem className={classes.saveButton} button={true} onClick={() => props.saveDash()}>
                         <SaveAltIcon className={classes.icon}/>
                         <div className={classes.buttonLabel}>Save Dashboard</div>
                     </ListItem>
+                    </Tooltip>
+                    <Tooltip title="Send this dashboard to another user" enterDelay={500}
+                             classes={{tooltip: classes.toolTip}} placement='right'>
                     <ListItem className={classes.saveButton} button={true}>
                         <ShareSharpIcon className={classes.icon}/>
                         <div className={classes.buttonLabel}>Send Dashboard</div>
                     </ListItem>
+                    </Tooltip>
                 </List>
             </div>
             {tipsEl}
