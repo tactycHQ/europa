@@ -174,7 +174,7 @@ export default function SideBar(props) {
                             enterDelay={500} classes={{tooltip: classes.toolTip}} placement='right'>
                             <ListItem className={classes.buttons} button={true}>
                                 <InsertChartIcon className={classes.icon}/>
-                                <div className={classes.buttonLabel}>Dashboard</div>
+                                <div className={classes.buttonLabel}>Flexboard</div>
                             </ListItem>
                         </Tooltip>
                     </NavLink>

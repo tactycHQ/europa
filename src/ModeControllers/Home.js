@@ -148,7 +148,7 @@ export default function Home(props) {
         props.clearState()
         props.setDashid(dash_id)
         props.updateMode('processed')
-        props.updateMsg("Opening Dashboard...")
+        props.updateMsg("Opening Flexboard...")
         props.updateOpen(true)
     }
 
@@ -202,7 +202,7 @@ export default function Home(props) {
                         fontWeight: '200',
                         color: '#006E9F',
                         marginBottom: '5px'
-                    }}>My Dashboards</h1>
+                    }}>My Flexboards</h1>
                     {recordsEl}
                 </Card>
             )
@@ -450,7 +450,7 @@ export default function Home(props) {
                 onClick={() => setAskNewDash(true)}
             >
                 <AddCircleSharpIcon style={{color: '#FEFEFD'}}/>
-                <h1 className={classes.dashTitle}>Create New Dashboard</h1>
+                <h1 className={classes.dashTitle}>Create New Flexboard</h1>
             </Paper>
             {myDashboards}
             <Dialog open={askDelete}

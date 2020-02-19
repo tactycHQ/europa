@@ -156,6 +156,7 @@ export default function Main(props) {
     }, [wb, currSheet])
 
     const clearState = () => {
+        setMode('home')
         setDashid(null)
         setOrigFilename('')
         setSolutions(null)
@@ -194,6 +195,10 @@ export default function Main(props) {
         setCurrSheet(sheet)
     }
 
+    const updateDashName = (update) => {
+        setDashName(update)
+    }
+
     const updateInputs = (inputs) => {
         setInputs([...inputs])
     }
@@ -228,7 +233,7 @@ export default function Main(props) {
 
     const saveDash = () => {
         saveDashboard(dashid, dashName, inputs, outputs, cases, formats)
-        setMsg("Dashboard saved")
+        setMsg("Flexboard saved")
         setOpen(true)
     }
 
@@ -313,7 +318,7 @@ export default function Main(props) {
     return (
         <div className={classes.root}>
             <div className={classes.top}>
-                <TopBar dashName={dashName} updateMode={updateMode}/>
+                <TopBar dashName={dashName} updateMode={updateMode} clearState={clearState}/>
             </div>
             <Switch>
                 <Route exact path={["/", "/home"]}>
