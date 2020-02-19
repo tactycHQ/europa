@@ -1,5 +1,5 @@
 import React from 'react'
-import Main from "./ModeControllers/Main"
+import LandingPage from "./ModeControllers/LandingPage";
 import {BrowserRouter} from 'react-router-dom'
 import ScrollIntoView from "./UtilityComponents/ScrollIntoView";
 import ContextProvider from "./Context"
@@ -19,7 +19,7 @@ export default function App() {
             <BrowserRouter>
                 <ScrollIntoView>
                     <div className={classes.app}>
-                        <Main/>
+                        <LandingPage/>
                     </div>
                 </ScrollIntoView>
             </BrowserRouter>

@@ -13,7 +13,6 @@ import Button from "@material-ui/core/Button";
 import Dropzone from "react-dropzone";
 import TextField from "@material-ui/core/TextField";
 import {Redirect} from 'react-router-dom'
-import Background from '../images/home.jpg'
 
 // import Button from "@material-ui/core/Button";
 // import {Switch, Route} from 'react-router-dom'
@@ -27,13 +26,13 @@ export default function Home(props) {
         root: {
             display: 'flex',
             width: '100%',
-            height:'95vh',
+            height: '95vh',
             flexDirection: 'column',
             justifyContent: 'flex-start',
             alignItems: 'center',
             padding: '10px',
             // background: 'red'
-            backgroundImage:`url(${Background})`
+            background: 'linear-gradient(#5CA2C1 30%, #B9D7E4)'
         },
         existingContainer: {
             display: 'flex',
@@ -45,20 +44,20 @@ export default function Home(props) {
             alignItems: 'flex-start',
             background: 'linear-gradient(#F4F4F4 10%,#FEFEFD)',
             padding: '5px',
-            margin: '20px'
+            margin: '10px'
         },
         existingdash: {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            margin: '20px',
+            margin: '15px',
             padding: '5px',
-            background: '#627C8D',
+            background: '#D8D9DA',
             width: '100%',
             // height: '30px',
             cursor: 'pointer',
             "&:hover": {
-                background: '#A5014B',
+                background: '#A2CADC',
             }
         },
         newdashboardpaper: {
@@ -69,19 +68,20 @@ export default function Home(props) {
             marginBottom: '5px',
             padding: '5px',
             background: '#AD185B',
-            width: '180px',
+            // width: '180px',
             cursor: 'pointer',
             "&:hover": {
-                background: '#A5014B',
+                background: '#006E9F',
             }
         },
         dashTitle: {
             fontFamily: 'Questrial',
-            fontSize: '0.9em',
+            fontSize: '0.8em',
             fontWeight: '200',
             color: '#FEFEFD',
+            marginLeft: '5px',
             marginTop: '0px',
-            marginBottom: '0px'
+            marginBottom: '0px',
         },
         selectButton: {
             display: 'flex',
@@ -147,11 +147,12 @@ export default function Home(props) {
 
     }, [])
 
-    const openDash = (dash_id) => {
+    const openDash = (dash_id, dash_name) => {
+        console.log(dash_name)
         props.clearState()
         props.setDashid(dash_id)
         props.updateMode('processed')
-        props.updateMsg("Opening Flexboard...")
+        props.updateMsg("Opening " + dash_name + " Flexboard")
         props.updateOpen(true)
     }
 
@@ -179,12 +180,22 @@ export default function Home(props) {
                             <Paper className={classes.existingdash}
                                    component={Link} to="/dashboard"
                                    style={{textDecoration: 'none'}}
-                                   onClick={() => openDash(record.id)}>
+                                   onClick={() => openDash(record.id, record.name)}>
                                 <h1 className={classes.dashTitle}
-                                    style={{fontWeight: '300', fontSize: '1.2em'}}>{record.name}</h1>
-                                <h1 className={classes.dashTitle} style={{fontWeight: '100', fontSize: '0.9em'}}>Last
+                                    style={{
+                                        fontWeight: '600',
+                                        fontSize: '1.0em',
+                                        color: '#4185D3',
+                                        textTransform: 'uppercase',
+                                        letterSpacing: '2px'
+                                    }}>
+                                    {record.name}
+                                </h1>
+                                <h1 className={classes.dashTitle}
+                                    style={{fontWeight: '100', fontSize: '0.9em', color: '#292F36'}}>Last
                                     Accessed: Tuesday, Feb 2nd, 2019</h1>
-                                <h1 className={classes.dashTitle} style={{fontWeight: '100', fontSize: '0.9em'}}>Shared
+                                <h1 className={classes.dashTitle}
+                                    style={{fontWeight: '100', fontSize: '0.9em', color: '#292F36'}}>Shared
                                     With: - </h1>
                             </Paper>
                             <IconButton onClick={() => askDeleteHandler(record.id)}>
@@ -201,10 +212,12 @@ export default function Home(props) {
                 <Card className={classes.existingContainer}>
                     <h1 className={classes.dashTitle} style={{
                         fontFamily: 'Questrial',
-                        fontSize: '1.2em',
+                        fontSize: '1.0em',
                         fontWeight: '500',
                         color: '#A5014B',
-                        marginBottom: '10px'
+                        marginBottom: '10px',
+                        textTransform: 'uppercase',
+                        letterSpacing: '2px'
                     }}>My Flexboards</h1>
                     {recordsEl}
                 </Card>
@@ -450,11 +463,16 @@ export default function Home(props) {
         <div className={classes.root}>
             <Paper
                 className={classes.newdashboardpaper}
-                elevation="20"
+                elevation={20}
                 onClick={() => setAskNewDash(true)}
             >
                 <AddCircleSharpIcon style={{color: '#FEFEFD'}}/>
-                <h1 className={classes.dashTitle}>Create New Flexboard</h1>
+                <h1 className={classes.dashTitle} style={{
+                    textTransform: 'uppercase',
+                    letterSpacing: '2px'
+                }}>
+                    Create New Flexboard
+                </h1>
             </Paper>
             {myDashboards}
             <Dialog open={askDelete}

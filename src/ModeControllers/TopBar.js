@@ -16,11 +16,11 @@ const useStyles = makeStyles(theme => ({
     logo: {
         display: 'flex',
         marginLeft: '10px',
-        fontFamily:'Questrial',
+        fontFamily: 'Questrial',
         minWidth: '6.5%',
-        fontSize:'0.70em',
+        fontSize: '0.70em',
         color: '#4185D3',
-        letterSpacing:'3px'
+        letterSpacing: '3px'
     },
     modelname: {
         display: 'flex',
@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
         color: '#292F36',
         fontFamily: 'Questrial',
         textTransform: 'uppercase',
-        marginRight:'6%'
+        marginRight: '6%'
     },
     icon: {
         display: 'flex',
@@ -51,15 +51,18 @@ export default function DenseAppBar(props) {
         <div className={classes.root}>
             <h3 className={classes.logo}>FLEXBOARD</h3>
             <div className={classes.modelname}><h5>{props.dashName}</h5></div>
-            <IconButton
-                edge="start"
-                aria-label="menu"
-                component={ Link }
-                to="/home"
-                onClick={() => homeClick()}
-                style={{textDecoration: 'none'}}>
+            <div style={{display:'flex', padding:'3px'}}>
+                <div style={{fontFamily:'Questrial', fontSize:'0.9em', marginRight:'10px', fontWight:'100', color:'#9DA0A3'}}><h5>Logged in as Anubhav</h5></div>
+                <IconButton
+                    edge="start"
+                    aria-label="menu"
+                    component={Link}
+                    to="/home"
+                    onClick={() => homeClick()}
+                    style={{textDecoration: 'none'}}>
                     <HomeSharpIcon className={classes.icon}/>
-            </IconButton>
+                </IconButton>
+            </div>
         </div>
     );
 }

@@ -144,7 +144,6 @@ export default function Main(props) {
 
     }, [mode, dashid, inputs, outputs, cases, formats, dashName])
 
-
     // if currsheet is changed, gets the new sheet info from the wb object
     useEffect(() => {
         if (wb && currSheet) {
@@ -193,10 +192,6 @@ export default function Main(props) {
         setMsg('Sheet changed to ' + sheet)
         setOpen(true)
         setCurrSheet(sheet)
-    }
-
-    const updateDashName = (update) => {
-        setDashName(update)
     }
 
     const updateInputs = (inputs) => {
@@ -321,13 +316,13 @@ export default function Main(props) {
                 <TopBar dashName={dashName} clearState={clearState}/>
             </div>
             <Switch>
-                <Route exact path={["/", "/home"]}>
+                <Route exact path={["/home"]}>
                     <div className={classes.middle}>
                         {home}
                     </div>
                 </Route>
                 <Route exact
-                       path="/(summary|dashboard|distributions|inputimportance|sensitivity|scenario|dependency|spreadsheet)">
+                       path="/(summary|dashboard|distributions|inputimportance|sensitivity|scenario|spreadsheet)">
                     <div className={classes.middle}>
                         {content}
                     </div>
