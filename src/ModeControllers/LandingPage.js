@@ -57,8 +57,6 @@ export default function LandingPage() {
     const {isAuthenticated, loginWithRedirect, logout} = useAuth0()
 
 
-
-
     let mainEl
     if (isAuthenticated) {
         mainEl = (
@@ -92,7 +90,9 @@ export default function LandingPage() {
                         justifyContent: 'center'
                     }}>About Us</h1>
                 </div>
+
                 <h6 className={classes.logo}>FLEXBOARD</h6>
+
                 <h1 className={classes.logo} style={{
                     fontSize: '1.5em',
                     letterSpacing: '1px',
@@ -101,6 +101,7 @@ export default function LandingPage() {
                     marginTop: '5px'
                 }}>
                     Powering Enterprise Models to Life
+                <sup style={{fontSize: '0.7em', marginLeft:'5px'}}>&trade;</sup>
                 </h1>
                 <Button
                     elevation={50}

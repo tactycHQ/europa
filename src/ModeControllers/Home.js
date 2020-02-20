@@ -26,7 +26,7 @@ export default function Home(props) {
         root: {
             display: 'flex',
             width: '100%',
-            height: '100%',
+            minHeight: '95vh',
             flexDirection: 'column',
             justifyContent: 'flex-start',
             alignItems: 'center',
