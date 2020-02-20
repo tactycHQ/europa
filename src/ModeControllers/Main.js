@@ -313,7 +313,7 @@ export default function Main(props) {
     return (
         <div className={classes.root}>
             <div className={classes.top}>
-                <TopBar dashName={dashName} clearState={clearState}/>
+                <TopBar dashName={dashName} clearState={clearState} logout={props.logout}/>
             </div>
             <Switch>
                 <Route exact path={["/home"]}>

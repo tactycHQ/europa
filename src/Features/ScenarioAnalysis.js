@@ -81,7 +81,7 @@ export default function ScenarioAnalysis(props) {
             flexDirection: 'column',
             justifyContent:'center',
             alignItems:'center',
-            flexWrap: 'wrap',
+            // flexWrap: 'wrap',
             // height: '100%',
             width: '100%',
             margin: '1%',
@@ -91,7 +91,7 @@ export default function ScenarioAnalysis(props) {
         solutionTextContainer: {
             display: 'flex',
             flexDirection: 'row',
-            justifyContent: 'flex-start',
+            justifyContent: 'space-evenly',
             background: '#E7F1F6',
             margin: '1%'
         },

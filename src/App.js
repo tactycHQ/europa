@@ -17,14 +17,13 @@ export default function App() {
     const classes = useStyles()
 
     const onRedirectCallback = appState => {
-        history.push(
-            appState && appState.targetUrl
-                ? appState.targetUrl
-                : window.location.pathname
-        );
+        if (appState && appState.targetUrl) {
+        } else {
+            history.push(window.location.pathname)
+        }
     }
 
-    console.log(window.location.origin)
+
 
     return (
         <ContextProvider>

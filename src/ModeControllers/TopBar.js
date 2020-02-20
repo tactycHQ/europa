@@ -2,7 +2,8 @@ import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import HomeSharpIcon from '@material-ui/icons/HomeSharp'
-import {Link} from "react-router-dom";
+import {Link} from "react-router-dom"
+import ExitToAppSharpIcon from '@material-ui/icons/ExitToAppSharp';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -28,7 +29,7 @@ const useStyles = makeStyles(theme => ({
         color: '#292F36',
         fontFamily: 'Questrial',
         textTransform: 'uppercase',
-        // marginRight:
+        marginRight:'5%'
         // positon:'fixed'
     },
     icon: {
@@ -52,8 +53,7 @@ export default function DenseAppBar(props) {
         <div className={classes.root}>
             <h3 className={classes.logo}>FLEXBOARD</h3>
             <div className={classes.modelname}><h5>{props.dashName}</h5></div>
-            <div style={{display:'flex', padding:'3px'}}>
-                <div style={{fontFamily:'Questrial', fontSize:'0.9em', marginRight:'10px', fontWight:'100', color:'#9DA0A3'}}><h5>Log out Anubhav</h5></div>
+            <div style={{display: 'flex', padding: '3px'}}>
                 <IconButton
                     edge="start"
                     aria-label="menu"
@@ -62,6 +62,15 @@ export default function DenseAppBar(props) {
                     onClick={() => homeClick()}
                     style={{textDecoration: 'none'}}>
                     <HomeSharpIcon className={classes.icon}/>
+                </IconButton>
+                <IconButton
+                    edge="start"
+                    aria-label="menu"
+                    component={Link}
+                    to="/home"
+                    onClick={() => props.logout()}
+                    style={{textDecoration: 'none'}}>
+                    <ExitToAppSharpIcon className={classes.icon}/>
                 </IconButton>
             </div>
         </div>
