@@ -101,7 +101,7 @@ export default function LandingPage() {
                     marginTop: '5px'
                 }}>
                     Powering Enterprise Models to Life
-                <sup style={{fontSize: '0.7em', marginLeft:'5px'}}>&trade;</sup>
+                    <sup style={{fontSize: '0.7em', marginLeft: '5px'}}>&trade;</sup>
                 </h1>
                 <Button
                     elevation={50}
@@ -112,7 +112,9 @@ export default function LandingPage() {
                         fontSize: '1em',
                         width: '300px',
                         color: '#E7F1F6'
-                    }} onClick={() => loginWithRedirect()}>
+                    }} onClick={() => loginWithRedirect({
+                    redirect_uri: 'http://localhost:3000/home'
+                })}>
                     Secure Log in
                 </Button>
                 <Button
