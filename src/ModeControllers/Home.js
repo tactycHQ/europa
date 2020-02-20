@@ -140,6 +140,8 @@ export default function Home(props) {
 
     useEffect(() => {
         const executeGetUserRecords = async () => {
+            let token = await props.getToken()
+            console.log(token)
             const userRecords = await getRecords()
             setRecords([...userRecords])
             setApiComplete(true)

@@ -301,6 +301,7 @@ export default function Main(props) {
             updateOpen={updateOpen}
             clearState={clearState}
             updateFilename={updateFilename}
+            getToken={props.getToken}
         />
     }
 
