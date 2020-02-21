@@ -106,9 +106,10 @@ export default function LandingPage() {
                             fontSize: '1em',
                             width: '300px',
                             color: '#E7F1F6'
-                        }} onClick={() => loginWithRedirect({
-                        redirect_uri: 'http://localhost:3000/home'
-                    })}>
+                        }}
+                        onClick={() => loginWithRedirect({
+                            redirect_uri: 'http://localhost:3000/home'
+                        })}>
                         Secure Log in
                     </Button>
                     <Button
