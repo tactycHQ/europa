@@ -317,7 +317,7 @@ export default function Main(props) {
                 <TopBar dashName={dashName} clearState={clearState} logout={props.logout}/>
             </div>
             <Switch>
-                <Route exact path={["/home"]}>
+                <Route exact path={["/home","/"]}>
                     <div className={classes.middle}>
                         {home}
                     </div>

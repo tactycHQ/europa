@@ -13,6 +13,7 @@ import Button from "@material-ui/core/Button";
 import Dropzone from "react-dropzone";
 import TextField from "@material-ui/core/TextField";
 import {Redirect} from 'react-router-dom'
+import {useAuth0} from "../react-auth0-spa";
 
 // import Button from "@material-ui/core/Button";
 // import {Switch, Route} from 'react-router-dom'
@@ -127,6 +128,7 @@ export default function Home(props) {
     const [newFile, setNewFile] = useState(null)
     const [newDashname, setNewDashname] = useState('')
     const [stage, setStage] = useState('awaitingUpload')
+    const {getTokenSilently} = useAuth0()
 
     const resetState = () => {
         setAskNewDash(false)
@@ -140,15 +142,14 @@ export default function Home(props) {
 
     useEffect(() => {
         const executeGetUserRecords = async () => {
-            let token = await props.getToken()
-            console.log(token)
-            const userRecords = await getRecords()
+            let token = await getTokenSilently()
+            const userRecords = await getRecords(token)
             setRecords([...userRecords])
             setApiComplete(true)
         }
         executeGetUserRecords()
 
-    }, [])
+    }, [getTokenSilently])
 
     const openDash = (dash_id, dash_name) => {
         console.log(dash_name)

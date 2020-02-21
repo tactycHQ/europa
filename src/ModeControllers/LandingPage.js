@@ -6,12 +6,6 @@ import Main from "./Main";
 import {useAuth0} from "../react-auth0-spa"
 import Background from "../images/home.jpg"
 
-
-// import Button from "@material-ui/core/Button";
-// import {Switch, Route} from 'react-router-dom'
-// import Spreadsheet from "./Spreadsheet";
-
-
 export default function LandingPage() {
 
     // Defining Hooks
@@ -52,15 +46,14 @@ export default function LandingPage() {
     }))
     const classes = useStyles()
 
-    const {isAuthenticated, loginWithRedirect, logout, getTokenSilently} = useAuth0()
+    const {isAuthenticated, loginWithRedirect, logout} = useAuth0()
 
     let mainEl
-    if (isAuthenticated) {
 
+    if (isAuthenticated) {
         mainEl = (
             <Main
                 logout={logout}
-                getToken={getTokenSilently}
             />
         )
     } else {
