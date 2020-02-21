@@ -113,7 +113,7 @@ export default function LandingPage() {
                         color: '#E7F1F6'
                     }}
                     onClick={() => loginWithRedirect({
-                        redirect_uri: 'http://localhost:3000/home',
+                        // redirect_uri: 'http://localhost:3000/home',
                         // audience:'http://localhost/5000',
                         // scope:'read:records'
                     })}>
