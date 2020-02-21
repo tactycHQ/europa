@@ -2,5 +2,6 @@
   "domain": "dev-gah-56f1.auth0.com",
   "clientId": "mBV4ZBHhiYIiRunXIXvyL1Wnwi2Nt9ke",
   "audience": "http://localhost:5000",
-  "redirect_uri": "http://localhost:3000/home"
+  "redirect_uri": "http://localhost:3000/home",
+  "scope": "token id_token"
 }

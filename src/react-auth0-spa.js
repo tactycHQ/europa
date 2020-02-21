@@ -64,6 +64,8 @@ export const Auth0Provider = ({children,onRedirectCallback = DEFAULT_REDIRECT_CA
     setIsAuthenticated(true)
     setUser(user)
   }
+
+
   return (
     <Auth0Context.Provider
       value={{

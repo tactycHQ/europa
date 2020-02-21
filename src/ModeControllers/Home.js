@@ -128,7 +128,7 @@ export default function Home(props) {
     const [newFile, setNewFile] = useState(null)
     const [newDashname, setNewDashname] = useState('')
     const [stage, setStage] = useState('awaitingUpload')
-    const {getTokenSilently, user} = useAuth0()
+    const {getTokenSilently, getIdTokenClaims} = useAuth0()
 
     const resetState = () => {
         setAskNewDash(false)
@@ -143,14 +143,14 @@ export default function Home(props) {
     useEffect(() => {
         const executeGetUserRecords = async () => {
             let token = await getTokenSilently()
-            console.log(user)
-            const userRecords = await getRecords(token)
+            let claims = await getIdTokenClaims()
+            const userRecords = await getRecords(token, claims.email)
             setRecords([...userRecords])
             setApiComplete(true)
         }
         executeGetUserRecords()
-
-    }, [getTokenSilently])
+    // eslint-disable-next-line
+    }, [])
 
     const openDash = (dash_id, dash_name) => {
         props.clearState()

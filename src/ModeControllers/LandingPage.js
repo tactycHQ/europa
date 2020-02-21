@@ -47,18 +47,20 @@ export default function LandingPage() {
     }))
     const classes = useStyles()
 
-    const {isAuthenticated, loginWithRedirect, logout} = useAuth0()
+    const {isAuthenticated, loginWithRedirect, logout, loading} = useAuth0()
 
     let mainEl
 
-    if (isAuthenticated) {
+    if (isAuthenticated && !loading) {
         mainEl = (
             <Main
                 logout={logout}
             />
         )
+    } else if (loading) {
+        mainEl = <div>Logging you in....</div>
     } else {
-        mainEl = <div/>
+        mainEl = <div>Please sign-in first. If you have already sign in, please emake sure to verify your email</div>
     }
 
 

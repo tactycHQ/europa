@@ -192,16 +192,17 @@ export const saveDashboard = async (dash_id, name, inputs, outputs, cases, forma
     return result
 }
 
-export const getRecords = async (token) => {
+export const getRecords = async (token, useremail) => {
     console.log("Getting all records with this user...")
-    console.log(token)
+
     const api_url = "http://localhost:5000/getRecords"
 
     let result
     const headers = {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization':`Bearer ${token}`
+            'Authorization':`Bearer ${token}`,
+            'Identification':useremail
         },
         method: "POST"
     }
