@@ -193,29 +193,31 @@ export const saveDashboard = async (dash_id, name, inputs, outputs, cases, forma
 }
 
 export const getRecords = async (token) => {
-    console.log("Getting all records with this user...");
+    console.log("Getting all records with this user...")
+    console.log(token)
     const api_url = "http://localhost:5000/getRecords"
 
     let result
     const headers = {
         headers: {
-            Accept: "application/json","Content-Type": "application/json",
-            Authorization:"BEARER "+token
+            'Content-Type': 'application/json',
+            'Authorization':`Bearer ${token}`
         },
         method: "POST"
     }
     try {
         const response = await fetch(api_url, headers)
         result = await response.json()
+        console.log("All records recieved")
     } catch (error) {
+        console.log("Get Records failed")
         result = []
     }
-    console.log("All records recieved")
     return result
 }
 
 export const deleteRecord = async (dash_id) => {
-    console.log("deleting this dashboard...");
+    console.log("deleting this dashboard...")
     const api_url = "http://localhost:5000/deleteRecord"
 
     let result
@@ -238,6 +240,7 @@ export const deleteRecord = async (dash_id) => {
     console.log("Dashboard deleted")
     return result.message
 }
+
 
 
 
