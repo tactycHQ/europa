@@ -162,7 +162,6 @@ export default function Home(props) {
 
     const createMyDashboards = () => {
 
-
         let recordsEl = (
             <div
                 style={{
