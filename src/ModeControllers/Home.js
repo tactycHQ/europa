@@ -153,7 +153,6 @@ export default function Home(props) {
     }, [getTokenSilently])
 
     const openDash = (dash_id, dash_name) => {
-        console.log(dash_name)
         props.clearState()
         props.setDashid(dash_id)
         props.updateMode('processed')
