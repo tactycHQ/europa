@@ -128,7 +128,7 @@ export default function Home(props) {
     const [newFile, setNewFile] = useState(null)
     const [newDashname, setNewDashname] = useState('')
     const [stage, setStage] = useState('awaitingUpload')
-    const {getTokenSilently} = useAuth0()
+    const {getTokenSilently, user} = useAuth0()
 
     const resetState = () => {
         setAskNewDash(false)
@@ -143,7 +143,7 @@ export default function Home(props) {
     useEffect(() => {
         const executeGetUserRecords = async () => {
             let token = await getTokenSilently()
-            console.log(token)
+            console.log(user)
             const userRecords = await getRecords(token)
             setRecords([...userRecords])
             setApiComplete(true)
