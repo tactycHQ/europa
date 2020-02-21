@@ -6,7 +6,6 @@ import Main from "./Main";
 import {useAuth0} from "../react-auth0-spa"
 import Background from "../images/home.jpg"
 import {Route, Switch} from "react-router";
-import Dashboard from "../Content/Dashboard";
 
 export default function LandingPage() {
 
