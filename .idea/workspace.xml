@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ModeControllers/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/auth_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/auth_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ModeControllers/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Main.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -179,13 +177,6 @@
       <workItem from="1582137451634" duration="28519000" />
       <workItem from="1582213191706" duration="3295000" />
       <workItem from="1582302746980" duration="612000" />
-    </task>
-    <task id="LOCAL-00251" summary="First commit">
-      <created>1581017149986</created>
-      <option name="number" value="00251" />
-      <option name="presentableId" value="LOCAL-00251" />
-      <option name="project" value="LOCAL" />
-      <updated>1581017149986</updated>
     </task>
     <task id="LOCAL-00252" summary="First commit">
       <created>1581018443124</created>
@@ -523,7 +514,14 @@
       <option name="project" value="LOCAL" />
       <updated>1582324169541</updated>
     </task>
-    <option name="localTasksCounter" value="300" />
+    <task id="LOCAL-00300" summary="First commit">
+      <created>1582336638269</created>
+      <option name="number" value="00300" />
+      <option name="presentableId" value="LOCAL-00300" />
+      <option name="project" value="LOCAL" />
+      <updated>1582336638269</updated>
+    </task>
+    <option name="localTasksCounter" value="301" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

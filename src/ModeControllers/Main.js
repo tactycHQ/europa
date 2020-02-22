@@ -5,7 +5,7 @@ import Home from "./Home";
 import TopBar from "./TopBar"
 import Spinner from "../UtilityComponents/Spinner"
 import {getSolutions, getMetaData, calculateSolutions, loadFile, saveDashboard, downloadFile} from "./api"
-import {Switch, Route} from 'react-router-dom'
+import {Switch, Route, Redirect} from 'react-router-dom'
 import {fixFormat} from "../utils/utils"
 import Snackbar from '@material-ui/core/Snackbar'
 import Slide from '@material-ui/core/Slide'
@@ -124,7 +124,7 @@ export default function Main(props) {
         if (mode === 'new') {
             executeNewAPIcalls()
         }
-
+    // eslint-disable-next-line
     }, [mode, dashid])
 
     useEffect(() => {
@@ -293,7 +293,9 @@ export default function Main(props) {
                 updateFormats={updateFormats}
                 updateCases={updateCases}
             />
+        } else if (mode === 'home') {
 
+            return <Redirect to ="/home"/>
         } else {
             return <Spinner className={classes.spinner}/>
         }
