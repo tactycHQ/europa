@@ -58,7 +58,7 @@ export default function LandingPage() {
             />
         )
     } else if (loading) {
-        mainEl = <div>Logging you in....</div>
+        mainEl = <div/>
     } else {
         mainEl = <div>Please sign-in first. If you have already sign in, please emake sure to verify your email</div>
     }
