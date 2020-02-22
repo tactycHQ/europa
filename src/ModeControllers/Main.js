@@ -9,6 +9,7 @@ import {Switch, Route} from 'react-router-dom'
 import {fixFormat} from "../utils/utils"
 import Snackbar from '@material-ui/core/Snackbar'
 import Slide from '@material-ui/core/Slide'
+import {useAuth0} from "../react-auth0-spa";
 
 
 export default function Main(props) {
@@ -65,6 +66,7 @@ export default function Main(props) {
     const [currSheet, setCurrSheet] = useState(null)
     const [open, setOpen] = useState(false)
     const [msg, setMsg] = useState('')
+    const {getTokenSilently, getIdTokenClaims} = useAuth0()
 
     const handleClose = () => {
         setOpen(false);
@@ -83,9 +85,11 @@ export default function Main(props) {
     useEffect(() => {
 
         const executeExistingAPIcalls = async () => {
+            let token = await getTokenSilently()
+            let claims = await getIdTokenClaims()
             const metadata = await getMetaData(dashid)
             const _solutions = await getSolutions(dashid)
-            const _wb = await loadFile(dashid)
+            const _wb = await loadFile(dashid, token, claims.email)
 
             setwb(_wb)
             setSheets(Object.keys(_wb.Sheets))
@@ -104,7 +108,9 @@ export default function Main(props) {
         }
 
         const executeNewAPIcalls = async () => {
-            const _wb = await loadFile(dashid)
+            let token = await getTokenSilently()
+            let claims = await getIdTokenClaims()
+            const _wb = await loadFile(dashid, token, claims.email)
             setwb(_wb)
             setSheets(Object.keys(_wb.Sheets))
             setCurrSheet(Object.keys(_wb.Sheets)[0])
@@ -232,8 +238,10 @@ export default function Main(props) {
         setOpen(true)
     }
 
-    const downloadModel = () => {
-        downloadFile(dashid, origFilename)
+    const downloadModel = async () => {
+        let token = await getTokenSilently()
+        let claims = await getIdTokenClaims()
+        await downloadFile(dashid, origFilename, token, claims.email)
     }
 
 
@@ -317,7 +325,7 @@ export default function Main(props) {
                 <TopBar dashName={dashName} clearState={clearState} logout={props.logout}/>
             </div>
             <Switch>
-                <Route exact path={["/home","/"]}>
+                <Route exact path={["/home", "/"]}>
                     <div className={classes.middle}>
                         {home}
                     </div>

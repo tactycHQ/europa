@@ -2,8 +2,7 @@
 import {read} from "@sheet/core"
 
 
-export const uploadFile = async (file, Dashname) => {
-
+export const uploadFile = async (file, Dashname, token, useremail) => {
     const data = new FormData()
     data.append("file", file[0])
     data.append("Dashname", Dashname)
@@ -11,10 +10,13 @@ export const uploadFile = async (file, Dashname) => {
     console.log("Uploading excel file")
     const api_url = "http://localhost:5000/uploadFile"
     const settings = {
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Identification': useremail
+        },
         method: "POST",
         body: data
     }
-
     try {
         const response = await fetch(api_url, settings)
         const result = await response.json()
@@ -101,14 +103,14 @@ export const calculateSolutions = async (dash_id, inputs, outputs) => {
     return result
 }
 
-export const loadFile = async (dash_id) => {
-
+export const loadFile = async (dash_id, token, useremail) => {
     console.log("Loading excel file")
     const api_url = "http://localhost:5000/downloadFile"
     const headers = {
         headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            'Identification': useremail
         },
         method: "POST",
         body: JSON.stringify({
@@ -135,14 +137,16 @@ export const loadFile = async (dash_id) => {
     }
 }
 
-export const downloadFile = async (dash_id, origFilename) => {
-
+export const downloadFile = async (dash_id, origFilename, token, useremail) => {
+    console.log("Downloading...")
     console.log(origFilename)
     console.log("Downloading excel model")
     const api_url = "http://localhost:5000/downloadFile"
-    const headers = {
+    const settings = {
         headers: {
-            Accept: "application/json", "Content-Type": "application/json"
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            'Identification': useremail
         },
         method: "POST",
         body: JSON.stringify({
@@ -150,7 +154,7 @@ export const downloadFile = async (dash_id, origFilename) => {
         })
     }
     try {
-        const response = await fetch(api_url, headers)
+        const response = await fetch(api_url, settings)
         const blob = await response.blob()
         let url = window.URL.createObjectURL(blob);
         let a = document.createElement('a');
@@ -198,16 +202,16 @@ export const getRecords = async (token, useremail) => {
     const api_url = "http://localhost:5000/getRecords"
 
     let result
-    const headers = {
+    const settings = {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization':`Bearer ${token}`,
-            'Identification':useremail
+            'Authorization': `Bearer ${token}`,
+            'Identification': useremail
         },
         method: "POST"
     }
     try {
-        const response = await fetch(api_url, headers)
+        const response = await fetch(api_url, settings)
         result = await response.json()
         console.log("All records recieved")
     } catch (error) {

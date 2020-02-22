@@ -267,8 +267,9 @@ export default function Home(props) {
 
     const selectionCompleteHandler = async () => {
         setStage('pendingUploadCompletion')
-
-        const response = await uploadFile(newFile, newDashname)
+        let token = await getTokenSilently()
+        let claims = await getIdTokenClaims()
+        const response = await uploadFile(newFile, newDashname, token, claims.email)
         props.clearState()
         props.setDashid(response.dash_id)
         props.setDashName(newDashname)
