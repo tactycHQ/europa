@@ -2,6 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Homepage/HomePage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ModeControllers/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ModeControllers/LandingPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/LandingPage.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ModeControllers/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Main.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -36,7 +40,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="auth" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -55,7 +59,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../vulcan" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
@@ -177,20 +181,7 @@
       <workItem from="1582137451634" duration="28519000" />
       <workItem from="1582213191706" duration="3295000" />
       <workItem from="1582302746980" duration="612000" />
-    </task>
-    <task id="LOCAL-00252" summary="First commit">
-      <created>1581018443124</created>
-      <option name="number" value="00252" />
-      <option name="presentableId" value="LOCAL-00252" />
-      <option name="project" value="LOCAL" />
-      <updated>1581018443124</updated>
-    </task>
-    <task id="LOCAL-00253" summary="First commit">
-      <created>1581028302679</created>
-      <option name="number" value="00253" />
-      <option name="presentableId" value="LOCAL-00253" />
-      <option name="project" value="LOCAL" />
-      <updated>1581028302680</updated>
+      <workItem from="1582344321730" duration="792000" />
     </task>
     <task id="LOCAL-00254" summary="First commit">
       <created>1581033721737</created>
@@ -521,7 +512,21 @@
       <option name="project" value="LOCAL" />
       <updated>1582336638269</updated>
     </task>
-    <option name="localTasksCounter" value="301" />
+    <task id="LOCAL-00301" summary="First commit">
+      <created>1582337023654</created>
+      <option name="number" value="00301" />
+      <option name="presentableId" value="LOCAL-00301" />
+      <option name="project" value="LOCAL" />
+      <updated>1582337023654</updated>
+    </task>
+    <task id="LOCAL-00302" summary="First commit">
+      <created>1582337092934</created>
+      <option name="number" value="00302" />
+      <option name="presentableId" value="LOCAL-00302" />
+      <option name="project" value="LOCAL" />
+      <updated>1582337092934</updated>
+    </task>
+    <option name="localTasksCounter" value="303" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

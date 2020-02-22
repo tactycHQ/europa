@@ -294,7 +294,6 @@ export default function Main(props) {
                 updateCases={updateCases}
             />
         } else if (mode === 'home') {
-
             return <Redirect to ="/home"/>
         } else {
             return <Spinner className={classes.spinner}/>

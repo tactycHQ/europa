@@ -1,23 +1,24 @@
 import React, {useState, useEffect} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
-import {Card} from "@material-ui/core";
+import {Card} from "@material-ui/core"
 import AddCircleSharpIcon from '@material-ui/icons/AddCircleSharp'
 import {Link} from 'react-router-dom'
-import {deleteRecord, getRecords, uploadFile} from "./api";
-import Spinner from "../UtilityComponents/Spinner";
+import {deleteRecord, getRecords, uploadFile} from "./api"
+import Spinner from "../UtilityComponents/Spinner"
 import IconButton from '@material-ui/core/IconButton'
 import DeleteSharpIcon from '@material-ui/icons/DeleteSharp'
-import Dialog from "@material-ui/core/Dialog";
-import Button from "@material-ui/core/Button";
-import Dropzone from "react-dropzone";
-import TextField from "@material-ui/core/TextField";
+import Dialog from "@material-ui/core/Dialog"
+import Button from "@material-ui/core/Button"
+import Dropzone from "react-dropzone"
+import TextField from "@material-ui/core/TextField"
 import {Redirect} from 'react-router-dom'
-import {useAuth0} from "../react-auth0-spa";
+import {useAuth0} from "../react-auth0-spa"
+import Slide from '@material-ui/core/Slide'
 
-// import Button from "@material-ui/core/Button";
+// import Button from "@material-ui/core/Button"
 // import {Switch, Route} from 'react-router-dom'
-// import Spreadsheet from "./Spreadsheet";
+// import Spreadsheet from "./Spreadsheet"
 
 
 export default function Home(props) {
@@ -149,7 +150,7 @@ export default function Home(props) {
             setApiComplete(true)
         }
         executeGetUserRecords()
-    // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [])
 
     const openDash = (dash_id, dash_name) => {
@@ -177,6 +178,7 @@ export default function Home(props) {
         if (records.length > 0) {
             recordsEl = records.map(record => {
                 return (
+                    <Slide direction="down" in={true} timeout={1000} mountOnEnter unmountOnExit>
                     <div key={record.id}
                          style={{display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
                         <Paper className={classes.existingdash}
@@ -206,6 +208,7 @@ export default function Home(props) {
                             }}/>
                         </IconButton>
                     </div>
+                    </Slide>
                 )
             })
         }
@@ -477,44 +480,45 @@ export default function Home(props) {
 
     if (apiComplete) {
         finalEl = (
-            <div className={classes.root}>
-                {myDashboards}
-                <Dialog open={askDelete}
-                        PaperProps={{
-                            style:
-                                {
-                                    display: 'flex',
-                                    width: '200px',
-                                    height: '150px',
-                                    padding: '10px',
-                                    flexDirection: 'column',
-                                    justifyContent: 'space-evenly',
-                                    alignItems: 'center'
-                                },
-                        }}>
-                    <div>
-                        <h2 style={{
-                            fontSize: '0.9em',
-                            fontWeight: '100',
-                            paddingLeft: '5px',
-                            fontFamily: 'Questrial',
-                            color: '#292F36',
-                            margin: '10px'
-                        }}>Delete this dashboard?</h2>
-                    </div>
-                    <div style={{display: 'flex', width: '100%', justifyContent: 'space-around'}}>
-                        <Button className={classes.selectButton} size="small"
-                                onClick={() => confirmDeleteHandler(true)}>
-                            <h3 className={classes.buttonText}>Yes</h3>
-                        </Button>
-                        <Button className={classes.selectButton} size="small"
-                                onClick={() => confirmDeleteHandler(false)}>
-                            <h3 className={classes.buttonText}>No</h3>
-                        </Button>
-                    </div>
-                </Dialog>
-                {newDashEl}
-            </div>
+
+                <div className={classes.root}>
+                    {myDashboards}
+                    <Dialog open={askDelete}
+                            PaperProps={{
+                                style:
+                                    {
+                                        display: 'flex',
+                                        width: '200px',
+                                        height: '150px',
+                                        padding: '10px',
+                                        flexDirection: 'column',
+                                        justifyContent: 'space-evenly',
+                                        alignItems: 'center'
+                                    },
+                            }}>
+                        <div>
+                            <h2 style={{
+                                fontSize: '0.9em',
+                                fontWeight: '100',
+                                paddingLeft: '5px',
+                                fontFamily: 'Questrial',
+                                color: '#292F36',
+                                margin: '10px'
+                            }}>Delete this dashboard?</h2>
+                        </div>
+                        <div style={{display: 'flex', width: '100%', justifyContent: 'space-around'}}>
+                            <Button className={classes.selectButton} size="small"
+                                    onClick={() => confirmDeleteHandler(true)}>
+                                <h3 className={classes.buttonText}>Yes</h3>
+                            </Button>
+                            <Button className={classes.selectButton} size="small"
+                                    onClick={() => confirmDeleteHandler(false)}>
+                                <h3 className={classes.buttonText}>No</h3>
+                            </Button>
+                        </div>
+                    </Dialog>
+                    {newDashEl}
+                </div>
         )
     } else {
         finalEl = <Spinner/>
