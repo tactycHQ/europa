@@ -129,7 +129,18 @@ export default function Home(props) {
     const [newFile, setNewFile] = useState(null)
     const [newDashname, setNewDashname] = useState('')
     const [stage, setStage] = useState('awaitingUpload')
-    const {getTokenSilently, getIdTokenClaims} = useAuth0()
+    const {getTokenSilently} = useAuth0()
+
+    useEffect(() => {
+        const executeGetUserRecords = async () => {
+            let token = await getTokenSilently()
+            const userRecords = await getRecords(token)
+            setRecords([...userRecords])
+            setApiComplete(true)
+        }
+        executeGetUserRecords()
+        // eslint-disable-next-line
+    }, [])
 
     const resetState = () => {
         setAskNewDash(false)
@@ -139,19 +150,6 @@ export default function Home(props) {
         setNewDashname('')
         setStage('awaitingUpload')
     }
-
-
-    useEffect(() => {
-        const executeGetUserRecords = async () => {
-            let token = await getTokenSilently()
-            let claims = await getIdTokenClaims()
-            const userRecords = await getRecords(token, claims.email)
-            setRecords([...userRecords])
-            setApiComplete(true)
-        }
-        executeGetUserRecords()
-        // eslint-disable-next-line
-    }, [])
 
     const openDash = (dash_id, dash_name) => {
         props.clearState()
@@ -178,36 +176,36 @@ export default function Home(props) {
         if (records.length > 0) {
             recordsEl = records.map(record => {
                 return (
-                    <Slide direction="down" in={true} timeout={1000} mountOnEnter unmountOnExit>
-                    <div key={record.id}
-                         style={{display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
-                        <Paper className={classes.existingdash}
-                               component={Link} to="/dashboard"
-                               style={{textDecoration: 'none'}}
-                               onClick={() => openDash(record.id, record.name)}>
-                            <h1 className={classes.dashTitle}
-                                style={{
-                                    fontWeight: '600',
-                                    fontSize: '1.0em',
-                                    color: '#4185D3',
-                                    textTransform: 'uppercase',
-                                    letterSpacing: '2px'
-                                }}>
-                                {record.name}
-                            </h1>
-                            <h1 className={classes.dashTitle}
-                                style={{fontWeight: '100', fontSize: '0.9em', color: '#292F36'}}>Last
-                                Accessed: Tuesday, Feb 2nd, 2019</h1>
-                            <h1 className={classes.dashTitle}
-                                style={{fontWeight: '100', fontSize: '0.9em', color: '#292F36'}}>Shared
-                                With: - </h1>
-                        </Paper>
-                        <IconButton onClick={() => askDeleteHandler(record.id)}>
-                            <DeleteSharpIcon size="small" style={{
-                                color: '#8BBDD3'
-                            }}/>
-                        </IconButton>
-                    </div>
+                    <Slide key={record.id} direction="down" in={true} timeout={500} mountOnEnter unmountOnExit>
+                        <div
+                            style={{display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
+                            <Paper className={classes.existingdash}
+                                   component={Link} to="/dashboard"
+                                   style={{textDecoration: 'none'}}
+                                   onClick={() => openDash(record.id, record.name)}>
+                                <h1 className={classes.dashTitle}
+                                    style={{
+                                        fontWeight: '600',
+                                        fontSize: '1.0em',
+                                        color: '#4185D3',
+                                        textTransform: 'uppercase',
+                                        letterSpacing: '2px'
+                                    }}>
+                                    {record.name}
+                                </h1>
+                                <h1 className={classes.dashTitle}
+                                    style={{fontWeight: '100', fontSize: '0.9em', color: '#292F36'}}>Last
+                                    Accessed: Tuesday, Feb 2nd, 2019</h1>
+                                <h1 className={classes.dashTitle}
+                                    style={{fontWeight: '100', fontSize: '0.9em', color: '#292F36'}}>Shared
+                                    With: - </h1>
+                            </Paper>
+                            <IconButton onClick={() => askDeleteHandler(record.id)}>
+                                <DeleteSharpIcon size="small" style={{
+                                    color: '#8BBDD3'
+                                }}/>
+                            </IconButton>
+                        </div>
                     </Slide>
                 )
             })
@@ -215,19 +213,21 @@ export default function Home(props) {
 
         return (
             <>
-                <Paper
-                    className={classes.newdashboardpaper}
-                    elevation={20}
-                    onClick={() => setAskNewDash(true)}
-                >
-                    <AddCircleSharpIcon style={{color: '#FEFEFD'}}/>
-                    <h1 className={classes.dashTitle} style={{
-                        textTransform: 'uppercase',
-                        letterSpacing: '2px'
-                    }}>
-                        Create New Flexboard
-                    </h1>
-                </Paper>
+                <Slide direction="down" in={true} timeout={1000} mountOnEnter unmountOnExit>
+                    <Paper
+                        className={classes.newdashboardpaper}
+                        elevation={20}
+                        onClick={() => setAskNewDash(true)}
+                    >
+                        <AddCircleSharpIcon style={{color: '#FEFEFD'}}/>
+                        <h1 className={classes.dashTitle} style={{
+                            textTransform: 'uppercase',
+                            letterSpacing: '2px'
+                        }}>
+                            Create New Flexboard
+                        </h1>
+                    </Paper>
+                </Slide>
                 <Card className={classes.existingContainer} elevation={10}>
                     <h1 className={classes.dashTitle} style={{
                         fontFamily: 'Questrial',
@@ -271,8 +271,7 @@ export default function Home(props) {
     const selectionCompleteHandler = async () => {
         setStage('pendingUploadCompletion')
         let token = await getTokenSilently()
-        let claims = await getIdTokenClaims()
-        const response = await uploadFile(newFile, newDashname, token, claims.email)
+        const response = await uploadFile(newFile, newDashname, token)
         props.clearState()
         props.setDashid(response.dash_id)
         props.setDashName(newDashname)
@@ -473,52 +472,50 @@ export default function Home(props) {
         }
     }
 
-
     let myDashboards = createMyDashboards()
     let newDashEl = newDashSetup()
     let finalEl
 
     if (apiComplete) {
         finalEl = (
-
-                <div className={classes.root}>
-                    {myDashboards}
-                    <Dialog open={askDelete}
-                            PaperProps={{
-                                style:
-                                    {
-                                        display: 'flex',
-                                        width: '200px',
-                                        height: '150px',
-                                        padding: '10px',
-                                        flexDirection: 'column',
-                                        justifyContent: 'space-evenly',
-                                        alignItems: 'center'
-                                    },
-                            }}>
-                        <div>
-                            <h2 style={{
-                                fontSize: '0.9em',
-                                fontWeight: '100',
-                                paddingLeft: '5px',
-                                fontFamily: 'Questrial',
-                                color: '#292F36',
-                                margin: '10px'
-                            }}>Delete this dashboard?</h2>
-                        </div>
-                        <div style={{display: 'flex', width: '100%', justifyContent: 'space-around'}}>
-                            <Button className={classes.selectButton} size="small"
-                                    onClick={() => confirmDeleteHandler(true)}>
-                                <h3 className={classes.buttonText}>Yes</h3>
-                            </Button>
-                            <Button className={classes.selectButton} size="small"
-                                    onClick={() => confirmDeleteHandler(false)}>
-                                <h3 className={classes.buttonText}>No</h3>
-                            </Button>
-                        </div>
-                    </Dialog>
-                    {newDashEl}
-                </div>
+            <div className={classes.root}>
+                {myDashboards}
+                <Dialog open={askDelete}
+                        PaperProps={{
+                            style:
+                                {
+                                    display: 'flex',
+                                    width: '200px',
+                                    height: '150px',
+                                    padding: '10px',
+                                    flexDirection: 'column',
+                                    justifyContent: 'space-evenly',
+                                    alignItems: 'center'
+                                },
+                        }}>
+                    <div>
+                        <h2 style={{
+                            fontSize: '0.9em',
+                            fontWeight: '100',
+                            paddingLeft: '5px',
+                            fontFamily: 'Questrial',
+                            color: '#292F36',
+                            margin: '10px'
+                        }}>Delete this dashboard?</h2>
+                    </div>
+                    <div style={{display: 'flex', width: '100%', justifyContent: 'space-around'}}>
+                        <Button className={classes.selectButton} size="small"
+                                onClick={() => confirmDeleteHandler(true)}>
+                            <h3 className={classes.buttonText}>Yes</h3>
+                        </Button>
+                        <Button className={classes.selectButton} size="small"
+                                onClick={() => confirmDeleteHandler(false)}>
+                            <h3 className={classes.buttonText}>No</h3>
+                        </Button>
+                    </div>
+                </Dialog>
+                {newDashEl}
+            </div>
         )
     } else {
         finalEl = <Spinner/>

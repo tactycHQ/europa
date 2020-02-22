@@ -66,7 +66,7 @@ export default function Main(props) {
     const [currSheet, setCurrSheet] = useState(null)
     const [open, setOpen] = useState(false)
     const [msg, setMsg] = useState('')
-    const {getTokenSilently, getIdTokenClaims} = useAuth0()
+    const {getTokenSilently} = useAuth0()
 
     const handleClose = () => {
         setOpen(false);
@@ -86,10 +86,9 @@ export default function Main(props) {
 
         const executeExistingAPIcalls = async () => {
             let token = await getTokenSilently()
-            let claims = await getIdTokenClaims()
             const metadata = await getMetaData(dashid)
             const _solutions = await getSolutions(dashid)
-            const _wb = await loadFile(dashid, token, claims.email)
+            const _wb = await loadFile(dashid, token)
 
             setwb(_wb)
             setSheets(Object.keys(_wb.Sheets))
@@ -109,8 +108,7 @@ export default function Main(props) {
 
         const executeNewAPIcalls = async () => {
             let token = await getTokenSilently()
-            let claims = await getIdTokenClaims()
-            const _wb = await loadFile(dashid, token, claims.email)
+            const _wb = await loadFile(dashid, token)
             setwb(_wb)
             setSheets(Object.keys(_wb.Sheets))
             setCurrSheet(Object.keys(_wb.Sheets)[0])
@@ -240,8 +238,7 @@ export default function Main(props) {
 
     const downloadModel = async () => {
         let token = await getTokenSilently()
-        let claims = await getIdTokenClaims()
-        await downloadFile(dashid, origFilename, token, claims.email)
+        await downloadFile(dashid, origFilename, token)
     }
 
 

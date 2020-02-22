@@ -2,7 +2,7 @@
 import {read} from "@sheet/core"
 
 
-export const uploadFile = async (file, Dashname, token, useremail) => {
+export const uploadFile = async (file, Dashname, token) => {
     const data = new FormData()
     data.append("file", file[0])
     data.append("Dashname", Dashname)
@@ -11,8 +11,7 @@ export const uploadFile = async (file, Dashname, token, useremail) => {
     const api_url = "http://localhost:5000/uploadFile"
     const settings = {
         headers: {
-            'Authorization': `Bearer ${token}`,
-            'Identification': useremail
+            'Authorization': `Bearer ${token}`
         },
         method: "POST",
         body: data
@@ -27,7 +26,6 @@ export const uploadFile = async (file, Dashname, token, useremail) => {
         return "Unable to load file"
     }
 }
-
 
 export const getSolutions = async (dash_id) => {
     console.log("Getting Solutions...");
@@ -103,14 +101,13 @@ export const calculateSolutions = async (dash_id, inputs, outputs) => {
     return result
 }
 
-export const loadFile = async (dash_id, token, useremail) => {
+export const loadFile = async (dash_id, token) => {
     console.log("Loading excel file")
     const api_url = "http://localhost:5000/downloadFile"
     const headers = {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-            'Identification': useremail
+            'Authorization': `Bearer ${token}`
         },
         method: "POST",
         body: JSON.stringify({
@@ -137,7 +134,7 @@ export const loadFile = async (dash_id, token, useremail) => {
     }
 }
 
-export const downloadFile = async (dash_id, origFilename, token, useremail) => {
+export const downloadFile = async (dash_id, origFilename, token) => {
     console.log("Downloading...")
     console.log(origFilename)
     console.log("Downloading excel model")
@@ -146,7 +143,6 @@ export const downloadFile = async (dash_id, origFilename, token, useremail) => {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
-            'Identification': useremail
         },
         method: "POST",
         body: JSON.stringify({
@@ -196,7 +192,7 @@ export const saveDashboard = async (dash_id, name, inputs, outputs, cases, forma
     return result
 }
 
-export const getRecords = async (token, useremail) => {
+export const getRecords = async (token) => {
     console.log("Getting all records with this user...")
 
     const api_url = "http://localhost:5000/getRecords"
@@ -205,8 +201,7 @@ export const getRecords = async (token, useremail) => {
     const settings = {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-            'Identification': useremail
+            'Authorization': `Bearer ${token}`
         },
         method: "POST"
     }
