@@ -127,13 +127,16 @@ export default function Home(props) {
     const [toDelete, setToDelete] = useState(null)
     const [askNewDash, setAskNewDash] = useState(false)
     const [newFile, setNewFile] = useState(null)
+    const [username, setUsername] = useState('')
     const [newDashname, setNewDashname] = useState('')
     const [stage, setStage] = useState('awaitingUpload')
-    const {getTokenSilently} = useAuth0()
+    const {getTokenSilently, getIdTokenClaims} = useAuth0()
 
     useEffect(() => {
         const executeGetUserRecords = async () => {
             let token = await getTokenSilently()
+            let claims = await getIdTokenClaims()
+            setUsername(claims.nickname)
             const userRecords = await getRecords(token)
             setRecords([...userRecords])
             setApiComplete(true)
@@ -237,7 +240,7 @@ export default function Home(props) {
                         marginBottom: '10px',
                         textTransform: 'uppercase',
                         letterSpacing: '2px'
-                    }}>My Flexboards</h1>
+                    }}>{username}'s Flexboards</h1>
                     {recordsEl}
                 </Card>
             </>
