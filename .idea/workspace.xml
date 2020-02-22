@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/src/ModeControllers/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Home.js" afterDir="false" />
-    </list>
+    <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -178,14 +176,7 @@
       <workItem from="1582213191706" duration="3295000" />
       <workItem from="1582302746980" duration="612000" />
       <workItem from="1582344321730" duration="1062000" />
-      <workItem from="1582377322903" duration="2916000" />
-    </task>
-    <task id="LOCAL-00256" summary="First commit">
-      <created>1581036479075</created>
-      <option name="number" value="00256" />
-      <option name="presentableId" value="LOCAL-00256" />
-      <option name="project" value="LOCAL" />
-      <updated>1581036479075</updated>
+      <workItem from="1582377322903" duration="3167000" />
     </task>
     <task id="LOCAL-00257" summary="First commit">
       <created>1581038005683</created>
@@ -523,7 +514,14 @@
       <option name="project" value="LOCAL" />
       <updated>1582382937946</updated>
     </task>
-    <option name="localTasksCounter" value="305" />
+    <task id="LOCAL-00305" summary="First commit">
+      <created>1582383289418</created>
+      <option name="number" value="00305" />
+      <option name="presentableId" value="LOCAL-00305" />
+      <option name="project" value="LOCAL" />
+      <updated>1582383289418</updated>
+    </task>
+    <option name="localTasksCounter" value="306" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
