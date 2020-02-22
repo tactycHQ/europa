@@ -82,7 +82,7 @@ export default function HomePage(props) {
                     marginTop: '5px'
                 }}>
                     Powering Enterprise Models to Life
-                    <sup style={{fontSize: '0.7em', marginLeft: '5px'}}>&trade</sup>
+                    {/*<sup style={{fontSize: '0.7em', marginLeft: '5px'}}>&trade</sup>*/}
                 </h1>
                 <Button
                     elevation={50}

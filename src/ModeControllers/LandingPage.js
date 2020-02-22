@@ -1,7 +1,7 @@
 import React from 'react'
 import Main from "./Main";
 import {useAuth0} from "../react-auth0-spa"
-import {Route, Switch} from "react-router";
+import {Route, Switch, Redirect} from "react-router";
 import HomePage from "../Homepage/HomePage";
 
 export default function LandingPage() {
@@ -19,7 +19,7 @@ export default function LandingPage() {
     } else if (loading) {
         mainEl = <div/>
     } else {
-        mainEl = <div>Please sign-in first. If you have already sign in, please emake sure to verify your email</div>
+        mainEl = <Redirect to="/"/>
     }
 
 
