@@ -1,9 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
+import Button from "@material-ui/core/Button";
 import HomeSharpIcon from '@material-ui/icons/HomeSharp'
 import {Link} from "react-router-dom"
-import ExitToAppSharpIcon from '@material-ui/icons/ExitToAppSharp';
+import ExitToAppSharpIcon from '@material-ui/icons/ExitToAppSharp'
+import Tooltip from "@material-ui/core/Tooltip";
+import Dialog from "@material-ui/core/Dialog";
+import TextField from "@material-ui/core/TextField";
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -29,7 +34,8 @@ const useStyles = makeStyles(theme => ({
         color: '#292F36',
         fontFamily: 'Questrial',
         textTransform: 'uppercase',
-        marginRight:'5%'
+        marginRight: '5%',
+        cursor: 'pointer'
         // positon:'fixed'
     },
     icon: {
@@ -42,7 +48,8 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function DenseAppBar(props) {
-    const classes = useStyles();
+    const classes = useStyles()
+    const [askRename, setAskRename] = useState(false)
 
     const homeClick = () => {
         props.clearState()
@@ -52,7 +59,9 @@ export default function DenseAppBar(props) {
     return (
         <div className={classes.root}>
             <h3 className={classes.logo}>FLEXBOARD</h3>
-            <div className={classes.modelname}><h5>{props.dashName}</h5></div>
+            <Tooltip title="Click to Rename" enterDelay={500}>
+                <div className={classes.modelname} onClick={() => setAskRename(true)}><h5>{props.dashName}</h5></div>
+            </Tooltip>
             <div style={{display: 'flex', padding: '3px'}}>
                 <IconButton
                     edge="start"
@@ -73,6 +82,57 @@ export default function DenseAppBar(props) {
                     <ExitToAppSharpIcon className={classes.icon}/>
                 </IconButton>
             </div>
+                <Dialog
+                    open={askRename}
+                    PaperProps={{
+                        style:
+                            {
+                                display: 'flex',
+                                width: '300px',
+                                height: '200px',
+                                padding: '10px',
+                                flexDirection: 'column',
+                                justifyContent: 'space-evenly'
+                            },
+                    }}>
+                    <TextField
+                        required
+                        className={classes.saveField}
+                        InputLabelProps={{
+                            classes: {
+                                root: classes.labelField,
+                                focused: classes.labelFocused
+                            }
+                        }}
+                        InputProps={{
+                            classes: {
+                                input: classes.saveField
+                            }
+                        }}
+                        inputProps={{
+                            maxLength: 30
+                        }}
+                        label="Dashboard Name"
+                        defaultValue=""
+                        size="small"
+                        // onChange={(e) => setNewDashname(e.target.value)}
+                    />
+                    <h3 className={classes.buttonText}><em>Rename this Flexboard</em>
+                    </h3>
+                    <div style={{
+                        display: 'flex',
+                        marginTop: '10%',
+                        width: '100%',
+                        justifyContent: 'space-around',
+                        alignItems: 'center'
+                    }}>
+                        <Button className={classes.selectButton} style={{backgroundColor: '#9DA0A3'}} size="small"
+                                onClick = {() => setAskRename(false)}
+                        >
+                            <h3 className={classes.buttonText}>Cancel</h3>
+                        </Button>
+                    </div>
+                </Dialog>
         </div>
     );
 }

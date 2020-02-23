@@ -198,37 +198,6 @@ export default function Main(props) {
         setCurrSheet(sheet)
     }
 
-    const updateInputs = (inputs) => {
-        setInputs([...inputs])
-    }
-
-    const updateOutputs = (newOutput) => {
-        setOutputs([...newOutput])
-    }
-
-    const updateMode = (update) => {
-        setMode(update)
-    }
-
-    const updateFormats = (update) => {
-        setFormats(update)
-    }
-
-    const updateCases = (update) => {
-        setCases(update)
-    }
-
-    const updateMsg = (update) => {
-        setMsg(update)
-    }
-
-    const updateFilename = (update) => {
-        setOrigFilename(update)
-    }
-
-    const updateOpen = (update) => {
-        setOpen(update)
-    }
 
     const saveDash = () => {
         saveDashboard(dashid, dashName, inputs, outputs, cases, formats)
@@ -240,7 +209,6 @@ export default function Main(props) {
         let token = await getTokenSilently()
         await downloadFile(dashid, origFilename, token)
     }
-
 
     const createContent = () => {
 
@@ -262,14 +230,14 @@ export default function Main(props) {
                 charts={charts}
                 cases={cases}
                 worksheet={worksheet}
-                updateInputs={updateInputs}
-                updateOutputs={updateOutputs}
-                updateMode={updateMode}
-                updateFormats={updateFormats}
-                updateCases={updateCases}
+                updateInputs={setInputs}
+                updateOutputs={setOutputs}
+                updateMode={setMode}
+                updateFormats={setFormats}
+                updateCases={setCases}
                 downloadModel={downloadModel}
-                updateMsg={updateMsg}
-                updateOpen={updateOpen}
+                updateMsg={setMsg}
+                updateOpen={setOpen}
                 wb={wb}
             />
         } else if (mode === 'pendingIO') {
@@ -279,16 +247,16 @@ export default function Main(props) {
                 sheets={sheets}
                 currSheet={currSheet}
                 formats={formats}
-                updateInputs={updateInputs}
-                updateOutputs={updateOutputs}
+                updateInputs={setInputs}
+                updateOutputs={setOutputs}
                 wb={wb}
                 inputs={inputs}
                 outputs={outputs}
                 cases={cases}
                 handleSheetChange={handleSheetChange}
-                updateMode={updateMode}
-                updateFormats={updateFormats}
-                updateCases={updateCases}
+                updateMode={setMode}
+                updateFormats={setFormats}
+                updateCases={setCases}
             />
         } else if (mode === 'home') {
             return <Redirect to ="/home"/>
@@ -300,13 +268,13 @@ export default function Main(props) {
     const createHome = () => {
         return <Home
             mode={mode}
-            updateMode={updateMode}
+            updateMode={setMode}
             setDashid={setDashid}
             setDashName={setDashName}
-            updateMsg={updateMsg}
-            updateOpen={updateOpen}
+            updateMsg={setMsg}
+            updateOpen={setOpen}
             clearState={clearState}
-            updateFilename={updateFilename}
+            updateFilename={setOrigFilename}
             getToken={props.getToken}
         />
     }
@@ -320,7 +288,11 @@ export default function Main(props) {
     return (
         <div className={classes.root}>
             <div className={classes.top}>
-                <TopBar dashName={dashName} clearState={clearState} logout={props.logout}/>
+                <TopBar
+                    dashName={dashName}
+                    updateDashname={setDashName}
+                    clearState={clearState}
+                    logout={props.logout}/>
             </div>
             <Switch>
                 <Route exact path={["/home", "/"]}>

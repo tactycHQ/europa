@@ -55,12 +55,12 @@ export default function Home(props) {
             justifyContent: 'center',
             margin: '15px',
             padding: '5px',
-            background: '#D8D9DA',
+            background: '#EBECEC',
             width: '100%',
             // height: '30px',
             cursor: 'pointer',
             "&:hover": {
-                background: '#A2CADC',
+                background: '#D5DBDD'
             }
         },
         newdashboardpaper: {
@@ -179,12 +179,12 @@ export default function Home(props) {
         if (records.length > 0) {
             recordsEl = records.map(record => {
                 return (
-                    <Slide key={record.id} direction="down" in={true} timeout={500} mountOnEnter unmountOnExit>
                         <div
                             style={{display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
                             <Paper className={classes.existingdash}
                                    component={Link} to="/dashboard"
                                    style={{textDecoration: 'none'}}
+                                   elevation={3}
                                    onClick={() => openDash(record.id, record.name)}>
                                 <h1 className={classes.dashTitle}
                                     style={{
@@ -205,18 +205,18 @@ export default function Home(props) {
                             </Paper>
                             <IconButton onClick={() => askDeleteHandler(record.id)}>
                                 <DeleteSharpIcon size="small" style={{
-                                    color: '#8BBDD3'
+                                    color: '#8A8D91',
+                                    marginLeft:'0px'
                                 }}/>
                             </IconButton>
                         </div>
-                    </Slide>
                 )
             })
         }
 
         return (
             <>
-                <Slide direction="down" in={true} timeout={1000} mountOnEnter unmountOnExit>
+                <Slide direction="down" in={true} timeout={600} mountOnEnter unmountOnExit>
                     <Paper
                         className={classes.newdashboardpaper}
                         elevation={20}
