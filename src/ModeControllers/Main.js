@@ -200,7 +200,6 @@ export default function Main(props) {
 
 
     const saveDash = () => {
-        console.log(dashName)
         saveDashboard(dashid, dashName, inputs, outputs, cases, formats)
         setMsg("Flexboard saved")
         setOpen(true)
