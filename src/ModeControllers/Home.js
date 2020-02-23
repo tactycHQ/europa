@@ -179,7 +179,7 @@ export default function Home(props) {
         if (records.length > 0) {
             recordsEl = records.map(record => {
                 return (
-                        <div
+                        <div key={record.id}
                             style={{display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
                             <Paper className={classes.existingdash}
                                    component={Link} to="/dashboard"

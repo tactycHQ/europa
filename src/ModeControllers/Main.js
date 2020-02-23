@@ -122,7 +122,7 @@ export default function Main(props) {
         if (mode === 'new') {
             executeNewAPIcalls()
         }
-    // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [mode, dashid])
 
     useEffect(() => {
@@ -200,6 +200,7 @@ export default function Main(props) {
 
 
     const saveDash = () => {
+        console.log(dashName)
         saveDashboard(dashid, dashName, inputs, outputs, cases, formats)
         setMsg("Flexboard saved")
         setOpen(true)
@@ -259,7 +260,7 @@ export default function Main(props) {
                 updateCases={setCases}
             />
         } else if (mode === 'home') {
-            return <Redirect to ="/home"/>
+            return <Redirect to="/home"/>
         } else {
             return <Spinner className={classes.spinner}/>
         }
@@ -292,7 +293,11 @@ export default function Main(props) {
                     dashName={dashName}
                     updateDashname={setDashName}
                     clearState={clearState}
-                    logout={props.logout}/>
+                    logout={props.logout}
+                    updateMsg={setMsg}
+                    updateOpen={setOpen}
+                    saveDash={saveDash}
+                />
             </div>
             <Switch>
                 <Route exact path={["/home", "/"]}>

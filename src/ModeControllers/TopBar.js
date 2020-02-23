@@ -44,15 +44,45 @@ const useStyles = makeStyles(theme => ({
         "&:hover": {
             color: "#4B719C"
         }
+    },
+    renameField: {
+        fontSize: '1.0em',
+        fontWeight: '100',
+        fontFamily: 'Questrial',
+        margin: '0px',
+        width: '100%'
+    },
+    labelField: {
+        fontSize: '1.0em',
+        fontWeight: '100',
+        fontFamily: 'Questrial',
+        margin: '0px'
+    },
+    labelFocused: {
+        fontSize: '1.1em',
+        fontWeight: '100',
+        fontFamily: 'Questrial',
+        margin: '0px'
     }
 }));
 
 export default function DenseAppBar(props) {
     const classes = useStyles()
     const [askRename, setAskRename] = useState(false)
+    const [newName, setNewname] = useState('')
 
     const homeClick = () => {
         props.clearState()
+    }
+
+    const handleRename = () => {
+        if (newName === '') {
+            props.updateMsg("Not a valid name")
+            props.updateOpen(true)
+        } else {
+            props.updateDashname(newName)
+            setAskRename(false)
+        }
     }
 
 
@@ -82,57 +112,96 @@ export default function DenseAppBar(props) {
                     <ExitToAppSharpIcon className={classes.icon}/>
                 </IconButton>
             </div>
-                <Dialog
-                    open={askRename}
-                    PaperProps={{
-                        style:
-                            {
-                                display: 'flex',
-                                width: '300px',
-                                height: '200px',
-                                padding: '10px',
-                                flexDirection: 'column',
-                                justifyContent: 'space-evenly'
-                            },
-                    }}>
-                    <TextField
-                        required
-                        className={classes.saveField}
-                        InputLabelProps={{
-                            classes: {
-                                root: classes.labelField,
-                                focused: classes.labelFocused
-                            }
-                        }}
-                        InputProps={{
-                            classes: {
-                                input: classes.saveField
-                            }
-                        }}
-                        inputProps={{
-                            maxLength: 30
-                        }}
-                        label="Dashboard Name"
-                        defaultValue=""
-                        size="small"
-                        // onChange={(e) => setNewDashname(e.target.value)}
-                    />
-                    <h3 className={classes.buttonText}><em>Rename this Flexboard</em>
-                    </h3>
-                    <div style={{
+            <Dialog
+                open={askRename}
+                PaperProps={{
+                    style:
+                        {
+                            display: 'flex',
+                            width: '300px',
+                            height: '200px',
+                            padding: '10px',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'space-evenly'
+                        },
+                }}>
+                <h3 style={{
+                    fontSize: '1.0em',
+                    color: '#A5014B',
+                    fontWeight: '400',
+                    fontFamily: 'Questrial',
+                    margin: '0px'
+                }}>Rename Flexboard
+                </h3>
+                <TextField
+                    required
+                    className={classes.renameField}
+                    InputLabelProps={{
+                        classes: {
+                            root: classes.labelField,
+                            focused: classes.labelFocused
+                        }
+                    }}
+                    InputProps={{
+                        classes: {
+                            input: classes.renameField
+                        }
+                    }}
+                    inputProps={{
+                        maxLength: 30
+                    }}
+                    label="Dashboard Name"
+                    defaultValue={props.dashName}
+                    size="small"
+                    onBlur={(e) => setNewname(e.target.value)}
+                />
+
+                <div style={{
+                    display: 'flex',
+                    marginTop: '10%',
+                    width: '100%',
+                    justifyContent: 'space-around',
+                    alignItems: 'center'
+                }}>
+                    <Button style={{
                         display: 'flex',
-                        marginTop: '10%',
-                        width: '100%',
-                        justifyContent: 'space-around',
-                        alignItems: 'center'
-                    }}>
-                        <Button className={classes.selectButton} style={{backgroundColor: '#9DA0A3'}} size="small"
-                                onClick = {() => setAskRename(false)}
-                        >
-                            <h3 className={classes.buttonText}>Cancel</h3>
-                        </Button>
-                    </div>
-                </Dialog>
+                        background: '#006E9F',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        color: '#FEFEFD',
+                        padding: '5px',
+                        margin: '5px'
+                    }} size="small"
+                            onClick={() => handleRename()}
+                    >
+                        <h3 style={{
+                            fontSize: '0.85em',
+                            fontWeight: '100',
+                            fontFamily: 'Questrial',
+                            margin: '0px'
+                        }}>OK</h3>
+                    </Button>
+                    <Button style={{
+                        display: 'flex',
+                        background: '#9DA0A3',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        color: '#FEFEFD',
+                        padding: '5px',
+                        margin: '5px'
+                    }} size="small"
+                            onClick={() => setAskRename(false)}
+                    >
+                        <h3 style={{
+                            fontSize: '0.85em',
+                            fontWeight: '100',
+                            fontFamily: 'Questrial',
+                            margin: '0px'
+                        }}>CANCEL</h3>
+                    </Button>
+                </div>
+            </Dialog>
         </div>
     );
 }
