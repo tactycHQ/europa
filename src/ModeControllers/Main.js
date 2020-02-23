@@ -148,6 +148,9 @@ export default function Main(props) {
 
     }, [mode, dashid, inputs, outputs, cases, formats, dashName])
 
+
+
+
     // if currsheet is changed, gets the new sheet info from the wb object
     useEffect(() => {
         if (wb && currSheet) {
@@ -197,7 +200,6 @@ export default function Main(props) {
         setOpen(true)
         setCurrSheet(sheet)
     }
-
 
     const saveDash = () => {
         saveDashboard(dashid, dashName, inputs, outputs, cases, formats)
@@ -289,6 +291,7 @@ export default function Main(props) {
         <div className={classes.root}>
             <div className={classes.top}>
                 <TopBar
+                    mode={mode}
                     dashName={dashName}
                     updateDashname={setDashName}
                     clearState={clearState}

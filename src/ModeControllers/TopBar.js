@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import Button from "@material-ui/core/Button";
@@ -70,6 +70,14 @@ export default function DenseAppBar(props) {
     const classes = useStyles()
     const [askRename, setAskRename] = useState(false)
     const [newName, setNewname] = useState('')
+
+    useEffect(() => {
+        if (props.mode === 'loaded') {
+            props.saveDash()
+        }
+        // eslint-disable-next-line
+    }, [props.dashName])
+
 
     const homeClick = () => {
         props.clearState()
