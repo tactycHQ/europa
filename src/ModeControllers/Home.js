@@ -176,7 +176,6 @@ export default function Home(props) {
         )
 
         if (records.length > 0) {
-            console.log(records)
             recordsEl = records.map(record => {
                 return (
                         <div key={record.id}
