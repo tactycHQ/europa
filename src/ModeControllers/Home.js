@@ -130,13 +130,12 @@ export default function Home(props) {
     const [username, setUsername] = useState('')
     const [newDashname, setNewDashname] = useState('')
     const [stage, setStage] = useState('awaitingUpload')
-    const {getTokenSilently, getIdTokenClaims} = useAuth0()
+    const {getTokenSilently, user} = useAuth0()
 
     useEffect(() => {
         const executeGetUserRecords = async () => {
             let token = await getTokenSilently()
-            let claims = await getIdTokenClaims()
-            setUsername(claims.nickname)
+            setUsername(user.nickname)
             const userRecords = await getRecords(token)
             setRecords([...userRecords])
             setApiComplete(true)
@@ -177,6 +176,7 @@ export default function Home(props) {
         )
 
         if (records.length > 0) {
+            console.log(records)
             recordsEl = records.map(record => {
                 return (
                         <div key={record.id}
@@ -197,11 +197,17 @@ export default function Home(props) {
                                     {record.name}
                                 </h1>
                                 <h1 className={classes.dashTitle}
+                                    style={{fontWeight: '100', fontSize: '0.9em', color: '#292F36'}}>
+                                    {record.status}
+                                </h1>
+                                <h1 className={classes.dashTitle}
+                                    style={{fontWeight: '100', fontSize: '0.9em', color: '#292F36'}}>Created by: {record.created_by}</h1>
+                                <h1 className={classes.dashTitle}
                                     style={{fontWeight: '100', fontSize: '0.9em', color: '#292F36'}}>Last
-                                    Accessed: Tuesday, Feb 2nd, 2019</h1>
+                                    Accessed: {record.last_accessed}</h1>
                                 <h1 className={classes.dashTitle}
                                     style={{fontWeight: '100', fontSize: '0.9em', color: '#292F36'}}>Shared
-                                    With: - </h1>
+                                    By: {record.shared_by}</h1>
                             </Paper>
                             <IconButton onClick={() => askDeleteHandler(record.id)}>
                                 <DeleteSharpIcon size="small" style={{
