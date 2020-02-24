@@ -15,6 +15,14 @@ import TextField from "@material-ui/core/TextField"
 import {Redirect} from 'react-router-dom'
 import {useAuth0} from "../react-auth0-spa"
 import Slide from '@material-ui/core/Slide'
+import GroupSharpIcon from '@material-ui/icons/GroupSharp';
+import CheckCircleSharpIcon from '@material-ui/icons/CheckCircleSharp'
+import RecordVoiceOverSharpIcon from '@material-ui/icons/RecordVoiceOverSharp';
+import ScheduleSharpIcon from '@material-ui/icons/ScheduleSharp'
+import ShareSharpIcon from '@material-ui/icons/ShareSharp';
+import TitleSharpIcon from '@material-ui/icons/TitleSharp'
+import GetAppSharpIcon from '@material-ui/icons/GetAppSharp';
+import DashboardSharpIcon from '@material-ui/icons/DashboardSharp'
 
 // import Button from "@material-ui/core/Button"
 // import {Switch, Route} from 'react-router-dom'
@@ -39,20 +47,19 @@ export default function Home(props) {
         },
         existingContainer: {
             display: 'flex',
-            minWidth: '180px',
             flexDirection: 'column',
             width: '90%',
-            flexWrap: 'wrap',
+            // flexWrap: 'wrap',
             justifyContent: 'flex-start',
-            alignItems: 'flex-start',
+            alignItems: 'center',
             background: 'linear-gradient(#F4F4F4 10%,#FEFEFD)',
-            padding: '5px',
+            padding: '20px',
             margin: '10px'
         },
         existingdash: {
             display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
             margin: '15px',
             padding: '5px',
             background: '#EBECEC',
@@ -177,14 +184,72 @@ export default function Home(props) {
 
         if (records.length > 0) {
             recordsEl = records.map(record => {
+
+                let sharedText
+                if (record.shared_by !== '-') {
+                    sharedText = (
+                        <div style={{display: 'flex', alignItems: 'center', marginLeft: '2px', padding: '2px'}}>
+                            <GroupSharpIcon size="small" fontSize="small" style={{color: '#A5014B'}}/>
+                            <h1 className={classes.dashTitle}
+                                style={{fontWeight: '400', fontSize: '0.9em', color: '#292F36'}}>Shared
+                                by {record.shared_by}</h1>
+                        </div>
+                    )
+                }
+
+                let status
+                if (record.status === 'Ready') {
+                    status = (
+                        <div style={{display: 'flex', alignItems: 'center', marginLeft: '2px', padding: '2px'}}>
+                            <CheckCircleSharpIcon size="small" fontSize="small" style={{color: '#4ED13A'}}/>
+                            <h1 className={classes.dashTitle}
+                                style={{fontWeight: '100', fontSize: '0.9em', color: '#292F36'}}>
+                                {record.status}
+                            </h1>
+                        </div>
+                    )
+                }
+
+                let created_by
+                if (record.created_by !== user.nickname) {
+                    created_by = (
+                        <div style={{display: 'flex', alignItems: 'center', marginLeft: '5px', padding: '2px'}}>
+                            <RecordVoiceOverSharpIcon size="small" fontSize="small" style={{color: '#73AFCA'}}/>
+                            <h1 className={classes.dashTitle}
+                                style={{fontWeight: '100', fontSize: '0.9em', color: '#292F36'}}>Created
+                                by {record.created_by}</h1>
+                        </div>
+                    )
+                } else {
+                    created_by = (
+                        <div style={{display: 'flex', alignItems: 'center', marginLeft: '5px', padding: '2px'}}>
+                            <RecordVoiceOverSharpIcon size="small" fontSize="small" style={{color: '#73AFCA'}}/>
+                            <h1 className={classes.dashTitle}
+                                style={{fontWeight: '100', fontSize: '0.9em', color: '#292F36'}}>Created
+                                by you</h1>
+                        </div>
+                    )
+                }
+
+                let last_accessed = (
+                    <div style={{display: 'flex', alignItems: 'center', marginLeft: '5px', padding: '2px'}}>
+                        <ScheduleSharpIcon size="small" fontSize="small" style={{color: '#73AFCA'}}/>
+                        <h1 className={classes.dashTitle}
+                            style={{fontWeight: '100', fontSize: '0.9em', color: '#292F36'}}>Last
+                            viewed on {record.last_accessed}</h1>
+                    </div>
+                )
+
+
                 return (
-                        <div key={record.id}
-                            style={{display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center'}}>
-                            <Paper className={classes.existingdash}
-                                   component={Link} to="/dashboard"
-                                   style={{textDecoration: 'none'}}
-                                   elevation={3}
-                                   onClick={() => openDash(record.id, record.name)}>
+                    <div style={{display: 'flex', width: '100%', alignItems:'center'}}>
+                        <Paper className={classes.existingdash}
+                               key={record.id}
+                               elevation={3}
+                               onClick={() => openDash(record.id, record.name)}
+                               component={Link} to="/dashboard"
+                               style={{textDecoration: 'none'}}>
+                            <div style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
                                 <h1 className={classes.dashTitle}
                                     style={{
                                         fontWeight: '600',
@@ -195,26 +260,29 @@ export default function Home(props) {
                                     }}>
                                     {record.name}
                                 </h1>
-                                <h1 className={classes.dashTitle}
-                                    style={{fontWeight: '100', fontSize: '0.9em', color: '#292F36'}}>
-                                    {record.status}
-                                </h1>
-                                <h1 className={classes.dashTitle}
-                                    style={{fontWeight: '100', fontSize: '0.9em', color: '#292F36'}}>Created by: {record.created_by}</h1>
-                                <h1 className={classes.dashTitle}
-                                    style={{fontWeight: '100', fontSize: '0.9em', color: '#292F36'}}>Last
-                                    Accessed: {record.last_accessed}</h1>
-                                <h1 className={classes.dashTitle}
-                                    style={{fontWeight: '100', fontSize: '0.9em', color: '#292F36'}}>Shared
-                                    By: {record.shared_by}</h1>
-                            </Paper>
-                            <IconButton onClick={() => askDeleteHandler(record.id)}>
-                                <DeleteSharpIcon size="small" style={{
-                                    color: '#8A8D91',
-                                    marginLeft:'0px'
+                                {status}
+                                {sharedText}
+                                {created_by}
+                                {last_accessed}
+                            </div>
+                            <div style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                justifyContent: 'flex-end',
+                                alignItems: 'center'
+                            }}>
+                            </div>
+                        </Paper>
+                        <IconButton
+                            onClick={() => askDeleteHandler(record.id)}>
+                            <DeleteSharpIcon
+                                fontSize="default"
+                                style={{
+                                    color: '#006E9F'
                                 }}/>
-                            </IconButton>
-                        </div>
+                        </IconButton>
+                    </div>
+
                 )
             })
         }
@@ -241,7 +309,7 @@ export default function Home(props) {
                         fontFamily: 'Questrial',
                         fontSize: '1.0em',
                         fontWeight: '500',
-                        color: '#A5014B',
+                        color: '#006E9F',
                         marginBottom: '10px',
                         textTransform: 'uppercase',
                         letterSpacing: '2px'

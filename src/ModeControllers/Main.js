@@ -280,6 +280,7 @@ export default function Main(props) {
             clearState={clearState}
             updateFilename={setOrigFilename}
             getToken={props.getToken}
+            downloadModel={downloadModel}
         />
     }
 
