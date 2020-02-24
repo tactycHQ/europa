@@ -498,7 +498,8 @@ export default function Home(props) {
                                     height: '200px',
                                     padding: '10px',
                                     flexDirection: 'column',
-                                    justifyContent: 'space-evenly'
+                                    justifyContent: 'space-evenly',
+                                    aligntItems:'center'
                                 },
                         }}>
                         <div style={{
