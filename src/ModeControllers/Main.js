@@ -86,8 +86,8 @@ export default function Main(props) {
 
         const executeExistingAPIcalls = async () => {
             let token = await getTokenSilently()
-            const metadata = await getMetaData(dashid)
-            const _solutions = await getSolutions(dashid)
+            const metadata = await getMetaData(dashid, token)
+            const _solutions = await getSolutions(dashid, token)
             const _wb = await loadFile(dashid, token)
 
             setwb(_wb)
@@ -131,13 +131,13 @@ export default function Main(props) {
                 acc.push(...Object.keys(output.labels))
                 return acc
             }, [])
-
-            const _solutions = await calculateSolutions(dashid, inputs, outputAdds)
+            let token = await getTokenSilently()
+            const _solutions = await calculateSolutions(dashid, inputs, outputAdds, token)
             setSolutions(_solutions.solutions)
             setDistributions(_solutions.distributions)
             setcurrInputVal(cases['Default'])
             setMode("loaded")
-            saveDashboard(dashid, dashName, inputs, outputs, cases, formats)
+            saveDashboard(dashid, dashName, inputs, outputs, cases, formats, token)
             setMsg("Dashboard saved")
             setOpen(true)
         }
@@ -145,7 +145,7 @@ export default function Main(props) {
         if (mode === 'calculate') {
             executeCalculateAPIcalls()
         }
-
+    // eslint-disable-next-line
     }, [mode, dashid, inputs, outputs, cases, formats, dashName])
 
 
@@ -201,8 +201,9 @@ export default function Main(props) {
         setCurrSheet(sheet)
     }
 
-    const saveDash = () => {
-        saveDashboard(dashid, dashName, inputs, outputs, cases, formats)
+    const saveDash = async () => {
+        let token = await getTokenSilently()
+        await saveDashboard(dashid, dashName, inputs, outputs, cases, formats, token)
         setMsg("Flexboard saved")
         setOpen(true)
     }
@@ -217,6 +218,7 @@ export default function Main(props) {
         if (mode === 'loaded') {
             return <Content
                 mode={mode}
+                dashid={dashid}
                 saveDash={saveDash}
                 handleSliderChange={handleSliderChange}
                 handleCaseChange={handleCaseChange}

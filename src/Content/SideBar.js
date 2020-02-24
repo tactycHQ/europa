@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
@@ -18,6 +18,12 @@ import Divider from "@material-ui/core/Divider";
 import {useLocation} from 'react-router-dom'
 import Tooltip from '@material-ui/core/Tooltip'
 import Fade from '@material-ui/core/Fade'
+import Dialog from "@material-ui/core/Dialog";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import validator from 'validator'
+import {sendDashboard} from '../ModeControllers/api'
+import {useAuth0} from "../react-auth0-spa"
 
 export default function SideBar(props) {
     const useStyles = makeStyles(theme => ({
@@ -32,9 +38,6 @@ export default function SideBar(props) {
             minWidth: '12%',
             overflowY: 'auto'
 
-        },
-        content: {
-            // height: '100%',
         },
         divider: {
             backgroundColor: '#D7DEE2',
@@ -125,9 +128,34 @@ export default function SideBar(props) {
             backgroundColor: '#DEE3D4',
             opacity: '50%',
             fontSize: '0.8em'
+        },
+        emailField: {
+            fontSize: '1.0em',
+            fontWeight: '100',
+            fontFamily: 'Questrial',
+            marginTop: '3px',
+            width: '100%'
+        },
+        labelField: {
+            display: 'flex',
+            fontSize: '1.0em',
+            fontWeight: '100',
+            fontFamily: 'Questrial',
+            marginBottom: '3px'
+        },
+        labelFocused: {
+            fontSize: '1.1em',
+            fontWeight: '100',
+            fontFamily: 'Questrial',
+            margin: '0px'
         }
     }))
     const classes = useStyles()
+    const [askSend, setAskSend] = useState(false)
+    const [recEmail, setRecEmail] = useState('')
+    const [invalidEmail, setInvalidEmail] = useState(false)
+    const [emailLabel, setEmailLabel] = useState("Reciever's email address")
+    const {getTokenSilently, user} = useAuth0()
     let location = useLocation()
 
 
@@ -150,9 +178,38 @@ export default function SideBar(props) {
 
         )
     }
-
-
     const tipsEl = createTips()
+
+    const sendDashboardHandler = async () => {
+        let token = await getTokenSilently()
+        let response = await sendDashboard(props.dashid, recEmail, token)
+        if (response.message === 'OK') {
+            props.updateMsg("Flexboard sent")
+            props.updateOpen(true)
+        }
+    }
+
+    const checkEmail = (email) => {
+        if (email === user.email) {
+            setInvalidEmail(true)
+            setEmailLabel("Reciever cannot have the same email address as you")
+        } else if (!validator.isEmail(email)) {
+            setInvalidEmail(true)
+            setEmailLabel("Invalid email address")
+        } else {
+            setRecEmail(email)
+            setAskSend(false)
+            setInvalidEmail(false)
+            setEmailLabel("Reciever's email address")
+        }
+    }
+
+    const cancelHandler = () => {
+        setRecEmail('')
+        setAskSend(false)
+        setInvalidEmail(false)
+        setEmailLabel("Reciever's email address")
+    }
 
 
     return (
@@ -239,28 +296,121 @@ export default function SideBar(props) {
                     </Tooltip>
                     <Tooltip title="Download the current excel model file" enterDelay={500}
                              classes={{tooltip: classes.toolTip}} placement='right'>
-                    <ListItem className={classes.buttons} button={true} onClick={() => props.downloadModel()}>
-                        <CloudDownloadSharpIcon className={classes.icon}/>
-                        <div className={classes.buttonLabel}>Download Model Excel</div>
-                    </ListItem>
+                        <ListItem className={classes.buttons} button={true} onClick={() => props.downloadModel()}>
+                            <CloudDownloadSharpIcon className={classes.icon}/>
+                            <div className={classes.buttonLabel}>Download Model Excel</div>
+                        </ListItem>
                     </Tooltip>
                     <Tooltip title="Save all changes made to this dashboard" enterDelay={500}
                              classes={{tooltip: classes.toolTip}} placement='right'>
-                    <ListItem className={classes.saveButton} button={true} onClick={() => props.saveDash()}>
-                        <SaveAltIcon className={classes.icon}/>
-                        <div className={classes.buttonLabel}>Save Dashboard</div>
-                    </ListItem>
+                        <ListItem className={classes.saveButton} button={true} onClick={() => props.saveDash()}>
+                            <SaveAltIcon className={classes.icon}/>
+                            <div className={classes.buttonLabel}>Save Dashboard</div>
+                        </ListItem>
                     </Tooltip>
                     <Tooltip title="Send this dashboard to another user" enterDelay={500}
                              classes={{tooltip: classes.toolTip}} placement='right'>
-                    <ListItem className={classes.saveButton} button={true}>
-                        <ShareSharpIcon className={classes.icon}/>
-                        <div className={classes.buttonLabel}>Send Dashboard</div>
-                    </ListItem>
+                        <ListItem className={classes.saveButton} button={true} onClick={() => setAskSend(true)}>
+                            <ShareSharpIcon className={classes.icon}/>
+                            <div className={classes.buttonLabel}>Send Dashboard
+                            </div>
+                        </ListItem>
                     </Tooltip>
                 </List>
             </div>
             {tipsEl}
+            <Dialog
+                open={askSend}
+                PaperProps={{
+                    style:
+                        {
+                            display: 'flex',
+                            width: '300px',
+                            height: '200px',
+                            padding: '10px',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                            justifyContent: 'space-evenly'
+                        },
+                }}>
+                <h3 style={{
+                    fontSize: '1.0em',
+                    color: '#A5014B',
+                    fontWeight: '400',
+                    fontFamily: 'Questrial',
+                    margin: '0px'
+                }}>Send To
+                </h3>
+                <TextField
+                    required
+                    error={invalidEmail}
+                    className={classes.emailField}
+                    InputLabelProps={{
+                        classes: {
+                            root: classes.labelField,
+                            focused: classes.labelFocused
+                        }
+                    }}
+                    InputProps={{
+                        classes: {
+                            input: classes.emailField
+                        }
+                    }}
+                    inputProps={{
+                        maxLength: 30,
+                        type: "email"
+                    }}
+                    label={emailLabel}
+                    defaultValue=""
+                    size="small"
+                    onBlur={(e) => checkEmail(e.target.value)}
+                />
+
+                <div style={{
+                    display: 'flex',
+                    marginTop: '10%',
+                    width: '100%',
+                    justifyContent: 'space-around',
+                    alignItems: 'center'
+                }}>
+                    <Button style={{
+                        display: 'flex',
+                        background: '#006E9F',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        color: '#FEFEFD',
+                        padding: '5px',
+                        margin: '5px'
+                    }} size="small"
+                            onClick={() => sendDashboardHandler()}
+                    >
+                        <h3 style={{
+                            fontSize: '0.85em',
+                            fontWeight: '100',
+                            fontFamily: 'Questrial',
+                            margin: '0px'
+                        }}>OK</h3>
+                    </Button>
+                    <Button style={{
+                        display: 'flex',
+                        background: '#9DA0A3',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        color: '#FEFEFD',
+                        padding: '5px',
+                        margin: '5px'
+                    }} size="small"
+                            onClick={() => cancelHandler()}
+                    >
+                        <h3 style={{
+                            fontSize: '0.85em',
+                            fontWeight: '100',
+                            fontFamily: 'Questrial',
+                            margin: '0px'
+                        }}>CANCEL</h3>
+                    </Button>
+                </div>
+            </Dialog>
         </div>
     )
 }

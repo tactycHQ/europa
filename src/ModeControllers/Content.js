@@ -60,7 +60,11 @@ export default function Content(props) {
                              downloadModel={props.downloadModel}
                              generateBackupIO={generateBackupIO}
                              saveDash={props.saveDash}
-                             outputs={props.outputs}/>
+                             outputs={props.outputs}
+                             dashid={props.dashid}
+                             updateMsg={props.updateMsg}
+                             updateOpen={props.updateOpen}
+                    />
                     <Switch>
                         <Route exact path={"/summary"}>
                             <Dashboard

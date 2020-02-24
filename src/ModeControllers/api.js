@@ -27,15 +27,15 @@ export const uploadFile = async (file, Dashname, token) => {
     }
 }
 
-export const getSolutions = async (dash_id) => {
+export const getSolutions = async (dash_id, token) => {
     console.log("Getting Solutions...");
     const api_url = "http://localhost:5000/getSolutions"
 
     let result
     const headers = {
         headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
         method: "POST",
         body: JSON.stringify({dash_id: dash_id})
@@ -51,15 +51,15 @@ export const getSolutions = async (dash_id) => {
     return result
 }
 
-export const getMetaData = async (dash_id) => {
+export const getMetaData = async (dash_id, token) => {
     console.log("Getting Metadata...");
     const api_url = "http://localhost:5000/getMetaData"
 
     let result
     const headers = {
         headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
         method: "POST",
         body: JSON.stringify({dash_id: dash_id})
@@ -74,15 +74,15 @@ export const getMetaData = async (dash_id) => {
     return result
 }
 
-export const calculateSolutions = async (dash_id, inputs, outputs) => {
+export const calculateSolutions = async (dash_id, inputs, outputs, token) => {
     console.log("Getting calculation results...");
     const api_url = "http://localhost:5000/calculateSolutions"
 
     let result
     const headers = {
         headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
         method: "POST",
         body: JSON.stringify({
@@ -162,15 +162,15 @@ export const downloadFile = async (dash_id, origFilename, token) => {
     }
 }
 
-export const saveDashboard = async (dash_id, name, inputs, outputs, cases, formats) => {
+export const saveDashboard = async (dash_id, name, inputs, outputs, cases, formats, token) => {
     console.log("Saving dashboard...");
     const api_url = "http://localhost:5000/saveDashboard"
 
     let result
     const headers = {
         headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
         method: "POST",
         body: JSON.stringify({
@@ -216,15 +216,15 @@ export const getRecords = async (token) => {
     return result
 }
 
-export const deleteRecord = async (dash_id) => {
+export const deleteRecord = async (dash_id, token) => {
     console.log("deleting this dashboard...")
     const api_url = "http://localhost:5000/deleteRecord"
 
     let result
     const headers = {
         headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
         method: "POST",
         body: JSON.stringify({
@@ -239,6 +239,32 @@ export const deleteRecord = async (dash_id) => {
     }
     console.log("Dashboard deleted")
     return result.message
+}
+
+export const sendDashboard = async (dash_id, rec_email, token) => {
+    console.log("Saving dashboard...");
+    const api_url = "http://localhost:5000/sendDashboard"
+
+    let result
+    const headers = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        method: "POST",
+        body: JSON.stringify({
+            dash_id: dash_id,
+            rec_email: rec_email
+        })
+    }
+    try {
+        const response = await fetch(api_url, headers)
+        result = await response.json()
+    } catch (error) {
+        result = "Server not responsive"
+    }
+    console.log("Dashboard sent")
+    return result
 }
 
 

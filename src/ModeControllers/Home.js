@@ -254,7 +254,8 @@ export default function Home(props) {
 
     const deleteDashBoard = async (dash_id) => {
         let newRecords = records.filter(record => record.id !== toDelete)
-        const response = await deleteRecord(dash_id)
+        let token = await getTokenSilently()
+        const response = await deleteRecord(dash_id, token)
         if (response === 'OK') {
             setToDelete(null)
             setRecords([...newRecords])
