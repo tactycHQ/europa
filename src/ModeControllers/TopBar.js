@@ -8,6 +8,7 @@ import ExitToAppSharpIcon from '@material-ui/icons/ExitToAppSharp'
 import Tooltip from "@material-ui/core/Tooltip";
 import Dialog from "@material-ui/core/Dialog";
 import TextField from "@material-ui/core/TextField";
+import {useAuth0} from "../react-auth0-spa";
 
 
 const useStyles = makeStyles(theme => ({
@@ -70,6 +71,7 @@ export default function DenseAppBar(props) {
     const classes = useStyles()
     const [askRename, setAskRename] = useState(false)
     const [newName, setNewname] = useState('')
+    const {user} = useAuth0()
 
     useEffect(() => {
         if (props.mode === 'loaded') {
@@ -101,6 +103,16 @@ export default function DenseAppBar(props) {
                 <div className={classes.modelname} onClick={() => setAskRename(true)}><h5>{props.dashName}</h5></div>
             </Tooltip>
             <div style={{display: 'flex', padding: '3px'}}>
+                <h6 style={{
+                    fontSize: '0.75em',
+                    color: '#292F36',
+                    fontWeight: '400',
+                    fontFamily: 'Questrial',
+                    marginRight:'10px',
+                    marginTop:'20px',
+                    marginBottom:'0px',
+                    textTransform:'uppercase'
+                }}>Logged in as {user.nickname}</h6>
                 <IconButton
                     edge="start"
                     aria-label="menu"
