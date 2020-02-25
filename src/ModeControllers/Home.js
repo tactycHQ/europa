@@ -303,7 +303,7 @@ export default function Home(props) {
                 <Card className={classes.existingContainer} elevation={10}>
                     <h1 className={classes.dashTitle} style={{
                         fontFamily: 'Questrial',
-                        fontSize: '2.0em',
+                        fontSize: '1.5em',
                         fontWeight: '500',
                         color: '#006E9F',
                         marginBottom: '10px',

@@ -108,29 +108,33 @@ export default function DenseAppBar(props) {
                     color: '#292F36',
                     fontWeight: '400',
                     fontFamily: 'Questrial',
-                    marginRight:'10px',
-                    marginTop:'20px',
-                    marginBottom:'0px',
-                    textTransform:'uppercase'
+                    marginRight: '10px',
+                    marginTop: '20px',
+                    marginBottom: '0px',
+                    textTransform: 'uppercase'
                 }}>Logged in as {user.nickname}</h6>
-                <IconButton
-                    edge="start"
-                    aria-label="menu"
-                    component={Link}
-                    to="/home"
-                    onClick={() => homeClick()}
-                    style={{textDecoration: 'none'}}>
-                    <HomeSharpIcon className={classes.icon}/>
-                </IconButton>
-                <IconButton
-                    edge="start"
-                    aria-label="menu"
-                    component={Link}
-                    to="/home"
-                    onClick={() => props.logout()}
-                    style={{textDecoration: 'none'}}>
-                    <ExitToAppSharpIcon className={classes.icon}/>
-                </IconButton>
+                <Tooltip title="Home / Manage Flexboards" enterDelay={500}>
+                    <IconButton
+                        edge="start"
+                        aria-label="menu"
+                        component={Link}
+                        to="/home"
+                        onClick={() => homeClick()}
+                        style={{textDecoration: 'none'}}>
+                        <HomeSharpIcon className={classes.icon}/>
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title="Logout" enterDelay={500}>
+                    <IconButton
+                        edge="start"
+                        aria-label="menu"
+                        component={Link}
+                        to="/home"
+                        onClick={() => props.logout()}
+                        style={{textDecoration: 'none'}}>
+                        <ExitToAppSharpIcon className={classes.icon}/>
+                    </IconButton>
+                </Tooltip>
             </div>
             <Dialog
                 open={askRename}
