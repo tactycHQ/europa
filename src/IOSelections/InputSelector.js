@@ -16,11 +16,11 @@ import {
     myRound,
     createBounds,
     computeSteps,
-    hasNumber, isEmpty
+    hasNumber
 } from "../utils/utils";
 import Spreadsheet from "../Features/Spreadsheet";
 import {NavLink} from "react-router-dom";
-import Content from "../ModeControllers/Content";
+
 
 
 export default function InputSelector(props) {
@@ -486,17 +486,13 @@ export default function InputSelector(props) {
         )
     }
 
-    //
+    //Cell highlighting and clicking logic
     const addClickedCell = (newCell, sheetName) => {
 
-        let oldColor
-        let v
-        let format
-
         // Get cell metadata on old color, value and format for ne cell
-        oldColor = getOldColor(newCell, sheetName)
-        v = getValue(newCell, sheetName)
-        format = getFormat(newCell, sheetName)
+        let oldColor = getOldColor(newCell, sheetName)
+        let v = getValue(newCell, sheetName)
+        let format = getFormat(newCell, sheetName)
 
         //Set new clicked cell
         setClickedCell({
