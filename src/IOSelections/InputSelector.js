@@ -530,12 +530,15 @@ export default function InputSelector(props) {
         const fmt = props.formats[address]
 
         //highlight cell
-        document.getElementById("sjs-" + rawAdd).style.backgroundColor = '#F4F075'
-        document.getElementById('sjs-' + rawAdd.toString()).scrollIntoView({
+        console.log(rawAdd)
+        if (props.currSheet === sheetName) {
+            document.getElementById("sjs-" + rawAdd.toString()).style.backgroundColor = '#F4F075'
+            document.getElementById('sjs-' + rawAdd.toString()).scrollIntoView({
                 behavior: "smooth",
                 block: "center",
                 inline: "center"
             })
+        }
 
         const foundInput = props.inputs.find(input => input.address === (sheetName + '!' + rawAdd))
 

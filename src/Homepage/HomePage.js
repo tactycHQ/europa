@@ -39,7 +39,7 @@ export default function HomePage(props) {
             fontSize: '4.0em',
             color: '#486672',
             letterSpacing: '25px',
-            marginTop: '10vh',
+            marginTop: '8vh',
             marginBottom: '2px',
         },
     }))
@@ -52,7 +52,7 @@ export default function HomePage(props) {
                 <div style={{
                     display: 'flex',
                     width: '100%',
-                    justifyContent: 'space-between',
+                    // justifyContent: 'space-between',
                     alignItems: 'center',
                     padding: '10px'
                 }}>
@@ -61,7 +61,7 @@ export default function HomePage(props) {
                         letterSpacing: '1px',
                         fontWeight: '500',
                         margin: '0px',
-                        marginTop: '3px'
+                        marginTop: '3px',
                     }}>How does Flexboard Work?</h1>
                     <h1 className={classes.logo} style={{
                         fontSize: '1em',
@@ -85,7 +85,7 @@ export default function HomePage(props) {
                 <Button
                     elevation={50}
                     style={{
-                        marginTop: '50px',
+                        marginTop: '30px',
                         backgroundColor: '#A5014B',
                         fontFamily: 'Questrial',
                         fontSize: '1em',
@@ -98,7 +98,7 @@ export default function HomePage(props) {
                 <Button
                     elevation={50}
                     style={{
-                        marginTop: '50px',
+                        marginTop: '30px',
                         backgroundColor: '#006E9F',
                         fontFamily: 'Questrial',
                         fontSize: '1em',
@@ -107,7 +107,7 @@ export default function HomePage(props) {
                     }}>Create an Account</Button>
                 <div style={{display: 'flex', width: '100%', justifyContent:'center'}}>
                     <video id="flexvideo" loop autoPlay muted
-                           style={{margin: '10px', marginTop: '80px', width: '80%', opacity: '100%'}}>
+                           style={{margin: '10px', marginTop: '50px', width: '80%', opacity: '100%'}}>
                         <source src="flexvideo.mp4" type="video/mp4"/>
                         Your browser does not support the video tag.
                     </video>
