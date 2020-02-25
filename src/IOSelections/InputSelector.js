@@ -99,7 +99,7 @@ export default function InputSelector(props) {
             height: '40px',
         },
         buttonText: {
-            // backgroundColor:'yellow',
+            // backgroundColor:'#F4F075',
             fontSize: '0.85em',
             fontWeight: '100',
             fontFamily: 'Questrial',
@@ -530,7 +530,7 @@ export default function InputSelector(props) {
         const fmt = props.formats[address]
 
         //highlight cell
-        document.getElementById("sjs-" + rawAdd).style.backgroundColor = 'yellow'
+        document.getElementById("sjs-" + rawAdd).style.backgroundColor = '#F4F075'
         document.getElementById('sjs-' + rawAdd.toString()).scrollIntoView({
                 behavior: "smooth",
                 block: "center",

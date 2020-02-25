@@ -66,7 +66,7 @@ export default function Spreadsheet(props) {
             borderWidth: '1px',
             boxShadow: '5px 5px #C4C6C8',
             borderColor: '#D0D3D6',
-            // background: 'yellow',
+            // background: '#F4F075',
             cursor: 'cell',
             userSelect: 'none'
         }
@@ -83,7 +83,7 @@ export default function Spreadsheet(props) {
 
             //If clicking loaded inputs resulted in sheet change, must re-highlight cells
             if (props.IO === 'inputs' && props.stage === 'loaded' && props.currSheet === props.clickedCells.sheet) {
-                document.getElementById("sjs-" + props.clickedCells.raw).style.backgroundColor = 'yellow'
+                document.getElementById("sjs-" + props.clickedCells.raw).style.backgroundColor = '#F4F075'
                 document.getElementById('sjs-' + props.clickedCells.raw).scrollIntoView({
                     behavior: "smooth",
                     block: "center",
@@ -94,7 +94,7 @@ export default function Spreadsheet(props) {
             if (props.IO === 'outputs' && (props.stage === 'loaded' || props.stage === 'labelSelect' || props.stage === 'labelComplete')) {
                 props.selectedCells.forEach(cell => {
                     if (cell.sheet === props.currSheet) {
-                        document.getElementById("sjs-" + cell.raw).style.backgroundColor = 'yellow'
+                        document.getElementById("sjs-" + cell.raw).style.backgroundColor = '#F4F075'
                         document.getElementById('sjs-' + cell.raw).scrollIntoView({
                             behavior: "smooth",
                             block: "center",
@@ -130,7 +130,7 @@ export default function Spreadsheet(props) {
                     }
 
                     //highlight
-                    document.getElementById(e.target.id).style.backgroundColor = 'yellow'
+                    document.getElementById(e.target.id).style.backgroundColor = '#F4F075'
                     props.addClickedCell(newCell, props.currSheet)
                 }
 
@@ -150,7 +150,7 @@ export default function Spreadsheet(props) {
                     props.updateMsg("Output must be a number and not a text cell")
                     props.updateOpen(true)
                 } else {
-                    document.getElementById(e.target.id).style.backgroundColor = 'yellow'
+                    document.getElementById(e.target.id).style.backgroundColor = '#F4F075'
                     props.addSelectedCells(newCell, props.currSheet)
                 }
             }

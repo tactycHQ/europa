@@ -475,7 +475,7 @@ export default function OutputSelector(props) {
         } else {
 
             if (selectedLabels.length < selectedCells.length) {
-                document.getElementById('sjs-' + labelCell).style.backgroundColor = 'yellow'
+                document.getElementById('sjs-' + labelCell).style.backgroundColor = '#F4F075'
                 oldColor = getOldColor(labelCell, sheetName)
 
                 //if selected labels is already the same length as selected cells, then don't add more
@@ -515,7 +515,7 @@ export default function OutputSelector(props) {
         //If category is not set
         if (category === '') {
             setErrorOpen(true)
-            setError("Please give this ouput a category name before proceeding. A name could be descriptions of the output category, such as Net Income, or Enterprise Value, or IRR.")
+            setError("Please give this output a category name before proceeding. A name could be descriptions of the output category, such as Net Income, or Enterprise Value, or IRR.")
         }
 
         //If category already exists in outputs
@@ -569,7 +569,7 @@ export default function OutputSelector(props) {
             const format = getFormat(rawAdd, sheetName)
 
             if (sheetName === props.currSheet) {
-                document.getElementById('sjs-' + rawAdd).style.backgroundColor = 'yellow'
+                document.getElementById('sjs-' + rawAdd).style.backgroundColor = '#F4F075'
             }
 
             newSelectedCells.push({
@@ -694,7 +694,7 @@ export default function OutputSelector(props) {
         const sheetName = splits[0]
         let raw = splits[1]
         if (props.currSheet === sheetName) {
-            document.getElementById('sjs-' + raw).style.backgroundColor = 'yellow'
+            document.getElementById('sjs-' + raw).style.backgroundColor = '#F4F075'
         }
         // window.scrollTo({left: 0, top: 0, behavior: 'smooth'})
     }

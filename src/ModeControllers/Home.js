@@ -276,7 +276,7 @@ export default function Home(props) {
                             <DeleteSharpIcon
                                 fontSize="default"
                                 style={{
-                                    color: '#006E9F'
+                                    color: '#B1B3B5'
                                 }}/>
                         </IconButton>
                     </div>
