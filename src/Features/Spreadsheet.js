@@ -91,7 +91,7 @@ export default function Spreadsheet(props) {
             })
         }
         // eslint-disable-next-line
-    }, [props.worksheet, props.selectedCells, props.selectedLabels])
+    }, [props.worksheet])
 
     const onMouseClick = (e) => {
         e.stopPropagation();
@@ -116,6 +116,7 @@ export default function Spreadsheet(props) {
                         document.getElementById("sjs-" + props.clickedCells.raw).style.backgroundColor = '#' + props.clickedCells.oldColor
                     }
 
+                    //highlight
                     document.getElementById(e.target.id).style.backgroundColor = 'yellow'
                     props.addClickedCell(newCell, props.currSheet)
                 }
@@ -125,9 +126,22 @@ export default function Spreadsheet(props) {
 
         } else if (props.IO === 'outputs' && props.worksheet.hasOwnProperty(newCell)) {
             if (props.stage === 'labelSelect' || props.stage === 'labelComplete') {
+                document.getElementById(e.target.id).style.backgroundColor = 'yellow'
                 props.addSelectedLabels(newCell, e.target.innerText, props.currSheet)
             } else {
-                props.addSelectedCells(newCell, props.currSheet)
+
+                if (!props.worksheet[newCell].hasOwnProperty('f')) {
+                    props.updateMsg("Output must be a formula cell and not a hardcode")
+                    props.updateOpen(true)
+                } else if (typeof (props.worksheet[newCell]['v']) === 'string') {
+                    props.updateMsg("Output must be a number and not a text cell")
+                    props.updateOpen(true)
+                } else {
+                    document.getElementById(e.target.id).style.backgroundColor = 'yellow'
+                    props.addSelectedCells(newCell, props.currSheet)
+                }
+
+
             }
         }
     }
