@@ -20,6 +20,7 @@ import {
 } from "../utils/utils";
 import Spreadsheet from "../Features/Spreadsheet";
 import {NavLink} from "react-router-dom";
+import Content from "../ModeControllers/Content";
 
 
 export default function InputSelector(props) {
@@ -488,58 +489,37 @@ export default function InputSelector(props) {
     //
     const addClickedCell = (newCell, sheetName) => {
 
-        if (props.wb.Sheets[sheetName][newCell].hasOwnProperty('f')) {
-            setError("Input must be a hardcode and not a formula cell")
-            setErrorOpen(true)
+        let oldColor
+        let v
+        let format
 
-        } else if (typeof (props.wb.Sheets[sheetName][newCell]['v']) === 'string') {
-            setError("Input must be a number and not a text cell")
-            setErrorOpen(true)
+        // Get cell metadata on old color, value and format for ne cell
+        oldColor = getOldColor(newCell, sheetName)
+        v = getValue(newCell, sheetName)
+        format = getFormat(newCell, sheetName)
 
-        } else {
-
-            let oldColor
-            let v
-            let format
-
-            //if clicked a different cell, then reset color of unclicked cell
-            if (!isEmpty(clickedCells)) {
-                refreshWorksheetColor()
-            }
-
-
-            // Get cell metadata on old color, value and format for ne cell
-            oldColor = getOldColor(newCell, sheetName)
-            v = getValue(newCell, sheetName)
-            format = getFormat(newCell, sheetName)
-            // props.wb.Sheets[sheetName][newCell].s.fgColor = {rgb: "FCCA46"}
-            // console.log(newCell)
+        //Set new clicked cell
+        setClickedCell({
+            address: sheetName + '!' + newCell,
+            sheet: sheetName,
+            raw: newCell,
+            oldColor: oldColor,
+            value: v,
+            format: format
+        })
 
 
-            //Set new clicked cell
-            setClickedCell({
-                address: sheetName + '!' + newCell,
-                sheet: sheetName,
-                raw: newCell,
-                oldColor: oldColor,
-                value: v,
-                format: format
-            })
+        const default_bounds = createBounds(v, LOWER_RATIO, UPPER_RATIO)
+        const default_increments = computeSteps(v, default_bounds[0], default_bounds[1], NUM_STEPS)
 
-
-            const default_bounds = createBounds(v, LOWER_RATIO, UPPER_RATIO)
-            const default_increments = computeSteps(v, default_bounds[0], default_bounds[1], NUM_STEPS)
-
-            setAddress(sheetName + '!' + newCell)
-            // setLabel(sheetName + '!' + newCell)
-            setvalue(v)
-            setFormat(format)
-            setNumSteps(NUM_STEPS)
-            setBounds(default_bounds)
-            setIncr(default_increments)
-            setErrorOpen(false)
-            props.updateStage('loaded')
-        }
+        setAddress(sheetName + '!' + newCell)
+        setvalue(v)
+        setFormat(format)
+        setNumSteps(NUM_STEPS)
+        setBounds(default_bounds)
+        setIncr(default_increments)
+        setErrorOpen(false)
+        props.updateStage('loaded')
     }
 
     const loadInput2ClickedCell = (address) => {
@@ -552,7 +532,14 @@ export default function InputSelector(props) {
         const oldColor = getOldColor(rawAdd, sheetName)
         const v = getValue(rawAdd, sheetName)
         const fmt = props.formats[address]
-        props.wb.Sheets[sheetName][rawAdd].s.fgColor = {rgb: "FCCA46"}
+
+        //highlight cell
+        document.getElementById("sjs-" + rawAdd).style.backgroundColor = 'yellow'
+        document.getElementById('sjs-' + rawAdd.toString()).scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+                inline: "center"
+            })
 
         const foundInput = props.inputs.find(input => input.address === (sheetName + '!' + rawAdd))
 
@@ -574,11 +561,6 @@ export default function InputSelector(props) {
         setFormat(fmt)
         setErrorOpen(false)
         props.updateStage('loaded')
-    }
-
-    const refreshWorksheetColor = () => {
-        // document.getElementById("sjs-"+clickedCells.raw).style.backgroundColor = clickedCells.oldColor
-        // props.wb.Sheets[clickedCells.sheet][clickedCells.raw].s.fgColor = {rgb: clickedCells.oldColor}
     }
 
     //Input Handlers
@@ -624,7 +606,7 @@ export default function InputSelector(props) {
     }
 
     const resetState = () => {
-        refreshWorksheetColor()
+        document.getElementById("sjs-" + clickedCells.raw).style.backgroundColor = '#' + clickedCells.oldColor
         setLabel('')
         setNumSteps(5)
         setBounds([])
@@ -637,7 +619,6 @@ export default function InputSelector(props) {
         setEnableClick(true)
         props.updateStage("summary")
     }
-
 
     const deleteInputHandler = (address) => {
         const newInputs = props.inputs.filter(input => input.address !== address)
@@ -776,6 +757,8 @@ export default function InputSelector(props) {
                 handleSheetChange={props.handleSheetChange}
                 clickedCells={clickedCells}
                 addClickedCell={addClickedCell}
+                updateMsg={props.updateMsg}
+                updateOpen={props.updateOpen}
             />
             <Dialog open={errorOpen} onClose={handleErrorClose}>
                 <div>

@@ -73,15 +73,25 @@ export default function Spreadsheet(props) {
     }))
     const classes = useStyles()
     const sheetEl = useRef(null)
-    const [highlight, setHighlight] = useState([])
 
 
     const MAXINPUTS = 5
 
+    //Sheet change useEffect
     useEffect(() => {
         sheetEl.current.innerHTML = utils.sheet_to_html(props.worksheet)
-    }, [props.worksheet, props.selectedCells, props.selectedLabels])
 
+        //If clicking loaded inputs resulted in sheet change, must re-highlight cells
+        if (props.IO === 'inputs' && props.stage === 'loaded' && props.currSheet === props.clickedCells.sheet) {
+            document.getElementById("sjs-" + props.clickedCells.raw).style.backgroundColor = 'yellow'
+            document.getElementById('sjs-' + props.clickedCells.raw).scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+                inline: "center"
+            })
+        }
+        // eslint-disable-next-line
+    }, [props.worksheet, props.selectedCells, props.selectedLabels])
 
     const onMouseClick = (e) => {
         e.stopPropagation();
@@ -89,20 +99,28 @@ export default function Spreadsheet(props) {
 
         let newCell = e.target.id.replace("sjs-", "")
 
-        if (props.IO === 'inputs' && props.worksheet.hasOwnProperty(newCell) && !props.worksheet[newCell].hasOwnProperty('f')) {
-            if (props.enableClick) {
-                if (props.inputs.length < MAXINPUTS) {
+        if (props.IO === 'inputs' && props.worksheet.hasOwnProperty(newCell)) {
+            if (props.enableClick && props.inputs.length < MAXINPUTS) {
 
+                if (props.worksheet[newCell].hasOwnProperty('f')) {
+                    props.updateMsg("Input cell cannot be a formula")
+                    props.updateOpen(true)
+
+                } else if ((typeof (props.worksheet[newCell]['v']) === 'string')) {
+                    props.updateMsg("Input must be a number and not a text cell")
+                    props.updateOpen(true)
+
+                } else {
                     //unhighlight
                     if (!isEmpty(props.clickedCells)) {
-                        document.getElementById("sjs-" + props.clickedCells.raw).style.backgroundColor = '#'+props.clickedCells.oldColor
+                        document.getElementById("sjs-" + props.clickedCells.raw).style.backgroundColor = '#' + props.clickedCells.oldColor
                     }
 
-                    //highlight
                     document.getElementById(e.target.id).style.backgroundColor = 'yellow'
-
                     props.addClickedCell(newCell, props.currSheet)
                 }
+
+
             }
 
         } else if (props.IO === 'outputs' && props.worksheet.hasOwnProperty(newCell)) {
@@ -113,6 +131,7 @@ export default function Spreadsheet(props) {
             }
         }
     }
+
 
     const onSheetClick = (e, sheet) => {
         props.handleSheetChange(sheet)

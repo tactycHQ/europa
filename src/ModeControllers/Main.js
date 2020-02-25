@@ -145,10 +145,8 @@ export default function Main(props) {
         if (mode === 'calculate') {
             executeCalculateAPIcalls()
         }
-    // eslint-disable-next-line
+        // eslint-disable-next-line
     }, [mode, dashid, inputs, outputs, cases, formats, dashName])
-
-
 
 
     // if currsheet is changed, gets the new sheet info from the wb object
@@ -261,6 +259,8 @@ export default function Main(props) {
                 updateMode={setMode}
                 updateFormats={setFormats}
                 updateCases={setCases}
+                updateMsg={setMsg}
+                updateOpen={setOpen}
             />
         } else if (mode === 'home') {
             return <Redirect to="/home"/>

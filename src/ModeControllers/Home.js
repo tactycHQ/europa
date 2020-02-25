@@ -198,7 +198,7 @@ export default function Home(props) {
                 if (record.status === 'Ready') {
                     status = (
                         <div style={{display: 'flex', alignItems: 'center', marginLeft: '2px', padding: '2px'}}>
-                            <CheckCircleSharpIcon size="small" fontSize="small" style={{color: '#4ED13A'}}/>
+                            <CheckCircleSharpIcon size="small" fontSize="small" style={{color: '#3DA32D'}}/>
                             <h1 className={classes.dashTitle}
                                 style={{fontWeight: '100', fontSize: '0.9em', color: '#292F36'}}>
                                 {record.status}
@@ -247,16 +247,17 @@ export default function Home(props) {
                                component={Link} to="/dashboard"
                                style={{textDecoration: 'none'}}>
                             <div style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
-                                <h1 className={classes.dashTitle}
+                                <h3 className={classes.dashTitle}
                                     style={{
                                         fontWeight: '600',
-                                        fontSize: '1.0em',
+                                        fontSize: '1.1em',
                                         color: '#4185D3',
                                         textTransform: 'uppercase',
-                                        letterSpacing: '2px'
+                                        letterSpacing: '2px',
+                                        marginBottom:'5px'
                                     }}>
                                     {record.name}
-                                </h1>
+                                </h3>
                                 {status}
                                 {sharedText}
                                 {created_by}
@@ -304,7 +305,7 @@ export default function Home(props) {
                 <Card className={classes.existingContainer} elevation={10}>
                     <h1 className={classes.dashTitle} style={{
                         fontFamily: 'Questrial',
-                        fontSize: '1.0em',
+                        fontSize: '2.0em',
                         fontWeight: '500',
                         color: '#006E9F',
                         marginBottom: '10px',
