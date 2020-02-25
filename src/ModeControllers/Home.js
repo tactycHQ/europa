@@ -237,7 +237,7 @@ export default function Home(props) {
 
 
                 return (
-                    <div key={record.id} style={{display: 'flex', width: '100%', alignItems:'center'}}>
+                    <div key={record.id} style={{display: 'flex', width: '100%', alignItems: 'center'}}>
                         <Paper className={classes.existingdash}
 
                                elevation={3}
@@ -252,7 +252,7 @@ export default function Home(props) {
                                         color: '#4185D3',
                                         textTransform: 'uppercase',
                                         letterSpacing: '2px',
-                                        marginBottom:'5px'
+                                        marginBottom: '5px'
                                     }}>
                                     {record.name}
                                 </h3>
@@ -495,7 +495,7 @@ export default function Home(props) {
                                     padding: '10px',
                                     flexDirection: 'column',
                                     justifyContent: 'space-evenly',
-                                    aligntItems:'center'
+                                    aligntItems: 'center'
                                 },
                         }}>
                         <div style={{
@@ -592,7 +592,11 @@ export default function Home(props) {
             </div>
         )
     } else {
-        finalEl = <Spinner/>
+        finalEl = (
+            <div style={{height: '100vh'}}>
+                <Spinner/>
+            </div>
+        )
     }
 
     return (

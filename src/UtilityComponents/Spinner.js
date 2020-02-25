@@ -20,7 +20,9 @@ export default function Spinner() {
 
     return (
         <div className={classes.root}>
-            <CircularProgress classes={{root: classes.circle}} color="primary" thickness={1.0}/>
+            <CircularProgress
+                classes={{root: classes.circle}}
+                thickness={1.0}/>
         </div>
     );
 }

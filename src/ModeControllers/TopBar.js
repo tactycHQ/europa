@@ -106,7 +106,8 @@ export default function DenseAppBar(props) {
                 <h6 style={{
                     fontSize: '0.75em',
                     color: '#292F36',
-                    fontWeight: '400',
+                    fontWeight: '200',
+                    opacity:'85%',
                     fontFamily: 'Questrial',
                     marginRight: '10px',
                     marginTop: '20px',

@@ -40,8 +40,9 @@ export default function Main(props) {
         },
         snackbar: {
             backgroundColor: '#A5014B',
+            opacity: '90%',
             color: '#FEFEFD',
-            fontSize: '1.1em',
+            fontSize: '1.0em',
             fontFamily: 'Questrial',
             justifyContent: 'center'
         }
@@ -263,11 +264,17 @@ export default function Main(props) {
                 updateOpen={setOpen}
             />
         } else if (mode === 'home') {
-            return <Redirect to="/home"/>
+            return (
+                    <Redirect to="/home"/>
+            )
         } else {
-            return <Spinner className={classes.spinner}/>
+            return (
+                <div style={{height: '100vh'}}>
+                    <Spinner className={classes.spinner}/>
+                </div>)
         }
     }
+
 
     const createHome = () => {
         return <Home
@@ -326,7 +333,7 @@ export default function Main(props) {
                 open={open}
                 onClose={handleClose}
                 message={msg}
-                autoHideDuration={1750}
+                autoHideDuration={2000}
                 TransitionComponent={Slide}
             />
         </div>
