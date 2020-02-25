@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
     modelname: {
         display: 'flex',
         position:'fixed',
-        left:'47%',
+        left:'45%',
         fontSize: '1.1em',
         color: '#292F36',
         fontFamily: 'Questrial',
