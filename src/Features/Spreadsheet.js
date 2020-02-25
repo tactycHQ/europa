@@ -79,19 +79,33 @@ export default function Spreadsheet(props) {
 
     //Sheet change useEffect
     useEffect(() => {
-        sheetEl.current.innerHTML = utils.sheet_to_html(props.worksheet)
+            sheetEl.current.innerHTML = utils.sheet_to_html(props.worksheet)
 
-        //If clicking loaded inputs resulted in sheet change, must re-highlight cells
-        if (props.IO === 'inputs' && props.stage === 'loaded' && props.currSheet === props.clickedCells.sheet) {
-            document.getElementById("sjs-" + props.clickedCells.raw).style.backgroundColor = 'yellow'
-            document.getElementById('sjs-' + props.clickedCells.raw).scrollIntoView({
-                behavior: "smooth",
-                block: "center",
-                inline: "center"
-            })
-        }
-        // eslint-disable-next-line
-    }, [props.worksheet])
+            //If clicking loaded inputs resulted in sheet change, must re-highlight cells
+            if (props.IO === 'inputs' && props.stage === 'loaded' && props.currSheet === props.clickedCells.sheet) {
+                document.getElementById("sjs-" + props.clickedCells.raw).style.backgroundColor = 'yellow'
+                document.getElementById('sjs-' + props.clickedCells.raw).scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                    inline: "center"
+                })
+            }
+
+            if (props.IO === 'outputs' && props.stage === 'loaded' || props.stage === 'labelSelect' || props.stage === 'labelComplete') {
+
+                props.selectedCells.forEach(cell => {
+                    if (cell.sheet === props.currSheet) {
+                        document.getElementById("sjs-" + cell.raw).style.backgroundColor = 'yellow'
+                        document.getElementById('sjs-' + cell.raw).scrollIntoView({
+                            behavior: "smooth",
+                            block: "center",
+                            inline: "center"
+                        })
+                    }
+                })
+            }
+        },// eslint-disable-next-line
+        [props.worksheet])
 
     const onMouseClick = (e) => {
         e.stopPropagation();
@@ -126,8 +140,8 @@ export default function Spreadsheet(props) {
 
         } else if (props.IO === 'outputs' && props.worksheet.hasOwnProperty(newCell)) {
             if (props.stage === 'labelSelect' || props.stage === 'labelComplete') {
-                document.getElementById(e.target.id).style.backgroundColor = 'yellow'
                 props.addSelectedLabels(newCell, e.target.innerText, props.currSheet)
+
             } else {
 
                 if (!props.worksheet[newCell].hasOwnProperty('f')) {
@@ -140,8 +154,6 @@ export default function Spreadsheet(props) {
                     document.getElementById(e.target.id).style.backgroundColor = 'yellow'
                     props.addSelectedCells(newCell, props.currSheet)
                 }
-
-
             }
         }
     }

@@ -412,19 +412,19 @@ export default function OutputSelector(props) {
 //Output Selection Functions
     const addSelectedCells = (newCell, sheetName) => {
 
-            //if clicked a cell that already exists then reset color of that cell and remove that cell from state
-            let foundIndex = selectedCells.findIndex(cell => (cell.raw === newCell && sheetName === cell.sheet))
-            if (foundIndex !== -1) {
-                deleteLabelHandler(sheetName + '!' + newCell)
-            }
+        //if clicked a cell that already exists then reset color of that cell and remove that cell from state
+        let foundIndex = selectedCells.findIndex(cell => (cell.raw === newCell && sheetName === cell.sheet))
+        if (foundIndex !== -1) {
+            deleteLabelHandler(sheetName + '!' + newCell)
+        }
 
-            //If max labels exceeded, throw an error
-            else if (selectedCells.length === MAXLABEL) {
-                setErrorOpen(true)
-                setError("Maximum allowed cells per category of 10")
+        //If max labels exceeded, throw an error
+        else if (selectedCells.length === MAXLABEL) {
+            setErrorOpen(true)
+            setError("Maximum allowed cells per category of 10")
 
-                //Highlight that cell and update states
-            } else {
+            //Highlight that cell and update states
+        } else {
 
             // Get cell metadata on old color, value and format for ne cell
             let oldColor = getOldColor(newCell, sheetName)
@@ -457,8 +457,6 @@ export default function OutputSelector(props) {
         props.updateStage('loaded')
     }
 
-    console.log(props.stage)
-
     const addSelectedLabels = (labelCell, labelValue, sheetName) => {
 
         let oldColor
@@ -468,35 +466,39 @@ export default function OutputSelector(props) {
 
         //If clicked, then unhighlight it
         if (foundIndex !== -1) {
-            props.wb.Sheets[sheetName][labelCell].s.fgColor = {rgb: selectedLabels[foundIndex].oldColor}
+            document.getElementById('sjs-' + labelCell).style.backgroundColor = '#' + selectedLabels[foundIndex].oldColor
             const newSelection = selectedLabels.filter((cell, idx) => idx !== foundIndex)
             setLabels({...labels, [selectedCells[foundIndex].address]: ''})
             setSelectedLabels([...newSelection])
 
-        // Go ahead and add it to state
+        // Otherwise Go ahead and add it to state
         } else {
 
-            oldColor = getOldColor(labelCell, sheetName)
+            if (selectedLabels.length < selectedCells.length) {
+                document.getElementById('sjs-' + labelCell).style.backgroundColor = 'yellow'
+                oldColor = getOldColor(labelCell, sheetName)
 
-            //if selected labels is already the same length as selected cells, then don't add more
-            if (selectedLabels.length !== selectedCells.length) {
+                //if selected labels is already the same length as selected cells, then don't add more
+
                 setLabels({
                     ...labels,
                     [selectedCells[selectedLabels.length].address]: labelValue
                 })
-            }
 
-            //Save metadata on label cell in case we need to unhighlight
-            setSelectedLabels([...selectedLabels,
-                {
-                    address: sheetName + '!' + labelCell,
-                    sheet: sheetName,
-                    raw: labelCell,
-                    oldColor: oldColor,
-                    value: labelValue,
-                }])
+
+                //Save metadata on label cell in case we need to unhighlight
+                setSelectedLabels([...selectedLabels,
+                    {
+                        address: sheetName + '!' + labelCell,
+                        sheet: sheetName,
+                        raw: labelCell,
+                        oldColor: oldColor,
+                        value: labelValue,
+                    }])
+            }
         }
     }
+
 
 //Output sets and loads
     const setOutputHandler = () => {
@@ -565,7 +567,10 @@ export default function OutputSelector(props) {
             const oldColor = getOldColor(rawAdd, sheetName)
             const v = getValue(rawAdd, sheetName)
             const format = getFormat(rawAdd, sheetName)
-            props.wb.Sheets[sheetName][rawAdd].s.fgColor = {rgb: "FCCA46"}
+
+            if (sheetName === props.currSheet) {
+                document.getElementById('sjs-' + rawAdd).style.backgroundColor = 'yellow'
+            }
 
             newSelectedCells.push({
                 address: sheetName + '!' + rawAdd,
@@ -610,7 +615,7 @@ export default function OutputSelector(props) {
 
         //Remove cell from selectedCells
         const cellToRemove = selectedCells[indexToRemove]
-        document.getElementById('sjs-'+cellToRemove.raw).style.backgroundColor = '#' + cellToRemove.oldColor
+        document.getElementById('sjs-' + cellToRemove.raw).style.backgroundColor = '#' + cellToRemove.oldColor
         // props.wb.Sheets[cellToRemove.sheet][cellToRemove.raw].s.fgColor = {rgb: cellToRemove.oldColor}
 
         //If selected cells will be empty after this removal AND no outputs have been selected yet props.updateStage to empty
@@ -650,7 +655,7 @@ export default function OutputSelector(props) {
         //Remove label from selectedLabels
         if ((props.stage === 'labelSelect' || props.stage === 'labelComplete') && typeof (selectedLabels[indexToRemove]) !== 'undefined') {
             const labelToRemove = selectedLabels[indexToRemove]
-            props.wb.Sheets[labelToRemove.sheet][labelToRemove.raw].s.fgColor = {rgb: labelToRemove.oldColor}
+            document.getElementById('sjs-' + labelToRemove.raw).style.backgroundColor = "#"+labelToRemove.oldColor
             const newSelectedLabels = selectedLabels.filter(label => selectedLabels.indexOf(label) !== indexToRemove)
             setSelectedLabels([...newSelectedLabels])
         }
@@ -689,7 +694,7 @@ export default function OutputSelector(props) {
         const sheetName = splits[0]
         let raw = splits[1]
         if (props.currSheet === sheetName) {
-            document.getElementById('sjs-' + raw.toString()).style.backgroundColor = "yellow"
+            document.getElementById('sjs-' + raw).style.backgroundColor = 'yellow'
         }
         // window.scrollTo({left: 0, top: 0, behavior: 'smooth'})
     }
@@ -707,14 +712,16 @@ export default function OutputSelector(props) {
     }
 
     const unHighlightAll = () => {
-        selectedCells.forEach(c => {
 
-            props.wb.Sheets[c.sheet][c.raw].s.fgColor = {rgb: c.oldColor}
+        //unhighlight cat cells
+        selectedCells.forEach(c => {
+            document.getElementById('sjs-' + c.raw).style.backgroundColor = '#' + c.oldColor
         })
 
-
+        //unhighlight labels
         selectedLabels.forEach(label => {
-            props.wb.Sheets[label.sheet][label.raw].s.fgColor = {rgb: label.oldColor}
+            document.getElementById('sjs-' + label.raw).style.backgroundColor = '#' + label.oldColor
+            // props.wb.Sheets[label.sheet][label.raw].s.fgColor = {rgb: label.oldColor}
         })
     }
 
@@ -786,6 +793,8 @@ export default function OutputSelector(props) {
                 addSelectedCells={addSelectedCells}
                 selectedLabels={selectedLabels}
                 addSelectedLabels={addSelectedLabels}
+                updateMsg={props.updateMsg}
+                updateOpen={props.updateOpen}
             />
             <Dialog open={errorOpen} onClose={handleErrorClose}>
                 <div>
