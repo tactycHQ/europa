@@ -80,14 +80,7 @@ export default function Spreadsheet(props) {
 
     useEffect(() => {
         sheetEl.current.innerHTML = utils.sheet_to_html(props.worksheet)
-        // console.log(sheetEl.current.innerHTML)
     }, [props.worksheet, props.selectedCells, props.selectedLabels])
-
-    // useEffect(() => {
-    //     if (!isEmpty(highlight)) {
-    //         document.getElementById(highlight[0]).style.backgroundColor = 'yellow'
-    //     }
-    // }, [highlight])
 
 
     const onMouseClick = (e) => {
@@ -99,11 +92,15 @@ export default function Spreadsheet(props) {
         if (props.IO === 'inputs' && props.worksheet.hasOwnProperty(newCell) && !props.worksheet[newCell].hasOwnProperty('f')) {
             if (props.enableClick) {
                 if (props.inputs.length < MAXINPUTS) {
+
+                    //unhighlight
                     if (!isEmpty(props.clickedCells)) {
-                        document.getElementById("sjs-" + props.clickedCells.raw).style.backgroundColor = "white"
+                        document.getElementById("sjs-" + props.clickedCells.raw).style.backgroundColor = '#'+props.clickedCells.oldColor
                     }
+
+                    //highlight
                     document.getElementById(e.target.id).style.backgroundColor = 'yellow'
-                    // setHighlight([e.target.id, document.getElementById(e.target.id).style.backgroundColor])
+
                     props.addClickedCell(newCell, props.currSheet)
                 }
             }
