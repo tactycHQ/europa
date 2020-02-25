@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     },
     logo: {
         display: 'flex',
-        marginLeft: '10px',
+        marginLeft: '5px',
         fontFamily: 'Questrial',
         minWidth: '6.5%',
         fontSize: '0.70em',
@@ -31,11 +31,13 @@ const useStyles = makeStyles(theme => ({
     },
     modelname: {
         display: 'flex',
+        position:'fixed',
+        left:'47%',
         fontSize: '1.1em',
         color: '#292F36',
         fontFamily: 'Questrial',
         textTransform: 'uppercase',
-        marginRight: '5%',
+        // marginRight: '10%',
         cursor: 'pointer'
         // positon:'fixed'
     },

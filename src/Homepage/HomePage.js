@@ -11,9 +11,10 @@ export default function HomePage(props) {
         root: {
             display: 'flex',
             width: '100%',
-            height: '100vh',
+            // height: '100vh',
             flexDirection: 'column',
-            backgroundImage: `url(${Background})`
+            // backgroundImage: `url(${Background})`
+            background: 'linear-gradient(#F4F4F4 10%,#FEFEFD)',
         },
         top: {
             display: 'flex',
@@ -26,7 +27,7 @@ export default function HomePage(props) {
             display: 'flex',
             flexDirection: 'column',
             width: '100%',
-            position: 'fixed',
+            // position: 'fixed',
             zIndex: '2'
         },
         logo: {
@@ -71,9 +72,7 @@ export default function HomePage(props) {
                         justifyContent: 'center'
                     }}>About Us</h1>
                 </div>
-
                 <h6 className={classes.logo}>FLEXBOARD</h6>
-
                 <h1 className={classes.logo} style={{
                     fontSize: '1.5em',
                     letterSpacing: '1px',
@@ -82,7 +81,6 @@ export default function HomePage(props) {
                     marginTop: '5px'
                 }}>
                     Powering Enterprise Models to Life
-                    {/*<sup style={{fontSize: '0.7em', marginLeft: '5px'}}>&trade</sup>*/}
                 </h1>
                 <Button
                     elevation={50}
@@ -107,6 +105,13 @@ export default function HomePage(props) {
                         width: '300px',
                         color: '#E7F1F6'
                     }}>Create an Account</Button>
+                <div style={{display: 'flex', width: '100%', justifyContent:'center'}}>
+                    <video id="flexvideo" loop autoPlay muted
+                           style={{margin: '10px', marginTop: '80px', width: '80%', opacity: '100%'}}>
+                        <source src="flexvideo.mp4" type="video/mp4"/>
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
             </div>
         </Paper>
     )
