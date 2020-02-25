@@ -239,9 +239,9 @@ export default function Home(props) {
 
 
                 return (
-                    <div style={{display: 'flex', width: '100%', alignItems:'center'}}>
+                    <div key={record.id} style={{display: 'flex', width: '100%', alignItems:'center'}}>
                         <Paper className={classes.existingdash}
-                               key={record.id}
+
                                elevation={3}
                                onClick={() => openDash(record.id, record.name)}
                                component={Link} to="/dashboard"

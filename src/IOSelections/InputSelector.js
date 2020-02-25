@@ -512,7 +512,8 @@ export default function InputSelector(props) {
             oldColor = getOldColor(newCell, sheetName)
             v = getValue(newCell, sheetName)
             format = getFormat(newCell, sheetName)
-            props.wb.Sheets[sheetName][newCell].s.fgColor = {rgb: "FCCA46"}
+            // props.wb.Sheets[sheetName][newCell].s.fgColor = {rgb: "FCCA46"}
+            // console.log(newCell)
 
 
             //Set new clicked cell
@@ -576,7 +577,8 @@ export default function InputSelector(props) {
     }
 
     const refreshWorksheetColor = () => {
-        props.wb.Sheets[clickedCells.sheet][clickedCells.raw].s.fgColor = {rgb: clickedCells.oldColor}
+        // document.getElementById("sjs-"+clickedCells.raw).style.backgroundColor = clickedCells.oldColor
+        // props.wb.Sheets[clickedCells.sheet][clickedCells.raw].s.fgColor = {rgb: clickedCells.oldColor}
     }
 
     //Input Handlers

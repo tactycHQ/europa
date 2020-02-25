@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Features/Spreadsheet.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Features/Spreadsheet.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/IOSelections/InputSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/IOSelections/InputSelector.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ModeControllers/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Home.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -36,7 +39,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -180,14 +183,7 @@
       <workItem from="1582344321730" duration="1062000" />
       <workItem from="1582377322903" duration="15285000" />
       <workItem from="1582562749375" duration="609000" />
-      <workItem from="1582565911835" duration="15464000" />
-    </task>
-    <task id="LOCAL-00268" summary="First commit">
-      <created>1581224032361</created>
-      <option name="number" value="00268" />
-      <option name="presentableId" value="LOCAL-00268" />
-      <option name="project" value="LOCAL" />
-      <updated>1581224032361</updated>
+      <workItem from="1582565911835" duration="20600000" />
     </task>
     <task id="LOCAL-00269" summary="First commit">
       <created>1581227756405</created>
@@ -525,7 +521,14 @@
       <option name="project" value="LOCAL" />
       <updated>1582586464862</updated>
     </task>
-    <option name="localTasksCounter" value="317" />
+    <task id="LOCAL-00317" summary="First commit">
+      <created>1582587118706</created>
+      <option name="number" value="00317" />
+      <option name="presentableId" value="LOCAL-00317" />
+      <option name="project" value="LOCAL" />
+      <updated>1582587118707</updated>
+    </task>
+    <option name="localTasksCounter" value="318" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

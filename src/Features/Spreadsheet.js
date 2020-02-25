@@ -1,9 +1,10 @@
-import React, {useRef, useEffect} from "react";
+import React, {useRef, useEffect, useState} from "react";
 import {utils} from "@sheet/core";
 import {makeStyles} from '@material-ui/core/styles'
 import {Card, Button} from "@material-ui/core";
 import {Scrollbars} from 'react-custom-scrollbars'
 import "./sheetstyles.css"
+import {isEmpty} from "../utils/utils";
 
 
 // import ssf from "../utils/fixformats"
@@ -72,12 +73,21 @@ export default function Spreadsheet(props) {
     }))
     const classes = useStyles()
     const sheetEl = useRef(null)
+    const [highlight, setHighlight] = useState([])
+
 
     const MAXINPUTS = 5
 
     useEffect(() => {
         sheetEl.current.innerHTML = utils.sheet_to_html(props.worksheet)
-    }, [props.worksheet, props.selectedCells, props.clickedCells, props.selectedLabels])
+        // console.log(sheetEl.current.innerHTML)
+    }, [props.worksheet, props.selectedCells, props.selectedLabels])
+
+    // useEffect(() => {
+    //     if (!isEmpty(highlight)) {
+    //         document.getElementById(highlight[0]).style.backgroundColor = 'yellow'
+    //     }
+    // }, [highlight])
 
 
     const onMouseClick = (e) => {
@@ -86,9 +96,14 @@ export default function Spreadsheet(props) {
 
         let newCell = e.target.id.replace("sjs-", "")
 
-        if (props.IO === 'inputs' && props.worksheet.hasOwnProperty(newCell)) {
+        if (props.IO === 'inputs' && props.worksheet.hasOwnProperty(newCell) && !props.worksheet[newCell].hasOwnProperty('f')) {
             if (props.enableClick) {
                 if (props.inputs.length < MAXINPUTS) {
+                    if (!isEmpty(props.clickedCells)) {
+                        document.getElementById("sjs-" + props.clickedCells.raw).style.backgroundColor = "white"
+                    }
+                    document.getElementById(e.target.id).style.backgroundColor = 'yellow'
+                    // setHighlight([e.target.id, document.getElementById(e.target.id).style.backgroundColor])
                     props.addClickedCell(newCell, props.currSheet)
                 }
             }
