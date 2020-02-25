@@ -91,7 +91,7 @@ export default function Spreadsheet(props) {
                 })
             }
 
-            if (props.IO === 'outputs' && props.stage === 'loaded' || props.stage === 'labelSelect' || props.stage === 'labelComplete') {
+            if (props.IO === 'outputs' && (props.stage === 'loaded' || props.stage === 'labelSelect' || props.stage === 'labelComplete')) {
 
                 props.selectedCells.forEach(cell => {
                     if (cell.sheet === props.currSheet) {
