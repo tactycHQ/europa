@@ -1,8 +1,8 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import Background from "../images/home.jpg"
 import Paper from "@material-ui/core/Paper"
 import Button from "@material-ui/core/Button"
+import {Card} from "@material-ui/core";
 
 export default function HomePage(props) {
 
@@ -14,7 +14,8 @@ export default function HomePage(props) {
             // height: '100vh',
             flexDirection: 'column',
             // backgroundImage: `url(${Background})`
-            background: 'linear-gradient(#F4F4F4 10%,#FEFEFD)',
+            // background: 'linear-gradient(#F4F4F4 10%,#FEFEFD)',
+            background: 'linear-gradient(#CACDD6 40%, #193946)',
         },
         top: {
             display: 'flex',
@@ -52,7 +53,7 @@ export default function HomePage(props) {
                 <div style={{
                     display: 'flex',
                     width: '100%',
-                    // justifyContent: 'space-between',
+                    justifyContent: 'space-between',
                     alignItems: 'center',
                     padding: '10px'
                 }}>
@@ -62,15 +63,22 @@ export default function HomePage(props) {
                         fontWeight: '500',
                         margin: '0px',
                         marginTop: '3px',
-                    }}>How does Flexboard Work?</h1>
-                    <h1 className={classes.logo} style={{
-                        fontSize: '1em',
-                        letterSpacing: '1px',
-                        fontWeight: '500',
-                        margin: '0px',
-                        marginTop: '3px',
-                        justifyContent: 'center'
-                    }}>About Us</h1>
+                    }}>How does Flexboard work?</h1>
+                    <div style={{display:'flex', justifyContent: 'center', alignItems:'center'}}>
+                        <Button
+                            elevation={50}
+                            style={{
+                                backgroundColor: '#A5014B',
+                                fontFamily: 'Questrial',
+                                fontSize: '0.9em',
+                                // padding:'5px',
+                                width: '200px',
+                                color: '#E7F1F6'
+                            }}
+                            onClick={() => props.loginWithRedirect()}>
+                            Secure Log in
+                        </Button>
+                    </div>
                 </div>
                 <h6 className={classes.logo}>FLEXBOARD</h6>
                 <h1 className={classes.logo} style={{
@@ -86,32 +94,19 @@ export default function HomePage(props) {
                     elevation={50}
                     style={{
                         marginTop: '30px',
-                        backgroundColor: '#A5014B',
-                        fontFamily: 'Questrial',
-                        fontSize: '1em',
-                        width: '300px',
-                        color: '#E7F1F6'
-                    }}
-                    onClick={() => props.loginWithRedirect()}>
-                    Secure Log in
-                </Button>
-                <Button
-                    elevation={50}
-                    style={{
-                        marginTop: '30px',
                         backgroundColor: '#006E9F',
                         fontFamily: 'Questrial',
                         fontSize: '1em',
                         width: '300px',
                         color: '#E7F1F6'
                     }}>Create an Account</Button>
-                <div style={{display: 'flex', width: '100%', justifyContent:'center'}}>
+                <Card elevation={20} style={{display: 'flex', margin: '10px', width: '85%', padding:'0px',justifyContent: 'center'}}>
                     <video id="flexvideo" loop autoPlay muted
-                           style={{margin: '10px', marginTop: '50px', width: '80%', opacity: '100%'}}>
+                           style={{margin: '10px', width: '75%', opacity: '100%'}}>
                         <source src="flexvideo.mp4" type="video/mp4"/>
                         Your browser does not support the video tag.
                     </video>
-                </div>
+                </Card>
             </div>
         </Paper>
     )

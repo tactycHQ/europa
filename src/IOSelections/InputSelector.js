@@ -530,7 +530,6 @@ export default function InputSelector(props) {
         const fmt = props.formats[address]
 
         //highlight cell
-        console.log(rawAdd)
         if (props.currSheet === sheetName) {
             document.getElementById("sjs-" + rawAdd.toString()).style.backgroundColor = '#F4F075'
             document.getElementById('sjs-' + rawAdd.toString()).scrollIntoView({
