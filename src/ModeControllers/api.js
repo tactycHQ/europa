@@ -74,7 +74,7 @@ export const getMetaData = async (dash_id, token) => {
     return result
 }
 
-export const calculateSolutions = async (dash_id, inputs, outputs,token) => {
+export const calculateSolutions = async (dash_id, inputs, outputs, token) => {
     console.log("Getting calculation results...");
     const api_url = "http://localhost:5000/calculateSolutions"
 
@@ -267,6 +267,30 @@ export const sendDashboard = async (dash_id, rec_email, token) => {
     return result
 }
 
+export const getStatus = async (poll_ids, token) => {
+    console.log("Poll request...")
+    const api_url = "http://localhost:5000/getStatus"
+
+    let result
+    const headers = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        method: "POST",
+        body: JSON.stringify({
+            poll_ids: poll_ids
+        })
+    }
+    try {
+        const response = await fetch(api_url, headers)
+        result = await response.json()
+    } catch (error) {
+        result = {'message': "ERROR"}
+    }
+    console.log(result)
+    return result
+}
 
 
 

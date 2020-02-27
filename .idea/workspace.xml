@@ -3,9 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Homepage/HomePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Homepage/HomePage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ModeControllers/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ModeControllers/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ModeControllers/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/api.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -59,7 +59,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/ModeControllers" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
@@ -82,11 +82,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\anubhav\Desktop\Projects\sirius\src\ModeControllers" />
       <recent name="C:\Users\anubhav\Desktop\Projects\europa\node_modules\ssf" />
       <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\LayoutComponents" />
       <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\Outputs" />
       <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\dependency_graph" />
-      <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\scenario_analysis" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\ModeControllers" />
@@ -192,14 +192,7 @@
       <workItem from="1582736803731" duration="602000" />
       <workItem from="1582747097769" duration="438000" />
       <workItem from="1582747550241" duration="1200000" />
-      <workItem from="1582756256018" duration="10369000" />
-    </task>
-    <task id="LOCAL-00283" summary="First commit">
-      <created>1582062590766</created>
-      <option name="number" value="00283" />
-      <option name="presentableId" value="LOCAL-00283" />
-      <option name="project" value="LOCAL" />
-      <updated>1582062590766</updated>
+      <workItem from="1582756256018" duration="17567000" />
     </task>
     <task id="LOCAL-00284" summary="First commit">
       <created>1582138005481</created>
@@ -537,7 +530,14 @@
       <option name="project" value="LOCAL" />
       <updated>1582676448403</updated>
     </task>
-    <option name="localTasksCounter" value="332" />
+    <task id="LOCAL-00332" summary="First commit">
+      <created>1582838967795</created>
+      <option name="number" value="00332" />
+      <option name="presentableId" value="LOCAL-00332" />
+      <option name="project" value="LOCAL" />
+      <updated>1582838967795</updated>
+    </task>
+    <option name="localTasksCounter" value="333" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

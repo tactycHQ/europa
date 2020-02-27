@@ -21,6 +21,8 @@ import RecordVoiceOverSharpIcon from '@material-ui/icons/RecordVoiceOverSharp';
 import ScheduleSharpIcon from '@material-ui/icons/ScheduleSharp'
 import LaunchSharpIcon from '@material-ui/icons/LaunchSharp'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import useInterval from "use-interval";
+import {getStatus} from "./api";
 
 
 // import Button from "@material-ui/core/Button"
@@ -59,7 +61,7 @@ export default function Home(props) {
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'flex-start',
-            alignItems:'center',
+            alignItems: 'center',
             margin: '15px',
             padding: '5px',
             background: '#EBECEC',
@@ -133,8 +135,10 @@ export default function Home(props) {
     const [newFile, setNewFile] = useState(null)
     const [newDashname, setNewDashname] = useState('')
     const [stage, setStage] = useState('awaitingUpload')
-    const [startPolling,setStartPolling] = useState(false)
     const {getTokenSilently, user} = useAuth0()
+    const [startPoll, setStartPoll] = useState(false)
+    const [pollIds, setPollIds] = useState({})
+    let toPoll = []
 
     useEffect(() => {
         const executeGetUserRecords = async () => {
@@ -146,6 +150,43 @@ export default function Home(props) {
         executeGetUserRecords()
         // eslint-disable-next-line
     }, [])
+
+
+    useEffect(() => {
+        records.map(record => {
+            if (record.status === 'Calculating') {
+                setPollIds({
+                    ...pollIds,
+                    [record.id]: record.status
+                })
+            }
+        })
+        // eslint-disable-next-line
+    }, [records])
+
+    useEffect(() => {
+        if (Object.keys(pollIds).length > 0) {
+            setStartPoll(true)
+        } else {
+            setStartPoll(false)
+        }
+    }, [pollIds, startPoll])
+
+
+    useInterval(async () => {
+        let token = await getTokenSilently()
+        const pollResponse = await getStatus(Object.keys(pollIds), token)
+        let newState = {}
+        Object.keys(pollResponse).map(dash_id => {
+            if (pollResponse[dash_id] === 'Calculating') {
+                newState[dash_id] = 'Calculating'
+            } else {
+                let toUpdate = records.find(record => record.id.toString() === dash_id)
+                toUpdate.status = pollResponse[dash_id]
+            }
+        })
+        setPollIds({...newState})
+    }, startPoll ? 2000 : null)
 
     const resetState = () => {
         setAskNewDash(false)
@@ -163,6 +204,7 @@ export default function Home(props) {
         props.updateMsg("Opening " + dash_name + " Flexboard")
         props.updateOpen(true)
     }
+
 
     const createMyDashboards = () => {
 
@@ -183,7 +225,7 @@ export default function Home(props) {
 
                 let sharedText
                 let viewDashboard = (
-                    <CircularProgress size={25} style={{margin:'15px',marginRight:'30px',color:'#193946'}}/>
+                    <CircularProgress size={25} style={{margin: '15px', marginRight: '30px', color: '#193946'}}/>
                 )
 
 
@@ -200,16 +242,26 @@ export default function Home(props) {
 
                 let status
                 if (record.status === 'Complete') {
-
                     viewDashboard = (
                         <IconButton
                             onClick={() => openDash(record.id, record.name)}
                             component={Link} to="/dashboard"
-                            style={{display:'flex', height:'100px', width:'100px'}}
+                            style={{display: 'flex', height: '100px', width: '100px'}}
                         >
-                            <div style={{display:'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
-                            <LaunchSharpIcon style={{color: '#006E9F', margin:'2px'}}/>
-                            <h3 style={{fontFamily:'Questrial', fontSize:'0.5em', color:'#006E9F', fontWeight:'100', margin:'0px'}}>LAUNCH</h3>
+                            <div style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                            }}>
+                                <LaunchSharpIcon style={{color: '#006E9F', margin: '2px'}}/>
+                                <h3 style={{
+                                    fontFamily: 'Questrial',
+                                    fontSize: '0.5em',
+                                    color: '#006E9F',
+                                    fontWeight: '100',
+                                    margin: '0px'
+                                }}>LAUNCH</h3>
                             </div>
                         </IconButton>
                     )
