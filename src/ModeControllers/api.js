@@ -74,7 +74,7 @@ export const getMetaData = async (dash_id, token) => {
     return result
 }
 
-export const calculateSolutions = async (dash_id, inputs, outputs, token) => {
+export const calculateSolutions = async (dash_id, inputs, outputs,token) => {
     console.log("Getting calculation results...");
     const api_url = "http://localhost:5000/calculateSolutions"
 

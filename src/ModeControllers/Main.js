@@ -133,14 +133,11 @@ export default function Main(props) {
                 return acc
             }, [])
             let token = await getTokenSilently()
-            const _solutions = await calculateSolutions(dashid, inputs, outputAdds, token)
-            setSolutions(_solutions.solutions)
-            setDistributions(_solutions.distributions)
-            setcurrInputVal(cases['Default'])
-            setMode("loaded")
-            saveDashboard(dashid, dashName, inputs, outputs, cases, formats, token)
-            setMsg("Dashboard saved")
-            setOpen(true)
+            const response = await calculateSolutions(dashid, inputs, outputAdds,token)
+            if (response['message'] === 'OK') {
+                setMode("home")
+                await saveDashboard(dashid, dashName, inputs, outputs, cases, formats, token)
+            }
         }
 
         if (mode === 'calculate') {

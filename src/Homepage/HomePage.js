@@ -64,7 +64,7 @@ export default function HomePage(props) {
                         margin: '0px',
                         marginTop: '3px',
                     }}>How does Flexboard work?</h1>
-                    <div style={{display:'flex', justifyContent: 'center', alignItems:'center'}}>
+                    <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                         <Button
                             elevation={50}
                             style={{
@@ -100,7 +100,8 @@ export default function HomePage(props) {
                         width: '300px',
                         color: '#E7F1F6'
                     }}>Create an Account</Button>
-                <Card elevation={20} style={{display: 'flex', margin: '10px', width: '85%', padding:'0px',justifyContent: 'center'}}>
+                <Card elevation={20}
+                      style={{display: 'flex', margin: '10px', width: '85%', padding: '0px', justifyContent: 'center'}}>
                     <video id="flexvideo" loop autoPlay muted
                            style={{margin: '10px', width: '75%', opacity: '100%'}}>
                         <source src="flexvideo.mp4" type="video/mp4"/>

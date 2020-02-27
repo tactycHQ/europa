@@ -4,7 +4,9 @@
     <list default="true" id="f30c09ab-5f5c-4446-acdb-b2e8e06f8d34" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Homepage/HomePage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Homepage/HomePage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/IOSelections/InputSelector.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/IOSelections/InputSelector.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ModeControllers/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ModeControllers/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/Main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ModeControllers/api.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ModeControllers/api.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -57,7 +59,7 @@
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../vulcan" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
@@ -75,23 +77,23 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.General" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PyCharm 2019.1.1\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\ModeControllers" />
-      <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\Features" />
-      <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\Content" />
-      <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\Other" />
-      <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\IOSelections" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\anubhav\Desktop\Projects\europa\node_modules\ssf" />
       <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\LayoutComponents" />
       <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\Outputs" />
       <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\dependency_graph" />
       <recent name="C:\Users\anubhav\Desktop\Projects\Front End Tests\layout_test\src\scenario_analysis" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\ModeControllers" />
+      <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\Features" />
+      <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\Content" />
+      <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\Other" />
+      <recent name="C:\Users\anubhav\Desktop\Projects\europa\src\IOSelections" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -183,14 +185,14 @@
       <workItem from="1582377322903" duration="15285000" />
       <workItem from="1582562749375" duration="609000" />
       <workItem from="1582565911835" duration="20600000" />
-      <workItem from="1582655582702" duration="5836000" />
-    </task>
-    <task id="LOCAL-00282" summary="First commit">
-      <created>1582062467588</created>
-      <option name="number" value="00282" />
-      <option name="presentableId" value="LOCAL-00282" />
-      <option name="project" value="LOCAL" />
-      <updated>1582062467588</updated>
+      <workItem from="1582655582702" duration="8935000" />
+      <workItem from="1582691388479" duration="694000" />
+      <workItem from="1582696505310" duration="1776000" />
+      <workItem from="1582700396870" duration="258000" />
+      <workItem from="1582736803731" duration="602000" />
+      <workItem from="1582747097769" duration="438000" />
+      <workItem from="1582747550241" duration="1200000" />
+      <workItem from="1582756256018" duration="10369000" />
     </task>
     <task id="LOCAL-00283" summary="First commit">
       <created>1582062590766</created>
@@ -528,7 +530,14 @@
       <option name="project" value="LOCAL" />
       <updated>1582666049182</updated>
     </task>
-    <option name="localTasksCounter" value="331" />
+    <task id="LOCAL-00331" summary="First commit">
+      <created>1582676448403</created>
+      <option name="number" value="00331" />
+      <option name="presentableId" value="LOCAL-00331" />
+      <option name="project" value="LOCAL" />
+      <updated>1582676448403</updated>
+    </task>
+    <option name="localTasksCounter" value="332" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -19,6 +19,8 @@ import GroupSharpIcon from '@material-ui/icons/GroupSharp';
 import CheckCircleSharpIcon from '@material-ui/icons/CheckCircleSharp'
 import RecordVoiceOverSharpIcon from '@material-ui/icons/RecordVoiceOverSharp';
 import ScheduleSharpIcon from '@material-ui/icons/ScheduleSharp'
+import LaunchSharpIcon from '@material-ui/icons/LaunchSharp'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 
 // import Button from "@material-ui/core/Button"
@@ -57,15 +59,13 @@ export default function Home(props) {
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'flex-start',
+            alignItems:'center',
             margin: '15px',
             padding: '5px',
             background: '#EBECEC',
             width: '100%',
             // height: '30px',
-            cursor: 'pointer',
-            "&:hover": {
-                background: '#D5DBDD'
-            }
+
         },
         newdashboardpaper: {
             display: 'flex',
@@ -133,6 +133,7 @@ export default function Home(props) {
     const [newFile, setNewFile] = useState(null)
     const [newDashname, setNewDashname] = useState('')
     const [stage, setStage] = useState('awaitingUpload')
+    const [startPolling,setStartPolling] = useState(false)
     const {getTokenSilently, user} = useAuth0()
 
     useEffect(() => {
@@ -181,6 +182,11 @@ export default function Home(props) {
             recordsEl = records.map(record => {
 
                 let sharedText
+                let viewDashboard = (
+                    <CircularProgress size={25} style={{margin:'15px',marginRight:'30px',color:'#193946'}}/>
+                )
+
+
                 if (record.shared_by !== '-') {
                     sharedText = (
                         <div style={{display: 'flex', alignItems: 'center', marginLeft: '2px', padding: '2px'}}>
@@ -193,13 +199,39 @@ export default function Home(props) {
                 }
 
                 let status
-                if (record.status === 'Ready') {
+                if (record.status === 'Complete') {
+
+                    viewDashboard = (
+                        <IconButton
+                            onClick={() => openDash(record.id, record.name)}
+                            component={Link} to="/dashboard"
+                            style={{display:'flex', height:'100px', width:'100px'}}
+                        >
+                            <div style={{display:'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                            <LaunchSharpIcon style={{color: '#006E9F', margin:'2px'}}/>
+                            <h3 style={{fontFamily:'Questrial', fontSize:'0.5em', color:'#006E9F', fontWeight:'100', margin:'0px'}}>LAUNCH</h3>
+                            </div>
+                        </IconButton>
+                    )
+
+
                     status = (
                         <div style={{display: 'flex', alignItems: 'center', marginLeft: '2px', padding: '2px'}}>
                             <CheckCircleSharpIcon size="small" fontSize="small" style={{color: '#3DA32D'}}/>
                             <h1 className={classes.dashTitle}
                                 style={{fontWeight: '100', fontSize: '0.9em', color: '#292F36'}}>
                                 {record.status}
+                            </h1>
+                        </div>
+                    )
+                }
+
+                if (record.status === 'Calculating') {
+                    status = (
+                        <div style={{display: 'flex', alignItems: 'center', marginLeft: '2px', padding: '2px'}}>
+                            <h1 className={classes.dashTitle}
+                                style={{fontWeight: '100', fontSize: '0.9em', color: '#292F36'}}>
+                                Calculating...
                             </h1>
                         </div>
                     )
@@ -239,11 +271,9 @@ export default function Home(props) {
                 return (
                     <div key={record.id} style={{display: 'flex', width: '100%', alignItems: 'center'}}>
                         <Paper className={classes.existingdash}
-
                                elevation={3}
-                               onClick={() => openDash(record.id, record.name)}
-                               component={Link} to="/dashboard"
-                               style={{textDecoration: 'none'}}>
+                               disabled
+                        >
                             <div style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
                                 <h3 className={classes.dashTitle}
                                     style={{
@@ -261,13 +291,7 @@ export default function Home(props) {
                                 {created_by}
                                 {last_accessed}
                             </div>
-                            <div style={{
-                                display: 'flex',
-                                flexDirection: 'row',
-                                justifyContent: 'flex-end',
-                                alignItems: 'center'
-                            }}>
-                            </div>
+                            {viewDashboard}
                         </Paper>
                         <IconButton
                             onClick={() => askDeleteHandler(record.id)}>
