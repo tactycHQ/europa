@@ -45,7 +45,7 @@ export default function Home(props) {
             alignItems: 'center',
             padding: '10px',
             // background: 'red'
-            background: 'linear-gradient(#CACDD6 10%, #193946)',
+            background: 'linear-gradient(#D8DAE1 30%, #D0E4ED)',
             // backgroundImage: `url(${Background})`
         },
         existingContainer: {
@@ -228,7 +228,7 @@ export default function Home(props) {
                         // marginRight: '50px',
                         height: '100px',
                         width: '100px',
-                        padding:'40px',
+                        padding: '40px',
                         margin: '10px',
                         color: '#8B8B8B'
                     }}/>
@@ -279,7 +279,7 @@ export default function Home(props) {
                                         color: '#006E9F',
                                         fontWeight: '100',
                                         margin: '0px'
-                                    }}>LAUNCH</h3>
+                                    }}>Launch</h3>
                                 </div>
                             </IconButton>
                         </Zoom>
@@ -358,7 +358,7 @@ export default function Home(props) {
                 return (
                     <div key={record.id} style={{display: 'flex', width: '100%', alignItems: 'center'}}>
                         <Paper className={classes.existingdash}
-                               elevation={3}
+                               elevation={5}
                                disabled
                         >
                             <div style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
@@ -614,10 +614,18 @@ export default function Home(props) {
                             width: '100%',
                             height: '100%',
                             flexDirection: 'column',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'center',
                             alignItems: 'center'
                         }}>
-                            <Spinner/>
+                            <CircularProgress
+                                style={{
+                                    height: '100px',
+                                    width: '100px',
+                                    padding: '30px',
+                                    margin: '10px',
+                                    color: '#8B8B8B'
+                                }}
+                            />
                             <h3
                                 className={classes.buttonText}
                                 style={{color: '#A5014B'}}>Loading spreadsheet for viewing...</h3>
@@ -646,10 +654,18 @@ export default function Home(props) {
                         width: '100%',
                         height: '100%',
                         flexDirection: 'column',
-                        justifyContent: 'flex-end',
+                        justifyContent: 'center',
                         alignItems: 'center'
                     }}>
-                        <Spinner/>
+                        <CircularProgress
+                            style={{
+                                height: '100px',
+                                width: '100px',
+                                padding: '30px',
+                                margin: '10px',
+                                color: '#8B8B8B'
+                            }}
+                        />
                         <h3 className={classes.buttonText} style={{color: '#A5014B'}}>Processing file...</h3>
                     </div>
                 </Dialog>

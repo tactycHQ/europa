@@ -30,16 +30,20 @@ const useStyles = makeStyles(theme => ({
         letterSpacing: '3px'
     },
     modelname: {
-        display: 'flex',
-        position:'fixed',
-        left:'45%',
+        display: 'block',
+        // position:'absolute',
+        // left:0,
+        // right:0,
+        marginLeft:'auto',
+        marginRight:'auto',
+        // left:'50%',
         fontSize: '1.1em',
         color: '#292F36',
         fontFamily: 'Questrial',
         textTransform: 'uppercase',
+        // transform:'translate(-50%,-50%)',
         // marginRight: '10%',
-        cursor: 'pointer'
-        // positon:'fixed'
+        cursor: 'pointer',
     },
     icon: {
         display: 'flex',

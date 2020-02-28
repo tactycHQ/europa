@@ -15,7 +15,7 @@ export default function HomePage(props) {
             flexDirection: 'column',
             // backgroundImage: `url(${Background})`
             // background: 'linear-gradient(#F4F4F4 10%,#FEFEFD)',
-            background: 'linear-gradient(#CACDD6 40%, #193946)',
+            background: 'linear-gradient(#D8DAE1 30%, #D0E4ED)',
         },
         top: {
             display: 'flex',
