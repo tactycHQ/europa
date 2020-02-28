@@ -291,7 +291,7 @@ export default function Home(props) {
                             <CheckCircleSharpIcon size="small" fontSize="small" style={{color: '#3DA32D'}}/>
                             <h1 className={classes.dashTitle}
                                 style={{fontWeight: '100', fontSize: '0.9em', color: '#292F36'}}>
-                                {record.status}
+                                Calculation Complete
                             </h1>
                         </div>
                     )
