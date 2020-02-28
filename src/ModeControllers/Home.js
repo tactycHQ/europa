@@ -136,9 +136,7 @@ export default function Home(props) {
     const [newDashname, setNewDashname] = useState('')
     const [stage, setStage] = useState('awaitingUpload')
     const {getTokenSilently, user} = useAuth0()
-    const [startPoll, setStartPoll] = useState(false)
-    const [pollIds, setPollIds] = useState({})
-    let toPoll = []
+    const [pollIds, setPollIds] = useState([])
 
     useEffect(() => {
         const executeGetUserRecords = async () => {
@@ -153,40 +151,34 @@ export default function Home(props) {
 
 
     useEffect(() => {
-        records.map(record => {
+
+        let poll_ids = records.reduce((acc, record) => {
             if (record.status === 'Calculating') {
-                setPollIds({
-                    ...pollIds,
-                    [record.id]: record.status
-                })
+                acc.push(record.id)
             }
-        })
+            return acc
+        }, [])
+
+        setPollIds([...poll_ids])
+
         // eslint-disable-next-line
     }, [records])
-
-    useEffect(() => {
-        if (Object.keys(pollIds).length > 0) {
-            setStartPoll(true)
-        } else {
-            setStartPoll(false)
-        }
-    }, [pollIds, startPoll])
 
 
     useInterval(async () => {
         let token = await getTokenSilently()
-        const pollResponse = await getStatus(Object.keys(pollIds), token)
-        let newState = {}
-        Object.keys(pollResponse).map(dash_id => {
+        const pollResponse = await getStatus(pollIds, token)
+        let newState = []
+        Object.keys(pollResponse).forEach(dash_id => {
             if (pollResponse[dash_id] === 'Calculating') {
-                newState[dash_id] = 'Calculating'
+                newState.push(dash_id)
             } else {
                 let toUpdate = records.find(record => record.id.toString() === dash_id)
                 toUpdate.status = pollResponse[dash_id]
             }
         })
-        setPollIds({...newState})
-    }, startPoll ? 2000 : null)
+        setPollIds([...newState])
+    }, (pollIds.length > 0) ? 2000 : null)
 
     const resetState = () => {
         setAskNewDash(false)
@@ -242,11 +234,20 @@ export default function Home(props) {
 
                 let status
                 if (record.status === 'Complete') {
+
                     viewDashboard = (
                         <IconButton
                             onClick={() => openDash(record.id, record.name)}
                             component={Link} to="/dashboard"
-                            style={{display: 'flex', height: '100px', width: '100px'}}
+                            elevation={20}
+                            style={{
+                                display: 'flex',
+                                height: '100px',
+                                width: '100px',
+                                margin: '10px',
+                                backgroundColor: '#E7E7E6',
+                                boxShadow: '11px 11px 22px #c2c2c1, -11px -11px 22px #ffffff',
+                            }}
                         >
                             <div style={{
                                 display: 'flex',
@@ -254,7 +255,9 @@ export default function Home(props) {
                                 justifyContent: 'center',
                                 alignItems: 'center'
                             }}>
-                                <LaunchSharpIcon style={{color: '#006E9F', margin: '2px'}}/>
+                                <LaunchSharpIcon style={{
+                                    color: '#006E9F', margin: '2px'
+                                }}/>
                                 <h3 style={{
                                     fontFamily: 'Questrial',
                                     fontSize: '0.5em',
@@ -674,6 +677,17 @@ export default function Home(props) {
             </div>
         )
     }
+
+    // useEffect(() => {
+    //     console.log("here")
+    //     if (Object.keys(toPoll).length>0) {
+    //     setStartPoll(true)
+    // }
+    //
+    // },[toPoll])
+
+    // console.log(startPoll)
+
 
     return (
         <>

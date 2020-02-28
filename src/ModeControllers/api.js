@@ -288,7 +288,6 @@ export const getStatus = async (poll_ids, token) => {
     } catch (error) {
         result = {'message': "ERROR"}
     }
-    console.log(result)
     return result
 }
 
