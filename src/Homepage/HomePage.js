@@ -101,7 +101,7 @@ export default function HomePage(props) {
                         color: '#E7F1F6'
                     }}>Request Access</Button>
                 <Card elevation={20}
-                      style={{display: 'flex', margin: '30px', width:'85%', padding: '5px', justifyContent: 'center'}}>
+                      style={{display: 'flex', margin: '30px', width:'75%', padding: '5px', justifyContent: 'center'}}>
                     <video id="flexvideo" loop autoPlay muted
                            style={{margin: '10px', width: '100%', opacity: '100%'}}>
                         <source src="flexvideo.mp4" type="video/mp4"/>
