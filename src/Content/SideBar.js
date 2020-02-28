@@ -287,13 +287,13 @@ export default function SideBar(props) {
                             </ListItem>
                         </Tooltip>
                     </NavLink>
-                    <Tooltip title="Replace the current excel model with a new version" enterDelay={500}
-                             classes={{tooltip: classes.toolTip}} placement='right'>
-                        <ListItem className={classes.buttons} button={true}>
-                            <CloudUploadIcon className={classes.icon}/>
-                            <div className={classes.buttonLabel}>Upload New Model Excel</div>
-                        </ListItem>
-                    </Tooltip>
+                    {/*<Tooltip title="Replace the current excel model with a new version" enterDelay={500}*/}
+                    {/*         classes={{tooltip: classes.toolTip}} placement='right'>*/}
+                    {/*    <ListItem className={classes.buttons} button={true}>*/}
+                    {/*        <CloudUploadIcon className={classes.icon}/>*/}
+                    {/*        <div className={classes.buttonLabel}>Upload New Model Excel</div>*/}
+                    {/*    </ListItem>*/}
+                    {/*</Tooltip>*/}
                     <Tooltip title="Download the current excel model file" enterDelay={500}
                              classes={{tooltip: classes.toolTip}} placement='right'>
                         <ListItem className={classes.buttons} button={true} onClick={() => props.downloadModel()}>
