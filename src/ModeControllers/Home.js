@@ -217,7 +217,7 @@ export default function Home(props) {
 
                 let sharedText
                 let viewDashboard = (
-                    <CircularProgress size={25} style={{margin: '15px', marginRight: '30px', color: '#193946'}}/>
+                    <CircularProgress size={25} style={{margin: '15px', marginRight: '50px', color: '#8B8B8B'}}/>
                 )
 
 
