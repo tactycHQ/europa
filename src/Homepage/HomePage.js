@@ -99,11 +99,11 @@ export default function HomePage(props) {
                         fontSize: '1em',
                         width: '300px',
                         color: '#E7F1F6'
-                    }}>Create an Account</Button>
+                    }}>Request Access</Button>
                 <Card elevation={20}
-                      style={{display: 'flex', margin: '10px', width: '85%', padding: '0px', justifyContent: 'center'}}>
+                      style={{display: 'flex', margin: '30px', width:'85%', padding: '5px', justifyContent: 'center'}}>
                     <video id="flexvideo" loop autoPlay muted
-                           style={{margin: '10px', width: '75%', opacity: '100%'}}>
+                           style={{margin: '10px', width: '100%', opacity: '100%'}}>
                         <source src="flexvideo.mp4" type="video/mp4"/>
                         Your browser does not support the video tag.
                     </video>
