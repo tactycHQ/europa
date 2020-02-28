@@ -178,7 +178,7 @@ export default function Home(props) {
             }
         })
         setPollIds([...newState])
-    }, (pollIds.length > 0) ? 2000 : null)
+    }, (pollIds.length > 0) ? 3000 : null)
 
     const resetState = () => {
         setAskNewDash(false)
