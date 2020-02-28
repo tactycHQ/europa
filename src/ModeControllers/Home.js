@@ -20,9 +20,11 @@ import CheckCircleSharpIcon from '@material-ui/icons/CheckCircleSharp'
 import RecordVoiceOverSharpIcon from '@material-ui/icons/RecordVoiceOverSharp';
 import ScheduleSharpIcon from '@material-ui/icons/ScheduleSharp'
 import LaunchSharpIcon from '@material-ui/icons/LaunchSharp'
+import ErrorOutlineSharpIcon from '@material-ui/icons/ErrorOutlineSharp';
 import CircularProgress from '@material-ui/core/CircularProgress'
 import useInterval from "use-interval";
-import {getStatus} from "./api";
+import {getStatus} from "./api"
+import Zoom from '@material-ui/core/Zoom'
 
 
 // import Button from "@material-ui/core/Button"
@@ -76,7 +78,7 @@ export default function Home(props) {
             marginTop: '5px',
             marginBottom: '5px',
             padding: '5px',
-            background: '#AD185B',
+            background: '#4398BA',
             // width: '180px',
             cursor: 'pointer',
             "&:hover": {
@@ -137,6 +139,7 @@ export default function Home(props) {
     const [stage, setStage] = useState('awaitingUpload')
     const {getTokenSilently, user} = useAuth0()
     const [pollIds, setPollIds] = useState([])
+    const [pollCount, setPollCount] = useState(0)
 
     useEffect(() => {
         const executeGetUserRecords = async () => {
@@ -166,6 +169,7 @@ export default function Home(props) {
 
 
     useInterval(async () => {
+        setPollCount(pollCount => pollCount + 1)
         let token = await getTokenSilently()
         const pollResponse = await getStatus(pollIds, token)
         let newState = []
@@ -175,10 +179,12 @@ export default function Home(props) {
             } else {
                 let toUpdate = records.find(record => record.id.toString() === dash_id)
                 toUpdate.status = pollResponse[dash_id]
+                props.updateMsg(toUpdate.name + ' was calculated succesfully. Click launch to view Flexboard.')
+                props.updateOpen(true)
             }
         })
         setPollIds([...newState])
-    }, (pollIds.length > 0) ? 3000 : null)
+    }, (pollIds.length > 0 && pollCount < 100) ? 3000 : null)
 
     const resetState = () => {
         setAskNewDash(false)
@@ -217,7 +223,15 @@ export default function Home(props) {
 
                 let sharedText
                 let viewDashboard = (
-                    <CircularProgress size={25} style={{margin: '15px', marginRight: '50px', color: '#8B8B8B'}}/>
+                    <CircularProgress style={{
+                        // margin: '15px',
+                        // marginRight: '50px',
+                        height: '100px',
+                        width: '100px',
+                        padding:'40px',
+                        margin: '10px',
+                        color: '#8B8B8B'
+                    }}/>
                 )
 
 
@@ -236,37 +250,39 @@ export default function Home(props) {
                 if (record.status === 'Complete') {
 
                     viewDashboard = (
-                        <IconButton
-                            onClick={() => openDash(record.id, record.name)}
-                            component={Link} to="/dashboard"
-                            elevation={20}
-                            style={{
-                                display: 'flex',
-                                height: '100px',
-                                width: '100px',
-                                margin: '10px',
-                                backgroundColor: '#E7E7E6',
-                                boxShadow: '11px 11px 22px #c2c2c1, -11px -11px 22px #ffffff',
-                            }}
-                        >
-                            <div style={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'center',
-                                alignItems: 'center'
-                            }}>
-                                <LaunchSharpIcon style={{
-                                    color: '#006E9F', margin: '2px'
-                                }}/>
-                                <h3 style={{
-                                    fontFamily: 'Questrial',
-                                    fontSize: '0.5em',
-                                    color: '#006E9F',
-                                    fontWeight: '100',
-                                    margin: '0px'
-                                }}>LAUNCH</h3>
-                            </div>
-                        </IconButton>
+                        <Zoom in={true}>
+                            <IconButton
+                                onClick={() => openDash(record.id, record.name)}
+                                component={Link} to="/dashboard"
+                                elevation={20}
+                                style={{
+                                    display: 'flex',
+                                    height: '100px',
+                                    width: '100px',
+                                    margin: '10px',
+                                    backgroundColor: '#E7E7E6',
+                                    boxShadow: '11px 11px 22px #c2c2c1, -11px -11px 22px #ffffff',
+                                }}
+                            >
+                                <div style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    justifyContent: 'center',
+                                    alignItems: 'center'
+                                }}>
+                                    <LaunchSharpIcon style={{
+                                        color: '#006E9F', margin: '2px'
+                                    }}/>
+                                    <h3 style={{
+                                        fontFamily: 'Questrial',
+                                        fontSize: '0.5em',
+                                        color: '#006E9F',
+                                        fontWeight: '100',
+                                        margin: '0px'
+                                    }}>LAUNCH</h3>
+                                </div>
+                            </IconButton>
+                        </Zoom>
                     )
 
 
@@ -287,6 +303,22 @@ export default function Home(props) {
                             <h1 className={classes.dashTitle}
                                 style={{fontWeight: '100', fontSize: '0.9em', color: '#292F36'}}>
                                 Calculating...
+                            </h1>
+                        </div>
+                    )
+                }
+
+                if (record.status === 'Error') {
+
+                    viewDashboard = null
+
+                    status = (
+                        <div style={{display: 'flex', alignItems: 'center', marginLeft: '2px', padding: '2px'}}>
+                            <ErrorOutlineSharpIcon size={25} style={{color: '#C55D8C'}}/>
+                            <h1 className={classes.dashTitle}
+                                style={{fontWeight: '100', fontSize: '0.9em', color: '#292F36'}}>
+                                Unable to calculate solutions. Please refer to model guidelines for reasons Flexboard is
+                                unable to process this model.
                             </h1>
                         </div>
                     )

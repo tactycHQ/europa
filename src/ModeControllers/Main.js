@@ -135,9 +135,11 @@ export default function Main(props) {
             let token = await getTokenSilently()
             const response = await calculateSolutions(dashid, inputs, outputAdds,token)
             if (response['message'] === 'OK') {
-                setMode("home")
                 await saveDashboard(dashid, dashName, inputs, outputs, cases, formats, token)
+                clearState()
             }
+            setMsg("Model is currently being calculated...")
+            setOpen(true)
         }
 
         if (mode === 'calculate') {
@@ -192,8 +194,6 @@ export default function Main(props) {
 
     const handleSheetChange = (sheet) => {
         window.scrollTo({left: 0, top: 0, behavior: 'smooth'})
-        setMsg('Sheet changed to ' + sheet)
-        setOpen(true)
         setCurrSheet(sheet)
     }
 
