@@ -43,19 +43,21 @@ export default function Home(props) {
             flexDirection: 'column',
             justifyContent: 'flex-start',
             alignItems: 'center',
-            padding: '10px',
+            padding: '20px',
             // background: 'red'
-            background: 'linear-gradient(#D8DAE1 30%, #D0E4ED)',
+            background: '#FEFEFD',
             // backgroundImage: `url(${Background})`
         },
         existingContainer: {
             display: 'flex',
             flexDirection: 'column',
-            width: '90%',
+            width: '95%',
+            height:'100%',
             // flexWrap: 'wrap',
             justifyContent: 'flex-start',
-            alignItems: 'center',
-            background: 'linear-gradient(#F4F4F4 10%,#FEFEFD)',
+            alignItems: 'flex-start',
+            background: '#F4F4F4',
+            // boxShadow:'34px 34px 39px #e5e5e5, -34px -34px 39px #ffffff',
             padding: '20px',
             margin: '10px'
         },
@@ -254,7 +256,7 @@ export default function Home(props) {
                             <IconButton
                                 onClick={() => openDash(record.id, record.name)}
                                 component={Link} to="/dashboard"
-                                elevation={20}
+                                elevation={5}
                                 style={{
                                     display: 'flex',
                                     height: '100px',
@@ -358,7 +360,7 @@ export default function Home(props) {
                 return (
                     <div key={record.id} style={{display: 'flex', width: '100%', alignItems: 'center'}}>
                         <Paper className={classes.existingdash}
-                               elevation={5}
+                               elevation={1}
                                disabled
                         >
                             <div style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
@@ -399,7 +401,7 @@ export default function Home(props) {
                 <Slide direction="down" in={true} timeout={600} mountOnEnter unmountOnExit>
                     <Paper
                         className={classes.newdashboardpaper}
-                        elevation={20}
+                        elevation={3}
                         onClick={() => setAskNewDash(true)}
                     >
                         <AddCircleSharpIcon style={{color: '#FEFEFD'}}/>
@@ -411,12 +413,12 @@ export default function Home(props) {
                         </h1>
                     </Paper>
                 </Slide>
-                <Card className={classes.existingContainer} elevation={10}>
+                <Card className={classes.existingContainer} elevation={5}>
                     <h1 className={classes.dashTitle} style={{
                         fontFamily: 'Questrial',
-                        fontSize: '1.5em',
-                        fontWeight: '500',
-                        color: '#006E9F',
+                        fontSize: '1.2em',
+                        fontWeight: '400',
+                        color: '#292F36',
                         marginBottom: '10px',
                         textTransform: 'uppercase',
                         letterSpacing: '2px'

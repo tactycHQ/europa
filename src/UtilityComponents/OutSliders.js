@@ -25,7 +25,6 @@ export default function OutSlider(props) {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            // backgroundColor: 'red',
             marginBottom: '0px',
             width: 400
         },

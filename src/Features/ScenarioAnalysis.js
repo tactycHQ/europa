@@ -70,6 +70,7 @@ export default function ScenarioAnalysis(props) {
             margin: '1%',
             padding: '1%',
             background: 'linear-gradient(#F4F4F4 10%,#FEFEFD)',
+            width:'600px'
         },
         paperHeaderContainer: {
             display: 'flex',
@@ -84,7 +85,6 @@ export default function ScenarioAnalysis(props) {
             // flexWrap: 'wrap',
             // height: '100%',
             width: '100%',
-            margin: '1%',
             padding: '1%',
             background: '#4595B9'
         },
@@ -131,8 +131,8 @@ export default function ScenarioAnalysis(props) {
             justifyContent: 'flex-end',
             alignItems: 'center',
             padding: '0px',
-            paddingRight: '40px',
-            paddingBottom: '0px',
+            paddingRight: '10px',
+            paddingBottom: '0px'
         },
         checkbox: {
             top: 8,
@@ -267,7 +267,7 @@ export default function ScenarioAnalysis(props) {
     const renderSolutions = (foundSolutions) => {
 
 
-        const solutions = foundSolutions.map(solution => {
+        const solutions = foundSolutions.map((solution,id) => {
             const addresses = Object.keys(solution.inputs)
 
             const answer = addresses.map((address, idx) => {
@@ -286,7 +286,7 @@ export default function ScenarioAnalysis(props) {
             })
 
             return (
-                <Paper className={classes.solutionTextContainer} elevation={0}>
+                <Paper key={"answer"+id} className={classes.solutionTextContainer} elevation={0}>
                     {answer}
                 </Paper>
             )
@@ -341,7 +341,7 @@ export default function ScenarioAnalysis(props) {
             <div className={classes.cardHeaderContainer}>
                 <h2 className={classes.cardTitleHeader}>Scenario Analysis</h2>
             </div>
-            <div style={{display: 'flex', width: '100%', height:'100%'}}>
+            <div style={{display: 'flex', width: '100%', height:'100%', justifyContent:'flex-start'}}>
                 <div className={classes.outputContainer}>
                     {outSliders}
                 </div>
