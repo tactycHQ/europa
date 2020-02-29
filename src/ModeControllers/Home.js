@@ -52,7 +52,7 @@ export default function Home(props) {
             display: 'flex',
             flexDirection: 'column',
             width: '95%',
-            height:'100%',
+            height: '100%',
             // flexWrap: 'wrap',
             justifyContent: 'flex-start',
             alignItems: 'flex-start',
@@ -80,11 +80,11 @@ export default function Home(props) {
             marginTop: '5px',
             marginBottom: '5px',
             padding: '5px',
-            background: '#4398BA',
+            background: '#006E9F',
             // width: '180px',
             cursor: 'pointer',
             "&:hover": {
-                background: '#006E9F',
+                background: '#004666',
             }
         },
         dashTitle: {
@@ -103,7 +103,10 @@ export default function Home(props) {
             alignItems: 'center',
             color: '#FEFEFD',
             padding: '5px',
-            margin: '5px'
+            margin: '5px',
+            "&:hover": {
+                background: '#004666',
+            }
         },
         buttonText: {
             fontSize: '0.85em',
@@ -129,6 +132,14 @@ export default function Home(props) {
             fontFamily: 'Questrial',
             margin: '0px'
         },
+        launchContainer: {
+            display: 'flex',
+            height: '100px',
+            width: '100px',
+            margin: '10px',
+            backgroundColor: 'linear-gradient(145deg, #f7f7f6, #d0d0cf)',
+            boxShadow: '11px 11px 22px #c2c2c1, -11px -11px 22px #ffffff',
+        }
     }))
     const classes = useStyles()
     const [records, setRecords] = useState([])
@@ -257,14 +268,7 @@ export default function Home(props) {
                                 onClick={() => openDash(record.id, record.name)}
                                 component={Link} to="/dashboard"
                                 elevation={5}
-                                style={{
-                                    display: 'flex',
-                                    height: '100px',
-                                    width: '100px',
-                                    margin: '10px',
-                                    backgroundColor: '#E7E7E6',
-                                    boxShadow: '11px 11px 22px #c2c2c1, -11px -11px 22px #ffffff',
-                                }}
+                                className={classes.launchContainer}
                             >
                                 <div style={{
                                     display: 'flex',
@@ -507,7 +511,7 @@ export default function Home(props) {
                         {({getRootProps, getInputProps}) => (
                             <Button {...getRootProps()}
                                     className={classes.selectButton}
-                                    style={{backgroundColor: '#006E9F'}}
+                                //style={{backgroundColor: '#006E9F'}}
                                     size="small"
                             >
                                 <input {...getInputProps()} />
@@ -576,7 +580,9 @@ export default function Home(props) {
                         alignItems: 'center'
                     }}>
                         {okEl}
-                        <Button className={classes.selectButton} style={{backgroundColor: '#9DA0A3'}} size="small"
+                        <Button className={classes.selectButton}
+                                style={{backgroundColor: '#9DA0A3'}}
+                                size="small"
                                 onClick={() => resetState()}>
                             <h3 className={classes.buttonText}>Cancel</h3>
                         </Button>

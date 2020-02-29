@@ -97,6 +97,9 @@ export default function InputSelector(props) {
             margin: '5px',
             width: '100%',
             height: '40px',
+            '&:hover':{
+                background: '#006E9F',
+            }
         },
         buttonText: {
             // backgroundColor:'#F4F075',
@@ -271,7 +274,7 @@ export default function InputSelector(props) {
                         marginBottom: '10px'
                     }}>
                         <h3 className={classes.selectNote}>
-                            Please select the next input from the spreadsheet. You can select up to 5 inputs <br/><br/>
+                            Please select the next input from the spreadsheet<br/><br/>
                         </h3>
                         <h3 className={classes.selectNote} style={{
                             fontSize: '0.9em',
@@ -304,18 +307,13 @@ export default function InputSelector(props) {
                 <h3 className={classes.selectNote}>
                     Select an input cell in the spreadsheet. <br/><br/>
 
-                    These are hardcoded cells that
-                    are typically key model assumptions that drive the rest of the model. For e.g., <em>Annual
-                    Growth
-                    Rate</em> or <em>Profit Margin</em><br/><br/>
+                    Input cells are assumptions For e.g., <em>Annual Growth Rate</em> or <em>Profit Margin</em> and must be:
+                    <br/><br/>
+                    <li style={{color:'#A5014B', fontWeight:'700',margin:'5px'}}> Hardcodes and not formula cells </li>
+                    <li style={{color:'#A5014B', fontWeight:'700',margin:'5px'}}> Number cells and not text or date</li>
 
-                    Please note that the input cell <strong>must</strong> be a number and cannot be a text or date
-                    cell.<br/><br/>
-
-                    After selecting each input, click <em>Next Input</em> to define another input. A maximum of 5
-                    inputs can be selected in total.<br/><br/>
-
-                    Click <em>Done with Inputs</em> to start selecting outputs.
+                    <br/><br/>
+                    Select only ONE cell on this sheet. You can select other inputs in the following pages.
                 </h3>
             )
         }
