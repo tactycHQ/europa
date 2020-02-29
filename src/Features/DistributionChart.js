@@ -462,7 +462,7 @@ export default function Distribution(props) {
 
 
     const boundsStats = (outAdd) => {
-        const minFill = '#2E88B0'
+        const minFill = '#6C8189'
         const maxFill = '#5CA2C1'
 
         const minEls = createBoundSol(props.distributions.min[outAdd], minFill)
@@ -483,7 +483,7 @@ export default function Distribution(props) {
                         alignItems: 'center'
                     }}>
                         <h3 className={classes.chartNote}
-                            style={{color: minFill, fontWeight: '500', fontSize: '1em', margin: '2px'}}>Inputs that lead
+                            style={{color: minFill, fontWeight: '400', fontSize: '1em', margin: '1px'}}>Inputs that lead
                             to Minimum of {minVal}</h3>
                         {minEls}
                     </div>
@@ -495,7 +495,7 @@ export default function Distribution(props) {
                         alignItems: 'center'
                     }}>
                         <h3 className={classes.chartNote}
-                            style={{color: maxFill, fontWeight: '500', fontSize: '1em', margin: '2px'}}>Inputs that lead
+                            style={{color: maxFill, fontWeight: '400', fontSize: '1em', margin: '1px'}}>Inputs that lead
                             to Maximum of {maxVal}</h3>
                         {maxEls}
                     </div>
