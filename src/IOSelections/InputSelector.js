@@ -230,8 +230,8 @@ export default function InputSelector(props) {
 
         if (props.stage === "summary") {
             doneWithInputs = (
-                <Button className={classes.selectButton} size="small" onClick={() => props.updateIO("outputs")}>
-                    <h3 className={classes.buttonText}>GO TO OUTPUTS</h3>
+                <Button className={classes.selectButton} size="small" onClick={() => props.updateIO("calculate")}>
+                    <h3 className={classes.buttonText}>CREATE DASHBOARD</h3>
                 </Button>)
         }
 

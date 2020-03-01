@@ -4,7 +4,7 @@ import InputSelector from "./InputSelector";
 import {Redirect} from "react-router-dom"
 
 export default function IOController(props) {
-    const [IO, setIO] = useState("inputs")
+    const [IO, setIO] = useState("outputs")
     const [stage, setStage] = useState("empty")
 
 
