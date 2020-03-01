@@ -97,8 +97,8 @@ export default function InputSelector(props) {
             margin: '5px',
             width: '100%',
             height: '40px',
-            '&:hover':{
-                background: '#006E9F',
+            "&:hover": {
+                background: '#004666',
             }
         },
         buttonText: {

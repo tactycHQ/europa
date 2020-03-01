@@ -14,10 +14,10 @@ export default function IOController(props) {
 
     const updateIO = (update) => {
         if (update === 'outputs' && props.outputs.length > 0) {
-            setStage("summary")
+            setStage("empty")
         } else {
             props.handleSheetChange(props.sheets[0])
-            setStage("empty")
+            setStage("summary")
         }
         setIO(update)
     }

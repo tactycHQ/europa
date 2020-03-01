@@ -136,6 +136,9 @@ export default function OutputSelector(props) {
             margin: '5px',
             width: '100px',
             height: '40px',
+            "&:hover": {
+                background: '#004666',
+            }
         },
         buttonText: {
             fontSize: '0.85em',
@@ -471,7 +474,7 @@ export default function OutputSelector(props) {
             setLabels({...labels, [selectedCells[foundIndex].address]: ''})
             setSelectedLabels([...newSelection])
 
-        // Otherwise Go ahead and add it to state
+            // Otherwise Go ahead and add it to state
         } else {
 
             if (selectedLabels.length < selectedCells.length) {
@@ -655,7 +658,7 @@ export default function OutputSelector(props) {
         //Remove label from selectedLabels
         if ((props.stage === 'labelSelect' || props.stage === 'labelComplete') && typeof (selectedLabels[indexToRemove]) !== 'undefined') {
             const labelToRemove = selectedLabels[indexToRemove]
-            document.getElementById('sjs-' + labelToRemove.raw).style.backgroundColor = "#"+labelToRemove.oldColor
+            document.getElementById('sjs-' + labelToRemove.raw).style.backgroundColor = "#" + labelToRemove.oldColor
             const newSelectedLabels = selectedLabels.filter(label => selectedLabels.indexOf(label) !== indexToRemove)
             setSelectedLabels([...newSelectedLabels])
         }
